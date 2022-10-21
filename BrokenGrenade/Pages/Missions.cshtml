@@ -1,0 +1,74 @@
+﻿@page "/missions"
+@model BrokenGrenade.Pages.MissionsModel
+
+
+<PageTitle>Weather forecast</PageTitle>
+@{
+    ViewData["Title"] = "Missions";
+}
+
+<h1>Missions</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Mission[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mission[0].LeaderBriefing)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mission[0].ConnectingToServer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mission[0].Start)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mission[0].SlottingSheetUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mission[0].Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mission[0].Category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Mission) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaderBriefing)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConnectingToServer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Start)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SlottingSheetUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.MissionCategoryId)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.MissionId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.MissionId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.MissionId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
