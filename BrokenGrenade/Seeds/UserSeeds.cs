@@ -8,16 +8,16 @@ namespace BrokenGrenade.Seeds
     {
         public static readonly User TestUser = new User()
         {
-            Id = Guid.Parse("80cb8634-60e0-4e1c-a0ad-9d0a77371c96"),
+            Id = "80cb8634-60e0-4e1c-a0ad-9d0a77371c96",
             Email = "ondrej.mahdalik@gmail.com",
             EmailConfirmed = true,
-            UserName = "ondrej",
-            PasswordHash = new PasswordHasher<User>().HashPassword(null, "pass")
+            UserName = "ondrej.mahdalik@gmail.com"
         };
 
-        public static void Seed(ModelBuilder builder)
+        public static async Task Seed(IServiceProvider serviceProvider)
         {
-            builder.Entity<User>().HasData(TestUser);
+            var userManager = serviceProvider.GetService<UserManager<User>>() ?? throw new Exception();
+            await userManager.CreateAsync(TestUser, "Password123$");
         }
     }
 

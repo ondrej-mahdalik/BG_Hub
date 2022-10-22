@@ -1,0 +1,46 @@
+﻿@page "/Mission/List"
+@attribute [Authorize]
+@using BrokenGrenade.Data
+@inject MissionService MissionService
+
+<PageTitle>Missions</PageTitle>
+
+<h1>Missions</h1>
+
+@if (_missions == null)
+{
+    <p><em>Načítání...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Název</th>
+            <th>Autor</th>
+            <th>Datum</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var mission in _missions)
+        {
+            <tr>
+                <td>@mission.Name</td>
+                <td>@mission.Author</td>
+                <td>@mission.Start.ToShortDateString()</td>
+                <td><a href="/Missions/@mission.Id">Edit</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Mission>? _missions;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _missions = await MissionService.GetAllAsync();
+    }
+}

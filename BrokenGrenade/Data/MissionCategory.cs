@@ -2,11 +2,16 @@
 {
     public class MissionCategory
     {
-        public Guid MissionCategoryId { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public string NoteInMission { get; set; }
+        public string? Note { get; set; }
 
         public IList<Mission> Missions { get; set; } = new List<Mission>();
+
+        public MissionCategory(string name, string? note = null)
+        {
+            Name = name;
+            Note = note;
+        }
     }
 }

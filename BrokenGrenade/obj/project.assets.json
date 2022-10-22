@@ -10875,27 +10875,28 @@
       "Microsoft.AspNetCore.Identity.UI >= 7.0.0-rc.2.22476.2",
       "Microsoft.EntityFrameworkCore.SqlServer >= 7.0.0-rc.2.22472.11",
       "Microsoft.EntityFrameworkCore.Tools >= 7.0.0-rc.2.22472.11",
-      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 7.0.0-rc.2.22510.1"
+      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 7.0.0-rc.2.22510.1",
+      "Newtonsoft.Json >= 13.0.1"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ondre\\.nuget\\packages\\": {},
+    "C:\\Users\\xmahda14\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ondre\\Documents\\repos\\BrokenGrenade\\BrokenGrenade\\BrokenGrenade.csproj",
+      "projectUniqueName": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\BrokenGrenade.csproj",
       "projectName": "BrokenGrenade",
-      "projectPath": "C:\\Users\\ondre\\Documents\\repos\\BrokenGrenade\\BrokenGrenade\\BrokenGrenade.csproj",
-      "packagesPath": "C:\\Users\\ondre\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ondre\\Documents\\repos\\BrokenGrenade\\BrokenGrenade\\obj\\",
+      "projectPath": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\BrokenGrenade.csproj",
+      "packagesPath": "C:\\Users\\xmahda14\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\ondre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\xmahda14\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -10946,6 +10947,10 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[7.0.0-rc.2.22510.1, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.1, )"
           }
         },
         "imports": [
@@ -10967,7 +10972,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100-rc.2.22477.23\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100-rc.1.22431.12\\RuntimeIdentifierGraph.json"
       }
     }
   }

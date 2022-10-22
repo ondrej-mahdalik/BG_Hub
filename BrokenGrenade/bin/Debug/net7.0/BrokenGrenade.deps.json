@@ -13,7 +13,8 @@
           "Microsoft.AspNetCore.Identity.UI": "7.0.0-rc.2.22476.2",
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.0-rc.2.22472.11",
           "Microsoft.EntityFrameworkCore.Tools": "7.0.0-rc.2.22472.11",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "7.0.0-rc.2.22510.1"
+          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "7.0.0-rc.2.22510.1",
+          "Newtonsoft.Json": "13.0.1"
         },
         "runtime": {
           "BrokenGrenade.dll": {}
@@ -1028,6 +1029,12 @@
       "Microsoft.Extensions.Caching.Abstractions/7.0.0-rc.2.22472.3": {
         "dependencies": {
           "Microsoft.Extensions.Primitives": "7.0.0-rc.2.22472.3"
+        },
+        "runtime": {
+          "lib/net7.0/Microsoft.Extensions.Caching.Abstractions.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.47203"
+          }
         }
       },
       "Microsoft.Extensions.Caching.Memory/7.0.0-rc.2.22472.3": {
@@ -1037,19 +1044,44 @@
           "Microsoft.Extensions.Logging.Abstractions": "7.0.0-rc.2.22472.3",
           "Microsoft.Extensions.Options": "7.0.0-rc.2.22472.3",
           "Microsoft.Extensions.Primitives": "7.0.0-rc.2.22472.3"
+        },
+        "runtime": {
+          "lib/net7.0/Microsoft.Extensions.Caching.Memory.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.47203"
+          }
         }
       },
       "Microsoft.Extensions.Configuration.Abstractions/7.0.0-rc.2.22472.3": {
         "dependencies": {
           "Microsoft.Extensions.Primitives": "7.0.0-rc.2.22472.3"
+        },
+        "runtime": {
+          "lib/net7.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.47203"
+          }
         }
       },
       "Microsoft.Extensions.DependencyInjection/7.0.0-rc.2.22472.3": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0-rc.2.22472.3"
+        },
+        "runtime": {
+          "lib/net7.0/Microsoft.Extensions.DependencyInjection.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.47203"
+          }
         }
       },
-      "Microsoft.Extensions.DependencyInjection.Abstractions/7.0.0-rc.2.22472.3": {},
+      "Microsoft.Extensions.DependencyInjection.Abstractions/7.0.0-rc.2.22472.3": {
+        "runtime": {
+          "lib/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.47203"
+          }
+        }
+      },
       "Microsoft.Extensions.DependencyModel/7.0.0-rc.2.22472.3": {
         "dependencies": {
           "System.Text.Encodings.Web": "7.0.0-rc.2.22472.3",
@@ -1065,6 +1097,12 @@
       "Microsoft.Extensions.FileProviders.Abstractions/7.0.0-rc.2.22472.3": {
         "dependencies": {
           "Microsoft.Extensions.Primitives": "7.0.0-rc.2.22472.3"
+        },
+        "runtime": {
+          "lib/net7.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.47203"
+          }
         }
       },
       "Microsoft.Extensions.FileProviders.Embedded/7.0.0-rc.2.22476.2": {
@@ -1092,16 +1130,42 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0-rc.2.22472.3",
           "Microsoft.Extensions.Logging.Abstractions": "7.0.0-rc.2.22472.3",
           "Microsoft.Extensions.Options": "7.0.0-rc.2.22472.3"
+        },
+        "runtime": {
+          "lib/net7.0/Microsoft.Extensions.Logging.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.47203"
+          }
         }
       },
-      "Microsoft.Extensions.Logging.Abstractions/7.0.0-rc.2.22472.3": {},
+      "Microsoft.Extensions.Logging.Abstractions/7.0.0-rc.2.22472.3": {
+        "runtime": {
+          "lib/net7.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.47203"
+          }
+        }
+      },
       "Microsoft.Extensions.Options/7.0.0-rc.2.22472.3": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0-rc.2.22472.3",
           "Microsoft.Extensions.Primitives": "7.0.0-rc.2.22472.3"
+        },
+        "runtime": {
+          "lib/net7.0/Microsoft.Extensions.Options.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.47203"
+          }
         }
       },
-      "Microsoft.Extensions.Primitives/7.0.0-rc.2.22472.3": {},
+      "Microsoft.Extensions.Primitives/7.0.0-rc.2.22472.3": {
+        "runtime": {
+          "lib/net7.0/Microsoft.Extensions.Primitives.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.47203"
+          }
+        }
+      },
       "Microsoft.Identity.Client/4.45.0": {
         "dependencies": {
           "Microsoft.IdentityModel.Abstractions": "6.21.0"
@@ -2293,10 +2357,31 @@
           "System.Text.Encoding": "4.3.0"
         }
       },
-      "System.Text.Encodings.Web/7.0.0-rc.2.22472.3": {},
+      "System.Text.Encodings.Web/7.0.0-rc.2.22472.3": {
+        "runtime": {
+          "lib/net7.0/System.Text.Encodings.Web.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.47203"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/browser/lib/net7.0/System.Text.Encodings.Web.dll": {
+            "rid": "browser",
+            "assetType": "runtime",
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.47203"
+          }
+        }
+      },
       "System.Text.Json/7.0.0-rc.2.22472.3": {
         "dependencies": {
           "System.Text.Encodings.Web": "7.0.0-rc.2.22472.3"
+        },
+        "runtime": {
+          "lib/net7.0/System.Text.Json.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.47203"
+          }
         }
       },
       "System.Text.RegularExpressions/4.3.0": {

@@ -9,6 +9,7 @@ namespace BrokenGrenade.Data
         public DbSet<User> Users => Set<User>();
         public DbSet<Mission> Missions => Set<Mission>();
         public DbSet<MissionCategory> Categories => Set<MissionCategory>();
+        public DbSet<ModpackType> Modpacks => Set<ModpackType>();
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -16,23 +17,24 @@ namespace BrokenGrenade.Data
 
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override async void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             builder.Entity<User>()
-                .HasMany(u => u.Missions)
-                .WithOne(u => u.Author)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasMany(i => i.Missions)
+                .WithOne(i => i.Author)
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder.Entity<MissionCategory>()
                 .HasMany(i => i.Missions)
                 .WithOne(i => i.Category)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.SetNull);
 
-            // Seed demo data
-            UserSeeds.Seed(builder);
-            MissionSeeds.Seed(builder);
+            builder.Entity<ModpackType>()
+                .HasMany(i => i.Missions)
+                .WithOne(i => i.ModpackType)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

@@ -1,9 +1,221 @@
 ﻿@page "/"
+@using BrokenGrenade.Data
+@inject MissionService MissionService;
+@inject MissionCategoryService MissionCategoryService;
+@inject ModpackTypeService ModpackTypeService;
+@inject IJSRuntime JsRuntime;
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="container-fluid">
+    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-dark mb-0">Úvod</h3>
+    </div>
+    <div class="row">
+        <div class="col d-flex align-items-stretch">
+            <div class="card shadow mb-4 w-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="text-primary fw-bold m-0">Dnešní mise</h6>
+                </div>
+                @if (_missionToday is not null)
+                    {
+                        <div class="card-body d-flex flex-column">
+                            <div class="row mb-2">
+                                <div class="col">
+                                    <h5 class="fw-bold">@_missionToday.Name</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h6 class="text-primary fw-bold mb-0">Autor</h6><span>@(_missionToday.Author is not null ? _missionToday.Author.UserName : "Smazaný uživatel")</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h6 class="text-primary fw-bold mb-0">Modpack</h6><span>@(_missionToday.ModpackType is not null ? _missionToday.ModpackType.Name : "Vlastní modpack")</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h6 class="text-primary fw-bold mb-0">Druh Mise</h6><span>@(_missionToday.Category is not null? _missionToday.Category.Name : "Neznámý druh mise")</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h6 class="text-primary fw-bold mb-0">Velitelský briefing</h6><span>@(_missionToday.LeaderBriefing.HasValue ? _missionToday.LeaderBriefing.Value.ToShortTimeString() : "Není")</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h6 class="text-primary fw-bold mb-0">Připojování od</h6><span>@_missionToday.ConnectingToServer.ToShortTimeString()</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h6 class="text-primary fw-bold mb-0">Start Mise</h6><span>@_missionToday.Start.ToShortTimeString()</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-auto">
+                                @if(_missionToday.ModpackUrl is not null)
+                                {
+                                    <div class="col d-flex d-xxl-flex justify-content-end"><a class="btn btn-primary d-flex" href="@_missionToday.ModpackUrl">Stáhnout Modpack</a></div>
+                                }
+                                <div class="col d-flex d-xxl-flex justify-content-end col-auto"><a class="btn btn-primary d-flex" href="@_missionToday.SlottingSheetUrl">Slotování</a></div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="card-body d-xxl-flex justify-content-xxl-center align-items-xxl-center">
+                            <div class="row">
+                                <div class="col"><span>Dnes se žádná mise nekoná</span></div>
+                            </div>
+                        </div>
+                    }
+            </div>
+        </div>
+        <div class="col d-flex align-items-stretch">
+            <div class="card shadow mb-4 w-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="text-primary fw-bold m-0">Mise tento týden</h6>
+                </div>
+                @if (_upcomingMissions?.Count > 0)
+                {
+                    <div class="card-body">
+                        <div class="table-responsive text-start table mt-2" id="upcoming-missions" role="grid" aria-describedby="dataTable_info">
+                            <table class="table my-0" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>Datum</th>
+                                        <th>Název</th>
+                                        <th>Modpack</th>
+                                        <th>Druh</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var mission in _upcomingMissions.Take(10))
+                                {
+                                    <tr onclick="window.location='/Mission/@mission.Id'" style="cursor: pointer" >
+                                        <td>@mission.Start.ToString("dddd")</td>
+                                        <td>@mission.Name</td>
+                                        <td>@(mission.ModpackType is not null ? mission.ModpackType.Name : "Vlastní modpack")</td>
+                                        <td>@(mission.Category is not null ? mission.Category.Name : "Neznámý druh mise")</td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="card-body d-xxl-flex justify-content-xxl-center align-items-xxl-center">
+                        <div class="row">
+                            <div class="col"><span>V následujících sedmi dnech nejsou žádné mise</span></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card shadow mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="text-primary fw-bold m-0">Kalendář misí</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div style="max-height: 800px;" id="calendar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-4">
+            <div class="card shadow mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="text-primary fw-bold m-0">Zajímavé statistiky</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <h6 class="text-primary fw-bold mb-0">Počet misí tento měsíc</h6><span>@_missionsThisMonth</span>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <h6 class="text-primary fw-bold mb-0">Počet misí celkově</h6><span>@_missionsInTotal</span>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <h6 class="text-primary fw-bold mb-0">Průměrně misí týdně</h6><span>@_averageMissions</span>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <h6 class="text-primary fw-bold mb-0">Nejhranější modpack (kromě vlastního)</h6><span>@(_mostCommonModpackType is not null ? _mostCommonModpackType.Name : "Žádný")</span>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <h6 class="text-primary fw-bold mb-0">Nejčastější druh mise</h6><span>@(_mostCommonCategory is not null ? _mostCommonCategory.Name : "Žádný")</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-Welcome to your new app.
+@code
+{
+    private Mission? _missionToday;
+    private List<Mission>? _upcomingMissions;
+    
+    // stats
+    private int _missionsThisMonth = 0;
+    private int _missionsInTotal = 0;
+    private int _averageMissions = 0;
+    private MissionCategory? _mostCommonCategory;
+    private ModpackType? _mostCommonModpackType;
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        _upcomingMissions = await MissionService.GetUpcomingAsync(DateTime.Today + TimeSpan.FromDays(7));
+        var missionsToday = _upcomingMissions.Where(x => x.Start.Date == DateTime.Today).ToList();
+        if (missionsToday.Count > 0)
+        {
+            _missionToday = missionsToday.MinBy(x => x.Start);
+        }
+
+        // stats
+        var today = DateTime.Now;
+        _missionsThisMonth = await MissionService.GetMissionCountAsync(new DateTime(today.Year, today.Month, 1), new DateTime(today.Year, today.Month + 1, 1) - TimeSpan.FromTicks(1));
+        _missionsInTotal = await MissionService.GetMissionCountAsync();
+        _mostCommonCategory = await MissionCategoryService.GetMostCommonAsync();
+        _mostCommonModpackType = await ModpackTypeService.GetMostCommonAsync();
+
+        var oldestMission = (await MissionService.GetAllAsync()).MinBy(x => x.Start);
+        if (oldestMission is not null)
+        {
+            var days = (today - oldestMission.Start).Days + 1;
+            _averageMissions =  _missionsInTotal / days;
+        }
+    }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        
+        await JsRuntime.InvokeVoidAsync("InitCalendar");
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}

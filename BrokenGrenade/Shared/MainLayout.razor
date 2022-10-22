@@ -2,19 +2,19 @@
 
 <PageTitle>BrokenGrenade</PageTitle>
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4 auth">
-            <LoginDisplay />
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+<div id="wrapper">
+    <NavMenu/>
+    <main class="d-flex flex-column" id="content-wrapper">
+        <div id="content">
+            <NavBar/>
+            <div class="container-fluid">
+                @Body
+            </div>
         </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
     </main>
 </div>
+
+@code
+{
+    
+}

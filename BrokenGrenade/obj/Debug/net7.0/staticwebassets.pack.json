@@ -1,59 +1,523 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\ondre\\Documents\\repos\\BrokenGrenade\\BrokenGrenade\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\BrokenGrenade.bundle.scp.css",
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\BrokenGrenade.bundle.scp.css",
       "PackagePath": "staticwebassets\\BrokenGrenade.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\ondre\\Documents\\repos\\BrokenGrenade\\BrokenGrenade\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\bootstrap\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\assets\\bootstrap\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\bootstrap\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\assets\\bootstrap\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales-all.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales-all.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales-all.min.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales-all.min.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\af.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\af.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\ar-dz.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\ar-dz.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\ar-kw.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\ar-kw.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\ar-ly.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\ar-ly.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\ar-ma.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\ar-ma.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\ar-sa.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\ar-sa.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\ar-tn.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\ar-tn.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\ar.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\ar.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\az.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\az.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\bg.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\bg.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\bn.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\bn.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\bs.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\bs.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\ca.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\ca.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\cs.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\cs.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\cy.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\cy.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\da.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\da.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\de-at.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\de-at.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\de.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\de.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\el.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\el.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\en-au.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\en-au.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\en-gb.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\en-gb.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\en-nz.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\en-nz.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\eo.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\eo.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\es-us.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\es-us.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\es.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\es.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\et.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\et.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\eu.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\eu.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\fa.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\fa.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\fi.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\fi.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\fr-ca.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\fr-ca.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\fr-ch.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\fr-ch.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\fr.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\fr.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\gl.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\gl.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\he.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\he.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\hi.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\hi.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\hr.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\hr.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\hu.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\hu.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\hy-am.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\hy-am.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\id.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\id.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\is.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\is.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\it.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\it.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\ja.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\ja.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\ka.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\ka.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\kk.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\kk.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\km.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\km.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\ko.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\ko.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\ku.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\ku.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\lb.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\lb.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\lt.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\lt.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\lv.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\lv.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\mk.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\mk.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\ms.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\ms.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\nb.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\nb.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\ne.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\ne.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\nl.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\nl.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\nn.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\nn.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\pl.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\pl.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\pt-br.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\pt-br.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\pt.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\pt.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\ro.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\ro.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\ru.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\ru.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\si-lk.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\si-lk.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\sk.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\sk.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\sl.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\sl.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\sm.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\sm.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\sq.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\sq.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\sr-cyrl.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\sr-cyrl.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\sr.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\sr.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\sv.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\sv.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\ta-in.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\ta-in.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\th.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\th.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\tr.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\tr.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\ug.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\ug.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\uk.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\uk.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\uz.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\uz.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\vi.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\vi.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\zh-cn.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\zh-cn.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\locales\\zh-tw.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\locales\\zh-tw.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\main.css",
+      "PackagePath": "staticwebassets\\assets\\calendar\\main.css"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\main.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\main.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\main.min.css",
+      "PackagePath": "staticwebassets\\assets\\calendar\\main.min.css"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\calendar\\main.min.js",
+      "PackagePath": "staticwebassets\\assets\\calendar\\main.min.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\css\\Nunito.css",
+      "PackagePath": "staticwebassets\\assets\\css\\Nunito.css"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\css\\site.css",
+      "PackagePath": "staticwebassets\\assets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\fa-brands-400.eot",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fa-brands-400.eot"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\fa-brands-400.svg",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fa-brands-400.svg"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\fa-brands-400.ttf",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fa-brands-400.ttf"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\fa-brands-400.woff",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fa-brands-400.woff"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\fa-brands-400.woff2",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fa-brands-400.woff2"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\fa-regular-400.eot",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fa-regular-400.eot"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\fa-regular-400.svg",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fa-regular-400.svg"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\fa-regular-400.ttf",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fa-regular-400.ttf"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\fa-regular-400.woff",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fa-regular-400.woff"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\fa-regular-400.woff2",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fa-regular-400.woff2"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\fa-solid-900.eot",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fa-solid-900.eot"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\fa-solid-900.svg",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fa-solid-900.svg"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\fa-solid-900.ttf",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fa-solid-900.ttf"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\fa-solid-900.woff",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fa-solid-900.woff"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\fa-solid-900.woff2",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fa-solid-900.woff2"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\fontawesome-all.min.css",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fontawesome-all.min.css"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\s\\nunito\\v25\\XRXV3I6Li01BKofIMeaBXso.woff2",
+      "PackagePath": "staticwebassets\\assets\\fonts\\s\\nunito\\v25\\XRXV3I6Li01BKofIMeaBXso.woff2"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\s\\nunito\\v25\\XRXV3I6Li01BKofINeaB.woff2",
+      "PackagePath": "staticwebassets\\assets\\fonts\\s\\nunito\\v25\\XRXV3I6Li01BKofINeaB.woff2"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\s\\nunito\\v25\\XRXV3I6Li01BKofIO-aBXso.woff2",
+      "PackagePath": "staticwebassets\\assets\\fonts\\s\\nunito\\v25\\XRXV3I6Li01BKofIO-aBXso.woff2"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\s\\nunito\\v25\\XRXV3I6Li01BKofIOOaBXso.woff2",
+      "PackagePath": "staticwebassets\\assets\\fonts\\s\\nunito\\v25\\XRXV3I6Li01BKofIOOaBXso.woff2"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\s\\nunito\\v25\\XRXV3I6Li01BKofIOuaBXso.woff2",
+      "PackagePath": "staticwebassets\\assets\\fonts\\s\\nunito\\v25\\XRXV3I6Li01BKofIOuaBXso.woff2"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\s\\nunito\\v25\\XRXX3I6Li01BKofIMNaDRs4.woff2",
+      "PackagePath": "staticwebassets\\assets\\fonts\\s\\nunito\\v25\\XRXX3I6Li01BKofIMNaDRs4.woff2"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\s\\nunito\\v25\\XRXX3I6Li01BKofIMNaHRs71cA.woff2",
+      "PackagePath": "staticwebassets\\assets\\fonts\\s\\nunito\\v25\\XRXX3I6Li01BKofIMNaHRs71cA.woff2"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\s\\nunito\\v25\\XRXX3I6Li01BKofIMNaMRs71cA.woff2",
+      "PackagePath": "staticwebassets\\assets\\fonts\\s\\nunito\\v25\\XRXX3I6Li01BKofIMNaMRs71cA.woff2"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\s\\nunito\\v25\\XRXX3I6Li01BKofIMNaNRs71cA.woff2",
+      "PackagePath": "staticwebassets\\assets\\fonts\\s\\nunito\\v25\\XRXX3I6Li01BKofIMNaNRs71cA.woff2"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\fonts\\s\\nunito\\v25\\XRXX3I6Li01BKofIMNaORs71cA.woff2",
+      "PackagePath": "staticwebassets\\assets\\fonts\\s\\nunito\\v25\\XRXX3I6Li01BKofIMNaORs71cA.woff2"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\img\\dogs\\image2.jpeg",
+      "PackagePath": "staticwebassets\\assets\\img\\dogs\\image2.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\js\\calendar.js",
+      "PackagePath": "staticwebassets\\assets\\js\\calendar.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\assets\\js\\theme.js",
+      "PackagePath": "staticwebassets\\assets\\js\\theme.js"
+    },
+    {
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Id": "C:\\Users\\ondre\\Documents\\repos\\BrokenGrenade\\BrokenGrenade\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Id": "C:\\Users\\ondre\\Documents\\repos\\BrokenGrenade\\BrokenGrenade\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
       "PackagePath": "staticwebassets\\css\\open-iconic"
     },
     {
-      "Id": "C:\\Users\\ondre\\Documents\\repos\\BrokenGrenade\\BrokenGrenade\\wwwroot\\css\\open-iconic\\ICON-LICENSE",
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\css\\open-iconic\\ICON-LICENSE",
       "PackagePath": "staticwebassets\\css\\open-iconic"
     },
     {
-      "Id": "C:\\Users\\ondre\\Documents\\repos\\BrokenGrenade\\BrokenGrenade\\wwwroot\\css\\open-iconic\\README.md",
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\css\\open-iconic\\README.md",
       "PackagePath": "staticwebassets\\css\\open-iconic\\README.md"
     },
     {
-      "Id": "C:\\Users\\ondre\\Documents\\repos\\BrokenGrenade\\BrokenGrenade\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css"
     },
     {
-      "Id": "C:\\Users\\ondre\\Documents\\repos\\BrokenGrenade\\BrokenGrenade\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot",
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot",
       "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.eot"
     },
     {
-      "Id": "C:\\Users\\ondre\\Documents\\repos\\BrokenGrenade\\BrokenGrenade\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf",
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf",
       "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.otf"
     },
     {
-      "Id": "C:\\Users\\ondre\\Documents\\repos\\BrokenGrenade\\BrokenGrenade\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg",
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg",
       "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.svg"
     },
     {
-      "Id": "C:\\Users\\ondre\\Documents\\repos\\BrokenGrenade\\BrokenGrenade\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf",
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf",
       "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.ttf"
     },
     {
-      "Id": "C:\\Users\\ondre\\Documents\\repos\\BrokenGrenade\\BrokenGrenade\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff",
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff",
       "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.woff"
     },
     {
-      "Id": "C:\\Users\\ondre\\Documents\\repos\\BrokenGrenade\\BrokenGrenade\\wwwroot\\css\\site.css",
-      "PackagePath": "staticwebassets\\css\\site.css"
-    },
-    {
-      "Id": "C:\\Users\\ondre\\Documents\\repos\\BrokenGrenade\\BrokenGrenade\\wwwroot\\favicon.png",
+      "Id": "C:\\Users\\xmahda14\\source\\repos\\BG_Hub\\BrokenGrenade\\wwwroot\\favicon.png",
       "PackagePath": "staticwebassets\\favicon.png"
     },
     {
