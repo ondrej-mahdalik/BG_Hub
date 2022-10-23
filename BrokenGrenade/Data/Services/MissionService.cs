@@ -39,6 +39,15 @@ namespace BrokenGrenade.Data
             return await query.ToListAsync();
         }
 
+        public async Task<List<Mission>> GetByAuthorAsync(string authorId)
+        {
+            return await _dbContext.Missions
+                .Include(x => x.Author)
+                .Include(x => x.Category)
+                .Where(x => x.AuthorId == authorId)
+                .ToListAsync();
+        }
+
         public async Task<int> GetMissionCountAsync(DateTime? from = null, DateTime? to = null)
         {
             var query = _dbContext.Missions.Where(x => true);

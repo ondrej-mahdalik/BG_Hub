@@ -16,17 +16,17 @@ public class MissionsController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<List<MissionModel>> GetAll([FromQuery]DateTime? start, [FromQuery]DateTime? end)
+    public async Task<List<MissionApiModel>> GetAll([FromQuery]DateTime? start, [FromQuery]DateTime? end)
     {
         var missions = await _missionService.GetAllAsync(start, end);
-        var result = missions.Select(MissionModel.FromEntity).ToList();
+        var result = missions.Select(MissionApiModel.FromEntity).ToList();
         return result;
     }
     
     [HttpGet("upcoming")]
-    public async Task<List<MissionModel>> GetUpcoming([FromQuery]DateTime? end)
+    public async Task<List<MissionApiModel>> GetUpcoming([FromQuery]DateTime? end)
     {
         var missions = await _missionService.GetUpcomingAsync(end);
-        return missions.Select(MissionModel.FromEntity).ToList();
+        return missions.Select(MissionApiModel.FromEntity).ToList();
     }
 }

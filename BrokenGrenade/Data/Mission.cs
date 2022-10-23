@@ -28,5 +28,18 @@
             ConnectingToServer = connectingToServer;
             ModpackUrl = modpackUrl;
         }
+
+        public void CopyFrom(Mission mission)
+        {
+            Name = mission.Name;
+            LeaderBriefing = mission.LeaderBriefing;
+            ConnectingToServer = mission.ConnectingToServer;
+            Start = mission.Start;
+            SlottingSheetUrl = mission.SlottingSheetUrl;
+            ModpackUrl = mission.ModpackUrl;
+            // AuthorId = mission.AuthorId;
+            CategoryId = mission.CategoryId;
+            ModpackTypeId = mission.ModpackTypeId;
+        }
     }
 }

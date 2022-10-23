@@ -2,7 +2,7 @@
 
 namespace BrokenGrenade.Seeds;
 
-public class ModpackTypeSeeds
+public static class ModpackTypeSeeds
 {
     public static readonly ModpackType Moderna = new("Moderna")
     {

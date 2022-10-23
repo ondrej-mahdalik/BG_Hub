@@ -2,7 +2,7 @@
 
 namespace BrokenGrenade.Seeds;
 
-public class MissionCategorySeeds
+public static class MissionCategorySeeds
 {
     public static readonly MissionCategory Serious = new("Serious", "")
     {

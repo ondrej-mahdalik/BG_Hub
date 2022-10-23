@@ -4,9 +4,11 @@
 @using System.Globalization
 @inject MissionService MissionService
 
+<PageTitle>@(_mission?.Name ?? "Detail Mise")</PageTitle>
+
 <div class="row">
     <div class="col">
-        <h3 class="text-dark mb-0">@(Mission?.Name ?? "Načítání...")</h3>
+        <h3 class="text-dark mb-0">@(_mission?.Name ?? "Načítání...")</h3>
     </div>
     <div class="col col-auto">
         <a class="btn btn-secondary" href="/">Zpět</a>
@@ -14,55 +16,55 @@
 </div>
 <div class="card shadow">
     <div class="card-body d-flex flex-column">
-        @if (Mission is not null)
+        @if (_mission is not null)
         {
             <div class="row mb-2">
                 <div class="col">
-                    <h5 class="fw-bold">@Mission.Name</h5>
+                    <h5 class="fw-bold">@_mission.Name</h5>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <div class="row">
                         <div class="col">
-                            <h6 class="text-primary fw-bold mb-0">Autor</h6><span>@(Mission.Author is not null ? Mission.Author.UserName : "Smazaný uživatel")</span>
+                            <h6 class="text-primary fw-bold mb-0">Autor</h6><span>@(_mission.Author is not null ? _mission.Author.UserName : "Smazaný uživatel")</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <h6 class="text-primary fw-bold mb-0">Modpack</h6><span>@(Mission.ModpackType is not null ? Mission.ModpackType.Name : "Vlastní")</span>
+                            <h6 class="text-primary fw-bold mb-0">Modpack</h6><span>@(_mission.ModpackType is not null ? _mission.ModpackType.Name : "Vlastní")</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <h6 class="text-primary fw-bold mb-0">Druh Mise</h6><span>@(Mission.Category is not null ? Mission.Category.Name : "Odstraněná kategorie")</span>
+                            <h6 class="text-primary fw-bold mb-0">Druh Mise</h6><span>@(_mission.Category is not null ? _mission.Category.Name : "Odstraněná kategorie")</span>
                         </div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="row">
                         <div class="col">
-                            <h6 class="text-primary fw-bold mb-0">Velitelský briefing</h6><span>@(Mission.LeaderBriefing.HasValue ? Mission.LeaderBriefing.Value.Humanize(culture: new CultureInfo("cs_CZ")) : "Není")</span>
+                            <h6 class="text-primary fw-bold mb-0">Velitelský briefing</h6><span>@(_mission.LeaderBriefing.HasValue ? _mission.LeaderBriefing.Value.Humanize(culture: new CultureInfo("cs_CZ")) : "Není")</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <h6 class="text-primary fw-bold mb-0">Připojování od</h6><span>@Mission.ConnectingToServer.ToShortTimeString()</span>
+                            <h6 class="text-primary fw-bold mb-0">Připojování od</h6><span>@_mission.ConnectingToServer.ToShortTimeString()</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <h6 class="text-primary fw-bold mb-0">Start Mise</h6><span>@Mission.Start.ToShortTimeString()</span>
+                            <h6 class="text-primary fw-bold mb-0">Start Mise</h6><span>@_mission.Start.ToShortTimeString()</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row mt-auto">
-                @if (Mission.ModpackUrl is not null)
+                @if (_mission.ModpackUrl is not null)
                 {
-                    <div class="col d-flex d-xxl-flex justify-content-end"><a class="btn btn-primary d-flex" href="@Mission.ModpackUrl">Stáhnout Modpack</a></div>
+                    <div class="col d-flex d-xxl-flex justify-content-end"><a class="btn btn-primary d-flex" href="@_mission.ModpackUrl">Stáhnout Modpack</a></div>
                 }
-                <div class="col d-flex d-xxl-flex justify-content-end col-auto"><a class="btn btn-primary d-flex" href="@Mission.SlottingSheetUrl">Slotování</a></div>
+                <div class="col d-flex d-xxl-flex justify-content-end col-auto"><a class="btn btn-primary d-flex" href="@_mission.SlottingSheetUrl">Slotování</a></div>
             </div>
         }
     </div>
@@ -71,13 +73,13 @@
 @code {
     [Parameter]
     public Guid Id { get; set; }
-    
-    private Mission? Mission { get; set; }
+
+    private Mission? _mission;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
-        Mission = await MissionService.GetByIdAsync(Id);
+        _mission = await MissionService.GetByIdAsync(Id);
     }
 }

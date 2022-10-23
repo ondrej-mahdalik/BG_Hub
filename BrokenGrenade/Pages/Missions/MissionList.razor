@@ -1,0 +1,87 @@
+﻿@page "/Mission/List"
+@attribute [Authorize(Policy = "CanCreateMissions")]
+@using BrokenGrenade.Data
+@using Humanizer
+@using Microsoft.AspNetCore.Identity
+@using System.Globalization
+@using Microsoft.AspNetCore.WebUtilities
+@inject UserManager<User> UserManager
+@inject NavigationManager NavigationManager
+@inject MissionService MissionService
+
+<PageTitle>Moje Mise</PageTitle>
+
+<div class="row">
+    <div class="col">
+        <div id="mission-created" hidden="@(!_showCreatedAlert)" class="alert alert-info alert-dismissible" role="alert"><button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button><span>Mise byla úspěšně vytvořena.</span></div>
+        <div id="mission-edited" hidden="@(!_showEditedAlert)" class="alert alert-info alert-dismissible" role="alert"><button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button><span>Mise byla úspěšně upravena.</span></div>
+        <div id="mission-deleted" hidden="@(!_showDeletedAlert)" class="alert alert-info alert-dismissible" role="alert"><button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button><span>Mise byla úspěšně odstraněna.</span></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <h3 class="text-dark mb-4">Moje Mise</h3>
+    </div>
+    <div class="col col-auto"><button class="btn btn-primary" type="button">Vytvořit Misi</button></div>
+</div>
+<div class="card shadow">
+    <div class="card-body">
+        <div id="dataTable" class="table-responsive table mt-2" role="grid" aria-describedby="dataTable_info">
+            <table id="dataTable" class="table my-0">
+                <thead>
+                    <tr>
+                        <th>Název</th>
+                        <th>Modpack</th>
+                        <th>Druh</th>
+                        <th>Datum</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @if (_missions is not null)
+                {
+                    @foreach (var mission in _missions)
+                    {
+                        <tr>
+                            <td>@mission.Name</td>
+                            <td>@(mission.ModpackType is not null ? mission.ModpackType.Name : "Vlastní")</td>
+                            <td>@(mission.Category is not null ? mission.Category.Name : "Neznámý druh mise")</td>
+                            <td>@mission.Start.Date.Humanize(culture: new CultureInfo("cs"))</td>
+                            <td class="text-center p-0"><a class="btn btn-primary btn-sm mt-1" href="/Mission/@mission.Id">Upravit</a></td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    
+    private List<Mission>? _missions;
+    private string? _loggedUserId;
+
+    private bool _showCreatedAlert;
+    private bool _showEditedAlert;
+    private bool _showDeletedAlert;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var loggedUser = (await authenticationStateTask).User;
+        _loggedUserId = UserManager.GetUserId(loggedUser);
+
+        if (_loggedUserId is null)
+            throw new InvalidOperationException();
+        
+        _missions = await MissionService.GetByAuthorAsync(_loggedUserId);
+        
+        var query = new Uri(NavigationManager.Uri).Query;
+        _showCreatedAlert = QueryHelpers.ParseQuery(query).TryGetValue("created", out _);
+        _showEditedAlert = QueryHelpers.ParseQuery(query).TryGetValue("edited", out _);
+        _showDeletedAlert = QueryHelpers.ParseQuery(query).TryGetValue("deleted", out _);
+    }
+}

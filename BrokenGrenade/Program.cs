@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using BrokenGrenade.Areas.Identity;
 using BrokenGrenade.Data;
 using BrokenGrenade.Seeds;
@@ -19,6 +18,12 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddControllers();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("CanCreateMissions", policy => policy.RequireClaim("CreateMissions", "true"));
+    options.AddPolicy("CanManageMissions", policy => policy.RequireClaim("ManageMissions", "true"));
+    options.AddPolicy("CanManageUsers", policy => policy.RequireClaim("ManageUsers", "true"));
+});
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<User>>();
 builder.Services.AddScoped<MissionService>();
 builder.Services.AddScoped<MissionCategoryService>();
@@ -45,6 +50,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
@@ -61,6 +67,7 @@ async Task SetupDatabase(WebApplication application)
     dbContext.Database.EnsureDeleted();
     dbContext.Database.EnsureCreated();
 
+    await RoleSeeds.Seed(scope.ServiceProvider);
     await UserSeeds.Seed(scope.ServiceProvider);
     MissionSeeds.Seed(dbContext);
     ModpackTypeSeeds.Seed(dbContext);
