@@ -1,11 +1,128 @@
 ﻿@page "/Mission/Create"
 @attribute [Authorize]
 @using BrokenGrenade.Data
-@inject MissionService MissionService
-<h3>Create Mission</h3>
+@using BrokenGrenade.Models
+@inject NavigationManager NavigationManager;
+@inject MissionService MissionService;
+@inject MissionCategoryService MissionCategoryService;
+@inject ModpackTypeService ModpackTypeService;
 
-
+<div class="row">
+    <div class="col">
+        <h3 class="text-dark mb-4">Vytvořit Misi</h3>
+    </div>
+</div>
+<div class="card shadow">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <EditForm Model="_mission" OnValidSubmit="OnSubmit">
+                    <DataAnnotationsValidator/>
+                    <ValidationSummary/>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <div><label class="form-label" for="nazev">Název</label><InputText id="nazev" class="form-control" @bind-Value="_mission.Name" style="min-width: 150px;"/></div>
+                        </div>
+                        <div class="col">
+                            <div><label class="form-label" for="druh">Druh Mise</label>
+                                <InputSelect id="druh" class="form-select" @bind-Value="_mission.CategoryId" name="druh" style="min-width: 150px;">
+                                    @foreach (var category in _missionCategories)
+                                    {
+                                        <option value="@category.Id">@category.Name</option>
+                                    }
+                                </InputSelect></div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <div><label class="form-label" for="datum">Datum</label><InputDate id="datum" class="form-control" @bind-Value="_mission.Date" Type="InputDateType.Date" name="datum"/></div>
+                        </div>
+                        <div class="col">
+                            <div><label class="form-label" for="napojovani">Napojování</label><InputDate id="napojovani" class="form-control" @bind-Value="_mission.ConectingToServer" Type="InputDateType.Time" name="napojovani"/></div>
+                        </div>
+                        <div class="col">
+                            <div><label class="form-label" for="zacatek">Začátek</label><InputDate id="zacatek" class="form-control" @bind-Value="_mission.Start" Type="InputDateType.Time" name="zacatek"/></div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <div class="form-check form-switch"><InputCheckbox id="je-briefing" class="form-check-input" @bind-Value="_mission.IsLeaderBriefing" type="checkbox" role="switch" name="je-briefing" checked/><label class="form-label form-check-label" for="je-briefing">Velitelský briefing</label></div>
+                            @if (_mission.IsLeaderBriefing)
+                            {
+                                <div><InputDate class="form-control" @bind-Value="_mission.LeaderBriefing" Type="InputDateType.DateTimeLocal" name="briefing"/></div>
+                            }
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <div class="mb-2"><label class="form-label" for="modpack">Modpack</label>
+                                <InputSelect id="modpack" class="form-select" @bind-Value="_mission.ModpackTypeId" name="modpack">
+                                    @foreach (var modpack in _modpackTypes)
+                                    {
+                                        <option value="@modpack.Id">@modpack.Name</option>
+                                    }
+                                    <option value="">Vlastní</option>
+                                </InputSelect></div>
+                            @if (_mission.ModpackTypeId is null)
+                            {
+                                <div><label class="form-label" for="modpack">Odkaz na modpack <em>(lze doplnit později)</em></label><InputText id="modpack-url" class="form-control" @bind-Value="_mission.ModpackUrl" type="url" name="modpack-url"/></div>
+                            }
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <div><label class="form-label" for="slotovani">Slotování</label><InputText id="slotovani" class="form-control" @bind-Value="_mission.SlottingSheetUrl" type="url" name="slotovani"/></div>
+                        </div>
+                    </div>
+                    <div class="row d-xl-flex justify-content-xl-end">
+                        <div class="col col-auto"><a class="btn btn-danger mb-2 mb-sm-0" role="button" href="list.html">Zahodit a vrátit se zpět</a></div>
+                        <div class="col col-auto"><button class="btn btn-primary" disabled="@_disableButton" type="submit">Vytvořit Misi</button></div>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
     
+    private MissionCreateModel _mission = new();
+
+    private List<MissionCategory> _missionCategories = new();
+    private List<ModpackType> _modpackTypes = new();
+
+    private bool _disableButton;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        _disableButton = false;
+        _missionCategories = await MissionCategoryService.GetAllAsync();
+        _modpackTypes = await ModpackTypeService.GetAllAsync();
+    }
+
+    private async Task OnSubmit()
+    {
+        _disableButton = true;
+        
+        if (!_mission.Date.HasValue || !_mission.Start.HasValue || !_mission.ConectingToServer.HasValue || _mission.Name is null || _mission.SlottingSheetUrl is null)
+            throw new InvalidDataException();
+
+        var start = _mission.Date.Value.Date + _mission.Start.Value.TimeOfDay;
+        var connecting = _mission.Date.Value.Date + _mission.ConectingToServer.Value.TimeOfDay;
+
+        var mission = new Mission(_mission.Name, _mission.SlottingSheetUrl, start, connecting, _mission.LeaderBriefing, _mission.ModpackUrl)
+        {
+            Id = Guid.NewGuid(),
+            CategoryId = _mission.CategoryId,
+            ModpackTypeId = _mission.ModpackTypeId
+        };
+        
+        await MissionService.InsertOrUpdateAsync(mission);
+        _disableButton = false;
+        NavigationManager.NavigateTo($"/Mission/{mission.Id}");
+    }
+
 }

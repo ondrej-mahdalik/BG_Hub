@@ -207,8 +207,8 @@
         var oldestMission = (await MissionService.GetAllAsync()).MinBy(x => x.Start);
         if (oldestMission is not null)
         {
-            var days = (today - oldestMission.Start).Days + 1;
-            _averageMissions =  _missionsInTotal / days;
+            var weeks = ((today - oldestMission.Start).Days / 7) + 1;
+            _averageMissions =  _missionsInTotal / weeks;
         }
     }
     
