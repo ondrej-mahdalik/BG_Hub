@@ -1,14 +1,17 @@
 ﻿<AuthorizeView>
     <Authorized>
         <li class="nav-item m-2">
+            <a class="nav-link btn btn-link text-primary" href="Identity/Account/Manage/Index">Můj profil</a>
+        </li>
+        <li class="nav-item m-2">
             <form method="post" action="Identity/Account/Logout">
-                <button type="submit" class="nav-link btn btn-link">Odhlásit se</button>
+                <button type="submit" class="nav-link btn btn-link text-primary">Odhlásit se</button>
             </form>
         </li>
     </Authorized>
     <NotAuthorized>
         <li class="nav-item m-2">
-            <a class="nav-link btn btn-link" href="Identity/Account/Login">Přihlásit se</a>
+            <a class="nav-link btn btn-link text-primary" href="Identity/Account/Login">Přihlásit se</a>
         </li>
     </NotAuthorized>
 </AuthorizeView>

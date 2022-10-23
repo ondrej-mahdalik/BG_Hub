@@ -17,7 +17,7 @@ namespace BrokenGrenade.Seeds
         {
             var userManager = serviceProvider.GetService<UserManager<User>>() ?? throw new Exception();
             await userManager.CreateAsync(TestUser, "Password123$");
-            await userManager.AddToRoleAsync(TestUser, RoleSeeds.MissionMaker.Name!);
+            await userManager.AddToRoleAsync(TestUser, RoleSeeds.PlatoonLead.Name!);
         }
     }
 

@@ -24,10 +24,22 @@
                     </NavLink>
                 </li>
             </AuthorizeView>
-            <AuthorizeView>
+            <AuthorizeView Policy="CanViewStaffMenu">
                 <li class="nav-item">
-                    <NavLink class="nav-link" ActiveClass="active" href="/Profile">
-                        <i class="fas fa-user"></i><span>Můj Profil</span>
+                    <div class="border-bottom border-light m-3"></div>
+                </li>
+            </AuthorizeView>
+            <AuthorizeView Policy="CanManageMissions">
+                <li class="nav-item">
+                    <NavLink class="nav-link" ActiveClass="active" href="/Mission/List?all">
+                        <i class="fa fa-table"></i><span>Správa misí</span>
+                    </NavLink>
+                </li>
+            </AuthorizeView>
+            <AuthorizeView Policy="CanManageUsers">
+                <li class="nav-item">
+                    <NavLink class="nav-link" ActiveClass="active" href="/User/List">
+                        <i class="fa fa-table"></i><span>Správa uživatelů</span>
                     </NavLink>
                 </li>
             </AuthorizeView>

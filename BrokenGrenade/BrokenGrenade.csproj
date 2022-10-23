@@ -18,7 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Identity\Pages\Account\Manage" />
     <Folder Include="Enums\" />
+    <Folder Include="Pages\MissionCategories" />
     <Folder Include="wwwroot\assets" />
   </ItemGroup>
 

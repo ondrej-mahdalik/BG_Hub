@@ -17,6 +17,7 @@ public static class RoleSeeds
         await roleManager.AddClaimAsync(MissionMaker, new Claim("CreateMissions", "true"));
 
         await roleManager.CreateAsync(PlatoonLead);
+        await roleManager.AddClaimAsync(PlatoonLead, new Claim("ViewStaffMenu", "true"));
         await roleManager.AddClaimAsync(PlatoonLead, new Claim("CreateMissions", "true"));
         await roleManager.AddClaimAsync(PlatoonLead, new Claim("ManageMissions", "true"));
         await roleManager.AddClaimAsync(PlatoonLead, new Claim("ManageUsers", "true"));

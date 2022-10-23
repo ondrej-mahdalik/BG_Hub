@@ -20,6 +20,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddControllers();
 builder.Services.AddAuthorization(options =>
 {
+    options.AddPolicy("CanViewStaffMenu", policy => policy.RequireClaim("ViewStaffMenu", "true"));
     options.AddPolicy("CanCreateMissions", policy => policy.RequireClaim("CreateMissions", "true"));
     options.AddPolicy("CanManageMissions", policy => policy.RequireClaim("ManageMissions", "true"));
     options.AddPolicy("CanManageUsers", policy => policy.RequireClaim("ManageUsers", "true"));
