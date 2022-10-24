@@ -70,7 +70,7 @@ namespace BrokenGrenade.Areas.Identity.Pages.Account.Manage
             /// </summary>
             [Required]
             [EmailAddress]
-            [Display(Name = "New email")]
+            [Display(Name = "Nová emailová adresa")]
             public string NewEmail { get; set; }
         }
 
@@ -126,14 +126,14 @@ namespace BrokenGrenade.Areas.Identity.Pages.Account.Manage
                     protocol: Request.Scheme);
                 await _emailSender.SendEmailAsync(
                     Input.NewEmail,
-                    "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    "Potvrzení emailové adresy",
+                    $"Prosím potvrď svoji emailovou adresu <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>kliknutím zde</a>.");
 
-                StatusMessage = "Confirmation link to change email sent. Please check your email.";
+                StatusMessage = "Odkaz pro ověření byl zaslán na tvou novou emailovou adresu.";
                 return RedirectToPage();
             }
 
-            StatusMessage = "Your email is unchanged.";
+            StatusMessage = "Tvůj email nebyl změněn.";
             return RedirectToPage();
         }
 
@@ -162,10 +162,10 @@ namespace BrokenGrenade.Areas.Identity.Pages.Account.Manage
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                "Potvrzení emailové adresy",
+                $"Prosím potvrď svoji emailovou adresu <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>kliknutím zde</a>.");
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            StatusMessage = "Odkaz pro ověření byl zaslán na tvou novou emailovou adresu.";
             return RedirectToPage();
         }
     }

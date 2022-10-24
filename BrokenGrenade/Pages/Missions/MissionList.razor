@@ -46,7 +46,7 @@
                             <td>@mission.Name</td>
                             <td>@(mission.ModpackType is not null ? mission.ModpackType.Name : "Vlastní")</td>
                             <td>@(mission.Category is not null ? mission.Category.Name : "Neznámý druh mise")</td>
-                            <td>@mission.Start.Date.Humanize(culture: new CultureInfo("cs"))</td>
+                            <td>@mission.Start.ToShortDateString() </td>
                             <td class="text-center p-0"><a class="btn btn-primary btn-sm mt-1" href="/Mission/Edit/@mission.Id">Upravit</a></td>
                         </tr>
                     }

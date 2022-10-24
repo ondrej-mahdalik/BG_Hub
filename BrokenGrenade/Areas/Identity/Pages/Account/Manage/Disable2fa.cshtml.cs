@@ -42,7 +42,7 @@ namespace BrokenGrenade.Areas.Identity.Pages.Account.Manage
 
             if (!await _userManager.GetTwoFactorEnabledAsync(user))
             {
-                throw new InvalidOperationException($"Cannot disable 2FA for user as it's not currently enabled.");
+                throw new InvalidOperationException($"Dvoufázové ověřovaní není aktivované, nelze jej tudíž deaktivovat.");
             }
 
             return Page();
@@ -63,7 +63,7 @@ namespace BrokenGrenade.Areas.Identity.Pages.Account.Manage
             }
 
             _logger.LogInformation("User with ID '{UserId}' has disabled 2fa.", _userManager.GetUserId(User));
-            StatusMessage = "2fa has been disabled. You can reenable 2fa when you setup an authenticator app";
+            StatusMessage = "Dvoufázové ověřování bylo deaktivováno. Můžeš jej opět aktivovat opětovným nastavením ověřovací aplikace";
             return RedirectToPage("./TwoFactorAuthentication");
         }
     }

@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Http.Features
 @model TwoFactorAuthenticationModel
 @{
-    ViewData["Title"] = "Two-factor authentication (2FA)";
+    ViewData["Title"] = "Dvoufázové ověřování (2FA)";
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
     Layout = "Manage/_Layout";
 }
@@ -18,44 +18,44 @@
             if (Model.RecoveryCodesLeft == 0)
             {
                 <div class="alert alert-danger">
-                    <strong>You have no recovery codes left.</strong>
-                    <p>You must <a asp-page="./GenerateRecoveryCodes">generate a new set of recovery codes</a> before you can log in with a recovery code.</p>
+                    <strong>Už nemáš žádné nepoužité záložní klíče.</strong>
+                    <p>Musíš <a asp-page="./GenerateRecoveryCodes">vygenerovat novou sadu záložních klíčů</a> aby jsi se mohl pomocí nich přihlásit.</p>
                 </div>
             }
             else if (Model.RecoveryCodesLeft == 1)
             {
                 <div class="alert alert-danger">
-                    <strong>You have 1 recovery code left.</strong>
-                    <p>You can <a asp-page="./GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+                    <strong>Zbývá ti jen poslední nepoužitý záložní klíč.</strong>
+                    <p>Měl by jsi <a asp-page="./GenerateRecoveryCodes">vygenerovat novou sadu záložních klíčů</a>.</p>
                 </div>
             }
             else if (Model.RecoveryCodesLeft <= 3)
             {
                 <div class="alert alert-warning">
-                    <strong>You have @Model.RecoveryCodesLeft recovery codes left.</strong>
-                    <p>You should <a asp-page="./GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+                    <strong>Zbývají ti @Model.RecoveryCodesLeft ověřovací klíče.</strong>
+                    <p>Měl by jsi <a asp-page="./GenerateRecoveryCodes">vygenerovat novou sadu záložních klíčů</a>.</p>
                 </div>
             }
 
             if (Model.IsMachineRemembered)
             {
                 <form method="post" style="display: inline-block">
-                    <button type="submit" class="btn btn-primary">Forget this browser</button>
+                    <button type="submit" class="btn btn-primary">Zapomenout tento prohlížeč</button>
                 </form>
             }
-            <a asp-page="./Disable2fa" class="btn btn-primary">Disable 2FA</a>
-            <a asp-page="./GenerateRecoveryCodes" class="btn btn-primary">Reset recovery codes</a>
+            <a asp-page="./Disable2fa" class="btn btn-primary">Deaktivovat dvoufázové ověřování</a>
+            <a asp-page="./GenerateRecoveryCodes" class="btn btn-primary">Obnovit záložní klíče</a>
         }
 
-        <h4>Authenticator app</h4>
+        <h4>Ověřovací aplikace</h4>
         @if (!Model.HasAuthenticator)
         {
-            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">Add authenticator app</a>
+            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">Přidat ověřovací aplikaci</a>
         }
         else
         {
-            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">Set up authenticator app</a>
-            <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="btn btn-primary">Reset authenticator app</a>
+            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">Nastavit ověřovací aplikaci</a>
+            <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="btn btn-primary">Resetovat ověřovací aplikaci</a>
         }
     }
     else

@@ -1,7 +1,7 @@
 ﻿@page
 @model GenerateRecoveryCodesModel
 @{
-    ViewData["Title"] = "Generate two-factor authentication (2FA) recovery codes";
+    ViewData["Title"] = "Generovat záložní kódy pro dvoufázové ověřovaní (2FA)";
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
     Layout = "Manage/_Layout";
 }
@@ -10,19 +10,19 @@
 <h3>@ViewData["Title"]</h3>
 <div class="alert alert-warning" role="alert">
     <p>
-        <span class="glyphicon glyphicon-warning-sign"></span>
-        <strong>Put these codes in a safe place.</strong>
+        <span class="fas fa-exclamation-triangle"></span>
+        <strong>Tyto kódy si někam bezpečně ulož.</strong>
     </p>
     <p>
-        If you lose your device and don't have the recovery codes you will lose access to your account.
+        Pokud ztratíš své zařízení s ověřovací aplikací a nebudeš mít tyto kódy, ztratíš přístup ke svému účtu.
     </p>
     <p>
-        Generating new recovery codes does not change the keys used in authenticator apps. If you wish to change the key
-        used in an authenticator app you should <a asp-page="./ResetAuthenticator">reset your authenticator keys.</a>
+        Vygenerování nových záložních kódů nezmění klíče použité v ověřovací aplikaci.
+        Pokud si přeješ změnit ověřovací aplikaci, <a asp-page="./ResetAuthenticator">resetuj své ověřovací klíče</a>
     </p>
 </div>
 <div>
     <form method="post">
-        <button class="btn btn-danger" type="submit">Generate Recovery Codes</button>
+        <button class="btn btn-danger" type="submit">Generovat ověřovací klíče</button>
     </form>
 </div>

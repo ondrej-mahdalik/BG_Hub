@@ -5,12 +5,12 @@ namespace BrokenGrenade.Seeds
 {
     public static class UserSeeds
     {
-        public static readonly User TestUser = new User()
+        public static readonly User TestUser = new()
         {
             Id = "80cb8634-60e0-4e1c-a0ad-9d0a77371c96",
             Email = "ondrej.mahdalik@gmail.com",
             EmailConfirmed = true,
-            UserName = "ondrej.mahdalik@gmail.com"
+            UserName = "Ondrej"
         };
 
         public static async Task Seed(IServiceProvider serviceProvider)

@@ -1,8 +1,10 @@
 using BrokenGrenade.Areas.Identity;
 using BrokenGrenade.Data;
 using BrokenGrenade.Seeds;
+using BrokenGrenade.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +32,9 @@ builder.Services.AddScoped<MissionService>();
 builder.Services.AddScoped<MissionCategoryService>();
 builder.Services.AddScoped<ModpackTypeService>();
 builder.Services.AddScoped<UserService>();
+
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
 var app = builder.Build();
 

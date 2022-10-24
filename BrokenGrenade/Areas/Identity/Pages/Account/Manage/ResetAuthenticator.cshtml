@@ -1,7 +1,7 @@
 ﻿@page
 @model ResetAuthenticatorModel
 @{
-    ViewData["Title"] = "Reset authenticator key";
+    ViewData["Title"] = "Obnovit ověřovací kód";
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
     Layout = "Manage/_Layout";
 }
@@ -10,16 +10,16 @@
 <h3>@ViewData["Title"]</h3>
 <div class="alert alert-warning" role="alert">
     <p>
-        <span class="glyphicon glyphicon-warning-sign"></span>
-        <strong>If you reset your authenticator key your authenticator app will not work until you reconfigure it.</strong>
+        <span class="fas fa-exclamation-triangle"></span>
+        <strong>Pokud obnovíš svůj ověřovací kód, tvá aplikace nebude fungovat dokud ji znovu nenakonfiguruješ.</strong>
     </p>
     <p>
-        This process disables 2FA until you verify your authenticator app.
-        If you do not complete your authenticator app configuration you may lose access to your account.
+        Tento proces deaktivuje dvoufázové přihlašování dokud neověříš svou aplikaci.
+        Pokud nedokončíš konfiguraci aplikaci, riskuješ ztrátu přístupu ke svému účtu.
     </p>
 </div>
 <div>
     <form id="reset-authenticator-form" method="post">
-        <button id="reset-authenticator-button" class="btn btn-danger" type="submit">Reset authenticator key</button>
+        <button id="reset-authenticator-button" class="btn btn-danger" type="submit">Obnovit ověřovací kód</button>
     </form>
 </div>

@@ -1,11 +1,12 @@
 ﻿@page "/"
 @using BrokenGrenade.Data
+@using Humanizer
 @inject MissionService MissionService;
 @inject MissionCategoryService MissionCategoryService;
 @inject ModpackTypeService ModpackTypeService;
 @inject IJSRuntime JsRuntime;
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Broken Grenade</PageTitle>
 
 <div class="container-fluid">
     <div class="d-sm-flex justify-content-between align-items-center mb-4">
@@ -89,7 +90,7 @@
                 {
                     <div class="card-body">
                         <div class="table-responsive text-start table mt-2" id="upcoming-missions" role="grid" aria-describedby="dataTable_info">
-                            <table class="table my-0" id="dataTable">
+                            <table class="table table-hover my-0" id="dataTable">
                                 <thead>
                                     <tr>
                                         <th>Datum</th>
@@ -102,7 +103,7 @@
                                 @foreach (var mission in _upcomingMissions.Take(10))
                                 {
                                     <tr onclick="window.location='/Mission/@mission.Id'" style="cursor: pointer" >
-                                        <td>@mission.Start.ToString("dddd")</td>
+                                        <td>@mission.Start.Humanize(false)</td>
                                         <td>@mission.Name</td>
                                         <td>@(mission.ModpackType is not null ? mission.ModpackType.Name : "Vlastní modpack")</td>
                                         <td>@(mission.Category is not null ? mission.Category.Name : "Neznámý druh mise")</td>

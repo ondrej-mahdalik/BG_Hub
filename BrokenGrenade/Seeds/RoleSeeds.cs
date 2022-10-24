@@ -6,8 +6,8 @@ namespace BrokenGrenade.Seeds;
 
 public static class RoleSeeds
 {
-    public static readonly IdentityRole MissionMaker = new IdentityRole("Mission Maker");
-    public static readonly IdentityRole PlatoonLead = new IdentityRole("Platoon Lead");
+    public static readonly IdentityRole MissionMaker = new("Mission Maker");
+    public static readonly IdentityRole PlatoonLead = new("Platoon Lead");
 
     public static async Task Seed(IServiceProvider serviceProvider)
     {

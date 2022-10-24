@@ -91,8 +91,10 @@
 
 @code {
     
+    #pragma warning disable
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
+    #pragma warning restore
 
     private string? _loggedUserId;
     

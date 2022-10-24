@@ -1,4 +1,6 @@
-﻿namespace BrokenGrenade.Data
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BrokenGrenade.Data
 {
     public class Mission
     {

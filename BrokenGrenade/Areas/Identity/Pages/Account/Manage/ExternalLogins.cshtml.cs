@@ -90,12 +90,12 @@ namespace BrokenGrenade.Areas.Identity.Pages.Account.Manage
             var result = await _userManager.RemoveLoginAsync(user, loginProvider, providerKey);
             if (!result.Succeeded)
             {
-                StatusMessage = "The external login was not removed.";
+                StatusMessage = "Externí přihlášení nebylo odstraněno.";
                 return RedirectToPage();
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "The external login was removed.";
+            StatusMessage = "Externí přihlášení bylo úspěšně odstraněno.";
             return RedirectToPage();
         }
 
@@ -128,14 +128,14 @@ namespace BrokenGrenade.Areas.Identity.Pages.Account.Manage
             var result = await _userManager.AddLoginAsync(user, info);
             if (!result.Succeeded)
             {
-                StatusMessage = "The external login was not added. External logins can only be associated with one account.";
+                StatusMessage = "Externí přihlášení nebylo přidáno. Externí přihlášení mohou být propojeny pouze s jedním účtem.";
                 return RedirectToPage();
             }
 
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            StatusMessage = "The external login was added.";
+            StatusMessage = "Externí přihlášení bylo úspěšně přidáno.";
             return RedirectToPage();
         }
     }
