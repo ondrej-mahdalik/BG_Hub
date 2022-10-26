@@ -2,6 +2,7 @@
 @model RegisterConfirmationModel
 @{
     ViewData["Title"] = "Register confirmation";
+    Layout = "_Layout";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -16,7 +17,7 @@
     else
     {
 <p>
-        Zkontroluj svou emailovou schránku.
+        Na tvoji emailovou adresu byl zaslán odkaz pro aktivaci účtu. Jakmile svůj účet aktivuješ, budeš se moct přihlásit. 
 </p>
     }
 }

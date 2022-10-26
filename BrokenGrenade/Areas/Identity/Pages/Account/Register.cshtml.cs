@@ -75,21 +75,21 @@ namespace BrokenGrenade.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Emailová adresa je vyžadována")]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
             
-            [Required]
+            [Required(ErrorMessage = "Přezdívka je vyžadována")]
             [MaxLength(50, ErrorMessage = "Maximální délka přezdívky je 50 znaků")]
-            [Display(Name = "Uživatelské jméno (přezdívka)")]
-            public string UserName { get; set; }
+            [Display(Name = "Přezdívka")]
+            public string Nickname { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Heslo je vyžadováno")]
             [StringLength(100, ErrorMessage = "{0} musí být minimálně {2} a maximálně {1} znaků dlouhé.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Heslo")]
@@ -120,7 +120,7 @@ namespace BrokenGrenade.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
                 
-                await _userStore.SetUserNameAsync(user, Input.UserName, CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
                 var result = await _userManager.CreateAsync(user, Input.Password);

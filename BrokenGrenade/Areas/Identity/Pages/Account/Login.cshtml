@@ -3,77 +3,60 @@
 
 @{
     ViewData["Title"] = "Přihásit se";
+    Layout = "_Layout";
 }
 
-<h1>@ViewData["Title"]</h1>
 <div class="row">
-    <div class="col-md-4">
-        <section>
-            <form id="account" method="post">
-                <h2>Přihlášení pomocí lokálního účtu</h2>
-                <hr />
+    <div class="col-lg-6 d-none d-lg-flex">
+        <div class="flex-grow-1 bg-password-image" style="background-image: url('/assets/img/background1.png');"></div>
+    </div>
+    <div class="col-lg-6">
+        <div class="p-5">
+            <div class="text-center">
+                <h4 class="text-dark mb-4">Přihlásit se</h4>
+            </div>
+            <form class="user" id="account" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Username" class="form-control" autocomplete="username" aria-required="true" placeholder="přezdívka" />
-                    <label asp-for="Input.Username" class="form-label">Přezdívka</label>
+                <div class="mb-3">
+                    <input asp-for="Input.Username" class="form-control form-control-user" autocomplete="username" aria-required="true" placeholder="Přezdívka" />
                     <span asp-validation-for="Input.Username" class="text-danger"></span>
                 </div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="heslo" />
-                    <label asp-for="Input.Password" class="form-label">Heslo</label>
+                <div class="mb-3">
+                    <input asp-for="Input.Password" class="form-control form-control-user" autocomplete="current-password" aria-required="true" placeholder="Heslo" />
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
-                <div class="checkbox mb-3">
-                    <label asp-for="Input.RememberMe" class="form-label">
-                        <input class="form-check-input" asp-for="Input.RememberMe" />
-                        @Html.DisplayNameFor(m => m.Input.RememberMe)
-                    </label>
-                </div>
-                <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Přihlásit se</button>
-                </div>
-                <div>
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Zapomněli jste heslo?</a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registrace</a>
-                    </p>
-                    <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Opakovat ověření emailové adresy</a>
-                    </p>
-                </div>
-            </form>
-        </section>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Přihlášení pomocí externích služeb.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            Aktuálně nejsou dostupné žádné způsoby externího přihlášení 
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Přihlásit se pomocí účtu @provider.DisplayName">@provider.DisplayName</button>
-                                }
-                            </p>
+                <div class="mb-3">
+                    <div class="custom-control custom-checkbox small">
+                        <div class="form-check">
+                            <label asp-for="Input.RememberMe" class="form-label">
+                                <input class="form-check-input" asp-for="Input.RememberMe" />
+                                @Html.DisplayNameFor(m => m.Input.RememberMe)
+                            </label>
                         </div>
+                    </div>
+                </div>
+            <button id="login-submit" type="submit" class="btn btn-primary d-block btn-user w-100">Přihlásit se</button>
+            </form>
+            @{
+                if ((Model.ExternalLogins?.Count ?? 0) != 0)
+                {
+                    <hr/>
+                    <form id="external-account" class="user" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                        @foreach (var provider in Model.ExternalLogins!)
+                        {
+                            <button type="submit" class="btn btn-primary btn-user d-block w-100 mb-2" name="provider" value="@provider.Name" title="Přihlásit se s účtem @provider.DisplayName">Přihlásit se s účtem @provider.DisplayName</button>
+                        }
                     </form>
                 }
             }
-        </section>
+            <hr/>
+            <div class="text-center">
+                <a id="forgot-password" class="small" asp-page="./ForgotPassword">Zapomněl jsi heslo?</a>
+            </div>
+            <div class="text-center">
+                <a class="small" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Vytvořit nový účet</a>
+            </div>
+        </div>
     </div>
 </div>
 

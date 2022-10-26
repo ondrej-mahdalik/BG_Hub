@@ -85,6 +85,10 @@ namespace BrokenGrenade.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+            
+            [Required]
+            [Display(Name = "Přezdívka")]
+            public string Username {get; set; }
         }
         
         public IActionResult OnGet() => RedirectToPage("./Login");
@@ -102,13 +106,13 @@ namespace BrokenGrenade.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (remoteError != null)
             {
-                ErrorMessage = $"Error from external provider: {remoteError}";
+                ErrorMessage = $"Chyba: {remoteError}";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                ErrorMessage = "Error loading external login information.";
+                ErrorMessage = "Při načítání externích informací došlo k chybě.";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
@@ -132,7 +136,7 @@ namespace BrokenGrenade.Areas.Identity.Pages.Account
                 {
                     Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email),
                     };
                 }
                 return Page();
@@ -146,15 +150,22 @@ namespace BrokenGrenade.Areas.Identity.Pages.Account
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                ErrorMessage = "Error loading external login information during confirmation.";
+                ErrorMessage = "Při potvrzování došlo k chybě načítání externích dat.";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
             if (ModelState.IsValid)
             {
+                // Make sure that there is not another user with the same email
+                if (await _userManager.FindByEmailAsync(Input.Email) is not null)
+                {
+                    ErrorMessage = "Zadaná emailová adresa se již používá.";
+                    return Page();
+                }
+                
                 var user = CreateUser();
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
                 var result = await _userManager.CreateAsync(user);
@@ -174,8 +185,8 @@ namespace BrokenGrenade.Areas.Identity.Pages.Account
                             values: new { area = "Identity", userId = userId, code = code },
                             protocol: Request.Scheme);
 
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        await _emailSender.SendEmailAsync(Input.Email, "Potvrzení emailové adresy",
+                            $"Prosím potvrď svoji emailovou adresu <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>kliknutím zde</a>.");
 
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
                         if (_userManager.Options.SignIn.RequireConfirmedAccount)

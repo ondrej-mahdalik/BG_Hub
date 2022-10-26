@@ -45,7 +45,7 @@ namespace BrokenGrenade.Areas.Identity.Pages.Account
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
+            StatusMessage = result.Succeeded ? "Emailová adresa byla úspěšně potvrzrna. <a href='./Login'>Přihlásit se</a>." : "Při ověřování emailu došlo k chybě.";
             return Page();
         }
     }

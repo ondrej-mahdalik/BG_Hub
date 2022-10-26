@@ -1,68 +1,56 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Registrace";
+    Layout = "_Layout";
 }
 
-<h1>@ViewData["Title"]</h1>
-
 <div class="row">
-    <div class="col-md-4">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="přezdívka" />
-                <label asp-for="Input.UserName">Uživatelské jméno (přezdívka)</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="heslo" />
-                <label asp-for="Input.Password">Heslo</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="heslo" />
-                <label asp-for="Input.ConfirmPassword">Potvrzení hesla</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Vytvořit účet</button>
-        </form>
+    <div class="col-lg-5 d-none d-lg-flex">
+        <div class="flex-grow-1 bg-register-image" style="background-image: url(/assets/img/background2.png);"></div>
     </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Použít externí účet k registraci.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            Aktuálně nejsou žádné externí služby podporovány.
-                        </p>
+    <div class="col-lg-7">
+        <div class="p-5">
+            <div class="text-center">
+                <h4 class="text-dark mb-4">Vytvoření nového účtu</h4>
+            </div>
+            <form id="registerForm" class="user" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <div class="mb-3">
+                    <input asp-for="Input.Nickname" class="form-control form-control-user" autocomplete="username" aria-required="true" placeholder="Přezdívka" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <input asp-for="Input.Email" class="form-control form-control-user" autocomplete="email" aria-required="true" placeholder="Emailová Adresa" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input asp-for="Input.Password" class="form-control form-control-user" autocomplete="new-password" aria-required="true" placeholder="Heslo" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
-                }
-                else
+                    <div class="col-sm-6">
+                        <input asp-for="Input.ConfirmPassword" class="form-control form-control-user" autocomplete="new-password" aria-required="true" placeholder="Opakuj Heslo" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+                <button id="registerSubmit" type="submit" class="btn btn-primary d-block btn-user w-100">Vytvořit účet</button>
+            </form>
+            @{
+                if ((Model.ExternalLogins?.Count ?? 0) != 0)
                 {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Přihlásit se pomocí @provider.DisplayName účtu">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
+                    <hr/>
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                        @foreach (var provider in Model.ExternalLogins!)
+                        {
+                            <button type="submit" class="btn btn-primary d-block btn-user w-100 mb-2" name="provider" value="@provider.Name" title="Přihlásit se pomocí @provider.DisplayName účtu">@provider.DisplayName</button>
+                        }
                     </form>
                 }
             }
-        </section>
+            <hr/>
+            <div class="text-center"><a class="small" asp-page="./ForgotPassword">Zapoměl jsi heslo?</a></div>
+            <div class="text-center"><a class="small" asp-page="./Login">Už máš účet? Přihláš se</a></div>
+        </div>
     </div>
 </div>
 

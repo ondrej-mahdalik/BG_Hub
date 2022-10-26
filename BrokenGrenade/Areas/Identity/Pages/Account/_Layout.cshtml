@@ -4,14 +4,24 @@
     <title>@ViewData["Title"]</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="/assets/css/Nunito.css">
     <link rel="stylesheet" href="/assets/css/site.css"/>
     <link rel="stylesheet" href="/assets/fonts/fontawesome-all.min.css">
     <link rel="icon" type="image/png" href="/favicon.png"/>
 </head>
-<body id="page-top">
-@RenderBody()
+<body id="page-top" class="bg-gradient-primary">
+<main class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-12 col-xl-10">
+                <div class="card shadow-lg o-hidden border-0 my-5">
+                    <div class="card-body p-0">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main> 
 @RenderSection("Scripts", false);
 <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
 <script defer src="/assets/js/theme.js"></script>

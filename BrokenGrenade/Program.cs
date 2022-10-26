@@ -1,3 +1,4 @@
+using System.Configuration;
 using BrokenGrenade.Areas.Identity;
 using BrokenGrenade.Data;
 using BrokenGrenade.Seeds;
@@ -14,12 +15,22 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<User>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = true;
+        options.User.RequireUniqueEmail = true;
+    })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddControllers();
+builder.Services.AddAuthentication()
+    .AddGoogle(options =>
+    {
+        options.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? throw new ConfigurationErrorsException();
+        options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? throw new ConfigurationErrorsException();
+    });
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("CanViewStaffMenu", policy => policy.RequireClaim("ViewStaffMenu", "true"));
