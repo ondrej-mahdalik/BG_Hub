@@ -3,7 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33006.217
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrokenGrenade", "BrokenGrenade\BrokenGrenade.csproj", "{AD3B83CD-F37B-409E-B192-8A20EF6C8604}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrokenGrenade", "BrokenGrenade\BrokenGrenade.csproj", "{AD3B83CD-F37B-409E-B192-8A20EF6C8604}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrokenGrenade.Web.App", "BrokenGrenade.Web.App\BrokenGrenade.Web.App.csproj", "{BA5A1F08-85E6-48FD-9DB9-1D08884479F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrokenGrenade.Web.BL", "BrokenGrenade.Web.BL\BrokenGrenade.Web.BL.csproj", "{3B29066E-973D-4D1B-879A-00F6885D4ADF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrokenGrenade.Web.DAL", "BrokenGrenade.Web.DAL\BrokenGrenade.Web.DAL.csproj", "{834C6534-C299-4920-AB18-1D369B2362D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrokenGrenade.Common.Models", "BrokenGrenade.Common.Models\BrokenGrenade.Common.Models.csproj", "{B5519525-2351-4E73-962F-3DCBF3D0A400}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{99281F45-A3F6-426C-8730-721921ABD628}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{44E3FF3B-3887-4CFF-972F-CEBCC074EECE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Phone", "Phone", "{502F2198-46CC-4351-9FDA-79B4A773C525}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrokenGrenade.Phone.App", "BrokenGrenade.Phone.App\BrokenGrenade.Phone.App.csproj", "{9BEEBC1F-E52B-4E34-80FA-06615C7EDB87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrokenGrenade.Common.Permissions", "BrokenGrenade.Common.Permissions\BrokenGrenade.Common.Permissions.csproj", "{4811FDD5-4C9D-4893-8EB5-26EF1F863661}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrokenGrenade.Web.Common", "BrokenGrenade.Web.Common\BrokenGrenade.Web.Common.csproj", "{EEBE7E0A-2FB8-40C6-A1EE-46678BE35C85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +35,48 @@ Global
 		{AD3B83CD-F37B-409E-B192-8A20EF6C8604}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD3B83CD-F37B-409E-B192-8A20EF6C8604}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD3B83CD-F37B-409E-B192-8A20EF6C8604}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA5A1F08-85E6-48FD-9DB9-1D08884479F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA5A1F08-85E6-48FD-9DB9-1D08884479F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA5A1F08-85E6-48FD-9DB9-1D08884479F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA5A1F08-85E6-48FD-9DB9-1D08884479F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B29066E-973D-4D1B-879A-00F6885D4ADF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B29066E-973D-4D1B-879A-00F6885D4ADF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B29066E-973D-4D1B-879A-00F6885D4ADF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B29066E-973D-4D1B-879A-00F6885D4ADF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{834C6534-C299-4920-AB18-1D369B2362D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{834C6534-C299-4920-AB18-1D369B2362D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{834C6534-C299-4920-AB18-1D369B2362D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{834C6534-C299-4920-AB18-1D369B2362D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5519525-2351-4E73-962F-3DCBF3D0A400}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5519525-2351-4E73-962F-3DCBF3D0A400}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5519525-2351-4E73-962F-3DCBF3D0A400}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5519525-2351-4E73-962F-3DCBF3D0A400}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BEEBC1F-E52B-4E34-80FA-06615C7EDB87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BEEBC1F-E52B-4E34-80FA-06615C7EDB87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BEEBC1F-E52B-4E34-80FA-06615C7EDB87}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9BEEBC1F-E52B-4E34-80FA-06615C7EDB87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BEEBC1F-E52B-4E34-80FA-06615C7EDB87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BEEBC1F-E52B-4E34-80FA-06615C7EDB87}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{4811FDD5-4C9D-4893-8EB5-26EF1F863661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4811FDD5-4C9D-4893-8EB5-26EF1F863661}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4811FDD5-4C9D-4893-8EB5-26EF1F863661}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4811FDD5-4C9D-4893-8EB5-26EF1F863661}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEBE7E0A-2FB8-40C6-A1EE-46678BE35C85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEBE7E0A-2FB8-40C6-A1EE-46678BE35C85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEBE7E0A-2FB8-40C6-A1EE-46678BE35C85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEBE7E0A-2FB8-40C6-A1EE-46678BE35C85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BA5A1F08-85E6-48FD-9DB9-1D08884479F4} = {44E3FF3B-3887-4CFF-972F-CEBCC074EECE}
+		{3B29066E-973D-4D1B-879A-00F6885D4ADF} = {44E3FF3B-3887-4CFF-972F-CEBCC074EECE}
+		{834C6534-C299-4920-AB18-1D369B2362D1} = {44E3FF3B-3887-4CFF-972F-CEBCC074EECE}
+		{B5519525-2351-4E73-962F-3DCBF3D0A400} = {99281F45-A3F6-426C-8730-721921ABD628}
+		{9BEEBC1F-E52B-4E34-80FA-06615C7EDB87} = {502F2198-46CC-4351-9FDA-79B4A773C525}
+		{4811FDD5-4C9D-4893-8EB5-26EF1F863661} = {99281F45-A3F6-426C-8730-721921ABD628}
+		{EEBE7E0A-2FB8-40C6-A1EE-46678BE35C85} = {44E3FF3B-3887-4CFF-972F-CEBCC074EECE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2EE22D92-E007-4813-A931-F1ACB9C4C25D}

@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewData["Title"]</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="/favicon.ico"/>
+</head>
+
+<body class="bg-gradient-primary">
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <a class="btn btn-light mt-3 shadow" href="/">Return Back</a>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-3">
+                <div class="card shadow-lg o-hidden border-0 my-3">
+                    <div class="card-body d-lg-flex justify-content-lg-center">
+                        @* <partial name="_ManageSideBar"/> *@
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="card shadow-lg o-hidden border-0 my-3">
+                    <div class="card-header">
+                        <h6 class="text-primary mb-0">@ViewData["Title"]</h6>
+                    </div>
+                    <div class="card-body">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@RenderSection("Scripts", false);
+</body>
+</html>

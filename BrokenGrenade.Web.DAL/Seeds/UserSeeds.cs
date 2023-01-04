@@ -1,0 +1,23 @@
+﻿using BrokenGrenade.Web.DAL.Entities;
+using Microsoft.AspNetCore.Identity;
+
+namespace BrokenGrenade.Web.DAL.Seeds;
+
+public static class UserSeeds
+{
+    public static readonly UserEntity Administrator = new("Administrátor", "admin@brokengrenade.cz")
+    {
+        Id = new Guid("1B11597A-2623-486E-8349-1EFE4F4F5A18"),
+        EmailConfirmed = true
+    };
+
+    public static async Task Seed(UserManager<UserEntity> userManager, bool onlyDefaultAccount = false)
+    {
+        await userManager.CreateAsync(Administrator, "Pass123$");
+        await userManager.AddToRoleAsync(Administrator, RoleSeeds.Administrator.Name!);
+        if (onlyDefaultAccount)
+            return;
+        
+        // TODO: Add more users
+    }
+}

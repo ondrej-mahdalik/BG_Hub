@@ -1,0 +1,43 @@
+﻿@page "/"
+@using BrokenGrenade.Web.BL.Facades
+@using BrokenGrenade.Common.Models
+@inject UserFacade UserFacade
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+@if (_users is null)
+{
+    <p>Načítání...</p>
+}
+else
+{
+    <table>
+        <tr>
+            <th>Přezdívka</th>
+            <th>Email</th>
+            <th>Počet rolí</th>
+        </tr>
+        @foreach (var user in _users)
+        {
+            <tr>
+                <td>@user.Nickname</td>
+                <td>@user.Email</td>
+                <td>@(user.Roles?.Count ?? 0)</td>
+            </tr>
+        }
+    </table>
+}
+
+@code
+{
+    private List<UserModel>? _users;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        _users = await UserFacade.GetAsync();
+    }
+}
