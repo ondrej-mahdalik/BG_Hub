@@ -1,8 +1,9 @@
 ﻿@inherits LayoutComponentBase
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Broken Grenade Hub</PageTitle>
 
-<SideBar />
+<SideBar/>
 <div class="wrapper d-flex flex-column min-vh-100 bg-light">
     <NavBar/>
     <div class="body flex-grow-1 px-3">
@@ -12,3 +13,16 @@
         <div>© 2023 Broken Grenade</div>
     </footer>
 </div>
+
+@code
+{
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     if (firstRender)
+    //     {
+    //         await JSRuntime.InvokeVoidAsync("import", "/vendors/@coreui/coreui/js/coreui.bundle.min.js");
+    //         await JSRuntime.InvokeVoidAsync("import", "/vendors/simplebar/js/simplebar.min.js");
+    //         await JSRuntime.InvokeVoidAsync("import", "/vendors/@coreui/utils/js/coreui-utils.js");
+    //     }
+    // }
+}

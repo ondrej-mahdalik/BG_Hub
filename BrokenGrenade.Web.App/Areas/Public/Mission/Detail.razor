@@ -1,7 +1,78 @@
-﻿@page "/Mission/Detail/{Id}"
-<h3>Detail</h3>
+﻿@page "/Mission/Detail/{Id:guid}"
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Areas.Public.Mission.Breadcrumbs
+@using BrokenGrenade.Web.BL.Facades
+@inject MissionFacade MissionFacade
+
+<div class="container-lg">
+    @if (_mission is null)
+    {
+        <p class="text-center fw-bold">Načítání...</p>        
+    }
+    else
+    {
+        <h2>@_mission.Name</h2>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h6 class="text-uppercase fw-bold">Autor</h6>
+                        <p>@(_mission.Creator?.Nickname ?? "Smazaný uživatel")</p>
+                        <h6 class="text-uppercase fw-bold">Kategorie Mise</h6>
+                        <p>@(_mission.MissionType?.Name ?? "Odstraněná kategorie")</p>
+                        <h6 class="text-uppercase fw-bold">Typ Modpacku</h6>
+                        <p>@(_mission.ModpackType?.Name ?? "Odstraněný typ")</p>
+                    </div>
+                    <div class="col">
+                        <h6 class="text-uppercase fw-bold">Velitelský Briefing</h6>
+                        <p>@(_mission.LeaderBriefingDate.HasValue ? _mission.LeaderBriefingDate.Value : "Není plánován")</p>
+                        <h6 class="text-uppercase fw-bold">Připojování na Server</h6>
+                        <p>@(_mission.ConnectingToServerDate)</p>
+                        <h6 class="text-uppercase fw-bold">Začátek Mise</h6>
+                        <p>@(_mission.MissionStartDate)</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        @if (_mission.ModpackUrl is not null)
+                        {
+                            <a class="btn btn-ghost-primary" href="">Stáhnout Modpack</a>
+                        }
+                        
+                        @if (_mission.SlottingSheetUrl is null)
+                        {
+                            <span class="fc-not-allowed" tabindex="0" data-coreui-toggle="tooltip" data-coreui-placement="top" title="Slotování nebylo autorem dodáno">
+                                <a class="btn btn-primary disabled" disabled>Slotování</a>
+                            </span>
+                        }
+                        else
+                        {
+                            <a class="btn btn-primary" href="@_mission.SlottingSheetUrl">Slotování</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
 
 @code {
     [Parameter]
     public Guid Id { get; set; }
+    
+    [CascadingParameter]
+    private IBreadcrumbService BreadcrumbService { get; set; } = default!;
+
+    private MissionModel? _mission;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _mission = await MissionFacade.GetAsync(Id);
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        BreadcrumbService.Set<DetailBreadcrumb>();
+    }
+
 }

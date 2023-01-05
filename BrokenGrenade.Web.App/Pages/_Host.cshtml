@@ -36,7 +36,52 @@
     </div>
 
 <script src="_framework/blazor.server.js" autostart="false"></script>
-<script defer src="vendors/@@coreui/coreui/js/coreui.bundle.min.js"></script>
-<script defer src="/vendors/simplebar/js/simplebar.min.js"></script>
+<script defer>
+    function wait(time) {
+        return new Promise(resolve => setTimeout(resolve, time));
+    }
+
+    async function init() {
+        await Blazor.start();
+        await wait(1000);
+        
+        var script1 = document.createElement('script');
+        script1.src = "/vendors/@@coreui/coreui/js/coreui.bundle.min.js";
+        script1.defer = true;
+        document.body.appendChild(script1);
+        
+        var script2 = document.createElement('script');
+        script2.src = "/vendors/simplebar/js/simplebar.min.js";
+        script2.defer = true;
+        document.body.appendChild(script2);
+        
+        var script3 = document.createElement('script');
+        script3.src = "/vendors/@@coreui/utils/js/coreui-utils.js";
+        script3.defer = true;
+        document.body.appendChild(script3);
+        
+        const tooltipTriggerList = document.querySelectorAll('[data-coreui-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new coreui.Tooltip(tooltipTriggerEl));
+    }
+    
+    init();
+</script>
+
+
+@* <script defer> *@
+@*     function wait(time) { *@
+@*         return new Promise(resolve => setTimeout(resolve, time)); *@
+@*     } *@
+@* *@
+@*     async function start() { *@
+@*         await wait(250); *@
+@* *@
+@*         const tooltipTriggerList = document.querySelectorAll('[data-coreui-toggle="tooltip"]'); *@
+@*         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new coreui.Tooltip(tooltipTriggerEl)); *@
+@*     } *@
+@* *@
+@*     start(); *@
+@*     *@
+@* </script> *@
 </body>
 </html>

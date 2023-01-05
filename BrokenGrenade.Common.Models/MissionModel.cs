@@ -36,6 +36,12 @@ namespace BrokenGrenade.Common.Models
         public UserModel? Creator { get; set; }
         public Guid? CreatorId { get; set; }
         
+        public MissionTypeModel? MissionType { get; set; }
+        public Guid? MissionTypeId { get; set; }
+        
+        public ModpackTypeModel? ModpackType { get; set; }
+        public Guid? ModpackTypeId { get; set; }
+        
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             // Validate leader briefing

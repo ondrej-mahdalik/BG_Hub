@@ -43,14 +43,14 @@ public class CRUDFacade<TEntity, TModel> : IAppFacade
         return await Mapper.ProjectTo<TModel>(query).SingleOrDefaultAsync().ConfigureAwait(false);
     }
 
-    public virtual async Task<IEnumerable<TModel>> GetAsync()
+    public virtual async Task<List<TModel>> GetAsync()
     {
         await using var uow = UnitOfWorkFactory.Create();
         var query = uow
             .GetRepository<TEntity>()
             .Get();
 
-        return await Mapper.ProjectTo<TModel>(query).ToArrayAsync().ConfigureAwait(false);
+        return await Mapper.ProjectTo<TModel>(query).ToListAsync().ConfigureAwait(false);
     }
 
     public virtual async Task<TModel> SaveAsync(TModel model)

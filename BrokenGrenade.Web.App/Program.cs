@@ -1,5 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using BrokenGrenade.Common.Permissions;
 using BrokenGrenade.Web.App.Areas.Identity;
 using BrokenGrenade.Web.App.Extensions;
@@ -10,11 +8,6 @@ using BrokenGrenade.Web.DAL.Entities;
 using BrokenGrenade.Web.DAL.Seeds;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -101,8 +94,6 @@ void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguratio
     //     });
     serviceCollection.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<UserEntity>>();
 
-    JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("role");
-
     serviceCollection.AddAuthentication();
 
     serviceCollection.AddAuthorization(options =>
@@ -111,6 +102,8 @@ void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguratio
             policy => policy.RequireClaim("permission", PermissionTypes.CreateMissions));
         options.AddPolicy(PolicyTypes.ManageMissions,
             policy => policy.RequireClaim("permission", PermissionTypes.ManageMissions));
+        options.AddPolicy(PolicyTypes.ManageTrainings,
+            policy => policy.RequireClaim("permission", PermissionTypes.ManageTrainings));
         options.AddPolicy(PolicyTypes.ManageUsers,
             policy => policy.RequireClaim("permission", PermissionTypes.ManageUsers));
         options.AddPolicy(PolicyTypes.ManageRoles,
@@ -155,6 +148,7 @@ void UseRoutingAndSecurityFeatures(WebApplication application)
     application.UseHttpsRedirection();
     application.UseStaticFiles();
     application.UseRouting();
+    application.UseRequestLocalization("cs-CZ");
     // application.UseIdentityServer();
     application.UseAuthentication();
     application.UseAuthorization();
@@ -179,9 +173,12 @@ async Task SetupDatabaseAsync(WebApplication application)
         await dbx.Database.EnsureDeletedAsync();
         await dbx.Database.EnsureCreatedAsync();
 
-        await RoleSeeds.Seed(roleManager);
-        await UserSeeds.Seed(userManager);
-        // TODO Seed other data
+        await RoleSeeds.SeedAsync(roleManager);
+        await UserSeeds.SeedAsync(userManager);
+        await MissionTypeSeeds.SeedAsync(dbx);
+        await ModpackTypeSeeds.SeedAsync(dbx);
+        await MissionSeeds.SeedAsync(dbx);
+        await dbx.SaveChangesAsync();
     }
     else
     {
@@ -190,8 +187,8 @@ async Task SetupDatabaseAsync(WebApplication application)
         // Seed default role and admin account if missing
         if (!await roleManager.Roles.AnyAsync() && !await userManager.Users.AnyAsync())
         {
-            await RoleSeeds.Seed(roleManager, true);
-            await UserSeeds.Seed(userManager, true);
+            await RoleSeeds.SeedAsync(roleManager, true);
+            await UserSeeds.SeedAsync(userManager, true);
         }
     }
 }

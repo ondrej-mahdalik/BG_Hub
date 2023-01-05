@@ -1,6 +1,72 @@
 ﻿@page "/Mission/List"
-<h3>List</h3>
+@using BrokenGrenade.Web.BL.Facades
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Areas.Public.Mission.Breadcrumbs
+@inject MissionFacade MissionFacade
+@inject NavigationManager NavigationManager
+
+<div class="container-lg">
+    <h2>Seznam Misí</h2>
+    <div class="card">
+        <div class="card-body">
+            @if (_missions is null)
+            {
+                <p>Načítání...</p>
+            }
+            else
+            {
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Datum Konání</th>
+                        <th scope="col">Název Mise</th>
+                        <th scope="col">Autor</th>
+                        <th scope="col">Kategorie Mise</th>
+                        <th scope="col">Modpack</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var mission in _missions)
+                    {
+                        <tr>
+                            <td>@mission.MissionStartDate</td>
+                            <td>@mission.Name</td>
+                            <td>@(mission.Creator?.Nickname ?? "Smazaný uživatel")</td>
+                            <td>@(mission.MissionType?.Name ?? "Smazaná kategorie")</td>
+                            <td>@(mission.ModpackType?.Name ?? "Smazaný druh")</td>
+                            <td>
+                                <a class="btn btn-primary" href="/Mission/Detail/@mission.Id">Detail</a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
 
 @code {
+
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "creator_id")]
+    public Guid? CreatorId { get; set; }
     
+    [CascadingParameter]
+    private IBreadcrumbService BreadcrumbService { get; set; } = default!;
+    
+    private List<MissionModel>? _missions;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _missions = CreatorId.HasValue ?
+            (await MissionFacade.GetByUserAsync(CreatorId.Value)).OrderBy(x => x.MissionStartDate).ToList()
+            : (await MissionFacade.GetAsync()).OrderBy(x => x.MissionStartDate).ToList();
+    }
+    
+    protected override void OnAfterRender(bool firstRender)
+    {
+        BreadcrumbService.Set<ListBreadcrumb>();
+    }
 }

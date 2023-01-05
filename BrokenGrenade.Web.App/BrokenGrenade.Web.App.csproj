@@ -23,6 +23,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Supercode.Blazor.BreadcrumbNavigation" Version="1.3.2" />
   </ItemGroup>
 
   <ItemGroup>
