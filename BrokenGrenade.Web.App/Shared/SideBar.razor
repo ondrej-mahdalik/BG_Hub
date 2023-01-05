@@ -1,0 +1,49 @@
+﻿<div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
+  <div class="sidebar-brand d-none d-md-flex">
+    <div class="sidebar-brand-full">
+      <img class="img-fluid p-4" width="120px" alt="Broken Grenade Logo" src="favicon.png"/>
+    </div>
+  </div>
+  <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
+    <li class="nav-item">
+      <NavLink class="nav-link" ActiveClass="active" href="" Match="NavLinkMatch.All">
+        <i class="fa-solid fa-house nav-icon me-2"></i> Domů
+      </NavLink>
+    </li>
+    <li class="nav-group">
+      <a class="nav-link nav-group-toggle" href="#">
+        <i class="fa-solid fa-gamepad nav-icon me-2"></i> Mise
+      </a>
+      <ul class="nav-group-items">
+        <li class="nav-item">
+          <NavLink class="nav-link" ActiveClass="active" href="/Mission/Calendar">
+            <i class="fa-solid fa-calendar-days nav-icon me-2"></i> Kalendář Misí
+          </NavLink>
+        </li>
+        <li class="nav-item">
+          <NavLink class="nav-link" ActiveClass="active" href="/Mission/List?upcoming=true">
+            <i class="fa-solid fa-list nav-icon me-2"></i> Seznam Misí
+          </NavLink>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-group">
+      <a class="nav-link nav-group-toggle" href="#">
+        <i class="fa-solid fa-graduation-cap nav-icon me-2"></i> Výcviky
+      </a>
+      <ul class="nav-group-items">
+        <li class="nav-item">
+          <NavLink class="nav-link" ActiveClass="active" href="/Training/Calendar">
+            <i class="fa-solid fa-calendar-days nav-icon me-2"></i> Kalendář Výcviků
+          </NavLink>
+        </li>
+        <li class="nav-item">
+          <NavLink class="nav-link" ActiveClass="active" href="/Training/List?upcoming=true">
+            <i class="fa-solid fa-list nav-icon me-2"></i> Seznam Výcviků
+          </NavLink>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <button class="sidebar-toggler" type="button" onclick="coreui.Sidebar.getOrCreateInstance(document.querySelector('#sidebar')).toggleUnfoldable()" ></button>
+</div>

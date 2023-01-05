@@ -23,7 +23,7 @@ namespace BrokenGrenade.Web.App.Areas.Identity
             _options = optionsAccessor.Value;
         }
 
-        protected override TimeSpan RevalidationInterval => TimeSpan.FromMinutes(5);
+        protected override TimeSpan RevalidationInterval => TimeSpan.FromMinutes(15);
 
         protected override async Task<bool> ValidateAuthenticationStateAsync(
             AuthenticationState authenticationState, CancellationToken cancellationToken)

@@ -4,15 +4,21 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <base href="~/" />
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
-    <link href="css/site.css" rel="stylesheet" />
-    <link href="BrokenGrenade.Web.App.styles.css" rel="stylesheet" />
-    <link rel="icon" type="image/png" href="favicon.png"/>
+    <!-- Vendors styles-->
+    <link rel="stylesheet" href="~/vendors/simplebar/css/simplebar.css">
+    <link rel="stylesheet" href="~/css/vendors/simplebar.css">
+    <!-- Main styles for this application-->
+    <link href="~/css/style.css" rel="stylesheet">
+    <link href="~/css/site.css" rel="stylesheet"/>
+    @* <link href="vendors/@@coreui/chartjs/css/coreui-chartjs.css" rel="stylesheet"> *@
+    @* <link href="BrokenGrenade.Web.App.styles.css" rel="stylesheet" /> *@
+    <link rel="icon" type="image/png" href="~/favicon.png"/>
+    <script src="https://kit.fontawesome.com/e407b5728a.js" crossorigin="anonymous"></script>
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 </head>
 <body>
@@ -29,6 +35,8 @@
         <a class="dismiss">🗙</a>
     </div>
 
-    <script src="_framework/blazor.server.js"></script>
+<script src="_framework/blazor.server.js" autostart="false"></script>
+<script defer src="vendors/@@coreui/coreui/js/coreui.bundle.min.js"></script>
+<script defer src="/vendors/simplebar/js/simplebar.min.js"></script>
 </body>
 </html>

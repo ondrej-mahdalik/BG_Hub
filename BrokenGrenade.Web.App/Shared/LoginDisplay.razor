@@ -1,12 +1,41 @@
 ﻿<AuthorizeView>
-    <Authorized>
-        <a href="Identity/Account/Manage">Hello, @context.User.Identity?.Name!</a>
-        <form method="post" action="Identity/Account/Logout">
-            <button type="submit" class="nav-link btn btn-link">Log out</button>
-        </form>
-    </Authorized>
-    <NotAuthorized>
-        <a href="Identity/Account/Register">Register</a>
-        <a href="Identity/Account/Login">Log in</a>
-    </NotAuthorized>
+  <NotAuthorized>
+    <ul class="header-nav d-none d-md-flex ms-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="Identity/Account/Register">Registrace</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="Identity/Account/Login">Přihlásit se</a>
+      </li>
+    </ul>
+  </NotAuthorized>
+  <Authorized>
+    <ul class="header-nav ms-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+          <div class="avatar avatar-md">
+            <i class="fa-solid fa-user rounded-circle bg-secondary p-2 text-white-50"></i>
+          </div>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end pt-0">
+          <div class="dropdown-header bg-light py-2">
+            <div class="fw-semibold">Účet</div>
+          </div>
+          <NavLink class="dropdown-item" href="/Profile/id">
+            <i class="fa-solid fa-user me-2"></i> Můj profil
+          </NavLink>
+          <NavLink class="dropdown-item" href="/Mission/">
+            <i class="fa-solid fa-gamepad me-2"></i> Moje mise
+          </NavLink>
+          <a class="dropdown-item" href="Identity/Account/Manage">
+            <i class="fa-solid fa-user-gear me-2"></i> Nastavení účtu
+          </a>
+          <div class="dropdown-divider"></div>
+          <form method="post" action="Identity/Account/Logout">
+            <button class="dropdown-item" type="submit"><i class="fa-solid fa-right-from-bracket me-2"></i> Odhlásit se</button>
+          </form>
+        </div>
+      </li>
+    </ul>
+  </Authorized>
 </AuthorizeView>

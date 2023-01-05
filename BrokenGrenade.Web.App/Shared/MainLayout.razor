@@ -1,20 +1,14 @@
 ﻿@inherits LayoutComponentBase
 
-<PageTitle>BrokenGrenade.Web.App</PageTitle>
+<PageTitle>Broken Grenade Hub</PageTitle>
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
+<SideBar />
+<div class="wrapper d-flex flex-column min-vh-100 bg-light">
+    <NavBar/>
+    <div class="body flex-grow-1 px-3">
+        @Body
     </div>
-
-    <main>
-        <div class="top-row px-4 auth">
-            <LoginDisplay />
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+    <footer class="footer">
+        <div>© 2023 Broken Grenade</div>
+    </footer>
 </div>
