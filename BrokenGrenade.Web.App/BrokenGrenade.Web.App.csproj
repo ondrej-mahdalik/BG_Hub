@@ -15,6 +15,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1">
       <PrivateAssets>all</PrivateAssets>
@@ -26,6 +27,19 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BrokenGrenade.Web.BL\BrokenGrenade.Web.BL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Public\Pages\Mission" />
+    <Folder Include="Areas\Public\Pages\Profile" />
+    <Folder Include="Areas\Staff\Pages\Mission" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="Areas\Shared\LoginDisplay.razor" />
+    <AdditionalFiles Include="Areas\Shared\MainLayout.razor" />
+    <AdditionalFiles Include="Areas\Shared\NavMenu.razor" />
+    <AdditionalFiles Include="Areas\Shared\SurveyPrompt.razor" />
   </ItemGroup>
 
 </Project>

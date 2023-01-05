@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using BrokenGrenade.Common.Permissions;
+using BrokenGrenade.Web.App.Areas.Identity;
 using BrokenGrenade.Web.App.Extensions;
 using BrokenGrenade.Web.App.Services;
 using BrokenGrenade.Web.BL.Installers;
@@ -12,6 +13,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -58,9 +60,20 @@ void ConfigureControllers(IServiceCollection serviceCollection)
 
 void ConfigureDependencies(IServiceCollection serviceCollection, IConfiguration configuration)
 {
+    var dbType = configuration.GetValue<string>("DALOptions:DBType");
     var connectionString = configuration.GetConnectionString("DefaultConnection");
-    serviceCollection.AddDbContextFactory<BrokenGrenadeDbContext>(options =>
-        options.UseSqlServer(connectionString));
+    switch (dbType)
+    {
+        case "SQLServer":
+            serviceCollection.AddDbContextFactory<BrokenGrenadeDbContext>(options =>
+                options.UseSqlServer(connectionString));
+            break;
+            
+        case "SQLite":
+            serviceCollection.AddDbContextFactory<BrokenGrenadeDbContext>(options =>
+                options.UseSqlite(connectionString));
+            break;
+    }
 
     serviceCollection.AddInstaller<WebBLInstaller>();
 
@@ -71,7 +84,7 @@ void ConfigureDependencies(IServiceCollection serviceCollection, IConfiguration 
 
 void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguration configuration)
 {
-    serviceCollection.AddDefaultIdentity<UserEntity>(options => options.SignIn.RequireConfirmedAccount = true)
+    serviceCollection.AddDefaultIdentity<UserEntity>(options => options.SignIn.RequireConfirmedEmail = true)
         .AddRoles<RoleEntity>()
         .AddEntityFrameworkStores<BrokenGrenadeDbContext>();
 
@@ -118,6 +131,8 @@ void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguratio
     {
         options.ValidationInterval = TimeSpan.FromMinutes(5);
     });
+
+    serviceCollection.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<UserEntity>>();
 }
 
 void UseDevelopmentSettings(WebApplication application)
