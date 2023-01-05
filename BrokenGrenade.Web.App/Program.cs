@@ -42,8 +42,10 @@ app.Run();
 
 void ConfigureControllers(IServiceCollection serviceCollection)
 {
-    serviceCollection.AddControllersWithViews().AddNewtonsoftJson();
     serviceCollection.AddRazorPages();
+    serviceCollection.AddServerSideBlazor();
+    serviceCollection.AddControllers()
+        .AddNewtonsoftJson();
 
     serviceCollection.AddFluentValidationAutoValidation();
     serviceCollection.AddValidatorsFromAssemblyContaining<WebBLInstaller>();
@@ -87,8 +89,6 @@ void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguratio
     serviceCollection.AddDefaultIdentity<UserEntity>(options => options.SignIn.RequireConfirmedEmail = true)
         .AddRoles<RoleEntity>()
         .AddEntityFrameworkStores<BrokenGrenadeDbContext>();
-
-    serviceCollection.AddServerSideBlazor();
     serviceCollection.AddIdentityServer()
         .AddApiAuthorization<UserEntity, BrokenGrenadeDbContext>(options =>
         {
@@ -97,6 +97,7 @@ void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguratio
             options.IdentityResources["openid"].UserClaims.Add("permission");
             options.ApiResources.Single().UserClaims.Add("permission");
         });
+    serviceCollection.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<UserEntity>>();
 
     JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("role");
 
@@ -131,8 +132,6 @@ void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguratio
     {
         options.ValidationInterval = TimeSpan.FromMinutes(5);
     });
-
-    serviceCollection.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<UserEntity>>();
 }
 
 void UseDevelopmentSettings(WebApplication application)
@@ -156,10 +155,12 @@ void UseRoutingAndSecurityFeatures(WebApplication application)
     application.UseStaticFiles();
     application.UseRouting();
     application.UseIdentityServer();
+    application.UseAuthentication();
     application.UseAuthorization();
-    application.MapRazorPages();
+    //application.MapRazorPages();
     application.MapControllers();
-    application.MapFallbackToFile("/_Host");
+    application.MapBlazorHub();
+    application.MapFallbackToPage("/_Host");
 }
 
 async Task SetupDatabaseAsync(WebApplication application)

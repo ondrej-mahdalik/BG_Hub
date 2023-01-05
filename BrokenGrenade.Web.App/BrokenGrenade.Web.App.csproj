@@ -30,16 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Public\Pages\Mission" />
-    <Folder Include="Areas\Public\Pages\Profile" />
-    <Folder Include="Areas\Staff\Pages\Mission" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="Areas\Shared\LoginDisplay.razor" />
-    <AdditionalFiles Include="Areas\Shared\MainLayout.razor" />
-    <AdditionalFiles Include="Areas\Shared\NavMenu.razor" />
-    <AdditionalFiles Include="Areas\Shared\SurveyPrompt.razor" />
+    <Folder Include="Areas\Public\Mission" />
+    <Folder Include="Areas\Public\Profile" />
   </ItemGroup>
 
 </Project>
