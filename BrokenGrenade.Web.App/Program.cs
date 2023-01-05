@@ -12,7 +12,9 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -89,20 +91,19 @@ void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguratio
     serviceCollection.AddDefaultIdentity<UserEntity>(options => options.SignIn.RequireConfirmedEmail = true)
         .AddRoles<RoleEntity>()
         .AddEntityFrameworkStores<BrokenGrenadeDbContext>();
-    serviceCollection.AddIdentityServer()
-        .AddApiAuthorization<UserEntity, BrokenGrenadeDbContext>(options =>
-        {
-            options.IdentityResources["openid"].UserClaims.Add("role");
-            options.ApiResources.Single().UserClaims.Add("role");
-            options.IdentityResources["openid"].UserClaims.Add("permission");
-            options.ApiResources.Single().UserClaims.Add("permission");
-        });
+    // serviceCollection.AddIdentityServer()
+    //     .AddApiAuthorization<UserEntity, BrokenGrenadeDbContext>(options =>
+    //     {
+    //         options.IdentityResources["openid"].UserClaims.Add("role");
+    //         options.ApiResources.Single().UserClaims.Add("role");
+    //         options.IdentityResources["openid"].UserClaims.Add("permission");
+    //         options.ApiResources.Single().UserClaims.Add("permission");
+    //     });
     serviceCollection.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<UserEntity>>();
 
     JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("role");
 
-    serviceCollection.AddAuthentication()
-        .AddIdentityServerJwt();
+    serviceCollection.AddAuthentication();
 
     serviceCollection.AddAuthorization(options =>
     {
@@ -120,18 +121,18 @@ void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguratio
             policy => policy.RequireClaim("permission", PermissionTypes.ManageModpackTypes));
     });
 
-    serviceCollection.Configure<IdentityOptions>(options =>
-    {
-        options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier;
-    });
+    // serviceCollection.Configure<IdentityOptions>(options =>
+    // {
+    //     options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier;
+    // });
 
-    serviceCollection.Configure<JwtBearerOptions>(IdentityServerJwtConstants.IdentityServerJwtBearerScheme,
-        options => { options.Authority = configuration["IdentityServer:Authority"]; });
+    // serviceCollection.Configure<JwtBearerOptions>(IdentityServerJwtConstants.IdentityServerJwtBearerScheme,
+    //     options => { options.Authority = configuration["IdentityServer:Authority"]; });
 
-    serviceCollection.Configure<SecurityStampValidatorOptions>(options =>
-    {
-        options.ValidationInterval = TimeSpan.FromMinutes(5);
-    });
+    // serviceCollection.Configure<SecurityStampValidatorOptions>(options =>
+    // {
+    //     options.ValidationInterval = TimeSpan.FromMinutes(5);
+    // });
 }
 
 void UseDevelopmentSettings(WebApplication application)
@@ -154,10 +155,9 @@ void UseRoutingAndSecurityFeatures(WebApplication application)
     application.UseHttpsRedirection();
     application.UseStaticFiles();
     application.UseRouting();
-    application.UseIdentityServer();
+    // application.UseIdentityServer();
     application.UseAuthentication();
     application.UseAuthorization();
-    //application.MapRazorPages();
     application.MapControllers();
     application.MapBlazorHub();
     application.MapFallbackToPage("/_Host");

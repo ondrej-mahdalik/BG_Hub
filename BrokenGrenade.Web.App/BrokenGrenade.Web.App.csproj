@@ -32,6 +32,7 @@
   <ItemGroup>
     <Folder Include="Areas\Public\Mission" />
     <Folder Include="Areas\Public\Profile" />
+    <Folder Include="Controllers" />
   </ItemGroup>
 
 </Project>
