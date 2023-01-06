@@ -4,20 +4,19 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="cs" data-bs-theme="dark">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <base href="~/" />
     <link rel="icon" type="image/png" href="~/favicon.png"/>
     
-    <!-- Blazored -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />
-    <link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
-    <link href="_content/Blazorise.Bulma/blazorise.bulma.css" rel="stylesheet" />
+    <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/lib/bootstrap-dashboard/dist/css/dashboard.css" rel="stylesheet" />
+    <link href="/lib/@@fontawesome/fontawesome-free/css/solid.min.css" rel="stylesheet" />
+    <link href="/css/site.css" rel="stylesheet" />
     
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
-
+    <script src="https://kit.fontawesome.com/e407b5728a.js" crossorigin="anonymous"></script>
 
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 </head>
@@ -36,6 +35,7 @@
     </div>
 
 <script src="_framework/blazor.server.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.slim.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous"></script>
+<script src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/bootstrap-dashboard/dist/js/dashboard.js"></script>
 </body>
 </html>
