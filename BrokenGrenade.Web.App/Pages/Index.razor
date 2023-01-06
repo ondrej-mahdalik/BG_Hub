@@ -1,7 +1,6 @@
 ﻿@page "/"
 @using BrokenGrenade.Web.BL.Facades
 @using BrokenGrenade.Common.Models
-@using BrokenGrenade.Web.App.Pages.Breadcrumbs
 @using Duende.IdentityServer.Extensions
 @inject UserFacade UserFacade
 
@@ -45,18 +44,11 @@ else
 
 @code
 {
-    [CascadingParameter]
-    private IBreadcrumbService BreadcrumbService { get; set; } = default!;
-    
+
     private List<UserModel>? _users;
     
     protected override async Task OnInitializedAsync()
     {
         _users = await UserFacade.GetAsync();
-    }
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        BreadcrumbService.Set<IndexBreadcrumb>();
     }
 }

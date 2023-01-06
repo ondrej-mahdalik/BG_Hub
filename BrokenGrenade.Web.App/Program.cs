@@ -1,3 +1,6 @@
+using Blazorise;
+using Blazorise.Bulma;
+using Blazorise.Icons.FontAwesome;
 using BrokenGrenade.Common.Permissions;
 using BrokenGrenade.Web.App.Areas.Identity;
 using BrokenGrenade.Web.App.Extensions;
@@ -77,6 +80,12 @@ void ConfigureDependencies(IServiceCollection serviceCollection, IConfiguration 
     serviceCollection.AddTransient<IEmailSender, EmailSender>();
     serviceCollection.Configure<AuthMessageSenderOptions>(
         configuration.GetSection(AuthMessageSenderOptions.SendGrid));
+
+    serviceCollection.AddBlazorise(options =>
+        {
+            options.Immediate = true;
+        }).AddBulmaProviders()
+        .AddFontAwesomeIcons();
 }
 
 void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguration configuration)

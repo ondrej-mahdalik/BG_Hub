@@ -1,9 +1,7 @@
 ﻿@page "/Mission/List"
 @using BrokenGrenade.Web.BL.Facades
 @using BrokenGrenade.Common.Models
-@using BrokenGrenade.Web.App.Areas.Public.Mission.Breadcrumbs
 @inject MissionFacade MissionFacade
-@inject NavigationManager NavigationManager
 
 <div class="container-lg">
     <h2>Seznam Misí</h2>
@@ -52,10 +50,7 @@
     [Parameter]
     [SupplyParameterFromQuery(Name = "creator_id")]
     public Guid? CreatorId { get; set; }
-    
-    [CascadingParameter]
-    private IBreadcrumbService BreadcrumbService { get; set; } = default!;
-    
+
     private List<MissionModel>? _missions;
 
     protected override async Task OnInitializedAsync()
@@ -63,10 +58,5 @@
         _missions = CreatorId.HasValue ?
             (await MissionFacade.GetByUserAsync(CreatorId.Value)).OrderBy(x => x.MissionStartDate).ToList()
             : (await MissionFacade.GetAsync()).OrderBy(x => x.MissionStartDate).ToList();
-    }
-    
-    protected override void OnAfterRender(bool firstRender)
-    {
-        BreadcrumbService.Set<ListBreadcrumb>();
     }
 }

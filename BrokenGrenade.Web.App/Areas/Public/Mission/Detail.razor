@@ -1,6 +1,5 @@
 ﻿@page "/Mission/Detail/{Id:guid}"
 @using BrokenGrenade.Common.Models
-@using BrokenGrenade.Web.App.Areas.Public.Mission.Breadcrumbs
 @using BrokenGrenade.Web.BL.Facades
 @inject MissionFacade MissionFacade
 
@@ -59,9 +58,6 @@
 @code {
     [Parameter]
     public Guid Id { get; set; }
-    
-    [CascadingParameter]
-    private IBreadcrumbService BreadcrumbService { get; set; } = default!;
 
     private MissionModel? _mission;
 
@@ -69,10 +65,4 @@
     {
         _mission = await MissionFacade.GetAsync(Id);
     }
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        BreadcrumbService.Set<DetailBreadcrumb>();
-    }
-
 }

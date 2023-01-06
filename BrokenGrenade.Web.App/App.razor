@@ -1,6 +1,5 @@
 ﻿<CascadingAuthenticationState>
-    <CascadingBreadcrumbService>
-        <Router AppAssembly="@typeof(App).Assembly">
+    <Router AppAssembly="@typeof(App).Assembly">
             <Found Context="routeData">
                 <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
                 <FocusOnNavigate RouteData="@routeData" Selector="h1"/>
@@ -12,5 +11,4 @@
                 </LayoutView>
             </NotFound>
         </Router>
-    </CascadingBreadcrumbService>
 </CascadingAuthenticationState>
