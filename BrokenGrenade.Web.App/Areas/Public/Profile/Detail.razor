@@ -1,7 +1,21 @@
-﻿@page "/Profile/{Id}"
+﻿@page "/Profile/{Id:guid}"
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.BL.Facades
+@inject UserFacade UserFacade
+
+<PageTitle>@(_user.Nickname ?? "Profil") — BG Hub</PageTitle>
+
 <h3>Detail</h3>
 
 @code {
     [Parameter]
     public Guid Id { get; set; }
+    
+    private UserModel? _user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _user = await UserFacade.GetAsync(Id);
+    }
+
 }
