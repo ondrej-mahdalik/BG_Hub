@@ -100,6 +100,8 @@ void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguratio
     {
         options.AddPolicy(PolicyTypes.CreateMissions,
             policy => policy.RequireClaim("permission", PermissionTypes.CreateMissions));
+        options.AddPolicy(PolicyTypes.CreateTrainings,
+            policy => policy.RequireClaim("permission", PermissionTypes.CreateTrainings));
         options.AddPolicy(PolicyTypes.ManageMissions,
             policy => policy.RequireClaim("permission", PermissionTypes.ManageMissions));
         options.AddPolicy(PolicyTypes.ManageTrainings,
@@ -112,6 +114,20 @@ void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguratio
             policy => policy.RequireClaim("permission", PermissionTypes.ManageMissionTypes));
         options.AddPolicy(PolicyTypes.ManageModpackTypes,
             policy => policy.RequireClaim("permission", PermissionTypes.ManageModpackTypes));
+        options.AddPolicy(PolicyTypes.ManageApplications,
+            policy => policy.RequireClaim("permission", PermissionTypes.ManageApplications));
+        
+        options.AddPolicy(PolicyTypes.IsPlatoonLead,
+            policy => policy.RequireAssertion(context =>
+                context.User.HasClaim(c => c is 
+                { Type: "permission", Value: PermissionTypes.ManageUsers
+                    or PermissionTypes.ManageRoles
+                    or PermissionTypes.ManageMissionTypes
+                    or PermissionTypes.ManageModpackTypes
+                    or PermissionTypes.ManageApplications
+                    or PermissionTypes.ManageMissions
+                    or PermissionTypes.ManageTrainings
+                })));
     });
 
     // serviceCollection.Configure<IdentityOptions>(options =>

@@ -15,10 +15,13 @@ namespace BrokenGrenade.Common.Models
         public string Name { get; set; }
         
         public bool CreateMissions { get; set; }
+        public bool CreateTrainings { get; set; }
         public bool ManageUsers { get; set; }
         public bool ManageRoles { get; set; }
         public bool ManageMissions { get; set; }
+        public bool ManageTrainings { get; set; }
         public bool ManageMissionTypes { get; set; }
         public bool ManageModpackTypes { get; set; }
+        public bool ManageApplications { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+﻿@using BrokenGrenade.Common.Permissions
+
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
   <div class="position-sticky pt-3 sidebar-sticky">
     <ul class="nav flex-column" id="nav_accordion">
       <li class="nav-item">
@@ -36,164 +38,102 @@
             </NavLink>
           </li>
           <li class="nav-item ms-4">
-            <NavLink class="nav-link" ActiveClass="active" href="/Training/List">
-              <i class="fa-solid fa-list fa-fw"></i> Seznam výcviků
-            </NavLink>
+          <NavLink class="nav-link" ActiveClass="active" href="/Training/List">
+            <i class="fa-solid fa-list fa-fw"></i> Seznam výcviků
+          </NavLink>
+          </li>
         </ul>
       </li>
     </ul>
-    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-      <span class="text-uppercase">Mission Maker</span>
-    </h6>
-    <ul class="nav flex-column mb-2">
-      <li class="nav-item">
-        <NavLink class="nav-link" ActiveClass="active" href="/Mission/List?creator_id=TODO">
-          <i class="fa-solid fa-gamepad fa-fw"></i> Moje mise
-        </NavLink>
-      </li>
-      <li class="nav-item">
-        <NavLink class="nav-link" ActiveClass="active" href="/Staff/Mission/Create">
-          <i class="fa-solid fa-calendar-plus fa-fw"></i> Vytvořit misi
-        </NavLink>
-      </li>
-    </ul>
-    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-      <span class="text-uppercase">Instruktor</span>
-    </h6>
-    <ul class="nav flex-column mb-2">
-      <li class="nav-item">
-        <NavLink class="nav-link" ActiveClass="active" href="/Training/List?creator_id=TODO">
-          <i class="fa-solid fa-graduation-cap fa-fw"></i> Moje výcviky
-        </NavLink>
-      </li>
-      <li class="nav-item">
-      <NavLink class="nav-link" ActiveClass="active" href="/Staff/Training/Create">
-        <i class="fa-solid fa-calendar-plus fa-fw"></i> Vytvořit výcvik
-      </NavLink>
-    </ul>
-    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-      <span class="text-uppercase">Platoon Lead</span>
-    </h6>
-    <ul class="nav flex-column mb-2">
-      <li class="nav-item">
-        <NavLink class="nav-link" ActiveClass="active" href="/Staff/Application/List">
-          <i class="fa-solid fa-file-lines fa-fw"></i> Přihlášky
-        </NavLink>
-      </li>
-      <li class="nav-item">
-        <NavLink class="nav-link" ActiveClass="active" href="/Staff/User/List">
-          <i class="fa-solid fa-user fa-fw"></i> Správa uživatelů
-        </NavLink>
-      </li>
-      <li class="nav-item">
-        <NavLink class="nav-link" ActiveClass="active" href="/Staff/Role/List">
-          <i class="fa-solid fa-users fa-fw"></i> Správa rolí
-        </NavLink>
-      </li>
-      <li class="nav-item">
-        <NavLink class="nav-link" ActiveClass="active" href="/Staff/Mission/List">
-          <i class="fa-solid fa-gamepad fa-fw"></i> Správa misí
-        </NavLink>
-      </li>
-      <li class="nav-item">
-        <NavLink class="nav-link" ActiveClass="active" href="/Staff/Training/List">
-          <i class="fa-solid fa-graduation-cap fa-fw"></i> Správa výcviků
-        </NavLink>
-      </li>
-    </ul>
+    <AuthorizeView Policy="@PolicyTypes.CreateMissions">
+      <Authorized>
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span class="text-uppercase">Mission Maker</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <NavLink class="nav-link" ActiveClass="active" href="/Mission/List?creator_id=TODO">
+              <i class="fa-solid fa-gamepad fa-fw"></i> Moje mise
+            </NavLink>
+          </li>
+          <li class="nav-item">
+            <NavLink class="nav-link" ActiveClass="active" href="/Staff/Mission/Create">
+              <i class="fa-solid fa-calendar-plus fa-fw"></i> Vytvořit misi
+            </NavLink>
+          </li>
+        </ul>
+      </Authorized>
+    </AuthorizeView>
+    <AuthorizeView Policy="@PolicyTypes.CreateTrainings">
+      <Authorized>
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span class="text-uppercase">Instruktor</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <NavLink class="nav-link" ActiveClass="active" href="/Training/List?creator_id=TODO">
+              <i class="fa-solid fa-graduation-cap fa-fw"></i> Moje výcviky
+            </NavLink>
+          </li>
+          <li class="nav-item">
+          <NavLink class="nav-link" ActiveClass="active" href="/Staff/Training/Create">
+            <i class="fa-solid fa-calendar-plus fa-fw"></i> Vytvořit výcvik
+          </NavLink>
+          </li>
+        </ul>
+      </Authorized>
+    </AuthorizeView>
+    <AuthorizeView Policy="@PolicyTypes.IsPlatoonLead">
+      <Authorized Context="_">
+      <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+        <span class="text-uppercase">Platoon Lead</span>
+      </h6>
+      <ul class="nav flex-column mb-2">
+        <AuthorizeView Policy="@PolicyTypes.ManageApplications">
+          <Authorized>
+            <li class="nav-item">
+              <NavLink class="nav-link" ActiveClass="active" href="/Staff/Application/List">
+                <i class="fa-solid fa-file-lines fa-fw"></i> Přihlášky
+              </NavLink>
+            </li>
+          </Authorized>
+        </AuthorizeView>
+        <AuthorizeView Policy="@PolicyTypes.ManageUsers">
+          <Authorized>
+            <li class="nav-item">
+              <NavLink class="nav-link" ActiveClass="active" href="/Staff/User/List">
+                <i class="fa-solid fa-user fa-fw"></i> Správa uživatelů
+              </NavLink>
+            </li>
+          </Authorized>
+        </AuthorizeView>
+        <AuthorizeView Policy="@PolicyTypes.ManageRoles">
+          <Authorized>
+            <li class="nav-item">
+              <NavLink class="nav-link" ActiveClass="active" href="/Staff/Role/List">
+                <i class="fa-solid fa-users fa-fw"></i> Správa rolí
+              </NavLink>
+            </li>
+          </Authorized>
+        </AuthorizeView>
+        <AuthorizeView Policy="@PolicyTypes.ManageMissions">
+          <Authorized>
+            <li class="nav-item">
+              <NavLink class="nav-link" ActiveClass="active" href="/Staff/Mission/List">
+                <i class="fa-solid fa-gamepad fa-fw"></i> Správa misí
+              </NavLink>
+            </li>
+          </Authorized>
+        </AuthorizeView>
+        <AuthorizeView Policy="@PolicyTypes.ManageTrainings"><Authorized>
+            <li class="nav-item">
+              <NavLink class="nav-link" ActiveClass="active" href="/Staff/Training/List">
+                <i class="fa-solid fa-graduation-cap fa-fw"></i> Správa výcviků
+              </NavLink>
+            </li></Authorized>
+        </AuthorizeView>
+      </ul>
+      </Authorized>
+    </AuthorizeView>
   </div>
 </nav>
-
-
-@* <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar"> *@
-@*   <div class="sidebar-brand d-none d-md-flex"> *@
-@*     <div class="sidebar-brand-full"> *@
-@*       <img class="img-fluid p-4" width="120px" alt="Broken Grenade Logo" src="favicon.png"/> *@
-@*     </div> *@
-@*   </div> *@
-@*   <ul class="sidebar-nav" data-coreui="navigation" data-simplebar=""> *@
-@*     <li class="nav-item"> *@
-@*       <NavLink class="nav-link" ActiveClass="active" href="" Match="NavLinkMatch.All"> *@
-@*         <i class="fa-solid fa-house nav-icon me-2"></i> Domů *@
-@*       </NavLink> *@
-@*     </li> *@
-@*     <li class="nav-group"> *@
-@*       <a class="nav-link nav-group-toggle" href="#"> *@
-@*         <i class="fa-solid fa-gamepad nav-icon me-2"></i> Mise *@
-@*       </a> *@
-@*       <ul class="nav-group-items"> *@
-@*         <li class="nav-item"> *@
-@*           <NavLink class="nav-link" ActiveClass="active" href="/Mission/Calendar"> *@
-@*             <i class="fa-solid fa-calendar-days nav-icon me-2"></i> Kalendář Misí *@
-@*           </NavLink> *@
-@*         </li> *@
-@*         <li class="nav-item"> *@
-@*           <NavLink class="nav-link" ActiveClass="active" href="/Mission/List?upcoming=true"> *@
-@*             <i class="fa-solid fa-list nav-icon me-2"></i> Seznam Misí *@
-@*           </NavLink> *@
-@*         </li> *@
-@*       </ul> *@
-@*     </li> *@
-@*     <li class="nav-group"> *@
-@*       <a class="nav-link nav-group-toggle" href="#"> *@
-@*         <i class="fa-solid fa-graduation-cap nav-icon me-2"></i> Výcviky *@
-@*       </a> *@
-@*       <ul class="nav-group-items"> *@
-@*         <li class="nav-item"> *@
-@*           <NavLink class="nav-link" ActiveClass="active" href="/Training/Calendar"> *@
-@*             <i class="fa-solid fa-calendar-days nav-icon me-2"></i> Kalendář Výcviků *@
-@*           </NavLink> *@
-@*         </li> *@
-@*         <li class="nav-item"> *@
-@*           <NavLink class="nav-link" ActiveClass="active" href="/Training/List?upcoming=true"> *@
-@*             <i class="fa-solid fa-list nav-icon me-2"></i> Seznam Výcviků *@
-@*           </NavLink> *@
-@*         </li> *@
-@*       </ul> *@
-@*     </li> *@
-@*     <li class="nav-title">MISSION MAKER</li> *@
-@*     <li class="nav-item"> *@
-@*       <NavLink class="nav-link" ActiveClass="active" href="/Mission/List?author_id=TODO"> *@
-@*         <i class="fa-solid fa-gamepad nav-icon me-2"></i> Moje Mise *@
-@*       </NavLink> *@
-@*     </li> *@
-@*     <li class="nav-item"> *@
-@*       <NavLink class="nav-link" ActiveClass="active" href="/Staff/Mission/Create"> *@
-@*         <i class="fa-solid fa-calendar-plus nav-icon me-2"></i> Vytvořit Misi *@
-@*       </NavLink> *@
-@*     </li> *@
-@*     <li class="nav-title">INSTRUKTOR</li> *@
-@*     <li class="nav-item"> *@
-@*       <NavLink class="nav-link" ActiveClass="active" href="/Training/List?author_id=TODO"> *@
-@*         <i class="fa-solid fa-graduation-cap nav-icon me-2"></i> Moje Výcviky *@
-@*       </NavLink> *@
-@*     </li> *@
-@*     <li class="nav-item"> *@
-@*       <NavLink class="nav-link" ActiveClass="active" href="/Staff/Training/Create"> *@
-@*         <i class="fa-solid fa-calendar-plus nav-icon me-2"></i> Vytvořit Výcvik *@
-@*       </NavLink> *@
-@*     </li> *@
-@*     <li class="nav-title">PLATOON LEAD</li> *@
-@*     <li class="nav-item"> *@
-@*       <NavLink class="nav-link" ActiveClass="active" href="/Staff/Mission/List"> *@
-@*         <i class="fa-solid fa-gamepad nav-icon me-2"></i> Správa Misí *@
-@*       </NavLink> *@
-@*     </li> *@
-@*     <li class="nav-item"> *@
-@*       <NavLink class="nav-link" ActiveClass="active" href="/Staff/Training/List"> *@
-@*         <i class="fa-solid fa-graduation-cap nav-icon me-2"></i> Správa Výcviků *@
-@*       </NavLink> *@
-@*     </li> *@
-@*     <li class="nav-item"> *@
-@*       <NavLink class="nav-link" ActiveClass="active" href="/Staff/User/List"> *@
-@*         <i class="fa-solid fa-user nav-icon me-2"></i> Správa Uživatelů *@
-@*       </NavLink> *@
-@*     </li> *@
-@*     <li class="nav-item"> *@
-@*       <NavLink class="nav-link" ActiveClass="active" href="/Staff/Role/List"> *@
-@*         <i class="fa-solid fa-users nav-icon me-2"></i> Správa Rolí *@
-@*       </NavLink> *@
-@*     </li> *@
-@*   </ul> *@
-@*   <button class="sidebar-toggler" type="button" onclick="coreui.Sidebar.getOrCreateInstance(document.querySelector('#sidebar')).toggleUnfoldable()" ></button> *@
-@* </div> *@

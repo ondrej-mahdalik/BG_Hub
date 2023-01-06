@@ -110,8 +110,14 @@ public class RoleFacade : IAppFacade
         if (model.CreateMissions)
             await _roleManager.AddClaimAsync(entity, new Claim("permission", PermissionTypes.CreateMissions));
         
+        if (model.CreateTrainings)
+            await _roleManager.AddClaimAsync(entity, new Claim("permission", PermissionTypes.CreateTrainings));
+        
         if (model.ManageMissions)
             await _roleManager.AddClaimAsync(entity, new Claim("permission", PermissionTypes.ManageMissions));
+        
+        if (model.ManageTrainings)
+            await _roleManager.AddClaimAsync(entity, new Claim("permission", PermissionTypes.ManageTrainings));
         
         if (model.ManageUsers)
             await _roleManager.AddClaimAsync(entity, new Claim("permission", PermissionTypes.ManageUsers));
@@ -124,5 +130,8 @@ public class RoleFacade : IAppFacade
         
         if (model.ManageModpackTypes)
             await _roleManager.AddClaimAsync(entity, new Claim("permission", PermissionTypes.ManageModpackTypes));
+        
+        if (model.ManageApplications)
+            await _roleManager.AddClaimAsync(entity, new Claim("permission", PermissionTypes.ManageApplications));
     }
 }
