@@ -23,7 +23,11 @@ public sealed class UserEntity : IdentityUser<Guid>, ICloneable
     
     public string Nickname { get; set; }
     
+    public Guid? ApplicationId { get; set; }
+    public ApplicationEntity? Application { get; set; }
+    
     public ICollection<MissionEntity> MissionsCreated { get; set; } = new List<MissionEntity>();
+    public ICollection<ApplicationEntity> ApplicationsEdited { get; set; } = new List<ApplicationEntity>();
 
     public object Clone()
     {

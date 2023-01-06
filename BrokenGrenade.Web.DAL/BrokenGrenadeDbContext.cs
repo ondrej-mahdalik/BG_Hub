@@ -13,6 +13,7 @@ public class BrokenGrenadeDbContext : CustomApiAuthorizationDbContext<UserEntity
     public DbSet<MissionEntity> MissionEntities => Set<MissionEntity>();
     public DbSet<MissionTypeEntity> MissionTypeEntities => Set<MissionTypeEntity>();
     public DbSet<ModpackTypeEntity> ModpackTypeEntities => Set<ModpackTypeEntity>();
+    public DbSet<ApplicationEntity> ApplicationEntities => Set<ApplicationEntity>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -28,9 +29,19 @@ public class BrokenGrenadeDbContext : CustomApiAuthorizationDbContext<UserEntity
             .WithOne(i => i.ModpackType)
             .OnDelete(DeleteBehavior.SetNull);
 
-        builder.Entity<UserEntity>()
-            .HasMany(i => i.MissionsCreated)
-            .WithOne(i => i.Creator)
-            .OnDelete(DeleteBehavior.SetNull);
+        builder.Entity<UserEntity>(entity =>
+        {
+            entity.HasMany(i => i.MissionsCreated)
+                .WithOne(i => i.Creator)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasMany(i => i.ApplicationsEdited)
+                .WithOne(i => i.EditedBy)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasOne(i => i.Application)
+                .WithOne(i => i.User)
+                .OnDelete(DeleteBehavior.SetNull);
+        });
     }
 }

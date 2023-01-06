@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BrokenGrenade.Common.Permissions\BrokenGrenade.Common.Permissions.csproj" />
+    <ProjectReference Include="..\BrokenGrenade.Common\BrokenGrenade.Common.csproj" />
   </ItemGroup>
 
 </Project>
