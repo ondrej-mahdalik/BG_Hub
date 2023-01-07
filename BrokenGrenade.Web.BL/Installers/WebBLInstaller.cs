@@ -18,6 +18,8 @@ public class WebBLInstaller : IInstaller
         serviceCollection.AddSingleton<MissionTypeFacade>();
         serviceCollection.AddSingleton<ModpackTypeFacade>();
         serviceCollection.AddSingleton<ApplicationFacade>();
+        serviceCollection.AddSingleton<ArticleFacade>();
+        serviceCollection.AddSingleton<ArticleCategoryFacade>();
         serviceCollection.AddScoped<RoleFacade>();
         serviceCollection.AddScoped<UserFacade>();
 

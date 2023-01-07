@@ -6,41 +6,11 @@
 
 <PageTitle>BG Hub</PageTitle>
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-
-<AuthorizeView>
-    <Authorized>
-        <p>Uživatel @context.User.GetDisplayName() přihlášen</p>
-    </Authorized>
-    <NotAuthorized>
-        <p>Nepřihlášen</p>
-    </NotAuthorized>
-</AuthorizeView>
-
-@if (_users is null)
-{
-    <p>Načítání...</p>
-}
-else
-{
-    <table>
-        <tr>
-            <th>Přezdívka</th>
-            <th>Email</th>
-            <th>Počet rolí</th>
-        </tr>
-        @foreach (var user in _users)
-        {
-            <tr>
-                <td>@user.Nickname</td>
-                <td>@user.Email</td>
-                <td>@(user.Roles?.Count ?? 0)</td>
-            </tr>
-        }
-    </table>
-}
+<div class="row">
+    <div class="col">
+        
+    </div>
+</div>
 
 @code
 {

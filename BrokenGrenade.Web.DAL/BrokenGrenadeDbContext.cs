@@ -14,6 +14,8 @@ public class BrokenGrenadeDbContext : CustomApiAuthorizationDbContext<UserEntity
     public DbSet<MissionTypeEntity> MissionTypeEntities => Set<MissionTypeEntity>();
     public DbSet<ModpackTypeEntity> ModpackTypeEntities => Set<ModpackTypeEntity>();
     public DbSet<ApplicationEntity> ApplicationEntities => Set<ApplicationEntity>();
+    public DbSet<ArticleCategoryEntity> ArticleCategoryEntities => Set<ArticleCategoryEntity>();
+    public DbSet<ArticleEntity> ArticleEntities => Set<ArticleEntity>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -41,6 +43,17 @@ public class BrokenGrenadeDbContext : CustomApiAuthorizationDbContext<UserEntity
 
             entity.HasOne(i => i.Application)
                 .WithOne(i => i.User)
+                .OnDelete(DeleteBehavior.SetNull);
+        });
+
+        builder.Entity<ArticleCategoryEntity>(entity =>
+        {
+            entity.HasMany(i => i.Children)
+                .WithOne(i => i.Parent)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            entity.HasMany(i => i.Articles)
+                .WithOne(i => i.Category)
                 .OnDelete(DeleteBehavior.SetNull);
         });
     }
