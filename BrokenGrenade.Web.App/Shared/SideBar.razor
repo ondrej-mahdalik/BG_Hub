@@ -1,7 +1,9 @@
 ﻿@using BrokenGrenade.Common.Permissions
+@using BrokenGrenade.Web.BL.Facades
+@inject ApplicationFacade ApplicationFacade
 
-<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-  <div class="position-sticky pt-3 sidebar-sticky">
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse fs-6">
+  <div class="position-sticky pt-3 sidebar-sticky d-flex flex-column">
     <ul class="nav flex-column" id="nav_accordion">
       <li class="nav-item">
         <NavLink class="nav-link" ActiveClass="active" Match="NavLinkMatch.All" href="/">
@@ -38,9 +40,9 @@
             </NavLink>
           </li>
           <li class="nav-item ms-4">
-          <NavLink class="nav-link" ActiveClass="active" href="/Training/List">
-            <i class="fa-solid fa-list fa-fw"></i> Seznam výcviků
-          </NavLink>
+            <NavLink class="nav-link" ActiveClass="active" href="/Training/List">
+              <i class="fa-solid fa-list fa-fw"></i> Seznam výcviků
+            </NavLink>
           </li>
         </ul>
       </li>
@@ -76,64 +78,91 @@
             </NavLink>
           </li>
           <li class="nav-item">
-          <NavLink class="nav-link" ActiveClass="active" href="/Staff/Training/Create">
-            <i class="fa-solid fa-calendar-plus fa-fw"></i> Vytvořit výcvik
-          </NavLink>
+            <NavLink class="nav-link" ActiveClass="active" href="/Staff/Training/Create">
+              <i class="fa-solid fa-calendar-plus fa-fw"></i> Vytvořit výcvik
+            </NavLink>
           </li>
         </ul>
       </Authorized>
     </AuthorizeView>
     <AuthorizeView Policy="@PolicyTypes.IsPlatoonLead">
       <Authorized Context="_">
-      <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-        <span class="text-uppercase">Platoon Lead</span>
-      </h6>
-      <ul class="nav flex-column mb-2">
-        <AuthorizeView Policy="@PolicyTypes.ManageApplications">
-          <Authorized>
-            <li class="nav-item">
-              <NavLink class="nav-link" ActiveClass="active" href="/Staff/Application/List">
-                <i class="fa-solid fa-file-lines fa-fw"></i> Přihlášky
-              </NavLink>
-            </li>
-          </Authorized>
-        </AuthorizeView>
-        <AuthorizeView Policy="@PolicyTypes.ManageUsers">
-          <Authorized>
-            <li class="nav-item">
-              <NavLink class="nav-link" ActiveClass="active" href="/Staff/User/List">
-                <i class="fa-solid fa-user fa-fw"></i> Správa uživatelů
-              </NavLink>
-            </li>
-          </Authorized>
-        </AuthorizeView>
-        <AuthorizeView Policy="@PolicyTypes.ManageRoles">
-          <Authorized>
-            <li class="nav-item">
-              <NavLink class="nav-link" ActiveClass="active" href="/Staff/Role/List">
-                <i class="fa-solid fa-users fa-fw"></i> Správa rolí
-              </NavLink>
-            </li>
-          </Authorized>
-        </AuthorizeView>
-        <AuthorizeView Policy="@PolicyTypes.ManageMissions">
-          <Authorized>
-            <li class="nav-item">
-              <NavLink class="nav-link" ActiveClass="active" href="/Staff/Mission/List">
-                <i class="fa-solid fa-gamepad fa-fw"></i> Správa misí
-              </NavLink>
-            </li>
-          </Authorized>
-        </AuthorizeView>
-        <AuthorizeView Policy="@PolicyTypes.ManageTrainings"><Authorized>
-            <li class="nav-item">
-              <NavLink class="nav-link" ActiveClass="active" href="/Staff/Training/List">
-                <i class="fa-solid fa-graduation-cap fa-fw"></i> Správa výcviků
-              </NavLink>
-            </li></Authorized>
-        </AuthorizeView>
-      </ul>
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span class="text-uppercase">Platoon Lead</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <AuthorizeView Policy="@PolicyTypes.ManageApplications">
+            <Authorized>
+              <li class="nav-item">
+                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Application/List">
+                  <i class="fa-solid fa-file-lines fa-fw"></i> Přihlášky
+                  <span class="badge @(_unhandledApplicationsCount > 0 ? "text-bg-warning" : "text-bg-success") ">@_unhandledApplicationsCount</span>
+                </NavLink>
+              </li>
+            </Authorized>
+          </AuthorizeView>
+          <AuthorizeView Policy="@PolicyTypes.ManageUsers">
+            <Authorized>
+              <li class="nav-item">
+                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Punishment/List">
+                  <i class="fa-solid fa-person-harassing fa-fw"></i> Varování a zákazy
+                </NavLink>
+              </li>
+              <li class="nav-item">
+                <NavLink class="nav-link" ActiveClass="active" href="/Staff/User/List">
+                  <i class="fa-solid fa-user fa-fw"></i> Správa uživatelů
+                </NavLink>
+              </li>
+            </Authorized>
+          </AuthorizeView>
+          <AuthorizeView Policy="@PolicyTypes.ManageRoles">
+            <Authorized>
+              <li class="nav-item">
+                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Role/List">
+                  <i class="fa-solid fa-users fa-fw"></i> Správa rolí
+                </NavLink>
+              </li>
+            </Authorized>
+          </AuthorizeView>
+          <AuthorizeView Policy="@PolicyTypes.ManageMissions">
+            <Authorized>
+              <li class="nav-item">
+                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Mission/List">
+                  <i class="fa-solid fa-gamepad fa-fw"></i> Správa misí
+                </NavLink>
+              </li>
+            </Authorized>
+          </AuthorizeView>
+          <AuthorizeView Policy="@PolicyTypes.ManageTrainings"><Authorized>
+              <li class="nav-item">
+                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Training/List">
+                  <i class="fa-solid fa-graduation-cap fa-fw"></i> Správa výcviků
+                </NavLink>
+              </li></Authorized>
+          </AuthorizeView>
+        </ul>
       </Authorized>
+    </AuthorizeView>
+    <AuthorizeView>
+      <NotAuthorized>
+        <div class="mt-auto">
+          <div class="m-2">
+              <a class="btn btn-primary w-100" href="/Apply">
+                <i class="fa-solid fa-crown fa-fw"></i> Přidat se
+              </a>
+            </div>
+        </div>
+      </NotAuthorized>
     </AuthorizeView>
   </div>
 </nav>
+
+@code
+{
+  private int _unhandledApplicationsCount = 0;
+
+  protected override async Task OnInitializedAsync()
+  {
+    _unhandledApplicationsCount = await ApplicationFacade.GetUnhanledApplicationsCountAsync();
+  }
+}

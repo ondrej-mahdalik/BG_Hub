@@ -30,4 +30,18 @@
     <ProjectReference Include="..\BrokenGrenade.Web.BL\BrokenGrenade.Web.BL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="Areas\Public\Pages\Mission\Calendar.razor" />
+    <AdditionalFiles Include="Areas\Public\Pages\Mission\Detail.razor" />
+    <AdditionalFiles Include="Areas\Public\Pages\Mission\List.razor" />
+    <AdditionalFiles Include="Areas\Public\Pages\Profile\Detail.razor" />
+    <AdditionalFiles Include="Areas\Public\Pages\Training\Calendar.razor" />
+    <AdditionalFiles Include="Areas\Public\Pages\Training\Detail.razor" />
+    <AdditionalFiles Include="Areas\Public\Pages\Training\List.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Areas\Public\Profile\Detail.razor" />
+  </ItemGroup>
+
 </Project>

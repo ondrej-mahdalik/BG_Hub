@@ -15,13 +15,17 @@ public class ApplicationEntity : EntityBase
     public string ReasonToJoin { get; set; }
     public string WhatCanYouOffer { get; set; }
     public string HowDidYouFindUs { get; set; }
-    
+
     public string? StaffComment { get; set; }
+
+    public bool AgreedToRules { get; set; }
+    public bool MeetsRequirements { get; set; }
+    public bool AcceptedGdpr { get; set; }
     public ApplicationStatus Status { get; set; } = ApplicationStatus.AwaitingDecision;
-    
+
     public Guid? EditedById { get; set; }
     public UserEntity? EditedBy { get; set; }
-    
+
     public UserEntity? User { get; set; }
 
     public ApplicationEntity(string nickname, string email, string discord, string steamUrl, int age, int playTime,
@@ -39,5 +43,20 @@ public class ApplicationEntity : EntityBase
         ReasonToJoin = reasonToJoin;
         WhatCanYouOffer = whatCanYouOffer;
         HowDidYouFindUs = howDidYouFindUs;
+    }
+
+    public ApplicationEntity()
+    {
+        Nickname = string.Empty;
+        Email = string.Empty;
+        Discord = string.Empty;
+        SteamUrl = string.Empty;
+        Age = 0;
+        PlayTime = 0;
+        About = string.Empty;
+        PreviousExperience = string.Empty;
+        ReasonToJoin = string.Empty;
+        WhatCanYouOffer = string.Empty;
+        HowDidYouFindUs = string.Empty;
     }
 }
