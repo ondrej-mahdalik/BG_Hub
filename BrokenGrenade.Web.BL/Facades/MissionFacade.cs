@@ -67,6 +67,37 @@ public class MissionFacade : CRUDFacade<MissionEntity, MissionModel>
         return await Mapper.ProjectTo<MissionModel>(query).ToListAsync().ConfigureAwait(false);
     }
 
+    public async Task<List<MissionModel>> GetUpcomingAsync(int days, MissionFilterModel? filter = null)
+    {
+        await using var uow = UnitOfWorkFactory.Create();
+        var query = uow.GetRepository<MissionEntity>()
+            .Get()
+            .Include(x => x.ModpackType)
+            .Include(x => x.MissionType)
+            .Include(x => x.Creator)
+            .Where(x => x.MissionStartDate.Date >= DateTime.Now.Date && x.MissionStartDate.Date <= DateTime.Now.AddDays(days).Date);
+
+        if (filter is not null)
+        {
+            if (!string.IsNullOrWhiteSpace(filter.Name))
+                query = query.Where(x => x.Name.Contains(filter.Name));
+        
+            if(!string.IsNullOrWhiteSpace(filter.Creator))
+                query = query.Where(x => x.Creator != null && x.Creator.Nickname.Contains(filter.Creator));
+        
+            if(filter.ModpackType is not null)
+                query = query.Where(x => x.ModpackTypeId == filter.ModpackType);
+        
+            if(filter.MissionType is not null)
+                query = query.Where(x => x.MissionTypeId == filter.MissionType);
+        
+            if(filter.Date.HasValue)
+                query = query.Where(x => x.MissionStartDate.Date == filter.Date.Value.Date);
+        }
+        
+        return await Mapper.ProjectTo<MissionModel>(query).ToListAsync().ConfigureAwait(false);
+    }
+
     public async Task<List<MissionModel>> GetByUserAsync(Guid userId)
     {
         await using var uow = UnitOfWorkFactory.Create();

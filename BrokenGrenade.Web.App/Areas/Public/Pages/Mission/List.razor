@@ -75,11 +75,11 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Datum Konání</th>
-                    <th scope="col">Název Mise</th>
-                    <th scope="col">Autor</th>
-                    <th scope="col">Kategorie Mise</th>
-                    <th scope="col">Modpack</th>
+                    <th>Datum Konání</th>
+                    <th>Název Mise</th>
+                    <th>Autor</th>
+                    <th>Kategorie Mise</th>
+                    <th>Modpack</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -108,7 +108,7 @@
                     <td>
                         <p class="placeholder-glow">
                             <span class="placeholder col-6"></span>
-                        </p>s
+                        </p>
                     </td>
                     <td>
                         <a tabindex="-1" class="btn btn-primary placeholder disabled col-12"></a>
@@ -138,9 +138,9 @@
                         <tr>
                             <td>@mission.MissionStartDate</td>
                             <td>@mission.Name</td>
-                            <td>@(mission.Creator?.Nickname ?? "Smazaný uživatel")</td>
-                            <td>@(mission.MissionType?.Name ?? "Smazaná kategorie")</td>
-                            <td>@(mission.ModpackType?.Name ?? "Smazaný druh")</td>
+                            <td>@(mission.Creator?.Nickname ?? "Odstraněný uživatel")</td>
+                            <td>@(mission.MissionType?.Name ?? "Odstraněná kategorie")</td>
+                            <td>@(mission.ModpackType?.Name ?? "Odstraněný typ")</td>
                             <td>
                                 <a class="btn btn-primary" href="/Mission/Detail/@mission.Id">Detail</a>
                             </td>
