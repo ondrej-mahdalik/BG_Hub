@@ -11,6 +11,24 @@
         "dist/js/bootstrap.bundle.min.js",
         "dist/js/bootstrap.bundle.min.js.map"
       ]
+    },
+    {
+      "library": "@fortawesome/fontawesome-free@6.2.1",
+      "destination": "wwwroot/lib/fortawesome/fontawesome-free/",
+      "files": [
+        "css/fontawesome.css",
+        "css/fontawesome.min.css",
+        "css/solid.css",
+        "css/solid.min.css",
+        "css/brands.css",
+        "css/brands.min.css",
+        "js/brands.js",
+        "js/brands.min.js",
+        "js/fontawesome.js",
+        "js/fontawesome.min.js",
+        "js/solid.js",
+        "js/solid.min.js"
+      ]
     }
   ]
 }

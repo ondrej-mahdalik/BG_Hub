@@ -9,6 +9,8 @@ public sealed class RoleEntity : IdentityRole<Guid>, ICloneable
         Id = Guid.NewGuid();
     }
 
+    public int Priority { get; set; } = 0;
+
     public object Clone()
     {
         return MemberwiseClone();

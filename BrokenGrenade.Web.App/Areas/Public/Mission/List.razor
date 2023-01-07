@@ -2,14 +2,119 @@
 @using BrokenGrenade.Web.BL.Facades
 @using BrokenGrenade.Common.Models
 @inject MissionFacade MissionFacade
+@inject MissionTypeFacade MissionTypeFacade
+@inject ModpackTypeFacade ModpackTypeFacade
 
 <div class="container-lg">
-    <h2>Seznam Misí</h2>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Seznam Misí</h1>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h6 class="card-title">Filtrování</h6>
+        </div>
+        <div class="card-body">
+            <EditForm Model="_filter" id="filterForm" OnSubmit="FilterAsync">
+                <div class="row">
+                    <div class="col col-sm-6">
+                        <div class="mb-3">
+                            <label for="searchName" class="form-label">Podle názvu</label>
+                            <InputText class="form-control" @bind-Value="_filter.Name" id="searchName"/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="searchMissionType" class="form-label">Podle kategorie</label>
+                            <InputSelect TValue="Guid?" class="form-select" @bind-Value="_filter.MissionType" id="searchMissionType">
+                                <option value="" selected>Všechny kategorie</option>
+                                @if (_missionTypes is not null)
+                                {
+                                    @foreach (var type in _missionTypes)
+                                    {
+                                        <option value="@type.Id">@type.Name</option>
+                                    }
+                                }
+                            </InputSelect>
+                        </div>
+                        <div class="mb-3">
+                            <label for="searchDate" class="form-label">Podle data</label>
+                            <InputDate Type="InputDateType.Date" class="form-control" @bind-Value="_filter.Date" id="searchDate"/>
+                        </div>
+                    </div>
+                    <div class="col col-sm-6">
+                        <div class="mb-3">
+                            <label for="searchCreator" class="form-label">Podle autora</label>
+                            <InputText class="form-control" @bind-Value="_filter.Creator" id="searchCreator"/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="searchModpackType" class="form-label">Podle modpacku</label>
+                            <InputSelect TValue="Guid?" class="form-select" @bind-Value="_filter.ModpackType" id="searchModpackType">
+                                <option value="" selected>Všechny modpacky</option>
+                                @if (_modpackTypes is not null)
+                                {
+                                    @foreach (var type in _modpackTypes)
+                                    {
+                                        <option value="@type.Id">@type.Name</option>
+                                    }
+                                }
+                            </InputSelect>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Filtrovat</button>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+    </div>
     <div class="card">
         <div class="card-body">
             @if (_missions is null)
             {
-                <p>Načítání...</p>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Datum Konání</th>
+                        <th scope="col">Název Mise</th>
+                        <th scope="col">Autor</th>
+                        <th scope="col">Kategorie Mise</th>
+                        <th scope="col">Modpack</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <p class="placeholder-glow">
+                                <span class="placeholder col-6"></span>
+                            </p>
+                        </td>
+                        <td>
+                            <p class="placeholder-glow">
+                                <span class="placeholder col-6"></span>
+                            </p>
+                        </td>
+                        <td>
+                            <p class="placeholder-glow">
+                                <span class="placeholder col-6"></span>
+                            </p>
+                        </td>
+                        <td>
+                            <p class="placeholder-glow">
+                                <span class="placeholder col-6"></span>
+                            </p>
+                        </td>
+                        <td>
+                            <p class="placeholder-glow">
+                                <span class="placeholder col-6"></span>
+                            </p>s
+                        </td>
+                        <td>
+                            <a tabindex="-1" class="btn btn-primary placeholder disabled col-12"></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             }
             else
             {
@@ -25,21 +130,77 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach (var mission in _missions)
+                    @if (_missions.Count > 0)
+                    {
+                        @foreach (var mission in MissionsPages[_currentPage])
+                        {
+                            <tr>
+                                <td>@mission.MissionStartDate</td>
+                                <td>@mission.Name</td>
+                                <td>@(mission.Creator?.Nickname ?? "Smazaný uživatel")</td>
+                                <td>@(mission.MissionType?.Name ?? "Smazaná kategorie")</td>
+                                <td>@(mission.ModpackType?.Name ?? "Smazaný druh")</td>
+                                <td>
+                                    <a class="btn btn-primary" href="/Mission/Detail/@mission.Id">Detail</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
                     {
                         <tr>
-                            <td>@mission.MissionStartDate</td>
-                            <td>@mission.Name</td>
-                            <td>@(mission.Creator?.Nickname ?? "Smazaný uživatel")</td>
-                            <td>@(mission.MissionType?.Name ?? "Smazaná kategorie")</td>
-                            <td>@(mission.ModpackType?.Name ?? "Smazaný druh")</td>
-                            <td>
-                                <a class="btn btn-primary" href="/Mission/Detail/@mission.Id">Detail</a>
+                            <td colspan="6">
+                                <p class="text-center">Nebyly nalezeny žádné mise</p>
                             </td>
                         </tr>
                     }
                     </tbody>
                 </table>
+                <div class="row">
+                    <div class="col col-md-6 align-self-center">
+                        <p>Zobrazeno @(1 + _currentPage * 10)-@(10 + _currentPage * 10 < _missions.Count ? 10 + _currentPage * 10 : _missions.Count) z @_missions.Count</p>
+                    </div>
+                    <div class="col col-md-6">
+                        <nav class="d-flex justify-content-end" aria-label="Stránkování">
+                            <ul class="pagination">
+                                <li class="page-item @(_currentPage <= 0 ? "disabled" : "")">
+                                    <a class="page-link" href="#" aria-label="Předchozí">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                @for (var i = _currentPage - 1; i <= _currentPage + 1; i++)
+                                {
+                                    var num = i;
+                                    if (_currentPage == 0)
+                                        num = i + 1; // So user cant go to page -1
+                                                
+                                    else if (_currentPage >= MissionsPages.Count - 1)
+                                        num = i - 1; // So user cant go to a page that is too high
+                                                
+                                    if (num > MissionsPages.Count - 1)
+                                    {
+                                        break; // If there are fewer than 3 pages total
+                                    }
+                                    if (_currentPage == 1 && MissionsPages.Count == 2 && i == 0)
+                                    {
+                                        // If only 2 pages are available, clicking the second one would make page 0 appear
+                                        // which is obviously not possible
+                                        continue;
+                                    }
+                                                
+                                    <li class="page-item @(_currentPage == num ? "active" : "")">
+                                        <a class="page-link" @onclick="() => _currentPage = num" role="button">@(num + 1)</a>
+                                    </li>
+                                }
+                                <li class="page-item @(_currentPage >= MissionsPages.Count - 1 ? "disabled" : "")">
+                                    <a class="page-link" href="#" aria-label="Následující">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
             }
         </div>
     </div>
@@ -52,11 +213,34 @@
     public Guid? CreatorId { get; set; }
 
     private List<MissionModel>? _missions;
+    private List<List<MissionModel>> MissionsPages => _missions is null ? new List<List<MissionModel>>() : _missions.Select((x, i) =>
+    new {
+        Index = i,
+        Value = x
+    }).GroupBy(x => x.Index / 10)
+        .Select(x => x.Select(v => v.Value).ToList()).ToList();
+
+    private int _currentPage = 0;
+    
+    private List<MissionTypeModel>? _missionTypes;
+    private List<ModpackTypeModel>? _modpackTypes;
+    
+    private MissionFilterModel _filter = new();
 
     protected override async Task OnInitializedAsync()
     {
         _missions = CreatorId.HasValue ?
             (await MissionFacade.GetByUserAsync(CreatorId.Value)).OrderBy(x => x.MissionStartDate).ToList()
             : (await MissionFacade.GetAsync()).OrderBy(x => x.MissionStartDate).ToList();
+        
+        _missionTypes = await MissionTypeFacade.GetAsync();
+        _modpackTypes = await ModpackTypeFacade.GetAsync();
+    }
+    
+    private async Task FilterAsync()
+    {
+        _currentPage = 0;
+        _missions = null;
+        _missions = (await MissionFacade.GetAsync(_filter)).OrderBy(x => x.MissionStartDate).ToList();
     }
 }

@@ -14,6 +14,12 @@ namespace BrokenGrenade.Common.Models
         [StringLength(50, MinimumLength = 3, ErrorMessage = "{0} musí mít minimálně {2} znaky a maximálně {1} znaků.")]
         public string Name { get; set; }
         
+        [Required]
+        [Display(Name = "Priorita")]
+        [Range(0, int.MaxValue, ErrorMessage = "{0} musí být kladné číslo.")]
+
+        public int Priority { get; set; } = 0;
+        
         public bool CreateMissions { get; set; }
         public bool CreateTrainings { get; set; }
         public bool ManageUsers { get; set; }
