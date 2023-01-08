@@ -23,7 +23,8 @@ namespace BrokenGrenade.Common.Models
         public Guid? ApplicationId { get; set; }
         public ApplicationModel? Application { get; set; }
 
-        public IList<RoleModel>? Roles { get; set; } = new List<RoleModel>();
-        public IList<MissionModel>? MissionsCreated { get; set; } = new List<MissionModel>();
+        public IList<RoleModel> Roles { get; set; } = new List<RoleModel>();
+        public IList<MissionModel> MissionsCreated { get; set; } = new List<MissionModel>();
+        public IList<UserIsParticipatingTrainingModel> TrainingsParticipating { get; set; } = new List<UserIsParticipatingTrainingModel>();
     }
 }

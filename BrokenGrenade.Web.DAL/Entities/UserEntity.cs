@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Collections;
+using Microsoft.AspNetCore.Identity;
 
 namespace BrokenGrenade.Web.DAL.Entities;
 
@@ -24,10 +25,11 @@ public sealed class UserEntity : IdentityUser<Guid>, ICloneable
     public string Nickname { get; set; }
     
     public Guid? ApplicationId { get; set; }
-    public ApplicationEntity? Application { get; set; }
+    public ApplicationEntity? Application { get; init; }
     
-    public ICollection<MissionEntity> MissionsCreated { get; set; } = new List<MissionEntity>();
-    public ICollection<ApplicationEntity> ApplicationsEdited { get; set; } = new List<ApplicationEntity>();
+    public ICollection<MissionEntity> MissionsCreated { get; init; } = new List<MissionEntity>();
+    public ICollection<ApplicationEntity> ApplicationsEdited { get; init; } = new List<ApplicationEntity>();
+    public ICollection<UserIsParticipatingTrainingEntity> TrainingsParticipating { get; init; } = new List<UserIsParticipatingTrainingEntity>();
 
     public object Clone()
     {

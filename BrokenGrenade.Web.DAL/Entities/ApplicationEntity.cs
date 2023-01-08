@@ -24,9 +24,9 @@ public class ApplicationEntity : EntityBase
     public ApplicationStatus Status { get; set; } = ApplicationStatus.AwaitingDecision;
 
     public Guid? EditedById { get; set; }
-    public UserEntity? EditedBy { get; set; }
+    public UserEntity? EditedBy { get; init; }
 
-    public UserEntity? User { get; set; }
+    public UserEntity? User { get; init; }
 
     public ApplicationEntity(string nickname, string email, string discord, string steamUrl, int age, int playTime,
         string about, string previousExperience, string reasonToJoin, string whatCanYouOffer,

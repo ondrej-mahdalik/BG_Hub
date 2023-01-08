@@ -5,11 +5,11 @@
 @inject MissionFacade MissionFacade
 @inject IJSRuntime JSRuntime
 
-<PageTitle>BG Hub</PageTitle>
+<PageTitle>Broken Grenade Hub</PageTitle>
 
 <div class="row mt-4">
     <div class="col-12 col-lg-6 col-xxl-4">
-        <div class="card">
+        <div class="card bg-dark-subtle">
             <div class="card-header">
                 <h5 class="h6 card-title mb-0">Dnešní mise</h5>
             </div>
@@ -28,33 +28,33 @@
                     <div class="row">
                         <div class="col col-sm-6">
                             <div class="mb-3">
-                                <h6 class="text-uppercase fw-bold">Název</h6>
-                                <p class="fw-bold text-primary">@_todaysMission.Name</p>
+                                <h6 class="card-subtitle text-primary">Název</h6>
+                                <p>@_todaysMission.Name</p>
                             </div>
                             <div class="mb-3">
-                                <h6 class="text-uppercase fw-bold">Autor</h6>
+                                <h6 class="card-subtitle text-primary">Autor</h6>
                                 <p>@(_todaysMission.Creator?.Nickname ?? "Odstraněný uživatel")</p>
                             </div>
                             <div class="mb-3">
-                                <h6 class="text-uppercase fw-bold">Kategorie Mise</h6>
+                                <h6 class="card-subtitle text-primary">Kategorie Mise</h6>
                                 <p>@(_todaysMission.MissionType?.Name ?? "Odstraněná kategorie")</p>
                             </div>
                             <div class="mb-3">
-                                <h6 class="text-uppercase fw-bold">Typ Modpacku</h6>
+                                <h6 class="card-subtitle text-primary">Typ Modpacku</h6>
                                 <p>@(_todaysMission.ModpackType?.Name ?? "Odstraněný typ")</p>
                             </div>
                         </div>
                         <div class="col col-sm-6">
                             <div class="mb-3">
-                                <h6 class="text-uppercase fw-bold">Velitelský Briefing</h6>
+                                <h6 class="card-subtitle text-primary">Velitelský Briefing</h6>
                                 <p>@(_todaysMission.LeaderBriefingDate.HasValue ? _todaysMission.LeaderBriefingDate.Value.Humanize() : "Není plánován")</p>
                             </div>
                             <div class="mb-3">
-                                <h6 class="text-uppercase fw-bold">Připojování na Server</h6>
+                                <h6 class="card-subtitle text-primary">Připojování na Server</h6>
                                 <p>@_todaysMission.ConnectingToServerDate.Humanize()</p>
                             </div>
                             <div class="mb-3">
-                                <h6 class="text-uppercase fw-bold">Začátek Mise</h6>
+                                <h6 class="card-subtitle text-primary">Začátek Mise</h6>
                                 <p>@_todaysMission.MissionStartDate.Humanize()</p>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
         </div>
     </div>
     <div class="col-12 col-lg-6 col-xxl-4">
-        <div class="card">
+        <div class="card bg-dark-subtle">
             <div class="card-header">
                 <h5 class="h6 card-title mb-0">Mise v příštích 7 dnech</h5>
             </div>
@@ -177,6 +177,20 @@
                                 </tbody>
                             </table>
                         }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-6 col-xxl-4">
+        <div class="card bg-dark-subtle">
+            <div class="card-header">
+                <h5 class="h6 card-title mb-0">Nadcházející výcviky</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        
                     </div>
                 </div>
             </div>

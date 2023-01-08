@@ -5,10 +5,10 @@ public class ArticleCategoryEntity : EntityBase
     public string Name { get; set; }
     
     public Guid? ParentId { get; set; }
-    public ArticleCategoryEntity? Parent { get; set; }
-    public ICollection<ArticleCategoryEntity> Children { get; set; } = new List<ArticleCategoryEntity>();
+    public ArticleCategoryEntity? Parent { get; init; }
+    public ICollection<ArticleCategoryEntity> Children { get; init; } = new List<ArticleCategoryEntity>();
     
-    public ICollection<ArticleEntity> Articles { get; set; } = new List<ArticleEntity>();
+    public ICollection<ArticleEntity> Articles { get; init; } = new List<ArticleEntity>();
 
     public ArticleCategoryEntity(string name)
     {

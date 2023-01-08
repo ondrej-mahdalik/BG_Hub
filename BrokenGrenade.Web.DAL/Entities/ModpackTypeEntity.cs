@@ -9,5 +9,5 @@ public class ModpackTypeEntity : EntityBase
     
     public string Name { get; set; }
     
-    public ICollection<MissionEntity> Missions { get; set; } = new List<MissionEntity>();
+    public ICollection<MissionEntity> Missions { get; init; } = new List<MissionEntity>();
 }

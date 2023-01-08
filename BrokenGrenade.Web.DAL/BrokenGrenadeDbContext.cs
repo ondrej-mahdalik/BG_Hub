@@ -41,6 +41,10 @@ public class BrokenGrenadeDbContext : CustomApiAuthorizationDbContext<UserEntity
                 .WithOne(i => i.EditedBy)
                 .OnDelete(DeleteBehavior.SetNull);
 
+            entity.HasMany(i => i.TrainingsParticipating)
+                .WithOne(i => i.User)
+                .OnDelete(DeleteBehavior.Cascade);
+
             entity.HasOne(i => i.Application)
                 .WithOne(i => i.User)
                 .OnDelete(DeleteBehavior.SetNull);
@@ -56,5 +60,10 @@ public class BrokenGrenadeDbContext : CustomApiAuthorizationDbContext<UserEntity
                 .WithOne(i => i.Category)
                 .OnDelete(DeleteBehavior.SetNull);
         });
+
+        builder.Entity<TrainingEntity>()
+            .HasMany(i => i.Participants)
+            .WithOne(i => i.Training)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
