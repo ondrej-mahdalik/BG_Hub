@@ -45,4 +45,10 @@
     <_ContentIncludedByDefault Remove="Areas\Public\Profile\Detail.razor" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Public\Pages\Article" />
+    <Folder Include="Areas\Staff\Pages\Article" />
+    <Folder Include="Areas\Staff\Pages\ArticleCategory" />
+  </ItemGroup>
+
 </Project>

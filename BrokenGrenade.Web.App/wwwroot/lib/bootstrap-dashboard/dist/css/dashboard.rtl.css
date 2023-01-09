@@ -35,7 +35,7 @@ body {
 
 .sidebar .nav-link {
   font-weight: 500;
-  color: #333;
+  color: rgb(173, 181, 189);
 }
 
 .sidebar .nav-link .feather {
