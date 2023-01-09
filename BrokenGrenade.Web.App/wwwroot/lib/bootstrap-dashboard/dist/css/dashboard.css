@@ -60,6 +60,22 @@ body {
   font-size: .75rem;
 }
 
+/*Sidebar dropdown menu*/
+.sidebar li .submenu{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.sidebar .nav-link {
+  font-weight: 500;
+  color: var(--bs-dark-text);
+}
+.sidebar .nav-link:hover {
+  color: var(--bs-primary);
+}
+
 /*
  * Navbar
  */
