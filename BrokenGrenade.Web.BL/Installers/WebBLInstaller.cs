@@ -14,6 +14,8 @@ public class WebBLInstaller : IInstaller
     public void Install(IServiceCollection serviceCollection)
     {
         serviceCollection.AddSingleton<IUnitOfWorkFactory, UnitOfWorkFactory>();
+        serviceCollection.AddSingleton<TrainingFacade>();
+        serviceCollection.AddSingleton<UserIsParticipatingTrainingFacade>();
         serviceCollection.AddSingleton<MissionFacade>();
         serviceCollection.AddSingleton<MissionTypeFacade>();
         serviceCollection.AddSingleton<ModpackTypeFacade>();

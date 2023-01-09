@@ -3,6 +3,7 @@
 @using BrokenGrenade.Common.Models
 @using Humanizer
 @inject MissionFacade MissionFacade
+@inject TrainingFacade TrainingFacade
 @inject IJSRuntime JSRuntime
 
 <PageTitle>Broken Grenade Hub</PageTitle>
@@ -190,7 +191,63 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col">
-                        
+                        <table class="w-100">
+                            <thead>
+                            <tr>
+                                <th>Datum</th>
+                                <th>Název</th>
+                                <th>Instruktor</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if (_upcomingTrainings is null)
+                            {
+                                <tr>
+                                    <td>
+                                        <p class="placeholder-glow">
+                                            <span class="placeholder col-6"></span>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="placeholder-glow">
+                                            <span class="placeholder col-6"></span>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p class="placeholder-glow">
+                                            <span class="placeholder col-6"></span>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <a tabindex="-1" class="btn btn-primary placeholder disabled col-12"></a>
+                                    </td>
+                                </tr>
+                            }
+                            else if (_upcomingTrainings.Count == 0)
+                            {
+                                <tr>
+                                    <td colspan="5">
+                                        <p class="text-center">Aktuálně nejsou plánovány žádné výcviky.</p>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var training in _upcomingTrainings)
+                                {
+                                    <tr>
+                                        <td>@training.Date</td>
+                                        <td>@training.Name</td>
+                                        <td>@(training.Creator?.Nickname ?? "Odstraněný uživatel")</td>
+                                        <td>
+                                            <a class="btn btn-primary" href="">Detail</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -202,10 +259,12 @@
 {
     private MissionModel? _todaysMission;
     private List<MissionModel>? _upcomingMissions;
+    private List<TrainingModel>? _upcomingTrainings;
 
     protected override async Task OnInitializedAsync()
     {
         _upcomingMissions = await MissionFacade.GetUpcomingAsync(7);
+        _upcomingTrainings = await TrainingFacade.GetUpcomingAsync();
 
         MissionFilterModel filter = new()
         {
@@ -213,7 +272,7 @@
         };
         _todaysMission = (await MissionFacade.GetAsync(filter)).FirstOrDefault();
     }
-    
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await JSRuntime.InvokeVoidAsync("InitTooltips");

@@ -6,8 +6,8 @@ namespace BrokenGrenade.Web.DAL.Seeds;
 public static class MissionSeeds
 {
     public static readonly MissionEntity Mission1 = new("Operace Divoký bažant",
-        DateTime.Parse("01/08/2023 18:30", CultureInfo.InvariantCulture),
-        DateTime.Parse("01/08/2023 19:00", CultureInfo.InvariantCulture))
+        DateTime.Parse("01/09/2023 18:30", CultureInfo.InvariantCulture),
+        DateTime.Parse("01/09/2023 19:00", CultureInfo.InvariantCulture))
     {
         Id = new Guid("7D854C14-A877-499A-9AA7-AB285A57769F"),
 

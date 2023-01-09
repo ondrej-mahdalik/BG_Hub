@@ -8,9 +8,7 @@ public class TrainingModel : ModelBase
     
     public UserModel? Creator { get; set; }
     public Guid CreatorId { get; set; }
-    
-    public IList<UserIsParticipatingTrainingModel> Participants { get; set; } = new List<UserIsParticipatingTrainingModel>();
-    
+
     public TrainingModel(string name, DateTime date, string? note = null)
     {
         Name = name;
