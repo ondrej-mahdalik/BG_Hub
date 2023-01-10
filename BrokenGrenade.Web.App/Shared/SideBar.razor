@@ -22,7 +22,7 @@
             </NavLink>
           </li>
           <li class="nav-item ms-4">
-            <NavLink class="nav-link" ActiveClass="active" href="/Mission/List">
+            <NavLink class="nav-link" ActiveClass="active" href="/Mission">
               <i class="fa-solid fa-list fa-fw"></i> Seznam misí
             </NavLink>
           </li>
@@ -40,14 +40,14 @@
             </NavLink>
           </li>
           <li class="nav-item ms-4">
-            <NavLink class="nav-link" ActiveClass="active" href="/Training/List">
+            <NavLink class="nav-link" ActiveClass="active" href="/Training">
               <i class="fa-solid fa-list fa-fw"></i> Seznam výcviků
             </NavLink>
           </li>
         </ul>
       </li>
       <li class="nav-item">
-        <NavLink class="nav-link" ActiveClass="active" href="/Article/List">
+        <NavLink class="nav-link" ActiveClass="active" href="/Article">
           <i class="fa-solid fa-book fa-fw"></i> Návody
         </NavLink>
       </li>
@@ -59,7 +59,7 @@
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <NavLink class="nav-link" ActiveClass="active" href="/Mission/List?creator_id=TODO">
+            <NavLink class="nav-link" ActiveClass="active" href="/Mission?creator_id=TODO">
               <i class="fa-solid fa-gamepad fa-fw"></i> Moje mise
             </NavLink>
           </li>
@@ -78,7 +78,7 @@
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <NavLink class="nav-link" ActiveClass="active" href="/Training/List?creator_id=TODO">
+            <NavLink class="nav-link" ActiveClass="active" href="/Training?creator_id=TODO">
               <i class="fa-solid fa-graduation-cap fa-fw"></i> Moje výcviky
             </NavLink>
           </li>
@@ -99,7 +99,7 @@
           <AuthorizeView Policy="@PolicyTypes.ManageApplications">
             <Authorized>
               <li class="nav-item">
-                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Application/List">
+                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Application">
                   <i class="fa-solid fa-file-lines fa-fw"></i> Přihlášky
                   <span class="badge @(_unhandledApplicationsCount > 0 ? "text-bg-warning" : "text-bg-success") ">@_unhandledApplicationsCount</span>
                 </NavLink>
@@ -109,12 +109,12 @@
           <AuthorizeView Policy="@PolicyTypes.ManageUsers">
             <Authorized>
               <li class="nav-item">
-                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Punishment/List">
+                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Punishment">
                   <i class="fa-solid fa-person-harassing fa-fw"></i> Varování a zákazy
                 </NavLink>
               </li>
               <li class="nav-item">
-                <NavLink class="nav-link" ActiveClass="active" href="/Staff/User/List">
+                <NavLink class="nav-link" ActiveClass="active" href="/Staff/User">
                   <i class="fa-solid fa-user fa-fw"></i> Správa uživatelů
                 </NavLink>
               </li>
@@ -123,7 +123,7 @@
           <AuthorizeView Policy="@PolicyTypes.ManageRoles">
             <Authorized>
               <li class="nav-item">
-                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Role/List">
+                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Role">
                   <i class="fa-solid fa-users fa-fw"></i> Správa rolí
                 </NavLink>
               </li>
@@ -132,7 +132,7 @@
           <AuthorizeView Policy="@PolicyTypes.ManageMissions">
             <Authorized>
               <li class="nav-item">
-                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Mission/List">
+                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Mission">
                   <i class="fa-solid fa-gamepad fa-fw"></i> Správa misí
                 </NavLink>
               </li>
@@ -140,7 +140,7 @@
           </AuthorizeView>
           <AuthorizeView Policy="@PolicyTypes.ManageTrainings"><Authorized>
               <li class="nav-item">
-                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Training/List">
+                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Training">
                   <i class="fa-solid fa-graduation-cap fa-fw"></i> Správa výcviků
                 </NavLink>
               </li></Authorized>
