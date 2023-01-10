@@ -90,6 +90,25 @@
         </ul>
       </Authorized>
     </AuthorizeView>
+    <AuthorizeView Policy="@PolicyTypes.CreateArticles">
+      <Authorized>
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span class="text-uppercase">Návody</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <NavLink class="nav-link" ActiveClass="active" href="/Article?creator_id=TODO">
+              <i class="fa-solid fa-book fa-fw"></i> Moje návody
+            </NavLink>
+          </li>
+          <li class="nav-item">
+            <NavLink class="nav-link" ActiveClass="active" href="/Staff/Article/Create">
+              <i class="fa-solid fa-file-circle-plus fa-fw"></i> Vytvořit návod
+            </NavLink>
+          </li>
+        </ul>
+      </Authorized>
+    </AuthorizeView>
     <AuthorizeView Policy="@PolicyTypes.IsPlatoonLead">
       <Authorized Context="_">
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -142,6 +161,13 @@
               <li class="nav-item">
                 <NavLink class="nav-link" ActiveClass="active" href="/Staff/Training">
                   <i class="fa-solid fa-graduation-cap fa-fw"></i> Správa výcviků
+                </NavLink>
+              </li></Authorized>
+          </AuthorizeView>
+          <AuthorizeView Policy="@PolicyTypes.ManageTrainings"><Authorized>
+              <li class="nav-item">
+                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Article">
+                  <i class="fa-solid fa-book fa-fw"></i> Správa návodů
                 </NavLink>
               </li></Authorized>
           </AuthorizeView>

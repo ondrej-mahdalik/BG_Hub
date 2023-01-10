@@ -23,13 +23,17 @@ public static class RoleSeeds
         await roleManager.CreateAsync(Administrator);
         await roleManager.AddClaimAsync(Administrator, new Claim("permission", PermissionTypes.CreateMissions));
         await roleManager.AddClaimAsync(Administrator, new Claim("permission", PermissionTypes.CreateTrainings));
+        await roleManager.AddClaimAsync(Administrator, new Claim("permission", PermissionTypes.CreateArticles));
         await roleManager.AddClaimAsync(Administrator, new Claim("permission", PermissionTypes.ManageUsers));
         await roleManager.AddClaimAsync(Administrator, new Claim("permission", PermissionTypes.ManageRoles));
         await roleManager.AddClaimAsync(Administrator, new Claim("permission", PermissionTypes.ManageMissions));
         await roleManager.AddClaimAsync(Administrator, new Claim("permission", PermissionTypes.ManageTrainings));
+        await roleManager.AddClaimAsync(Administrator, new Claim("permission", PermissionTypes.ManageArticles));
         await roleManager.AddClaimAsync(Administrator, new Claim("permission", PermissionTypes.ManageMissionTypes));
         await roleManager.AddClaimAsync(Administrator, new Claim("permission", PermissionTypes.ManageModpackTypes));
         await roleManager.AddClaimAsync(Administrator, new Claim("permission", PermissionTypes.ManageApplications));
+        await roleManager.AddClaimAsync(Administrator, new Claim("permission", PermissionTypes.ManagePunishments));
+        
         if (onlyDefaultRole)
             return;
 

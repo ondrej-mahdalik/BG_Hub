@@ -4,255 +4,322 @@
 @using Humanizer
 @inject MissionFacade MissionFacade
 @inject TrainingFacade TrainingFacade
+@inject PunishmentFacade PunishmentFacade
 @inject IJSRuntime JSRuntime
 
 <PageTitle>Broken Grenade Hub</PageTitle>
 
 <div class="row mt-4">
-    <div class="col-12 col-lg-6 col-xxl-4">
-        <div class="card bg-dark-subtle">
-            <div class="card-header">
-                <h5 class="h6 card-title mb-0">Dnešní mise</h5>
-            </div>
-            <div class="card-body">
-                @if (_todaysMission is null)
-                {
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-6 d-flex flex-column justify-content-center">
-                            <p class="text-center fw-bold">Dnes se žádná mise nekoná.</p>
-                            <img class="img-fluid p-4" alt="Sad Pepe" src="assets/img/sad_pepe.webp"/>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <div class="row">
-                        <div class="col col-sm-6">
-                            <div class="mb-3">
-                                <h6 class="card-subtitle text-primary">Název</h6>
-                                <p>@_todaysMission.Name</p>
-                            </div>
-                            <div class="mb-3">
-                                <h6 class="card-subtitle text-primary">Autor</h6>
-                                <p>@(_todaysMission.Creator?.Nickname ?? "Odstraněný uživatel")</p>
-                            </div>
-                            <div class="mb-3">
-                                <h6 class="card-subtitle text-primary">Kategorie Mise</h6>
-                                <p>@(_todaysMission.MissionType?.Name ?? "Odstraněná kategorie")</p>
-                            </div>
-                            <div class="mb-3">
-                                <h6 class="card-subtitle text-primary">Typ Modpacku</h6>
-                                <p>@(_todaysMission.ModpackType?.Name ?? "Odstraněný typ")</p>
-                            </div>
-                        </div>
-                        <div class="col col-sm-6">
-                            <div class="mb-3">
-                                <h6 class="card-subtitle text-primary">Velitelský Briefing</h6>
-                                <p>@(_todaysMission.LeaderBriefingDate.HasValue ? _todaysMission.LeaderBriefingDate.Value.Humanize() : "Není plánován")</p>
-                            </div>
-                            <div class="mb-3">
-                                <h6 class="card-subtitle text-primary">Připojování na Server</h6>
-                                <p>@_todaysMission.ConnectingToServerDate.Humanize()</p>
-                            </div>
-                            <div class="mb-3">
-                                <h6 class="card-subtitle text-primary">Začátek Mise</h6>
-                                <p>@_todaysMission.MissionStartDate.Humanize()</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-auto">
-                            @if (_todaysMission.ModpackUrl is null)
-                            {
-                                <span class="fc-not-allowed" tabindex="0" data-bs-toggle="tooltip" data-bs-title="Na misi není upravený modpack. Použij aktivátor.">
-                                    <a class="btn btn-primary disabled" disabled>Stáhnout Modpack</a>
-                                </span>
-                            }
-                            else
-                            {
-                                <a class="btn btn-primary" href="@_todaysMission.ModpackUrl">Stáhnout Modpack</a>
-                            }
-                        </div>
-                        <div class="col-auto">
-                            @if (_todaysMission.SlottingSheetUrl is null)
-                            {
-                                <span class="fc-not-allowed" tabindex="0" data-bs-toggle="tooltip" data-bs-title="Slotování nebylo autorem dodáno.">
-                                    <a class="btn btn-primary disabled" disabled>Slotování</a>
-                                </span>
-                            }
-                            else
-                            {
-                                <a class="btn btn-primary" href="@_todaysMission.SlottingSheetUrl">Slotování</a>
-                            }
-                        </div>
-                    </div>
-                }
-            </div>
+<div class="col-12 col-lg-6 col-xxl-4 mb-4">
+    <div class="card bg-dark-subtle">
+        <div class="card-header">
+            <h5 class="h6 card-title mb-0">Dnešní mise</h5>
         </div>
-    </div>
-    <div class="col-12 col-lg-6 col-xxl-4">
-        <div class="card bg-dark-subtle">
-            <div class="card-header">
-                <h5 class="h6 card-title mb-0">Mise v příštích 7 dnech</h5>
-            </div>
-            <div class="card-body">
+        <div class="card-body">
+            @if (_todaysMission is null)
+            {
+                <div class="row d-flex justify-content-center">
+                    <div class="col-6 d-flex flex-column justify-content-center">
+                        <p class="text-center fw-bold">Dnes se žádná mise nekoná.</p>
+                        <img class="img-fluid p-4" alt="Sad Pepe" src="assets/img/sad_pepe.webp"/>
+                    </div>
+                </div>
+            }
+            else
+            {
                 <div class="row">
-                    <div class="col">
-                        @if (_upcomingMissions is null)
+                    <div class="col col-sm-6">
+                        <div class="mb-3">
+                            <h6 class="card-subtitle text-primary">Název</h6>
+                            <p>@_todaysMission.Name</p>
+                        </div>
+                        <div class="mb-3">
+                            <h6 class="card-subtitle text-primary">Autor</h6>
+                            <p>@(_todaysMission.Creator?.Nickname ?? "Odstraněný uživatel")</p>
+                        </div>
+                        <div class="mb-3">
+                            <h6 class="card-subtitle text-primary">Kategorie Mise</h6>
+                            <p>@(_todaysMission.MissionType?.Name ?? "Odstraněná kategorie")</p>
+                        </div>
+                        <div class="mb-3">
+                            <h6 class="card-subtitle text-primary">Typ Modpacku</h6>
+                            <p>@(_todaysMission.ModpackType?.Name ?? "Odstraněný typ")</p>
+                        </div>
+                    </div>
+                    <div class="col col-sm-6">
+                        <div class="mb-3">
+                            <h6 class="card-subtitle text-primary">Velitelský Briefing</h6>
+                            <p>@(_todaysMission.LeaderBriefingDate.HasValue ? _todaysMission.LeaderBriefingDate.Value.Humanize() : "Není plánován")</p>
+                        </div>
+                        <div class="mb-3">
+                            <h6 class="card-subtitle text-primary">Připojování na Server</h6>
+                            <p>@_todaysMission.ConnectingToServerDate.Humanize()</p>
+                        </div>
+                        <div class="mb-3">
+                            <h6 class="card-subtitle text-primary">Začátek Mise</h6>
+                            <p>@_todaysMission.MissionStartDate.Humanize()</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-auto">
+                        @if (_todaysMission.ModpackUrl is null)
                         {
-                            <table class="w-100">
-                                <thead>
-                                <tr>
-                                    <th>Datum</th>
-                                    <th>Název</th>
-                                    <th>Autor</th>
-                                    <th>Modpack</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <p class="placeholder-glow">
-                                            <span class="placeholder col-6"></span>
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <p class="placeholder-glow">
-                                            <span class="placeholder col-6"></span>
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <p class="placeholder-glow">
-                                            <span class="placeholder col-6"></span>
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <p class="placeholder-glow">
-                                            <span class="placeholder col-6"></span>
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <a tabindex="-1" class="btn btn-primary placeholder disabled col-12"></a>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            <span class="fc-not-allowed" tabindex="0" data-bs-toggle="tooltip" data-bs-title="Na misi není upravený modpack. Použij aktivátor.">
+                                <a class="btn btn-primary disabled" disabled>Stáhnout Modpack</a>
+                            </span>
                         }
                         else
                         {
-                            <table class="w-100">
-                                <thead>
-                                <tr>
-                                    <th>Datum</th>
-                                    <th>Název</th>
-                                    <th>Autor</th>
-                                    <th>Modpack</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @if (_upcomingMissions.Count > 0)
-                                {
-                                    @foreach (var mission in _upcomingMissions)
-                                    {
-                                        <tr>
-                                            <td>@mission.MissionStartDate</td>
-                                            <td>@mission.Name</td>
-                                            <td>@(mission.Creator?.Nickname ?? "Odstraněný uživatel")</td>
-                                            <td>@(mission.ModpackType?.Name ?? "Odstraněný typ")</td>
-                                            <td>
-                                                <a class="btn btn-primary" href="/Mission/Detail/@mission.Id">Detail</a>
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td colspan="5">
-                                            <p class="text-center">V následujících dnech nejsou plánovány žádné mise</p>
-                                        </td>
-                                    </tr>
-                                }
-                                </tbody>
-                            </table>
+                            <a class="btn btn-primary" href="@_todaysMission.ModpackUrl">Stáhnout Modpack</a>
+                        }
+                    </div>
+                    <div class="col-auto">
+                        @if (_todaysMission.SlottingSheetUrl is null)
+                        {
+                            <span class="fc-not-allowed" tabindex="0" data-bs-toggle="tooltip" data-bs-title="Slotování nebylo autorem dodáno.">
+                                <a class="btn btn-primary disabled" disabled>Slotování</a>
+                            </span>
+                        }
+                        else
+                        {
+                            <a class="btn btn-primary" href="@_todaysMission.SlottingSheetUrl">Slotování</a>
                         }
                     </div>
                 </div>
-            </div>
+            }
         </div>
     </div>
-    <div class="col-12 col-lg-6 col-xxl-4">
-        <div class="card bg-dark-subtle">
-            <div class="card-header">
-                <h5 class="h6 card-title mb-0">Nadcházející výcviky</h5>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col">
+</div>
+<div class="col-12 col-lg-6 col-xxl-4 mb-4">
+    <div class="card bg-dark-subtle">
+        <div class="card-header">
+            <h5 class="h6 card-title mb-0">Mise v příštích 7 dnech</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    @if (_upcomingMissions is null)
+                    {
                         <table class="w-100">
                             <thead>
                             <tr>
                                 <th>Datum</th>
                                 <th>Název</th>
-                                <th>Instruktor</th>
+                                <th>Autor</th>
+                                <th>Modpack</th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
-                            @if (_upcomingTrainings is null)
+                            <tr>
+                                <td>
+                                    <p class="placeholder-glow">
+                                        <span class="placeholder col-6"></span>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class="placeholder-glow">
+                                        <span class="placeholder col-6"></span>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class="placeholder-glow">
+                                        <span class="placeholder col-6"></span>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class="placeholder-glow">
+                                        <span class="placeholder col-6"></span>
+                                    </p>
+                                </td>
+                                <td>
+                                    <a tabindex="-1" class="btn btn-primary placeholder disabled col-12"></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <table class="w-100">
+                            <thead>
+                            <tr>
+                                <th>Datum</th>
+                                <th>Název</th>
+                                <th>Autor</th>
+                                <th>Modpack</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if (_upcomingMissions.Count > 0)
                             {
-                                <tr>
-                                    <td>
-                                        <p class="placeholder-glow">
-                                            <span class="placeholder col-6"></span>
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <p class="placeholder-glow">
-                                            <span class="placeholder col-6"></span>
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <p class="placeholder-glow">
-                                            <span class="placeholder col-6"></span>
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <a tabindex="-1" class="btn btn-primary placeholder disabled col-12"></a>
-                                    </td>
-                                </tr>
-                            }
-                            else if (_upcomingTrainings.Count == 0)
-                            {
-                                <tr>
-                                    <td colspan="5">
-                                        <p class="text-center">Aktuálně nejsou plánovány žádné výcviky.</p>
-                                    </td>
-                                </tr>
-                            }
-                            else
-                            {
-                                @foreach (var training in _upcomingTrainings)
+                                @foreach (var mission in _upcomingMissions)
                                 {
                                     <tr>
-                                        <td>@training.Date</td>
-                                        <td>@training.Name</td>
-                                        <td>@(training.Creator?.Nickname ?? "Odstraněný uživatel")</td>
+                                        <td>@mission.MissionStartDate</td>
+                                        <td>@mission.Name</td>
+                                        <td>@(mission.Creator?.Nickname ?? "Odstraněný uživatel")</td>
+                                        <td>@(mission.ModpackType?.Name ?? "Odstraněný typ")</td>
                                         <td>
-                                            <a class="btn btn-primary" href="">Detail</a>
+                                            <a class="btn btn-primary" href="/Mission/Detail/@mission.Id">Detail</a>
                                         </td>
                                     </tr>
                                 }
                             }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5">
+                                        <p class="text-center">V následujících dnech nejsou plánovány žádné mise</p>
+                                    </td>
+                                </tr>
+                            }
                             </tbody>
                         </table>
-                    </div>
+                    }
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div class="col-12 col-lg-6 col-xxl-4 mb-4">
+    <div class="card bg-dark-subtle">
+        <div class="card-header">
+            <h5 class="h6 card-title mb-0">Nadcházející výcviky</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <table class="w-100">
+                        <thead>
+                        <tr>
+                            <th>Datum</th>
+                            <th>Název</th>
+                            <th>Instruktor</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @if (_upcomingTrainings is null)
+                        {
+                            <tr>
+                                <td>
+                                    <p class="placeholder-glow">
+                                        <span class="placeholder col-6"></span>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class="placeholder-glow">
+                                        <span class="placeholder col-6"></span>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class="placeholder-glow">
+                                        <span class="placeholder col-6"></span>
+                                    </p>
+                                </td>
+                                <td>
+                                    <a tabindex="-1" class="btn btn-primary placeholder disabled col-12"></a>
+                                </td>
+                            </tr>
+                        }
+                        else if (_upcomingTrainings.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="5">
+                                    <p class="text-center">Aktuálně nejsou plánovány žádné výcviky.</p>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var training in _upcomingTrainings)
+                            {
+                                <tr>
+                                    <td>@training.Date</td>
+                                    <td>@training.Name</td>
+                                    <td>@(training.Creator?.Nickname ?? "Odstraněný uživatel")</td>
+                                    <td>
+                                        <a class="btn btn-primary" href="">Detail</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12 col-lg-6 col-xxl-4 mb-4">
+    <div class="card bg-dark-subtle">
+        <div class="card-header">
+            <h5 class="h6 card-title mb-0">Aktuálně platné zákazy</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <table class="w-100">
+                        <thead>
+                        <tr>
+                            <th>Uživatel</th>
+                            <th>Datum vypršení</th>
+                            <th>Trest</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @if (_activePunishments is null)
+                        {
+                            <tr>
+                                <td>
+                                    <p class="placeholder-glow">
+                                        <span class="placeholder col-6"></span>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class="placeholder-glow">
+                                        <span class="placeholder col-6"></span>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class="placeholder-glow">
+                                        <span class="placeholder col-6"></span>
+                                    </p>
+                                </td>
+                            </tr>
+                        }
+                        else if (_activePunishments.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="5">
+                                    <p class="text-center">Nikdo v tuto chvíli nemá platný zákaz.</p>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var punishmentModel in _activePunishments)
+                            {
+                                <tr>
+                                    <td>@punishmentModel.User?.Nickname</td>
+                                    <td>@(punishmentModel.ExpiresOn.HasValue ? punishmentModel.ExpiresOn.Value : "Na neurčito")</td>
+                                    <td>@punishmentModel.Punishment</td>
+                                    <td>
+                                        <a class="btn btn-primary" href="">Detail</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 @code
@@ -260,11 +327,13 @@
     private MissionModel? _todaysMission;
     private List<MissionModel>? _upcomingMissions;
     private List<TrainingModel>? _upcomingTrainings;
+    private List<PunishmentModel>? _activePunishments;
 
     protected override async Task OnInitializedAsync()
     {
         _upcomingMissions = await MissionFacade.GetUpcomingAsync(7);
         _upcomingTrainings = await TrainingFacade.GetUpcomingAsync();
+        _activePunishments = await PunishmentFacade.GetActiveAsync();
 
         MissionFilterModel filter = new()
         {

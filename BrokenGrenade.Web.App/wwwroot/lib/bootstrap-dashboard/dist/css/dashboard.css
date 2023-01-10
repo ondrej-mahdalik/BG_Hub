@@ -96,6 +96,10 @@ body {
   padding: .75rem 1rem;
 }
 
+.navbar-dark {
+  background-color: var(--bs-dark-bg-subtle);
+}
+
 .form-control-dark {
   color: #fff;
   background-color: rgba(255, 255, 255, .1);
@@ -105,4 +109,11 @@ body {
 .form-control-dark:focus {
   border-color: transparent;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+
+@media (max-width: 767.98px) {
+  .navbar-brand{
+    background-color: transparent;
+    box-shadow: none;
+  }
 }

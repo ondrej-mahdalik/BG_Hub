@@ -22,6 +22,7 @@ public class WebBLInstaller : IInstaller
         serviceCollection.AddSingleton<ApplicationFacade>();
         serviceCollection.AddSingleton<ArticleFacade>();
         serviceCollection.AddSingleton<ArticleCategoryFacade>();
+        serviceCollection.AddSingleton<PunishmentFacade>();
         serviceCollection.AddScoped<RoleFacade>();
         serviceCollection.AddScoped<UserFacade>();
 

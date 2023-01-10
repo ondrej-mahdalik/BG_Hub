@@ -19,3 +19,8 @@
 .transition-ease-in-out {
     transition: all 0.3s ease-in-out;
 }
+
+/* Dark scollbars */
+body {
+    color-scheme: dark;
+}

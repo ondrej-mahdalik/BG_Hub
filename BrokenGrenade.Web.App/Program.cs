@@ -102,10 +102,14 @@ void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguratio
             policy => policy.RequireClaim("permission", PermissionTypes.CreateMissions));
         options.AddPolicy(PolicyTypes.CreateTrainings,
             policy => policy.RequireClaim("permission", PermissionTypes.CreateTrainings));
+        options.AddPolicy(PolicyTypes.CreateArticles,
+            policy => policy.RequireClaim("permission", PermissionTypes.CreateArticles));
         options.AddPolicy(PolicyTypes.ManageMissions,
             policy => policy.RequireClaim("permission", PermissionTypes.ManageMissions));
         options.AddPolicy(PolicyTypes.ManageTrainings,
             policy => policy.RequireClaim("permission", PermissionTypes.ManageTrainings));
+        options.AddPolicy(PolicyTypes.ManageArticles,
+            policy => policy.RequireClaim("permission", PermissionTypes.ManageArticles));
         options.AddPolicy(PolicyTypes.ManageUsers,
             policy => policy.RequireClaim("permission", PermissionTypes.ManageUsers));
         options.AddPolicy(PolicyTypes.ManageRoles,
@@ -116,6 +120,8 @@ void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguratio
             policy => policy.RequireClaim("permission", PermissionTypes.ManageModpackTypes));
         options.AddPolicy(PolicyTypes.ManageApplications,
             policy => policy.RequireClaim("permission", PermissionTypes.ManageApplications));
+        options.AddPolicy(PolicyTypes.ManagePunishments,
+            policy => policy.RequireClaim("permission", PermissionTypes.ManagePunishments));
         
         options.AddPolicy(PolicyTypes.IsPlatoonLead,
             policy => policy.RequireAssertion(context =>
@@ -127,6 +133,8 @@ void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguratio
                     or PermissionTypes.ManageApplications
                     or PermissionTypes.ManageMissions
                     or PermissionTypes.ManageTrainings
+                    or PermissionTypes.ManageArticles
+                    or PermissionTypes.ManagePunishments 
                 })));
     });
 
