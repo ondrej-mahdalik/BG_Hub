@@ -1,5 +1,7 @@
 ﻿@using BrokenGrenade.Common.Permissions
+@using BrokenGrenade.Web.App.Extensions
 @using BrokenGrenade.Web.BL.Facades
+@using Duende.IdentityServer.Extensions
 @inject ApplicationFacade ApplicationFacade
 
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark-subtle sidebar collapse fs-6">
@@ -59,7 +61,7 @@
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <NavLink class="nav-link" ActiveClass="active" href="/Mission?creator_id=TODO">
+            <NavLink class="nav-link" ActiveClass="active" href="@($"/Mission?creator_id={context.GetUserId()}")">
               <i class="fa-solid fa-gamepad fa-fw"></i> Moje mise
             </NavLink>
           </li>
@@ -78,7 +80,7 @@
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <NavLink class="nav-link" ActiveClass="active" href="/Training?creator_id=TODO">
+            <NavLink class="nav-link" ActiveClass="active" href="@($"/Training?creator_id={context.GetUserId()}")">
               <i class="fa-solid fa-graduation-cap fa-fw"></i> Moje výcviky
             </NavLink>
           </li>
@@ -97,7 +99,7 @@
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <NavLink class="nav-link" ActiveClass="active" href="/Article?creator_id=TODO">
+            <NavLink class="nav-link" ActiveClass="active" href="@($"/Article?creator_id={context.GetUserId()}")">
               <i class="fa-solid fa-book fa-fw"></i> Moje návody
             </NavLink>
           </li>

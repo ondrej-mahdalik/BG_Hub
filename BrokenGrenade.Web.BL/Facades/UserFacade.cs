@@ -66,6 +66,11 @@ public class UserFacade : IAppFacade
 
         return users;
     }
+
+    public async Task<string> GetNicknameAsync(Guid userId)
+    {
+        return await _userManager.Users.Where(x => x.Id == userId).Select(x => x.Nickname).FirstAsync();
+    }
     
     public async Task UpdateAsync(UserModel user)
     {

@@ -10,56 +10,66 @@
 }
 else
 {
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
         <h1 class="h2">@_mission.Name</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <a class="btn btn-sm btn-outline-secondary" href="/Mission">Všechny mise</a>
+                <a class="btn btn-sm btn-link text-decoration-none" href="/Mission">
+                    <i class="fa-solid fa-angles-left"></i> Všechny mise
+                </a>
             </div>
         </div>
     </div>
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <h6 class="text-uppercase fw-bold">Autor</h6>
-                    <p>@(_mission.Creator?.Nickname ?? "Odstraněný uživatel")</p>
-                    <h6 class="text-uppercase fw-bold">Kategorie Mise</h6>
-                    <p>@(_mission.MissionType?.Name ?? "Odstraněná kategorie")</p>
-                    <h6 class="text-uppercase fw-bold">Typ Modpacku</h6>
-                    <p>@(_mission.ModpackType?.Name ?? "Odstraněný typ")</p>
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <div class="card bg-dark-subtle">
+                    <div class="card-header">
+                        <h5 class="h6 card-title mb-0">Základní Informace</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h6 class="card-subtitle text-primary">Autor</h6>
+                                <p>@(_mission.Creator?.Nickname ?? "Odstraněný uživatel")</p>
+                                <h6 class="card-subtitle text-primary">Kategorie Mise</h6>
+                                <p>@(_mission.MissionType?.Name ?? "Odstraněná kategorie")</p>
+                                <h6 class="card-subtitle text-primary">Typ Modpacku</h6>
+                                <p>@(_mission.ModpackType?.Name ?? "Odstraněný typ")</p>
+                            </div>
+                            <div class="col">
+                                <h6 class="card-subtitle text-primary">Velitelský Briefing</h6>
+                                <p>@(_mission.LeaderBriefingDate.HasValue ? _mission.LeaderBriefingDate.Value : "Není plánován")</p>
+                                <h6 class="card-subtitle text-primary">Připojování na Server</h6>
+                                <p>@(_mission.ConnectingToServerDate)</p>
+                                <h6 class="card-subtitle text-primary">Začátek Mise</h6>
+                                <p>@(_mission.MissionStartDate)</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-auto">
+                                <div class="d-flex flex-row gap-2">
+                                    @if (_mission.ModpackUrl is not null)
+                                    {
+                                        <a class="btn btn-primary" href="@_mission.ModpackUrl">Stáhnout Modpack</a>
+                                    }
+                                    @if (_mission.SlottingSheetUrl is null)
+                                    {
+                                        <span class="fc-not-allowed" tabindex="0" data-bs-toggle="tooltip" data-bs-title="Slotování nebylo autorem dodáno">
+                                            <a class="btn btn-primary disabled" disabled>Slotování</a>
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-primary" href="@_mission.SlottingSheetUrl">Slotování</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col">
-                    <h6 class="text-uppercase fw-bold">Velitelský Briefing</h6>
-                    <p>@(_mission.LeaderBriefingDate.HasValue ? _mission.LeaderBriefingDate.Value : "Není plánován")</p>
-                    <h6 class="text-uppercase fw-bold">Připojování na Server</h6>
-                    <p>@(_mission.ConnectingToServerDate)</p>
-                    <h6 class="text-uppercase fw-bold">Začátek Mise</h6>
-                    <p>@(_mission.MissionStartDate)</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-auto">
-                    @if (_mission.ModpackUrl is not null)
-                    {
-                        <a class="btn btn-primary m-2" href="@_mission.ModpackUrl">Stáhnout Modpack</a>
-                    }
-                </div>
-                <div class="col-auto">
-                    @if (_mission.SlottingSheetUrl is null)
-                    {
-                        <span class="fc-not-allowed" tabindex="0" data-bs-toggle="tooltip" data-bs-title="Slotování nebylo autorem dodáno">
-                            <a class="btn btn-primary disabled" disabled>Slotování</a>
-                        </span>
-                    }
-                    else
-                    {
-                        <a class="btn btn-primary" href="@_mission.SlottingSheetUrl">Slotování</a>
-                    }
-                </div>
-            </div>
         </div>
     </div>
+    
 }
 
 @code

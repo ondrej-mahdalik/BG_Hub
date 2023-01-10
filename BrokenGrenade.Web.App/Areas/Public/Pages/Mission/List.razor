@@ -4,10 +4,12 @@
 @inject MissionFacade MissionFacade
 @inject MissionTypeFacade MissionTypeFacade
 @inject ModpackTypeFacade ModpackTypeFacade
+@inject UserFacade UserFacade
+@inject NavigationManager NavigationManager
 
 <PageTitle>Seznam Misí — BG Hub</PageTitle>
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
     <h1 class="h2">Seznam Misí</h1>
 </div>
 <div class="card bg-dark-subtle mb-4">
@@ -43,7 +45,14 @@
                 <div class="col col-sm-6">
                     <div class="mb-3">
                         <label for="searchCreator" class="form-label">Podle autora</label>
-                        <InputText class="form-control" @bind-Value="_filter.Creator" id="searchCreator"/>
+                        @if (_creatorName is not null)
+                        {
+                            <input class="form-control disabled" value="@_creatorName" disabled/>
+                        }
+                        else
+                        {
+                            <InputText class="form-control" @bind-Value="_filter.Creator" id="searchCreator"/>
+                        }
                     </div>
                     <div class="mb-3">
                         <label for="searchModpackType" class="form-label">Podle modpacku</label>
@@ -62,7 +71,11 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <button type="submit" class="btn btn-primary">Filtrovat</button>
+                    <div class="d-flex flex-row gap-2">
+                        <button type="submit" class="btn btn-primary">Filtrovat</button>
+                        <button type="reset" class="btn btn-outline-secondary" @onclick="ResetFilterAsync">Vymazat filtry</button>
+                    </div>
+                    
                 </div>
             </div>
         </EditForm>
@@ -212,6 +225,8 @@
     [SupplyParameterFromQuery(Name = "creator_id")]
     public Guid? CreatorId { get; set; }
 
+    private string? _creatorName;
+
     private List<MissionModel>? _missions;
     private List<List<MissionModel>> MissionsPages => _missions is null ? new List<List<MissionModel>>() : _missions.Select((x, i) =>
     new {
@@ -232,7 +247,10 @@
         _missions = CreatorId.HasValue ?
             (await MissionFacade.GetByUserAsync(CreatorId.Value)).OrderBy(x => x.MissionStartDate).ToList()
             : (await MissionFacade.GetAsync()).OrderBy(x => x.MissionStartDate).ToList();
-        
+
+        if (CreatorId.HasValue)
+            _creatorName = await UserFacade.GetNicknameAsync(CreatorId.Value);
+
         _missionTypes = await MissionTypeFacade.GetAsync();
         _modpackTypes = await ModpackTypeFacade.GetAsync();
     }
@@ -243,4 +261,15 @@
         _missions = null;
         _missions = (await MissionFacade.GetAsync(_filter)).OrderBy(x => x.MissionStartDate).ToList();
     }
+
+    private async Task ResetFilterAsync()
+    {
+        NavigationManager.NavigateTo(new Uri(NavigationManager.Uri).GetLeftPart(UriPartial.Path));
+        _filter = new();
+        _creatorName = null;
+        CreatorId = null;
+        
+        await FilterAsync();
+    }
+
 }
