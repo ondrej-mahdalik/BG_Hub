@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BrokenGrenade.Common.Models;
+using BrokenGrenade.Common.Models.Filters;
 using BrokenGrenade.Web.DAL.Entities;
 using BrokenGrenade.Web.DAL.UnitOfWork;
 using Microsoft.EntityFrameworkCore;

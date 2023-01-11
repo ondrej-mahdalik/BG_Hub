@@ -1,4 +1,4 @@
-﻿namespace BrokenGrenade.Common.Models;
+﻿namespace BrokenGrenade.Common.Models.Filters;
 
 public class MissionFilterModel
 {

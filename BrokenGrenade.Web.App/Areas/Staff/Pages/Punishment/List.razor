@@ -1,8 +1,232 @@
 ﻿@page "/Staff/Punishment"
 @using BrokenGrenade.Common.Permissions
-@attribute [Authorize(Policy = PolicyTypes.ManageRoles)]
-<h3>List</h3>
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Common.Models.Filters
+@using BrokenGrenade.Web.BL.Facades
+@using Microsoft.AspNetCore.Components
+@inject PunishmentFacade PunishmentFacade
+@attribute [Authorize(Policy = PolicyTypes.ManagePunishments)]
+
+<PageTitle>Seznam Trestů — BG Hub</PageTitle>
+
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+    <h1 class="h2">Seznam Trestů</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a class="btn btn-primary" href="/Staff/Punishment/Create">Udělit trest</a>
+        </div>
+    </div>
+</div>
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-header">
+        <h6 class="card-title mb-0">Filtrování</h6>
+    </div>
+    <div class="card-body">
+        <EditForm Model="_filter" id="filterForm" OnSubmit="FilterAsync">
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label for="searchName" class="form-label">Podle uživatele</label>
+                        <InputText class="form-control" @bind-Value="_filter.UserNickname" id="searchName"/>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label for="issued_by" class="form-label">Podle autora</label>
+                        <InputText class="form-control" @bind-Value="_filter.IssuedByNickname" id="issued_by"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label for="searchPunishmentType" class="form-label">Podle trestu</label>
+                        <InputText TValue="Guid?" class="form-control" @bind-Value="_filter.PunishmentName" id="searchPunishmentType"/>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <InputCheckbox id="is_active" role="switch" class="form-check-input" @bind-Value="_filter.IsActive"/>
+                            <label for="is_active" class="form-check-label">Pouze aktivní</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex flex-row gap-2">
+                        <button type="submit" class="btn btn-primary">Filtrovat</button>
+                        <button type="reset" class="btn btn-outline-secondary" @onclick="ResetFilterAsync">Vymazat filtry</button>
+                    </div>
+
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+<div class="card bg-dark-subtle mb-4"> 
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Datum Udelení</th>
+                <th>Jméno Hráče</th>
+                <th>Trest</th>
+                <th>Datum Expirace</th>
+                <th>Udělil</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (_punishments is null)
+            {
+                <tr>
+                    <td>
+                        <p class="placeholder-glow">
+                            <span class="placeholder col-6"></span>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="placeholder-glow">
+                            <span class="placeholder col-6"></span>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="placeholder-glow">
+                            <span class="placeholder col-6"></span>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="placeholder-glow">
+                            <span class="placeholder col-6"></span>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="placeholder-glow">
+                            <span class="placeholder col-6"></span>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="placeholder-glow">
+                            <span class="placeholder col-6"></span>
+                        </p>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                @if (_punishments.Count > 0) // Total kaboom ked nemá value
+                {
+                    @foreach (var punishment in PunishmentPages[_currentPage])
+                    {
+                        <tr>
+                            <td>@punishment.IssuedOn</td>
+                            <td>@punishment.User?.Nickname</td>
+                            <td>@punishment.Punishment</td>
+                            <td>@(punishment.ExpiresOn.HasValue? punishment.ExpiresOn.Value : "Na neurčito")</td>
+                            <td>@punishment.IssuedBy?.Nickname</td>
+                            <td>
+                                <a class="btn btn-primary" href="/Staff/Punishment/Edit/@punishment.Id">Detail</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6">
+                            <p class="text-center">Nebyly nalezeny žádné tresty</p>
+                        </td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+        @if (_punishments?.Count > 0)
+        {
+            <div class="row">
+                <div class="col col-md-6 align-self-center">
+                    <p>Zobrazeno @(1 + _currentPage * 10)-@(10 + _currentPage * 10 < _punishments.Count ? 10 + _currentPage * 10 : _punishments.Count) z @_punishments.Count</p>
+                </div>
+                <div class="col col-md-6">
+                    <nav class="d-flex justify-content-end" aria-label="Stránkování">
+                        <ul class="pagination">
+                            <li class="page-item @(_currentPage <= 0 ? "disabled" : "")">
+                                <a class="page-link" href="#" aria-label="Předchozí">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            @for (var i = _currentPage - 1; i <= _currentPage + 1; i++)
+                            {
+                                var num = i;
+                                if (_currentPage == 0)
+                                    num = i + 1; // So user cant go to page -1
+
+                                else if (_currentPage >= PunishmentPages.Count - 1)
+                                    num = i - 1; // So user cant go to a page that is too high
+
+                                if (num > PunishmentPages.Count - 1)
+                                {
+                                    break; // If there are fewer than 3 pages total
+                                }
+                                if (_currentPage == 1 && PunishmentPages.Count == 2 && i == 0)
+                                {
+                                    // If only 2 pages are available, clicking the second one would make page 0 appear
+                                    // which is obviously not possible
+                                    continue;
+                                }
+
+                                <li class="page-item @(_currentPage == num ? "active" : "")">
+                                    <a class="page-link" @onclick="() => _currentPage = num" role="button">@(num + 1)</a>
+                                </li>
+                            }
+                            <li class="page-item @(_currentPage >= PunishmentPages.Count - 1 ? "disabled" : "")">
+                                <a class="page-link" href="#" aria-label="Následující">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
 
 @code {
+    // filtrovani nazvu trestu + uživatele + aktivnost trestu
+    private List<PunishmentModel>? _punishments;
+    private List<List<PunishmentModel>> PunishmentPages => _punishments is null ? new List<List<PunishmentModel>>() : _punishments.Select((x, i) =>
+        new
+        {
+            Index = i,
+            Value = x
+        }).GroupBy(x => x.Index / 10)
+        .Select(x => x.Select(v => v.Value).ToList()).ToList();
     
+    private int _currentPage = 0;
+    
+    private PunishmentFilterModel _filter = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _punishments = await PunishmentFacade.GetAsync();
+    }
+
+    private async Task ResetFilterAsync()
+    {
+        _filter = new();
+        await FilterAsync();
+    }
+
+    private async Task FilterAsync()
+    {
+        _currentPage = 0;
+        _punishments = null;
+        _punishments = (await PunishmentFacade.GetAsync(_filter)).ToList();
+    }
+
 }
