@@ -1,0 +1,9 @@
+﻿@page "/Staff/Article/Edit/{Id}"
+@using BrokenGrenade.Common.Permissions
+@attribute [Authorize(Policy = PolicyTypes.ManageRoles)]
+<h3>Edit</h3>
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+}
