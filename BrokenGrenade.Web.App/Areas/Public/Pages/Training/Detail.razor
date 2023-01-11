@@ -1,10 +1,96 @@
-﻿@page "/Training/Detail/{Id}"
+﻿@page "/Training/{Id:guid}"
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.BL.Facades
+@inject TrainingFacade TrainingFacade
 
 <PageTitle>Detail Výcviku — BG Hub</PageTitle>
 
-<h3>Detail</h3>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+    @if (_training is null)
+    {
+        <div class="col">
+            <h1 class="h2 placeholder-glow">
+                <span class="placeholder col-6"></span>
+            </h1>
+        </div>
+    }
+    else
+    {
+        <h1 class="h2">@_training?.Name</h1>
+    }
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a class="btn btn-sm btn-link text-decoration-none" href="/Training">
+                <i class="fa-solid fa-angles-left"></i> Všechny výcviky
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-lg-6">
+        <div class="card bg-dark-subtle">
+            <div class="card-header">
+                <h5 class="h6 card-title mb-0">Základní informace</h5>
+            </div>
+            <div class="card-body">
+                @if (_training is null)
+                {
+                    <div class="row">
+                        <div class="col">
+                            <h6 class="card-subtitle text-primary">Instruktor</h6>
+                            <p class="placeholder-glow">
+                                <span class="placeholder col-8"></span>
+                            </p>
+                        </div>
+                        <div class="col">
+                            <h6 class="card-subtitle text-primary">Datum</h6>
+                            <p class="placeholder-glow">
+                                <span class="placeholder col-8"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h6 class="card-subtitle text-primary">Poznámka</h6>
+                            <p class="placeholder-glow">
+                                <span class="placeholder col-8"></span>
+                            </p>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col">
+                            <h6 class="card-subtitle text-primary">Instruktor</h6>
+                            <p>@(_training.Creator?.Nickname ?? "Odstraněný uživatel")</p>
+                        </div>
+                        <div class="col">
+                            <h6 class="card-subtitle text-primary">Datum</h6>
+                            <p>@_training.Date</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h6h class="card-subtitle text-primary">Poznámka</h6h>
+                            <p>@_training.Note</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
     [Parameter]
     public Guid Id { get; set; }
+    
+    private TrainingModel? _training;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _training = await TrainingFacade.GetAsync(Id);
+    }
+
 }
