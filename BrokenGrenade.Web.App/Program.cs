@@ -203,6 +203,7 @@ async Task SetupDatabaseAsync(WebApplication application)
         await ModpackTypeSeeds.SeedAsync(dbx);
         await MissionSeeds.SeedAsync(dbx);
         await PunishmentSeeds.SeedAsync(dbx);
+        await TrainingSeeds.SeedAsync(dbx);
         await dbx.SaveChangesAsync();
     }
     else

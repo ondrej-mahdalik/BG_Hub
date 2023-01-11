@@ -7,7 +7,7 @@ public class TrainingEntity : EntityBase
     public DateTime Date { get; set; }
     
     public UserEntity? Creator { get; init; }
-    public Guid CreatorId { get; set; }
+    public Guid? CreatorId { get; set; }
     
     public ICollection<UserIsParticipatingTrainingEntity> Participants { get; init; } = new List<UserIsParticipatingTrainingEntity>();
 

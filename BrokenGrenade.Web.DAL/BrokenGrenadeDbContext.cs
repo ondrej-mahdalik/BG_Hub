@@ -17,6 +17,7 @@ public class BrokenGrenadeDbContext : CustomApiAuthorizationDbContext<UserEntity
     public DbSet<ArticleCategoryEntity> ArticleCategoryEntities => Set<ArticleCategoryEntity>();
     public DbSet<ArticleEntity> ArticleEntities => Set<ArticleEntity>();
     public DbSet<PunishmentEntity> PunishmentEntities => Set<PunishmentEntity>();
+    public DbSet<TrainingEntity> TrainingEntities => Set<TrainingEntity>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
