@@ -13,13 +13,15 @@ public class RoleFacade : IAppFacade
 {
     private readonly IMapper _mapper;
     private readonly RoleManager<RoleEntity> _roleManager;
-    
-    public RoleFacade(IMapper mapper, RoleManager<RoleEntity> roleManager)
+    private readonly UserManager<UserEntity> _userManager;
+
+    public RoleFacade(IMapper mapper, RoleManager<RoleEntity> roleManager, UserManager<UserEntity> userManager)
     {
         _mapper = mapper;
         _roleManager = roleManager;
+        _userManager = userManager;
     }
-    
+
     public async Task DeleteAsync(Guid id)
     {
         var entity = await _roleManager.FindByIdAsync(id.ToString());
@@ -82,6 +84,11 @@ public class RoleFacade : IAppFacade
         var model = _mapper.Map<RoleModel>(entity);
         var claims = await _roleManager.GetClaimsAsync(entity);
         var permissions = claims.Where(x => x.Type == "permission").Select(x => x.Value).ToList();
+        if (entity.Name != null)
+        {
+            var users = await _userManager.GetUsersInRoleAsync(entity.Name);
+            model.UserCount = users.Count;
+        }
 
         model.CreateMissions = permissions.Contains(PermissionTypes.CreateMissions);
         model.ManageMissions = permissions.Contains(PermissionTypes.ManageMissions);
@@ -106,7 +113,6 @@ public class RoleFacade : IAppFacade
             await _roleManager.RemoveClaimAsync(entity, claim);
         
         // Add new permissions
-        var permissions = new List<string>();
         if (model.CreateMissions)
             await _roleManager.AddClaimAsync(entity, new Claim("permission", PermissionTypes.CreateMissions));
         
