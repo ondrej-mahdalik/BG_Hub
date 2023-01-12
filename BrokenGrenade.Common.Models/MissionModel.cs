@@ -16,9 +16,6 @@ namespace BrokenGrenade.Common.Models
 
         }
 
-        public string CalendarDescription =>
-            $"Autor: {Creator?.Nickname ?? "Odstraněný uživatel"}\nTyp: {MissionType?.Name ?? "Odstraněný typ"}\nModpack: {ModpackType?.Name ?? "Odstraněný typ"}";
-        
         [Required]
         [Display(Name = "Název mise")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "{0} musí mít minimálně {2} znaky a maximálně {1} znaků.")]
