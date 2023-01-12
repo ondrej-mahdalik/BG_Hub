@@ -1,8 +1,87 @@
 ﻿@page "/Staff/Punishment/Create"
 @using BrokenGrenade.Common.Permissions
-@attribute [Authorize(Policy = PolicyTypes.ManageRoles)]
-<h3>Create</h3>
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.BL.Facades;
+@inject UserFacade UserFacade
+@inject PunishmentFacade PunishmentFacade
+@attribute [Authorize(Policy = PolicyTypes.ManagePunishments)]
+
+<PageTitle>Vytvořit trest — BG Hub</PageTitle>
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+    <h1 class="h2">Vytvoření trestu</h1>
+</div>
+<div class="card bg-dark-subtle mb-4">
+    <EditForm Model="_application" OnValidSubmit="@HandleValidPunishAsync">
+                <div class="row text-danger">
+                    <div class="col">
+                        <DataAnnotationsValidator/>
+                        <ValidationSummary/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-sm-6">
+                        <div class="mb-3">
+                            <label for="user" class="form-label">Uživatel</label>
+                            <InputSelect id="user" TValue="Guid?" class="form-control" @bind-Value="_application.UserId">
+                             @foreach (var user in _users)
+                            {
+                                    <option value="@user.Id">
+                                        @user.Nickname
+                                    </option>
+                            }
+                    </InputSelect>
+                        </div>
+                    </div>
+                    <div class="col col-sm-6">
+                        <div class="mb-3">
+                            <label for="newpunishment" class="form-label">Trest</label>
+                            <InputText id="newpunishment" class="form-control" @bind-Value="_application.Punishment" />
+                        </div>
+                    </div>
+                    <div class="col col-sm-6">
+                        <div class="mb-3">
+                            <label for="reason" class="form-label">Dúvod</label>
+                            <InputTextArea id="reason" class="form-control" @bind-Value="_application.Reason" />
+                        </div>
+                    </div>
+                </div>
+            <button type="submit" class="btn btn-primary">
+                ŽaláŘ
+            </button>
+     </EditForm>
+</div>
 
 @code {
-    
+    private List<UserModel> _users = new();
+
+    private PunishmentModel _application = new();
+    private bool _submitting;
+    private bool _submitted;
+
+    private string? _error;
+    protected override async Task OnInitializedAsync()
+    {
+        _users = await UserFacade.GetAsync();
+    }
+
+    private async Task HandleValidPunishAsync()
+    {
+        _error = null;
+        _submitting = true;
+        try
+        {
+            await PunishmentFacade.SaveAsync(_application);
+            _submitted = true;
+        }
+        catch (Exception e)
+        {
+            _error =  $"Při odesílání přihlášky došlo k chybě: {e.Message}";
+        }
+        finally
+        {
+            _submitting = false;
+        }
+    }
+
 }
