@@ -20,8 +20,6 @@ namespace BrokenGrenade.Common.Models
 
         public int Priority { get; set; } = 0;
         
-        public int UserCount { get; set; }
-        
         public bool CreateMissions { get; set; }
         public bool CreateTrainings { get; set; }
         public bool ManageUsers { get; set; }
