@@ -1,6 +1,58 @@
 ﻿@page "/Mission/Calendar"
-<h3>Calendar</h3>
+@using Syncfusion.Blazor.Schedule
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.BL.Facades
+@inject MissionFacade MissionFacade
+@inject NavigationManager NavigationManager
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+    <h1 class="h2">Kalendář Misí</h1>
+</div>
+<div class="row">
+    <div class="col">
+        @if (_missions is not null)
+        {
+            <SfSchedule TValue="MissionModel">
+                <ScheduleViews>
+                    <ScheduleView Option="View.Month"/>
+                </ScheduleViews>
+                <ScheduleEventSettings DataSource="_missions" EnableTooltip="true">
+                    <TooltipTemplate>
+                        <div>
+                            <p class="mb-0">Autor: <b>@((context as MissionModel)?.Creator?.Nickname ?? "Odstraněný uživatel")</b></p>
+                            <p class="mb-0">Typ mise: <b>@((context as MissionModel)?.MissionType?.Name ?? "Odstraněný typ")</b></p>
+                            <p class="mb-0">Modpack: <b>@((context as MissionModel)?.ModpackType?.Name ?? "Odstraněný typ")</b></p>
+                        </div>
+                    </TooltipTemplate>
+                    <ChildContent>
+                        <ScheduleField Id="@nameof(MissionModel.Id)">
+                            <FieldSubject Name="@nameof(MissionModel.Name)"/>
+                            <FieldStartTime Name="@nameof(MissionModel.MissionStartDate)"/>
+                            <FieldEndTime Name="@nameof(MissionModel.MissionStartDate)"/>
+                        </ScheduleField>
+                    </ChildContent>
+                </ScheduleEventSettings>
+                <ScheduleEvents TValue="MissionModel" OnEventClick="HandleEventClick"/>
+            </SfSchedule>
+        }
+    </div>
+</div>
 
 @code {
     
+    private List<MissionModel>? _missions = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _missions = await MissionFacade.GetAsync();
+    }
+
+    private void HandleEventClick(EventClickArgs<MissionModel> obj)
+    {
+        if (obj.Event is null)
+            return;
+        
+        NavigationManager.NavigateTo($"/Mission/Detail/{obj.Event.Id}");
+    }
+
 }

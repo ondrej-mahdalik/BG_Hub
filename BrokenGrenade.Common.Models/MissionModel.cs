@@ -10,11 +10,16 @@ namespace BrokenGrenade.Common.Models
             ConnectingToServerDate = connectingToServerDate;
             MissionStartDate = missionStartDate;
         }
-        
+
+        public MissionModel()
+        {
+
+        }
+
         [Required]
         [Display(Name = "Název mise")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "{0} musí mít minimálně {2} znaky a maximálně {1} znaků.")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         
         [Display(Name = "Odkaz na slotování")]
         [Url]
@@ -27,11 +32,13 @@ namespace BrokenGrenade.Common.Models
         [Display(Name = "Velitelský briefing")]
         public DateTime? LeaderBriefingDate { get; set; }
         
+        [Required]
         [Display(Name = "Připojování na server")]
-        public DateTime ConnectingToServerDate { get; set; }
+        public DateTime? ConnectingToServerDate { get; set; }
         
+        [Required]
         [Display(Name = "Začátek mise")]
-        public DateTime MissionStartDate { get; set; }
+        public DateTime? MissionStartDate { get; set; }
         
         public UserModel? Creator { get; set; }
         public Guid? CreatorId { get; set; }

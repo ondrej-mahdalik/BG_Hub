@@ -25,6 +25,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Supercode.Blazor.BreadcrumbNavigation" Version="1.3.2" />
+    <PackageReference Include="Syncfusion.Blazor.Schedule" Version="20.4.0.43" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="20.4.0.43" />
   </ItemGroup>
 
   <ItemGroup>
