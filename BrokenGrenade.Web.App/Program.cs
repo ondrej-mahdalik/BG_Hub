@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Syncfusion.Blazor;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddConsole();
@@ -71,12 +72,16 @@ void ConfigureDependencies(IServiceCollection serviceCollection, IConfiguration 
                 options.UseSqlite(connectionString));
             break;
     }
+    
+    Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(configuration.GetValue<string>("License:Syncfusion:SyncfusionKey"));
+    serviceCollection.AddSyncfusionBlazor();
 
     serviceCollection.AddInstaller<WebBLInstaller>();
 
     serviceCollection.AddTransient<IEmailSender, EmailSender>();
     serviceCollection.Configure<AuthMessageSenderOptions>(
         configuration.GetSection(AuthMessageSenderOptions.SendGrid));
+    
 }
 
 void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguration configuration)
