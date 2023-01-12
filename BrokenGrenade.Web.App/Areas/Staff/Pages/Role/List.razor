@@ -14,7 +14,7 @@
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
             <a class="btn btn-primary" href="/Staff/Punishment/Create">
-                <i class="fa-solid fa-handcuffs fa-fw"></i> Udělit roli
+                <i class="fa-solid fa-scroll"></i> Vytvořit novou roli
             </a>
         </div>
     </div>
@@ -28,27 +28,13 @@
             <div class="row">
                 <div class="col-12 col-sm-6">
                     <div class="mb-3">
-                        <label for="searchName" class="form-label">Podle uživatele</label>
-                        <InputText class="form-control" @bind-Value="_filter.UserNickname" id="searchName"/>
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6">
-                    <div class="mb-3">
-                        <label for="searchRoleType" class="form-label">Podle role</label>
+                        <label for="searchRoleType" class="form-label">Podle názvu</label>
                         <InputText TValue="Guid?" class="form-control" @bind-Value="_filter.RoleName" id="searchRoleType"/>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 col-sm-6">
-                </div>
-                <div class="col-12 col-sm-6">
-                    <div class="mb-3">
-                        <div class="form-check form-switch">
-                            <InputCheckbox id="is_active" role="switch" class="form-check-input" @bind-Value="_filter.IsActive"/>
-                            <label for="is_active" class="form-check-label">Pouze aktivní</label>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="row">
@@ -68,8 +54,9 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th>Pořadí</th>
                 <th>Jméno role</th>
-                @*<th>Počet uživatelů s rolí</th>*@
+                <th>Počet uživatelů s rolí</th>
                 @*<th>Jméno Hráče</th>
                 <th>Trest</th>
                 <th>Datum Expirace</th>*@
@@ -121,8 +108,9 @@
                     @foreach (var role in RolePages[_currentPage])
                     {
                         <tr>
+                            <td>@role.Priority</td>
                             <td>@role.Name</td>
-                            @*<td>@role.Count</td>*@
+                            <td>@role.UserCount</td>
                             @*<td>@role</td>
                             <td>@role.role</td>
                             <td>@(role.ExpiresOn.HasValue ? role.ExpiresOn.Value : "Na neurčito")</td>
