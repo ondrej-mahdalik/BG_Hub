@@ -1,9 +1,11 @@
 ﻿@page "/Staff/Punishment/Create"
 @using BrokenGrenade.Common.Permissions
 @using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Extensions
 @using BrokenGrenade.Web.BL.Facades;
 @inject UserFacade UserFacade
 @inject PunishmentFacade PunishmentFacade
+@inject NavigationManager NavigationManager
 @attribute [Authorize(Policy = PolicyTypes.ManagePunishments)]
 
 <PageTitle>Vytvořit trest — BG Hub</PageTitle>
@@ -12,71 +14,142 @@
     <h1 class="h2">Vytvoření trestu</h1>
 </div>
 <div class="card bg-dark-subtle mb-4">
-    <EditForm Model="_application" OnValidSubmit="@HandleValidPunishAsync">
-                <div class="row text-danger">
-                    <div class="col">
-                        <DataAnnotationsValidator/>
-                        <ValidationSummary/>
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <EditForm Model="_punishment" OnValidSubmit="@SavePunishmentAsync">
+                    <div class="row text-danger">
+                        <div class="col">
+                            <DataAnnotationsValidator/>
+                            <ValidationSummary/>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col col-sm-6">
-                        <div class="mb-3">
-                            <label for="user" class="form-label">Uživatel</label>
-                            <InputSelect id="user" TValue="Guid?" class="form-control" @bind-Value="_application.UserId">
-                             @foreach (var user in _users)
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="user" class="form-label">Uživatel</label>
+                                <InputSelect id="user" TValue="Guid?" class="form-control" @bind-Value="_punishment.UserId">
+                                    @foreach (var user in _users)
+                                    {
+                                        <option value="@user.Id">
+                                            @user.Nickname
+                                        </option>
+                                    }
+                                </InputSelect>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="newpunishment" class="form-label">Trest</label>
+                                <InputText id="newpunishment" class="form-control" @bind-Value="_punishment.Punishment"/>
+                            </div>
+                        </div>
+                    </div >
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-2">
+                                <label for="date" class="form-label">Expirace trestu</label>
+                                <InputDate id="date" class="form-control" @bind-Value="_punishment.ExpiresOn"/>
+                            </div>
+                            @if (_punishment.ExpiresOn.HasValue)
                             {
-                                    <option value="@user.Id">
-                                        @user.Nickname
-                                    </option>
+                                <div class="mb-3">
+                                    <div class="d-flex flex-row align-items-start gap-2">
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                                @onclick="() => _punishment.ExpiresOn = _punishment.ExpiresOn.Value.AddMonths(-1)">
+                                            <i class="fa-solid fa-minus fa-fw"></i> Měsíc
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                                @onclick="() => _punishment.ExpiresOn = _punishment.ExpiresOn.Value.AddDays(-1)">
+                                            <i class="fa-solid fa-minus fa-fw"></i> Den
+                                        </button>
+                                        <button type="button" class="btn btn-dark btn-sm"
+                                                @onclick="() => _punishment.ExpiresOn = DateTime.Now">
+                                            <i class="fa-solid fa-calendar fa-fw"></i> Dnes
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-sm"
+                                                @onclick="() => _punishment.ExpiresOn = _punishment.ExpiresOn.Value.AddDays(1)">
+                                            <i class="fa-solid fa-plus fa-fw"></i> Den
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-sm"
+                                                @onclick="() => _punishment.ExpiresOn = _punishment.ExpiresOn.Value.AddMonths(1)">
+                                            <i class="fa-solid fa-plus fa-fw"></i> Měsíc
+                                        </button>
+                                    </div>
+                                </div>
                             }
-                    </InputSelect>
                         </div>
                     </div>
-                    <div class="col col-sm-6">
-                        <div class="mb-3">
-                            <label for="newpunishment" class="form-label">Trest</label>
-                            <InputText id="newpunishment" class="form-control" @bind-Value="_application.Punishment" />
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="reason" class="form-label">Důvod</label>
+                                <InputTextArea id="reason" class="form-control" @bind-Value="_punishment.Reason"/>
+                            </div>
                         </div>
                     </div>
-                    <div class="col col-sm-6">
-                        <div class="mb-3">
-                            <label for="reason" class="form-label">Dúvod</label>
-                            <InputTextArea id="reason" class="form-control" @bind-Value="_application.Reason" />
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex flex-row gap-2">
+                                @if (_submitting)
+                                {
+                                    <button type="submit" class="btn btn-primary disabled" disabled>Udělit trest</button>
+                                }
+                                else
+                                {
+                                    <button type="submit" class="btn btn-primary">Udělit trest</button>
+                                }
+                                <a class="btn btn-outline-secondary" href="/Staff/Punishment">Zpět</a>
+                            </div>
+                            @if (_error is not null)
+                            {
+                                <div class="mt-3">
+                                    <p class="text-danger">@_error</p>
+                                </div>
+                            }
                         </div>
                     </div>
-                </div>
-            <button type="submit" class="btn btn-primary">
-                ŽaláŘ
-            </button>
-     </EditForm>
+                    
+                </EditForm>
+            </div>
+        </div>
+    </div>
 </div>
 
 @code {
+
+    [CascadingParameter]
+    private Task<AuthenticationState> AuthenticationStateTask { get; set; } = default!;
+
     private List<UserModel> _users = new();
 
-    private PunishmentModel _application = new();
+    private PunishmentModel _punishment = new();
     private bool _submitting;
-    private bool _submitted;
 
     private string? _error;
+
     protected override async Task OnInitializedAsync()
     {
         _users = await UserFacade.GetAsync();
+        _punishment.IssuedById = (await AuthenticationStateTask).GetUserId();
+        _punishment.ExpiresOn = DateTime.Now;
     }
 
-    private async Task HandleValidPunishAsync()
+    private async Task SavePunishmentAsync()
     {
         _error = null;
         _submitting = true;
+
         try
         {
-            await PunishmentFacade.SaveAsync(_application);
-            _submitted = true;
+            await PunishmentFacade.SaveAsync(_punishment);
+            NavigationManager.NavigateTo("/Staff/Punishment");
         }
         catch (Exception e)
         {
-            _error =  $"Při odesílání přihlášky došlo k chybě: {e.Message}";
+            _error = $"Při odesílání přihlášky došlo k chybě: {e.Message}";
         }
         finally
         {
