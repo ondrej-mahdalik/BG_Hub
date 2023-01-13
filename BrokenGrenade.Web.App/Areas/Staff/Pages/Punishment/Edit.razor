@@ -1,9 +1,30 @@
-﻿@page "/Staff/Punishment/Edit/{Id}"
+﻿@page "/Staff/Punishment/Edit/{Id:guid}"
 @using BrokenGrenade.Common.Permissions
-@attribute [Authorize(Policy = PolicyTypes.ManageRoles)]
-<h3>Edit</h3>
+@using BrokenGrenade.Web.BL.Facades
+@using BrokenGrenade.Common.Models
+@inject PunishmentFacade PunishmentFacade
+@attribute [Authorize(Policy = PolicyTypes.ManagePunishments)]
+
+@if (_punishment == null)
+{
+    <p>Načítání...</p>
+}
+else
+{
+    <EditForm>
+        
+    </EditForm>
+}
 
 @code {
     [Parameter]
     public Guid Id { get; set; }
+
+    private PunishmentModel? _punishment;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _punishment = await PunishmentFacade.GetAsync(Id);
+    }
+
 }
