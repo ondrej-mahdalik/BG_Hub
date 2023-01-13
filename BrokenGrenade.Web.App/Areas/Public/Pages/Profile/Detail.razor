@@ -3,7 +3,7 @@
 @using BrokenGrenade.Web.BL.Facades
 @inject UserFacade UserFacade
 
-<PageTitle>@(_user.Nickname ?? "Profil") — BG Hub</PageTitle>
+<PageTitle>@(_user?.Nickname ?? "Profil") — BG Hub</PageTitle>
 
 <h3>Detail</h3>
 

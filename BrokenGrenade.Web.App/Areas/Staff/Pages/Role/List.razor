@@ -1,6 +1,5 @@
 ﻿@page "/Staff/Role"
 @using BrokenGrenade.Common.Permissions
-@using BrokenGrenade.Common.Permissions
 @using BrokenGrenade.Common.Models
 @using BrokenGrenade.Common.Models.Filters
 @using BrokenGrenade.Web.BL.Facades
@@ -216,7 +215,7 @@
     {
         _currentPage = 0;
         _Roles = null;
-        //_Roles = (await RoleFacade.GetAsync(_filter)).ToList();
+        _Roles = (await RoleFacade.GetAsync(_filter)).ToList();
     }
 
 }

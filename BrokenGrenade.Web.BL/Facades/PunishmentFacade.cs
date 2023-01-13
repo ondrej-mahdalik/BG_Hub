@@ -35,16 +35,16 @@ public class PunishmentFacade : CRUDFacade<PunishmentEntity, PunishmentModel>
             .Where(x => true);
         
         if (filter.UserNickname is not null)
-            query = query.Where(x => x.User != null && x.User.Nickname.Contains(filter.UserNickname));
+            query = query.Where(x => x.User != null && x.User.Nickname.ToLower().Contains(filter.UserNickname.ToLower()));
         
         if (filter.IsActive)
             query = query.Where(x => !x.ExpiresOn.HasValue || x.ExpiresOn.Value > DateTime.Now);
         
         if (filter.PunishmentName is not null)
-            query = query.Where(x => x.Punishment.Contains(filter.PunishmentName));
+            query = query.Where(x => x.Punishment.ToLower().Contains(filter.PunishmentName.ToLower()));
         
         if (filter.IssuedByNickname is not null)
-            query = query.Where(x => x.IssuedBy != null && x.IssuedBy.Nickname.Contains(filter.IssuedByNickname));
+            query = query.Where(x => x.IssuedBy != null && x.IssuedBy.Nickname.ToLower().Contains(filter.IssuedByNickname.ToLower()));
 
         return await Mapper.ProjectTo<PunishmentModel>(query).ToListAsync().ConfigureAwait(false);
     }

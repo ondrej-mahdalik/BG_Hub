@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using AutoMapper;
 using BrokenGrenade.Common.Models;
+using BrokenGrenade.Common.Models.Filters;
 using BrokenGrenade.Common.Permissions;
 using BrokenGrenade.Web.Common.Facades;
 using BrokenGrenade.Web.DAL.Entities;
@@ -20,6 +21,20 @@ public class RoleFacade : IAppFacade
         _mapper = mapper;
         _roleManager = roleManager;
         _userManager = userManager;
+    }
+
+    public async Task<List<RoleModel>> GetAsync(RoleFilterModel filter)
+    {
+        var query = _roleManager.Roles;
+        if (filter.RoleName is not null)
+            query = query.Where(x => x.Name != null && x.Name.ToLower().Contains(filter.RoleName.ToLower()));
+
+        var entities = await query.ToListAsync();
+        var models = new List<RoleModel>();
+        foreach (var entity in entities)
+            models.Add(await MapRoleAsync(entity));
+        
+        return models;
     }
 
     public async Task DeleteAsync(Guid id)
@@ -49,10 +64,7 @@ public class RoleFacade : IAppFacade
         var models = new List<RoleModel>();
 
         foreach (var entity in entities)
-        {
-            var model = await MapRoleAsync(entity);
-            models.Add(model);
-        }
+            models.Add(await MapRoleAsync(entity));
         
         return models;
     }
