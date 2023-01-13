@@ -51,10 +51,10 @@ public class MissionFacade : CRUDFacade<MissionEntity, MissionModel>
             .Where(x => true);
 
         if (!string.IsNullOrWhiteSpace(filter.Name))
-            query = query.Where(x => x.Name.Contains(filter.Name));
+            query = query.Where(x => x.Name.ToLower().Contains(filter.Name.ToLower()));
         
         if(!string.IsNullOrWhiteSpace(filter.Creator))
-            query = query.Where(x => x.Creator != null && x.Creator.Nickname.Contains(filter.Creator));
+            query = query.Where(x => x.Creator != null && x.Creator.Nickname.ToLower().Contains(filter.Creator.ToLower()));
         
         if(filter.ModpackType is not null)
             query = query.Where(x => x.ModpackTypeId == filter.ModpackType);
