@@ -9,8 +9,8 @@
     Layout = "_Layout";
 }
 
-<div class="row">
-    <div class="col">
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-10 col-xl-8 col-xxl-6">
         <p>@Localizer[nameof(LoginWith2faResource.AccountSecuredWith2fa)]</p>
         <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
             <input asp-for="RememberMe" type="hidden"/>

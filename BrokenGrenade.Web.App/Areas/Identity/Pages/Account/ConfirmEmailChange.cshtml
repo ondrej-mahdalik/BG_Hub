@@ -1,9 +1,19 @@
 ﻿@page
+@using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.Extensions.Localization
+@using BrokenGrenade.Web.App.Resources
 @model ConfirmEmailChangeModel
+@inject IStringLocalizer<ConfirmEmailChangeResource> Localizer
+@inject IStringLocalizer<SharedResources> SharedLocalizer
 @{
-    ViewData["Title"] = "Confirm email change";
+    ViewData["Title"] = Localizer[nameof(ConfirmEmailChangeResource.ConfirmEmailChangeTitle)];
     Layout = "_Layout";
 }
 
-<h1>@ViewData["Title"]</h1>
-<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="row">
+    <div class="col">
+        <partial name="_StatusMessage" model="Model.StatusMessage" />
+        <a class="btn btn-primary" href="./Login">@SharedLocalizer[nameof(SharedResources.LoginButton)]</a>
+    </div>
+</div>

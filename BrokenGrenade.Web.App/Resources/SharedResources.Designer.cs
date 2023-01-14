@@ -60,6 +60,15 @@ namespace BrokenGrenade.Web.App.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Přístup Odepřen.
+        /// </summary>
+        public static string AccessDenied {
+            get {
+                return ResourceManager.GetString("AccessDenied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Odstraněná kategorie.
         /// </summary>
         public static string DeletedMissionCategory {

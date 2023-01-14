@@ -48,4 +48,7 @@
     <data name="InvalidEmail" xml:space="preserve">
         <value>Zadaná emailová adresa není validní</value>
     </data>
+    <data name="AccessDenied" xml:space="preserve">
+        <value>Přístup Odepřen</value>
+    </data>
 </root>

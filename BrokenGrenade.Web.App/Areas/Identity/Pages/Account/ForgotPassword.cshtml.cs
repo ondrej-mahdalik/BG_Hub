@@ -7,6 +7,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using BrokenGrenade.Web.App.Resources;
+using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account;
 using BrokenGrenade.Web.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -14,6 +16,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Localization;
 
 namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
 {
@@ -21,11 +24,13 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
     {
         private readonly UserManager<UserEntity> _userManager;
         private readonly IEmailSender _emailSender;
+        private readonly IStringLocalizer<ForgotPasswordResource> _localizer;
 
-        public ForgotPasswordModel(UserManager<UserEntity> userManager, IEmailSender emailSender)
+        public ForgotPasswordModel(UserManager<UserEntity> userManager, IEmailSender emailSender, IStringLocalizer<ForgotPasswordResource> localizer)
         {
             _userManager = userManager;
             _emailSender = emailSender;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -45,8 +50,8 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessageResourceName = nameof(SharedResources.RequiredField), ErrorMessageResourceType = typeof(SharedResources))]
+            [EmailAddress(ErrorMessageResourceName = nameof(SharedResources.InvalidEmail), ErrorMessageResourceType = typeof(SharedResources))]
             public string Email { get; set; }
         }
 
@@ -73,8 +78,8 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(
                     Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    _localizer[nameof(ForgotPasswordResource.ResetPasswordEmailSubject)],
+                    _localizer[nameof(ForgotPasswordResource.ResetPasswordEmailMessage), HtmlEncoder.Default.Encode(callbackUrl ?? throw new InvalidOperationException("No callback url"))]);
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

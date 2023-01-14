@@ -1,11 +1,18 @@
 ﻿@page
+@using Microsoft.Extensions.Localization
+@using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account
+@using BrokenGrenade.Web.App.Resources
 @model AccessDeniedModel
+@inject IStringLocalizer<AccessDeniedResource> Localizer
+@inject IStringLocalizer<SharedResources> SharedLocalizer
 @{
-    ViewData["Title"] = "Access denied";
+    ViewData["Title"] = SharedLocalizer[nameof(SharedResources.AccessDenied)];
     Layout = "_Layout";
 }
 
-<header>
-    <h1 class="text-danger">@ViewData["Title"]</h1>
-    <p class="text-danger">You do not have access to this resource.</p>
-</header>
+<div class="row">
+    <div class="col">
+        <p class="text-danger text-center">@Localizer[nameof(AccessDeniedResource.AccessDeniedMessage)]</p>
+    </div>
+</div>
+
