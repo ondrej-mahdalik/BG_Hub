@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account;
 using BrokenGrenade.Web.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
@@ -65,23 +66,25 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessageResourceName = nameof(Login.FieldRequired), ErrorMessageResourceType = typeof(Login))]
             [EmailAddress]
+            [Display(Name = nameof(Login.Email), ResourceType = typeof(Login))]
             public string Email { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessageResourceName = nameof(Login.FieldRequired), ErrorMessageResourceType = typeof(Login))]
             [DataType(DataType.Password)]
+            [Display(Name = nameof(Login.Password), ResourceType = typeof(Login))]
             public string Password { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Display(Name = "Remember me?")]
+            [Display(Name = nameof(Login.RememberMe), ResourceType = typeof(Login))]
             public bool RememberMe { get; set; }
         }
 

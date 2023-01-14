@@ -34,4 +34,9 @@
     <ProjectReference Include="..\BrokenGrenade.Web.BL\BrokenGrenade.Web.BL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Login.en.resx">
+      <DependentUpon>Login.resx</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>
