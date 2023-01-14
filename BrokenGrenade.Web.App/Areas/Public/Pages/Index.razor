@@ -2,26 +2,29 @@
 @using BrokenGrenade.Web.BL.Facades
 @using BrokenGrenade.Common.Models
 @using BrokenGrenade.Common.Models.Filters
+@using BrokenGrenade.Web.App.Resources.Areas.Public.Pages
 @using Humanizer
+@using Microsoft.Extensions.Localization
 @inject MissionFacade MissionFacade
 @inject TrainingFacade TrainingFacade
 @inject PunishmentFacade PunishmentFacade
 @inject IJSRuntime JSRuntime
+@inject IStringLocalizer<IndexResource> Localizer
 
-<PageTitle>Broken Grenade Hub</PageTitle>
+<PageTitle>@Localizer[nameof(IndexResource.PageTitle)]</PageTitle>
 
-<div class="row mt-4">
+<div class="row mt-4 flex-wrap">
 <div class="col-12 col-lg-6 col-xxl-4 mb-4">
     <div class="card bg-dark-subtle">
         <div class="card-header">
-            <h5 class="h6 card-title mb-0">Dnešní mise</h5>
+            <h5 class="h6 card-title mb-0">@Localizer[nameof(IndexResource.TodaysMission)]</h5>
         </div>
         <div class="card-body">
             @if (_todaysMission is null)
             {
                 <div class="row d-flex justify-content-center">
                     <div class="col-6 d-flex flex-column justify-content-center">
-                        <p class="text-center fw-bold">Dnes se žádná mise nekoná.</p>
+                        <p class="text-center fw-bold">@Localizer[nameof(IndexResource.NoMissionToday)]</p>
                         <img class="img-fluid p-4" alt="Sad Pepe" src="assets/img/sad_pepe.webp"/>
                     </div>
                 </div>
@@ -31,33 +34,33 @@
                 <div class="row">
                     <div class="col col-sm-6">
                         <div class="mb-3">
-                            <h6 class="card-subtitle text-primary">Název</h6>
+                            <h6 class="card-subtitle text-primary">@Localizer[nameof(IndexResource.MissionName)]</h6>
                             <p>@_todaysMission.Name</p>
                         </div>
                         <div class="mb-3">
-                            <h6 class="card-subtitle text-primary">Autor</h6>
-                            <p>@(_todaysMission.Creator?.Nickname ?? "Odstraněný uživatel")</p>
+                            <h6 class="card-subtitle text-primary">@Localizer[nameof(IndexResource.MissionAuthor)]</h6>
+                            <p>@(_todaysMission.Creator?.Nickname ?? Localizer[nameof(IndexResource.DeletedUser)])</p>
                         </div>
                         <div class="mb-3">
-                            <h6 class="card-subtitle text-primary">Kategorie Mise</h6>
-                            <p>@(_todaysMission.MissionType?.Name ?? "Odstraněná kategorie")</p>
+                            <h6 class="card-subtitle text-primary">@Localizer[nameof(IndexResource.MissionCategory)]</h6>
+                            <p>@(_todaysMission.MissionType?.Name ?? Localizer[nameof(IndexResource.DeletedMissionCategory)])</p>
                         </div>
                         <div class="mb-3">
-                            <h6 class="card-subtitle text-primary">Typ Modpacku</h6>
-                            <p>@(_todaysMission.ModpackType?.Name ?? "Odstraněný typ")</p>
+                            <h6 class="card-subtitle text-primary">@Localizer[nameof(IndexResource.MissionModpack)]</h6>
+                            <p>@(_todaysMission.ModpackType?.Name ?? Localizer[nameof(IndexResource.DeletedModpackType)])</p>
                         </div>
                     </div>
                     <div class="col col-sm-6">
                         <div class="mb-3">
-                            <h6 class="card-subtitle text-primary">Velitelský Briefing</h6>
-                            <p>@(_todaysMission.LeaderBriefingDate.HasValue ? _todaysMission.LeaderBriefingDate.Value.Humanize() : "Není plánován")</p>
+                            <h6 class="card-subtitle text-primary">@Localizer[nameof(IndexResource.MissionLeaderBriefing)]</h6>
+                            <p>@(_todaysMission.LeaderBriefingDate.HasValue ? _todaysMission.LeaderBriefingDate.Value.Humanize() : Localizer[nameof(IndexResource.NoLeaderBriefingPlanned)])</p>
                         </div>
                         <div class="mb-3">
-                            <h6 class="card-subtitle text-primary">Připojování na Server</h6>
+                            <h6 class="card-subtitle text-primary">@Localizer[nameof(IndexResource.MissionConnecting)]</h6>
                             <p>@_todaysMission.ConnectingToServerDate.Humanize()</p>
                         </div>
                         <div class="mb-3">
-                            <h6 class="card-subtitle text-primary">Začátek Mise</h6>
+                            <h6 class="card-subtitle text-primary">@Localizer[nameof(IndexResource.MissionStart)]</h6>
                             <p>@_todaysMission.MissionStartDate.Humanize()</p>
                         </div>
                     </div>
@@ -66,25 +69,25 @@
                     <div class="col-auto">
                         @if (_todaysMission.ModpackUrl is null)
                         {
-                            <span class="fc-not-allowed" tabindex="0" data-bs-toggle="tooltip" data-bs-title="Na misi není upravený modpack. Použij aktivátor.">
-                                <a class="btn btn-primary disabled" disabled>Stáhnout Modpack</a>
+                            <span class="fc-not-allowed" tabindex="0" data-bs-toggle="tooltip" data-bs-title="@Localizer[nameof(IndexResource.NoCustomModpack)]">
+                                <a class="btn btn-primary disabled" disabled>@Localizer[nameof(IndexResource.DownloadModpack)]</a>
                             </span>
                         }
                         else
                         {
-                            <a class="btn btn-primary" href="@_todaysMission.ModpackUrl">Stáhnout Modpack</a>
+                            <a class="btn btn-primary" href="@_todaysMission.ModpackUrl">@Localizer[nameof(IndexResource.DownloadModpack)]</a>
                         }
                     </div>
                     <div class="col-auto">
                         @if (_todaysMission.SlottingSheetUrl is null)
                         {
-                            <span class="fc-not-allowed" tabindex="0" data-bs-toggle="tooltip" data-bs-title="Slotování nebylo autorem dodáno.">
-                                <a class="btn btn-primary disabled" disabled>Slotování</a>
+                            <span class="fc-not-allowed" tabindex="0" data-bs-toggle="tooltip" data-bs-title="@Localizer[nameof(IndexResource.SlottingNotProvided)]">
+                                <a class="btn btn-primary disabled" disabled>@Localizer[nameof(IndexResource.Slotting)]</a>
                             </span>
                         }
                         else
                         {
-                            <a class="btn btn-primary" href="@_todaysMission.SlottingSheetUrl">Slotování</a>
+                            <a class="btn btn-primary" href="@_todaysMission.SlottingSheetUrl">@Localizer[nameof(IndexResource.Slotting)]</a>
                         }
                     </div>
                 </div>
@@ -95,7 +98,7 @@
 <div class="col-12 col-lg-6 col-xxl-4 mb-4">
     <div class="card bg-dark-subtle">
         <div class="card-header">
-            <h5 class="h6 card-title mb-0">Mise v příštích 7 dnech</h5>
+            <h5 class="h6 card-title mb-0">@Localizer[nameof(IndexResource.MissionsInUpcomingDays)]</h5>
         </div>
         <div class="card-body">
             <div class="row">
@@ -105,10 +108,10 @@
                         <table class="w-100">
                             <thead>
                             <tr>
-                                <th>Datum</th>
-                                <th>Název</th>
-                                <th>Autor</th>
-                                <th>Modpack</th>
+                                <th>@Localizer[nameof(IndexResource.UpcomingMissionDate)]</th>
+                                <th>@Localizer[nameof(IndexResource.UpcomingMissionName)]</th>
+                                <th>@Localizer[nameof(IndexResource.UpcomingMissionAuthor)]</th>
+                                <th>@Localizer[nameof(IndexResource.UpcomingMissionModpack)]</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -146,10 +149,10 @@
                         <table class="w-100">
                             <thead>
                             <tr>
-                                <th>Datum</th>
-                                <th>Název</th>
-                                <th>Autor</th>
-                                <th>Modpack</th>
+                                <th>@Localizer[nameof(IndexResource.UpcomingMissionDate)]</th>
+                                <th>@Localizer[nameof(IndexResource.UpcomingMissionName)]</th>
+                                <th>@Localizer[nameof(IndexResource.UpcomingMissionAuthor)]</th>
+                                <th>@Localizer[nameof(IndexResource.UpcomingMissionModpack)]</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -161,10 +164,10 @@
                                     <tr>
                                         <td>@mission.MissionStartDate</td>
                                         <td>@mission.Name</td>
-                                        <td>@(mission.Creator?.Nickname ?? "Odstraněný uživatel")</td>
-                                        <td>@(mission.ModpackType?.Name ?? "Odstraněný typ")</td>
+                                        <td>@(mission.Creator?.Nickname ?? Localizer[nameof(IndexResource.DeletedUser)])</td>
+                                        <td>@(mission.ModpackType?.Name ?? Localizer[nameof(IndexResource.DeletedModpackType)])</td>
                                         <td>
-                                            <a class="btn btn-primary" href="/Mission/Detail/@mission.Id">Detail</a>
+                                            <a class="btn btn-primary" href="/Mission/Detail/@mission.Id">@Localizer[nameof(IndexResource.UpcomingMissionDetail)]</a>
                                         </td>
                                     </tr>
                                 }
@@ -173,7 +176,7 @@
                             {
                                 <tr>
                                     <td colspan="5">
-                                        <p class="text-center">V následujících dnech nejsou plánovány žádné mise</p>
+                                        <p class="text-center">@Localizer[nameof(IndexResource.NoUpcomingMissions)]</p>
                                     </td>
                                 </tr>
                             }
@@ -188,7 +191,7 @@
 <div class="col-12 col-lg-6 col-xxl-4 mb-4">
     <div class="card bg-dark-subtle">
         <div class="card-header">
-            <h5 class="h6 card-title mb-0">Nadcházející výcviky</h5>
+            <h5 class="h6 card-title mb-0">@Localizer[nameof(IndexResource.UpcomingTrainings)]</h5>
         </div>
         <div class="card-body">
             <div class="row">
@@ -196,9 +199,9 @@
                     <table class="w-100">
                         <thead>
                         <tr>
-                            <th>Datum</th>
-                            <th>Název</th>
-                            <th>Instruktor</th>
+                            <th>@Localizer[nameof(IndexResource.UpcomingTrainingDate)]</th>
+                            <th>@Localizer[nameof(IndexResource.UpcomingTrainingName)]</th>
+                            <th>@Localizer[nameof(IndexResource.UpcomingTrainingInstructor)]</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -230,7 +233,7 @@
                         {
                             <tr>
                                 <td colspan="5">
-                                    <p class="text-center">Aktuálně nejsou plánovány žádné výcviky.</p>
+                                    <p class="text-center">@Localizer[nameof(IndexResource.NoUpcomingTrainings)]</p>
                                 </td>
                             </tr>
                         }
@@ -241,9 +244,9 @@
                                 <tr>
                                     <td>@training.Date</td>
                                     <td>@training.Name</td>
-                                    <td>@(training.Creator?.Nickname ?? "Odstraněný uživatel")</td>
+                                    <td>@(training.Creator?.Nickname ?? @Localizer[nameof(IndexResource.DeletedUser)])</td>
                                     <td>
-                                        <a class="btn btn-primary" href="/Training/@training.Id">Detail</a>
+                                        <a class="btn btn-primary" href="/Training/@training.Id">@Localizer[nameof(IndexResource.UpcomingTrainingDetail)]</a>
                                     </td>
                                 </tr>
                             }
@@ -258,7 +261,7 @@
 <div class="col-12 col-lg-6 col-xxl-4 mb-4">
     <div class="card bg-dark-subtle">
         <div class="card-header">
-            <h5 class="h6 card-title mb-0">Aktuálně platné zákazy</h5>
+            <h5 class="h6 card-title mb-0">@Localizer[nameof(IndexResource.ActivePunishments)]</h5>
         </div>
         <div class="card-body">
             <div class="row">
@@ -266,9 +269,9 @@
                     <table class="w-100">
                         <thead>
                         <tr>
-                            <th>Uživatel</th>
-                            <th>Datum vypršení</th>
-                            <th>Trest</th>
+                            <th>@Localizer[nameof(IndexResource.PunishmentUser)]</th>
+                            <th>@Localizer[nameof(IndexResource.PunishmentExpiration)]</th>
+                            <th>@Localizer[nameof(IndexResource.PunishmentName)]</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -296,7 +299,7 @@
                         {
                             <tr>
                                 <td colspan="5">
-                                    <p class="text-center">Nikdo v tuto chvíli nemá platný zákaz.</p>
+                                    <p class="text-center">@Localizer[nameof(IndexResource.NoActivePunishments)]</p>
                                 </td>
                             </tr>
                         }
@@ -306,11 +309,8 @@
                             {
                                 <tr>
                                     <td>@punishmentModel.User?.Nickname</td>
-                                    <td>@(punishmentModel.ExpiresOn.HasValue ? punishmentModel.ExpiresOn.Value : "Na neurčito")</td>
+                                    <td>@(punishmentModel.ExpiresOn.HasValue ? punishmentModel.ExpiresOn.Value : Localizer[nameof(IndexResource.NoExpirationDate)])</td>
                                     <td>@punishmentModel.Punishment</td>
-                                    <td>
-                                        <a class="btn btn-primary" href="">Detail</a>
-                                    </td>
                                 </tr>
                             }
                         }
