@@ -66,25 +66,25 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required(ErrorMessageResourceName = nameof(Login.FieldRequired), ErrorMessageResourceType = typeof(Login))]
+            [Required(ErrorMessageResourceName = nameof(LoginResource.FieldRequired), ErrorMessageResourceType = typeof(LoginResource))]
             [EmailAddress]
-            [Display(Name = nameof(Login.Email), ResourceType = typeof(Login))]
+            [Display(Name = nameof(LoginResource.Email), ResourceType = typeof(LoginResource))]
             public string Email { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required(ErrorMessageResourceName = nameof(Login.FieldRequired), ErrorMessageResourceType = typeof(Login))]
+            [Required(ErrorMessageResourceName = nameof(LoginResource.FieldRequired), ErrorMessageResourceType = typeof(LoginResource))]
             [DataType(DataType.Password)]
-            [Display(Name = nameof(Login.Password), ResourceType = typeof(Login))]
+            [Display(Name = nameof(LoginResource.Password), ResourceType = typeof(LoginResource))]
             public string Password { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Display(Name = nameof(Login.RememberMe), ResourceType = typeof(Login))]
+            [Display(Name = nameof(LoginResource.RememberMe), ResourceType = typeof(LoginResource))]
             public bool RememberMe { get; set; }
         }
 

@@ -21,7 +21,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class IndexResource {
+    public class IndexResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -35,7 +35,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BrokenGrenade.Web.App.Resources.Areas.Public.Pages.IndexResource", typeof(IndexResource).Assembly);
@@ -50,7 +50,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -62,7 +62,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Aktuálně platné zákazy.
         /// </summary>
-        internal static string ActivePunishments {
+        public static string ActivePunishments {
             get {
                 return ResourceManager.GetString("ActivePunishments", resourceCulture);
             }
@@ -71,7 +71,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Odstraněná kategorie.
         /// </summary>
-        internal static string DeletedMissionCategory {
+        public static string DeletedMissionCategory {
             get {
                 return ResourceManager.GetString("DeletedMissionCategory", resourceCulture);
             }
@@ -80,7 +80,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Odstraněný typ.
         /// </summary>
-        internal static string DeletedModpackType {
+        public static string DeletedModpackType {
             get {
                 return ResourceManager.GetString("DeletedModpackType", resourceCulture);
             }
@@ -89,7 +89,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Odstraněný uživatel.
         /// </summary>
-        internal static string DeletedUser {
+        public static string DeletedUser {
             get {
                 return ResourceManager.GetString("DeletedUser", resourceCulture);
             }
@@ -98,7 +98,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Stáhnout Modpack.
         /// </summary>
-        internal static string DownloadModpack {
+        public static string DownloadModpack {
             get {
                 return ResourceManager.GetString("DownloadModpack", resourceCulture);
             }
@@ -107,7 +107,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Autor.
         /// </summary>
-        internal static string MissionAuthor {
+        public static string MissionAuthor {
             get {
                 return ResourceManager.GetString("MissionAuthor", resourceCulture);
             }
@@ -116,7 +116,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Kategorie Mise.
         /// </summary>
-        internal static string MissionCategory {
+        public static string MissionCategory {
             get {
                 return ResourceManager.GetString("MissionCategory", resourceCulture);
             }
@@ -125,7 +125,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Připojování na Server.
         /// </summary>
-        internal static string MissionConnecting {
+        public static string MissionConnecting {
             get {
                 return ResourceManager.GetString("MissionConnecting", resourceCulture);
             }
@@ -134,7 +134,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Velitelský Briefing.
         /// </summary>
-        internal static string MissionLeaderBriefing {
+        public static string MissionLeaderBriefing {
             get {
                 return ResourceManager.GetString("MissionLeaderBriefing", resourceCulture);
             }
@@ -143,7 +143,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Typ Modpacku.
         /// </summary>
-        internal static string MissionModpack {
+        public static string MissionModpack {
             get {
                 return ResourceManager.GetString("MissionModpack", resourceCulture);
             }
@@ -152,7 +152,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Název.
         /// </summary>
-        internal static string MissionName {
+        public static string MissionName {
             get {
                 return ResourceManager.GetString("MissionName", resourceCulture);
             }
@@ -161,7 +161,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Mise v příštích 7 dnech.
         /// </summary>
-        internal static string MissionsInUpcomingDays {
+        public static string MissionsInUpcomingDays {
             get {
                 return ResourceManager.GetString("MissionsInUpcomingDays", resourceCulture);
             }
@@ -170,7 +170,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Začátek Mise.
         /// </summary>
-        internal static string MissionStart {
+        public static string MissionStart {
             get {
                 return ResourceManager.GetString("MissionStart", resourceCulture);
             }
@@ -179,7 +179,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to V tuto chvíli nemá nikdo platný zákaz..
         /// </summary>
-        internal static string NoActivePunishments {
+        public static string NoActivePunishments {
             get {
                 return ResourceManager.GetString("NoActivePunishments", resourceCulture);
             }
@@ -188,7 +188,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Na misi není upravený modpack. Použij aktivátor..
         /// </summary>
-        internal static string NoCustomModpack {
+        public static string NoCustomModpack {
             get {
                 return ResourceManager.GetString("NoCustomModpack", resourceCulture);
             }
@@ -197,7 +197,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Na neurčito.
         /// </summary>
-        internal static string NoExpirationDate {
+        public static string NoExpirationDate {
             get {
                 return ResourceManager.GetString("NoExpirationDate", resourceCulture);
             }
@@ -206,7 +206,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Není plánován.
         /// </summary>
-        internal static string NoLeaderBriefingPlanned {
+        public static string NoLeaderBriefingPlanned {
             get {
                 return ResourceManager.GetString("NoLeaderBriefingPlanned", resourceCulture);
             }
@@ -215,7 +215,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Dnes se nekoná žádná mise..
         /// </summary>
-        internal static string NoMissionToday {
+        public static string NoMissionToday {
             get {
                 return ResourceManager.GetString("NoMissionToday", resourceCulture);
             }
@@ -224,7 +224,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to V následujících dnech nejsou plánovány žádné mise.
         /// </summary>
-        internal static string NoUpcomingMissions {
+        public static string NoUpcomingMissions {
             get {
                 return ResourceManager.GetString("NoUpcomingMissions", resourceCulture);
             }
@@ -233,7 +233,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Aktuálně nejsou plánovány žádné výcviky..
         /// </summary>
-        internal static string NoUpcomingTrainings {
+        public static string NoUpcomingTrainings {
             get {
                 return ResourceManager.GetString("NoUpcomingTrainings", resourceCulture);
             }
@@ -242,7 +242,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Broken Grenade Hub.
         /// </summary>
-        internal static string PageTitle {
+        public static string PageTitle {
             get {
                 return ResourceManager.GetString("PageTitle", resourceCulture);
             }
@@ -251,7 +251,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Datum vypršení.
         /// </summary>
-        internal static string PunishmentExpiration {
+        public static string PunishmentExpiration {
             get {
                 return ResourceManager.GetString("PunishmentExpiration", resourceCulture);
             }
@@ -260,7 +260,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Trest.
         /// </summary>
-        internal static string PunishmentName {
+        public static string PunishmentName {
             get {
                 return ResourceManager.GetString("PunishmentName", resourceCulture);
             }
@@ -269,7 +269,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Uživatel.
         /// </summary>
-        internal static string PunishmentUser {
+        public static string PunishmentUser {
             get {
                 return ResourceManager.GetString("PunishmentUser", resourceCulture);
             }
@@ -278,7 +278,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Slotování.
         /// </summary>
-        internal static string Slotting {
+        public static string Slotting {
             get {
                 return ResourceManager.GetString("Slotting", resourceCulture);
             }
@@ -287,7 +287,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Slotování nebylo autorem dodáno..
         /// </summary>
-        internal static string SlottingNotProvided {
+        public static string SlottingNotProvided {
             get {
                 return ResourceManager.GetString("SlottingNotProvided", resourceCulture);
             }
@@ -296,7 +296,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Dnešní mise.
         /// </summary>
-        internal static string TodaysMission {
+        public static string TodaysMission {
             get {
                 return ResourceManager.GetString("TodaysMission", resourceCulture);
             }
@@ -305,7 +305,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Autor.
         /// </summary>
-        internal static string UpcomingMissionAuthor {
+        public static string UpcomingMissionAuthor {
             get {
                 return ResourceManager.GetString("UpcomingMissionAuthor", resourceCulture);
             }
@@ -314,7 +314,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Datum.
         /// </summary>
-        internal static string UpcomingMissionDate {
+        public static string UpcomingMissionDate {
             get {
                 return ResourceManager.GetString("UpcomingMissionDate", resourceCulture);
             }
@@ -323,7 +323,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Detail.
         /// </summary>
-        internal static string UpcomingMissionDetail {
+        public static string UpcomingMissionDetail {
             get {
                 return ResourceManager.GetString("UpcomingMissionDetail", resourceCulture);
             }
@@ -332,7 +332,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Modpack.
         /// </summary>
-        internal static string UpcomingMissionModpack {
+        public static string UpcomingMissionModpack {
             get {
                 return ResourceManager.GetString("UpcomingMissionModpack", resourceCulture);
             }
@@ -341,7 +341,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Název.
         /// </summary>
-        internal static string UpcomingMissionName {
+        public static string UpcomingMissionName {
             get {
                 return ResourceManager.GetString("UpcomingMissionName", resourceCulture);
             }
@@ -350,7 +350,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Datum.
         /// </summary>
-        internal static string UpcomingTrainingDate {
+        public static string UpcomingTrainingDate {
             get {
                 return ResourceManager.GetString("UpcomingTrainingDate", resourceCulture);
             }
@@ -359,7 +359,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Detail.
         /// </summary>
-        internal static string UpcomingTrainingDetail {
+        public static string UpcomingTrainingDetail {
             get {
                 return ResourceManager.GetString("UpcomingTrainingDetail", resourceCulture);
             }
@@ -368,7 +368,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Instruktor.
         /// </summary>
-        internal static string UpcomingTrainingInstructor {
+        public static string UpcomingTrainingInstructor {
             get {
                 return ResourceManager.GetString("UpcomingTrainingInstructor", resourceCulture);
             }
@@ -377,7 +377,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Název.
         /// </summary>
-        internal static string UpcomingTrainingName {
+        public static string UpcomingTrainingName {
             get {
                 return ResourceManager.GetString("UpcomingTrainingName", resourceCulture);
             }
@@ -386,7 +386,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         /// <summary>
         ///   Looks up a localized string similar to Nadcházející  výcviky.
         /// </summary>
-        internal static string UpcomingTrainings {
+        public static string UpcomingTrainings {
             get {
                 return ResourceManager.GetString("UpcomingTrainings", resourceCulture);
             }

@@ -24,20 +24,23 @@
     <data name="FieldRequired" xml:space="preserve">
         <value>Pole {0} je vyžadováno</value>
     </data>
+    <data name="ForgottenPassword" xml:space="preserve">
+        <value>Zapomenuté heslo</value>
+    </data>
+    <data name="Join" xml:space="preserve">
+        <value>Přidat se</value>
+    </data>
+    <data name="LoginButton" xml:space="preserve">
+        <value>Přihlásit se</value>
+    </data>
+    <data name="LoginPageTitle" xml:space="preserve">
+        <value>Přihlásit se</value>
+    </data>
     <data name="Password" xml:space="preserve">
         <value>Heslo</value>
     </data>
     <data name="RememberMe" xml:space="preserve">
         <value>Pamatovat si mě</value>
-    </data>
-    <data name="LoginButton" xml:space="preserve">
-        <value>Přihlásit se</value>
-    </data>
-    <data name="Join" xml:space="preserve">
-        <value>Přidat se</value>
-    </data>
-    <data name="ForgottenPassword" xml:space="preserve">
-        <value>Zapomenuté heslo</value>
     </data>
     <data name="ResendEmail" xml:space="preserve">
         <value>Znovu odeslat potvrzovací email</value>

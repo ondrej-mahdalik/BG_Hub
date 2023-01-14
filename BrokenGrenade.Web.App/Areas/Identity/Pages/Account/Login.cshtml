@@ -2,10 +2,10 @@
 @using Microsoft.Extensions.Localization
 @using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account
 @model LoginModel
-@inject IStringLocalizer<Login> Localizer
+@inject IStringLocalizer<LoginResource> Localizer
 
 @{
-    ViewData["Title"] = "Přihlásit se";
+    ViewData["Title"] = @Localizer[nameof(LoginResource.LoginPageTitle)];
     Layout = "_Layout";
 }
 
@@ -19,30 +19,30 @@
                     </div>
                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                     <div class="mb-3">
-                        <label asp-for="Input.Email" class="form-label">@Localizer[nameof(Login.Email)]</label>
+                        <label asp-for="Input.Email" class="form-label">@Html.DisplayNameFor(m => m.Input.Email)</label>
                         <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true"/>
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="Input.Password" class="form-label">@Localizer[nameof(Login.Password)]</label>
+                        <label asp-for="Input.Password" class="form-label">@Html.DisplayNameFor(m => m.Input.Password)</label>
                         <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true"/>
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <div class="form-check">
                             <input class="form-check-input" asp-for="Input.RememberMe"/>
-                            <label class="form-check-label" asp-for="Input.RememberMe">@Localizer[nameof(Login.RememberMe)]</label>
+                            <label class="form-check-label" asp-for="Input.RememberMe">@Html.DisplayNameFor(m => m.Input.RememberMe)</label>
                         </div>
                     </div>
                     <div class="d-flex flex-column flex-sm-row-reverse gap-2">
-                        <button id="login-submit" type="submit" class="btn btn-primary w-100">@Localizer[nameof(Login.LoginButton)]</button>
+                        <button id="login-submit" type="submit" class="btn btn-primary w-100">@Localizer[nameof(LoginResource.LoginButton)]</button>
                         <a class="btn btn-warning w-100 fw-bold" href="/Apply">
-                            <i class="fa-solid fa-crown fa-fw"></i> @Localizer[nameof(Login.Join)]
+                            <i class="fa-solid fa-crown fa-fw"></i> @Localizer[nameof(LoginResource.Join)]
                         </a>
                     </div>
                     <div class="d-flex flex-column flex-sm-row gap-2 flex-nowrap">
-                        <a id="forgot-password" asp-page="./ForgotPassword" class="btn btn-link w-100">@Localizer[nameof(Login.ForgottenPassword)]</a>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation" class="btn btn-link w-100">@Localizer[nameof(Login.ResendEmail)]</a>
+                        <a id="forgot-password" asp-page="./ForgotPassword" class="btn btn-link w-100">@Localizer[nameof(LoginResource.ForgottenPassword)]</a>
+                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation" class="btn btn-link w-100">@Localizer[nameof(LoginResource.ResendEmail)]</a>
                     </div>
                 </div>
             </div>

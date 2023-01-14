@@ -36,8 +36,12 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Resources\Areas\Public\Pages\IndexResource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>IndexResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\LoginResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LoginResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
@@ -46,6 +50,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Index.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Areas\Identity\Pages\Account\LoginResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LoginResource.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>
