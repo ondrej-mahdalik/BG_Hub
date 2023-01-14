@@ -19,10 +19,17 @@
 <body>
 <div class="container-fluid">
     <div class="row justify-content-center">
-            <div class="col-12 col-md-10 col-lg-8 col-xl-6 col-xxl-5">
-            <div class="card overflow-hidden my-5 bg-dark-subtle">
-                <div class="card-body">
-                    @RenderBody()
+        <div class="col-12 col-md-10 col-lg-8 col-xl-6 col-xxl-5">
+            <div class="my-5">
+                <div class="mb-3">
+                    <a class="btn btn-dark bg-dark-subtle" href="/">
+                        <i class="fa-solid fa-chevron-left fa-fw"></i> Zpět na hlavní stránku
+                    </a>
+                </div>
+                <div class="card overflow-hidden bg-dark-subtle border-0">
+                    <div class="card-body">
+                        @RenderBody()
+                    </div>
                 </div>
             </div>
         </div>
