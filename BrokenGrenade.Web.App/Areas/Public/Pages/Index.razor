@@ -2,6 +2,7 @@
 @using BrokenGrenade.Web.BL.Facades
 @using BrokenGrenade.Common.Models
 @using BrokenGrenade.Common.Models.Filters
+@using BrokenGrenade.Web.App.Resources
 @using BrokenGrenade.Web.App.Resources.Areas.Public.Pages
 @using Humanizer
 @using Microsoft.Extensions.Localization
@@ -11,7 +12,7 @@
 @inject IJSRuntime JSRuntime
 @inject IStringLocalizer<IndexResource> Localizer
 
-<PageTitle>@Localizer[nameof(IndexResource.PageTitle)]</PageTitle>
+<PageTitle>@Localizer[nameof(IndexResource.HubPageTitle)]</PageTitle>
 
 <div class="row mt-4 flex-wrap">
 <div class="col-12 col-lg-6 col-xxl-4 mb-4">
@@ -39,15 +40,15 @@
                         </div>
                         <div class="mb-3">
                             <h6 class="card-subtitle text-primary">@Localizer[nameof(IndexResource.MissionAuthor)]</h6>
-                            <p>@(_todaysMission.Creator?.Nickname ?? Localizer[nameof(IndexResource.DeletedUser)])</p>
+                            <p>@(_todaysMission.Creator?.Nickname ?? Localizer[nameof(SharedResources.DeletedUser)])</p>
                         </div>
                         <div class="mb-3">
                             <h6 class="card-subtitle text-primary">@Localizer[nameof(IndexResource.MissionCategory)]</h6>
-                            <p>@(_todaysMission.MissionType?.Name ?? Localizer[nameof(IndexResource.DeletedMissionCategory)])</p>
+                            <p>@(_todaysMission.MissionType?.Name ?? Localizer[nameof(SharedResources.DeletedMissionCategory)])</p>
                         </div>
                         <div class="mb-3">
                             <h6 class="card-subtitle text-primary">@Localizer[nameof(IndexResource.MissionModpack)]</h6>
-                            <p>@(_todaysMission.ModpackType?.Name ?? Localizer[nameof(IndexResource.DeletedModpackType)])</p>
+                            <p>@(_todaysMission.ModpackType?.Name ?? Localizer[nameof(SharedResources.DeletedModpackType)])</p>
                         </div>
                     </div>
                     <div class="col col-sm-6">
@@ -82,12 +83,12 @@
                         @if (_todaysMission.SlottingSheetUrl is null)
                         {
                             <span class="fc-not-allowed" tabindex="0" data-bs-toggle="tooltip" data-bs-title="@Localizer[nameof(IndexResource.SlottingNotProvided)]">
-                                <a class="btn btn-primary disabled" disabled>@Localizer[nameof(IndexResource.Slotting)]</a>
+                                <a class="btn btn-primary disabled" disabled>@Localizer[nameof(SharedResources.Slotting)]</a>
                             </span>
                         }
                         else
                         {
-                            <a class="btn btn-primary" href="@_todaysMission.SlottingSheetUrl">@Localizer[nameof(IndexResource.Slotting)]</a>
+                            <a class="btn btn-primary" href="@_todaysMission.SlottingSheetUrl">@Localizer[nameof(SharedResources.Slotting)]</a>
                         }
                     </div>
                 </div>
@@ -164,8 +165,8 @@
                                     <tr>
                                         <td>@mission.MissionStartDate</td>
                                         <td>@mission.Name</td>
-                                        <td>@(mission.Creator?.Nickname ?? Localizer[nameof(IndexResource.DeletedUser)])</td>
-                                        <td>@(mission.ModpackType?.Name ?? Localizer[nameof(IndexResource.DeletedModpackType)])</td>
+                                        <td>@(mission.Creator?.Nickname ?? Localizer[nameof(SharedResources.DeletedUser)])</td>
+                                        <td>@(mission.ModpackType?.Name ?? Localizer[nameof(SharedResources.DeletedModpackType)])</td>
                                         <td>
                                             <a class="btn btn-primary" href="/Mission/Detail/@mission.Id">@Localizer[nameof(IndexResource.UpcomingMissionDetail)]</a>
                                         </td>
@@ -244,7 +245,7 @@
                                 <tr>
                                     <td>@training.Date</td>
                                     <td>@training.Name</td>
-                                    <td>@(training.Creator?.Nickname ?? @Localizer[nameof(IndexResource.DeletedUser)])</td>
+                                    <td>@(training.Creator?.Nickname ?? @Localizer[nameof(SharedResources.DeletedUser)])</td>
                                     <td>
                                         <a class="btn btn-primary" href="/Training/@training.Id">@Localizer[nameof(IndexResource.UpcomingTrainingDetail)]</a>
                                     </td>

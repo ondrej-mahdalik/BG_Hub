@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using BrokenGrenade.Web.App.Resources;
 using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account;
 using BrokenGrenade.Web.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -66,18 +67,18 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required(ErrorMessageResourceName = nameof(LoginResource.FieldRequired), ErrorMessageResourceType = typeof(LoginResource))]
-            [EmailAddress]
-            [Display(Name = nameof(LoginResource.Email), ResourceType = typeof(LoginResource))]
+            [Required(ErrorMessageResourceName = nameof(SharedResources.RequiredField), ErrorMessageResourceType = typeof(SharedResources))]
+            [EmailAddress(ErrorMessageResourceName = nameof(SharedResources.InvalidEmail), ErrorMessageResourceType = typeof(SharedResources))]
+            [Display(Name = nameof(SharedResources.Email), ResourceType = typeof(SharedResources))]
             public string Email { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required(ErrorMessageResourceName = nameof(LoginResource.FieldRequired), ErrorMessageResourceType = typeof(LoginResource))]
+            [Required(ErrorMessageResourceName = nameof(SharedResources.RequiredField), ErrorMessageResourceType = typeof(SharedResources))]
             [DataType(DataType.Password)]
-            [Display(Name = nameof(LoginResource.Password), ResourceType = typeof(LoginResource))]
+            [Display(Name = nameof(SharedResources.Password), ResourceType = typeof(SharedResources))]
             public string Password { get; set; }
 
             /// <summary>

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account {
+namespace BrokenGrenade.Web.App.Resources {
     using System;
     
     
@@ -21,14 +21,14 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class LoginResource {
+    public class SharedResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal LoginResource() {
+        internal SharedResources() {
         }
         
         /// <summary>
@@ -38,7 +38,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.LoginResource", typeof(LoginResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BrokenGrenade.Web.App.Resources.SharedResources", typeof(SharedResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -60,47 +60,92 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zapomenuté heslo.
+        ///   Looks up a localized string similar to Odstraněná kategorie.
         /// </summary>
-        public static string ForgottenPassword {
+        public static string DeletedMissionCategory {
             get {
-                return ResourceManager.GetString("ForgottenPassword", resourceCulture);
+                return ResourceManager.GetString("DeletedMissionCategory", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Přidat se.
+        ///   Looks up a localized string similar to Odstraněný typ.
         /// </summary>
-        public static string Join {
+        public static string DeletedModpackType {
             get {
-                return ResourceManager.GetString("Join", resourceCulture);
+                return ResourceManager.GetString("DeletedModpackType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Odstraněný uživatel.
+        /// </summary>
+        public static string DeletedUser {
+            get {
+                return ResourceManager.GetString("DeletedUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        public static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zadaná emailová adresa není validní.
+        /// </summary>
+        public static string InvalidEmail {
+            get {
+                return ResourceManager.GetString("InvalidEmail", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Přihlásit se.
         /// </summary>
-        public static string LoginPageTitle {
+        public static string LoginButton {
             get {
-                return ResourceManager.GetString("LoginPageTitle", resourceCulture);
+                return ResourceManager.GetString("LoginButton", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pamatovat si mě.
+        ///   Looks up a localized string similar to Heslo.
         /// </summary>
-        public static string RememberMe {
+        public static string Password {
             get {
-                return ResourceManager.GetString("RememberMe", resourceCulture);
+                return ResourceManager.GetString("Password", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Znovu odeslat potvrzovací email.
+        ///   Looks up a localized string similar to Pole {0} je vyžadováno.
         /// </summary>
-        public static string ResendEmail {
+        public static string RequiredField {
             get {
-                return ResourceManager.GetString("ResendEmail", resourceCulture);
+                return ResourceManager.GetString("RequiredField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Slotování.
+        /// </summary>
+        public static string Slotting {
+            get {
+                return ResourceManager.GetString("Slotting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pole {0} musí být {2} až {1} znaků dlouhé..
+        /// </summary>
+        public static string StringLengthRange {
+            get {
+                return ResourceManager.GetString("StringLengthRange", resourceCulture);
             }
         }
     }

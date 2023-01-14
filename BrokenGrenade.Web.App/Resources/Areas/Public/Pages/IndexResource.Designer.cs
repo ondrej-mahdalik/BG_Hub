@@ -69,38 +69,20 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Odstraněná kategorie.
-        /// </summary>
-        public static string DeletedMissionCategory {
-            get {
-                return ResourceManager.GetString("DeletedMissionCategory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Odstraněný typ.
-        /// </summary>
-        public static string DeletedModpackType {
-            get {
-                return ResourceManager.GetString("DeletedModpackType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Odstraněný uživatel.
-        /// </summary>
-        public static string DeletedUser {
-            get {
-                return ResourceManager.GetString("DeletedUser", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Stáhnout Modpack.
         /// </summary>
         public static string DownloadModpack {
             get {
                 return ResourceManager.GetString("DownloadModpack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Broken Grenade Hub.
+        /// </summary>
+        public static string HubPageTitle {
+            get {
+                return ResourceManager.GetString("HubPageTitle", resourceCulture);
             }
         }
         
@@ -240,15 +222,6 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Broken Grenade Hub.
-        /// </summary>
-        public static string PageTitle {
-            get {
-                return ResourceManager.GetString("PageTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Datum vypršení.
         /// </summary>
         public static string PunishmentExpiration {
@@ -272,15 +245,6 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
         public static string PunishmentUser {
             get {
                 return ResourceManager.GetString("PunishmentUser", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Slotování.
-        /// </summary>
-        public static string Slotting {
-            get {
-                return ResourceManager.GetString("Slotting", resourceCulture);
             }
         }
         

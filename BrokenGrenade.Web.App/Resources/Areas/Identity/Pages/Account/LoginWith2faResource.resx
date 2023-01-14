@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="2faLogin" xml:space="preserve">
+        <value>Dvoufázové Ověřování</value>
+    </data>
+    <data name="AccountSecuredWith2fa" xml:space="preserve">
+        <value>Tvůj účet je chráněn dvoufázovým ověřováním. Pro přihlášení zadej kód z ověřovací aplikace.</value>
+    </data>
+    <data name="No2faCode1" xml:space="preserve">
+        <value>Nemáš přístup k ověřovací aplikaci? Můžeš se</value>
+    </data>
+    <data name="No2faCode2" xml:space="preserve">
+        <value>přihlásit se záložním kódem</value>
+    </data>
+    <data name="TwoFactorCode" xml:space="preserve">
+        <value>Ověřovací kód</value>
+    </data>
+    <data name="RememberMachine" xml:space="preserve">
+        <value>Na tomto zařízení už nepožadovat</value>
+    </data>
+    <data name="UnableToLoad2faUser" xml:space="preserve">
+        <value>Nepodařilo se načíst uživatele</value>
+    </data>
+    <data name="Invalid2faCode" xml:space="preserve">
+        <value>Zadaný ověřovací kód je nesprávný</value>
+    </data>
+</root>

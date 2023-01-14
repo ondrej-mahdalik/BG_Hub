@@ -18,7 +18,7 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="PageTitle" xml:space="preserve">
+    <data name="HubPageTitle" xml:space="preserve">
         <value>Broken Grenade Hub</value>
     </data>
     <data name="TodaysMission" xml:space="preserve">
@@ -48,15 +48,6 @@
     <data name="MissionStart" xml:space="preserve">
         <value>Začátek Mise</value>
     </data>
-    <data name="DeletedUser" xml:space="preserve">
-        <value>Odstraněný uživatel</value>
-    </data>
-    <data name="DeletedMissionCategory" xml:space="preserve">
-        <value>Odstraněná kategorie</value>
-    </data>
-    <data name="DeletedModpackType" xml:space="preserve">
-        <value>Odstraněný typ</value>
-    </data>
     <data name="NoLeaderBriefingPlanned" xml:space="preserve">
         <value>Není plánován</value>
     </data>
@@ -65,9 +56,6 @@
     </data>
     <data name="DownloadModpack" xml:space="preserve">
         <value>Stáhnout Modpack</value>
-    </data>
-    <data name="Slotting" xml:space="preserve">
-        <value>Slotování</value>
     </data>
     <data name="SlottingNotProvided" xml:space="preserve">
         <value>Slotování nebylo autorem dodáno.</value>

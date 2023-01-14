@@ -21,14 +21,14 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class LoginResource {
+    public class LoginWith2faResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal LoginResource() {
+        internal LoginWith2faResource() {
         }
         
         /// <summary>
@@ -38,7 +38,8 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.LoginResource", typeof(LoginResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.LoginWith2faResource" +
+                            "", typeof(LoginWith2faResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -60,47 +61,74 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zapomenuté heslo.
+        ///   Looks up a localized string similar to Dvoufázové Ověřování.
         /// </summary>
-        public static string ForgottenPassword {
+        public static string _2faLogin {
             get {
-                return ResourceManager.GetString("ForgottenPassword", resourceCulture);
+                return ResourceManager.GetString("2faLogin", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Přidat se.
+        ///   Looks up a localized string similar to Tvůj účet je chráněn dvoufázovým ověřováním. Pro přihlášení zadej kód z ověřovací aplikace..
         /// </summary>
-        public static string Join {
+        public static string AccountSecuredWith2fa {
             get {
-                return ResourceManager.GetString("Join", resourceCulture);
+                return ResourceManager.GetString("AccountSecuredWith2fa", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Přihlásit se.
+        ///   Looks up a localized string similar to Zadaný ověřovací kód je nesprávný.
         /// </summary>
-        public static string LoginPageTitle {
+        public static string Invalid2faCode {
             get {
-                return ResourceManager.GetString("LoginPageTitle", resourceCulture);
+                return ResourceManager.GetString("Invalid2faCode", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pamatovat si mě.
+        ///   Looks up a localized string similar to Nemáš přístup k ověřovací aplikaci? Můžeš se.
         /// </summary>
-        public static string RememberMe {
+        public static string No2faCode1 {
             get {
-                return ResourceManager.GetString("RememberMe", resourceCulture);
+                return ResourceManager.GetString("No2faCode1", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Znovu odeslat potvrzovací email.
+        ///   Looks up a localized string similar to přihlásit se záložním kódem.
         /// </summary>
-        public static string ResendEmail {
+        public static string No2faCode2 {
             get {
-                return ResourceManager.GetString("ResendEmail", resourceCulture);
+                return ResourceManager.GetString("No2faCode2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Na tomto zařízení už nepožadovat.
+        /// </summary>
+        public static string RememberMachine {
+            get {
+                return ResourceManager.GetString("RememberMachine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ověřovací kód.
+        /// </summary>
+        public static string TwoFactorCode {
+            get {
+                return ResourceManager.GetString("TwoFactorCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nepodařilo se načíst uživatele.
+        /// </summary>
+        public static string UnableToLoad2faUser {
+            get {
+                return ResourceManager.GetString("UnableToLoad2faUser", resourceCulture);
             }
         }
     }

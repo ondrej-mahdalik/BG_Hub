@@ -21,14 +21,14 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class LoginResource {
+    public class ResetPasswordConfirmationResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal LoginResource() {
+        internal ResetPasswordConfirmationResource() {
         }
         
         /// <summary>
@@ -38,7 +38,8 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.LoginResource", typeof(LoginResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.ResetPasswordConfirm" +
+                            "ationResource", typeof(ResetPasswordConfirmationResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -60,47 +61,20 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zapomenuté heslo.
+        ///   Looks up a localized string similar to Heslo bylo úšpěšně obnoveno..
         /// </summary>
-        public static string ForgottenPassword {
+        public static string PasswordResetConfirmation {
             get {
-                return ResourceManager.GetString("ForgottenPassword", resourceCulture);
+                return ResourceManager.GetString("PasswordResetConfirmation", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Přidat se.
+        ///   Looks up a localized string similar to Obnovení hesla.
         /// </summary>
-        public static string Join {
+        public static string PasswordResetTitle {
             get {
-                return ResourceManager.GetString("Join", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Přihlásit se.
-        /// </summary>
-        public static string LoginPageTitle {
-            get {
-                return ResourceManager.GetString("LoginPageTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pamatovat si mě.
-        /// </summary>
-        public static string RememberMe {
-            get {
-                return ResourceManager.GetString("RememberMe", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Znovu odeslat potvrzovací email.
-        /// </summary>
-        public static string ResendEmail {
-            get {
-                return ResourceManager.GetString("ResendEmail", resourceCulture);
+                return ResourceManager.GetString("PasswordResetTitle", resourceCulture);
             }
         }
     }
