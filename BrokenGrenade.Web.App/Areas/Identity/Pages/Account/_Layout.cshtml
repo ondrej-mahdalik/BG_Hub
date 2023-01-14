@@ -1,23 +1,37 @@
+@using Microsoft.AspNetCore.Hosting
+@using Microsoft.AspNetCore.Mvc.ViewEngines
+@inject IWebHostEnvironment Environment
+@inject ICompositeViewEngine Engine
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="cs" data-bs-theme="dark">
 <head>
-    <title>@ViewData["Title"]</title>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <link rel="icon" type="image/png" href="/favicon.ico"/>
+    <title>@ViewData["Title"] - BG Hub</title>
+    <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/lib/fortawesome/fontawesome-free/css/solid.min.css" rel="stylesheet" />
+    <link href="/css/site.css" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/e407b5728a.js" crossorigin="anonymous"></script>
+    
+    @* <link rel="stylesheet" href="~/Identity/css/site.css" /> *@
+    
 </head>
-<body class="bg-gradient-primary">
-<div class="container">
+<body>
+<div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-9 col-lg-12 col-xl-10">
-            <div class="card shadow-lg o-hidden border-0 my-5">
-                <div class="card-body p-0">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-6 col-xxl-5">
+            <div class="card overflow-hidden my-5 bg-dark-subtle">
+                <div class="card-body">
                     @RenderBody()
                 </div>
             </div>
         </div>
     </div>
 </div>
-@RenderSection("Scripts", false);
+
+<script src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/Identity/lib/jquery/dist/jquery.js"></script>
+<script src="~/Identity/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
