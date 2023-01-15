@@ -1,26 +1,27 @@
 ﻿@page
+@using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.Extensions.Localization
+@using BrokenGrenade.Web.App.Resources
 @model LoginWithRecoveryCodeModel
+@inject IStringLocalizer<LoginWithRecoveryCodeResource> Localizer
+@inject IStringLocalizer<SharedResources> SharedLocalizer
 @{
-    ViewData["Title"] = "Recovery code verification";
+    ViewData["Title"] = Localizer[nameof(LoginWithRecoveryCodeResource.LoginWithRecoveryCodeTitle)];
     Layout = "_Layout";
 }
 
-<h1>@ViewData["Title"]</h1>
-<hr />
-<p>
-    You have requested to log in with a recovery code. This login will not be remembered until you provide
-    an authenticator app code at log in or disable 2FA and log in again.
-</p>
-<div class="row">
-    <div class="col-md-4">
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-10 col-xl-8 col-xxl-6">
+        <p class="text-center">@Localizer[nameof(LoginWithRecoveryCodeResource.LoginWithRecoveryCodeMessage)]</p>
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.RecoveryCode" class="form-control" autocomplete="off" placeholder="RecoveryCode" />
-                <label asp-for="Input.RecoveryCode" class="form-label"></label>
+            <div class="mb-3">
+                <label asp-for="Input.RecoveryCode" class="form-label">@Html.DisplayNameFor(m => m.Input.RecoveryCode)</label>
+                <input asp-for="Input.RecoveryCode" class="form-control" autocomplete="off"/>
                 <span asp-validation-for="Input.RecoveryCode" class="text-danger"></span>
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+            <button type="submit" class="btn btn-primary">@SharedLocalizer[nameof(SharedResources.LoginButton)]</button>
         </form>
     </div>
 </div>

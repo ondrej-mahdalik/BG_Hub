@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="HubPageTitle" xml:space="preserve">
+        <value>Broken Grenade Hub</value>
+    </data>
+    <data name="TodaysMission" xml:space="preserve">
+        <value>Dnešní mise</value>
+    </data>
+    <data name="NoMissionToday" xml:space="preserve">
+        <value>Dnes se nekoná žádná mise.</value>
+    </data>
+    <data name="MissionName" xml:space="preserve">
+        <value>Název</value>
+    </data>
+    <data name="MissionAuthor" xml:space="preserve">
+        <value>Autor</value>
+    </data>
+    <data name="MissionCategory" xml:space="preserve">
+        <value>Kategorie Mise</value>
+    </data>
+    <data name="MissionModpack" xml:space="preserve">
+        <value>Typ Modpacku</value>
+    </data>
+    <data name="MissionLeaderBriefing" xml:space="preserve">
+        <value>Velitelský Briefing</value>
+    </data>
+    <data name="MissionConnecting" xml:space="preserve">
+        <value>Připojování na Server</value>
+    </data>
+    <data name="MissionStart" xml:space="preserve">
+        <value>Začátek Mise</value>
+    </data>
+    <data name="NoLeaderBriefingPlanned" xml:space="preserve">
+        <value>Není plánován</value>
+    </data>
+    <data name="NoCustomModpack" xml:space="preserve">
+        <value>Na misi není upravený modpack. Použij aktivátor.</value>
+    </data>
+    <data name="DownloadModpack" xml:space="preserve">
+        <value>Stáhnout Modpack</value>
+    </data>
+    <data name="SlottingNotProvided" xml:space="preserve">
+        <value>Slotování nebylo autorem dodáno.</value>
+    </data>
+    <data name="MissionsInUpcomingDays" xml:space="preserve">
+        <value>Mise v příštích 7 dnech</value>
+    </data>
+    <data name="UpcomingMissionName" xml:space="preserve">
+        <value>Název</value>
+    </data>
+    <data name="UpcomingMissionAuthor" xml:space="preserve">
+        <value>Autor</value>
+    </data>
+    <data name="UpcomingMissionModpack" xml:space="preserve">
+        <value>Modpack</value>
+    </data>
+    <data name="UpcomingMissionDate" xml:space="preserve">
+        <value>Datum</value>
+    </data>
+    <data name="NoUpcomingMissions" xml:space="preserve">
+        <value>V následujících dnech nejsou plánovány žádné mise</value>
+    </data>
+    <data name="UpcomingTrainings" xml:space="preserve">
+        <value>Nadcházející  výcviky</value>
+    </data>
+    <data name="UpcomingTrainingDate" xml:space="preserve">
+        <value>Datum</value>
+    </data>
+    <data name="UpcomingTrainingName" xml:space="preserve">
+        <value>Název</value>
+    </data>
+    <data name="UpcomingTrainingInstructor" xml:space="preserve">
+        <value>Instruktor</value>
+    </data>
+    <data name="NoUpcomingTrainings" xml:space="preserve">
+        <value>Aktuálně nejsou plánovány žádné výcviky.</value>
+    </data>
+    <data name="UpcomingTrainingDetail" xml:space="preserve">
+        <value>Detail</value>
+    </data>
+    <data name="UpcomingMissionDetail" xml:space="preserve">
+        <value>Detail</value>
+    </data>
+    <data name="ActivePunishments" xml:space="preserve">
+        <value>Aktuálně platné zákazy</value>
+    </data>
+    <data name="PunishmentUser" xml:space="preserve">
+        <value>Uživatel</value>
+    </data>
+    <data name="PunishmentExpiration" xml:space="preserve">
+        <value>Datum vypršení</value>
+    </data>
+    <data name="PunishmentName" xml:space="preserve">
+        <value>Trest</value>
+    </data>
+    <data name="NoActivePunishments" xml:space="preserve">
+        <value>V tuto chvíli nemá nikdo platný zákaz.</value>
+    </data>
+    <data name="NoExpirationDate" xml:space="preserve">
+        <value>Na neurčito</value>
+    </data>
+</root>

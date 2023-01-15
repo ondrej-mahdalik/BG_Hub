@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using BrokenGrenade.Web.App.Resources;
+using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account;
 using BrokenGrenade.Web.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
@@ -65,23 +67,25 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessageResourceName = nameof(SharedResources.RequiredField), ErrorMessageResourceType = typeof(SharedResources))]
+            [EmailAddress(ErrorMessageResourceName = nameof(SharedResources.InvalidEmail), ErrorMessageResourceType = typeof(SharedResources))]
+            [Display(Name = nameof(SharedResources.Email), ResourceType = typeof(SharedResources))]
             public string Email { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessageResourceName = nameof(SharedResources.RequiredField), ErrorMessageResourceType = typeof(SharedResources))]
             [DataType(DataType.Password)]
+            [Display(Name = nameof(SharedResources.Password), ResourceType = typeof(SharedResources))]
             public string Password { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Display(Name = "Remember me?")]
+            [Display(Name = nameof(LoginResource.RememberMe), ResourceType = typeof(LoginResource))]
             public bool RememberMe { get; set; }
         }
 

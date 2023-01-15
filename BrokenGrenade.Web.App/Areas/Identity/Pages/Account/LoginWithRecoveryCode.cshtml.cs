@@ -5,11 +5,14 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using BrokenGrenade.Web.App.Resources;
+using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account;
 using BrokenGrenade.Web.DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
 {
@@ -18,15 +21,18 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
         private readonly SignInManager<UserEntity> _signInManager;
         private readonly UserManager<UserEntity> _userManager;
         private readonly ILogger<LoginWithRecoveryCodeModel> _logger;
+        private readonly IStringLocalizer<LoginWithRecoveryCodeResource> _localizer;
 
         public LoginWithRecoveryCodeModel(
             SignInManager<UserEntity> signInManager,
             UserManager<UserEntity> userManager,
-            ILogger<LoginWithRecoveryCodeModel> logger)
+            ILogger<LoginWithRecoveryCodeModel> logger,
+            IStringLocalizer<LoginWithRecoveryCodeResource> localizer)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -53,9 +59,9 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [BindProperty]
-            [Required]
+            [Required(ErrorMessageResourceName = nameof(SharedResources.RequiredField), ErrorMessageResourceType = typeof(SharedResources))]
             [DataType(DataType.Text)]
-            [Display(Name = "Recovery Code")]
+            [Display(Name = nameof(LoginWithRecoveryCodeResource.RecoveryCode), ResourceType = typeof(LoginWithRecoveryCodeResource))]
             public string RecoveryCode { get; set; }
         }
 
@@ -105,7 +111,7 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
             else
             {
                 _logger.LogWarning("Invalid recovery code entered for user with ID '{UserId}' ", user.Id);
-                ModelState.AddModelError(string.Empty, "Invalid recovery code entered.");
+                ModelState.AddModelError(string.Empty, _localizer[nameof(LoginWithRecoveryCodeResource.InvalidRecoveryCode)]);
                 return Page();
             }
         }

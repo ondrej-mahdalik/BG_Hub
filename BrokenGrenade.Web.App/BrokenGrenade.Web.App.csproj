@@ -11,18 +11,19 @@
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
     <PackageReference Include="Humanizer.Core.cs" Version="2.14.1" />
-    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="7.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1">
+    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="7.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Supercode.Blazor.BreadcrumbNavigation" Version="1.3.2" />
     <PackageReference Include="Syncfusion.Blazor.Schedule" Version="20.4.0.43" />
@@ -33,4 +34,117 @@
     <ProjectReference Include="..\BrokenGrenade.Web.BL\BrokenGrenade.Web.BL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Areas\Public\Pages\IndexResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>IndexResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\LoginResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LoginResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\LoginWith2faResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LoginWith2faResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\SharedResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SharedResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\ResetPasswordConfirmationResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResetPasswordConfirmationResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\ResetPasswordResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResetPasswordResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\AccessDeniedResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AccessDeniedResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\ConfirmEmailChangeResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ConfirmEmailChangeResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\ForgotPasswordResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ForgotPasswordResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\ForgotPasswordConfirmationResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ForgotPasswordConfirmationResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\LockoutResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LockoutResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\LoginWithRecoveryCodeResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LoginWithRecoveryCodeResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Areas\Public\Pages\IndexResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Index.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Areas\Identity\Pages\Account\LoginResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LoginResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Areas\Identity\Pages\Account\LoginWith2faResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LoginWith2faResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\SharedResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SharedResources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Areas\Identity\Pages\Account\ResetPasswordConfirmationResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ResetPasswordConfirmationResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Areas\Identity\Pages\Account\ResetPasswordResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ResetPasswordResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Areas\Identity\Pages\Account\AccessDeniedResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AccessDeniedResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Areas\Identity\Pages\Account\ConfirmEmailChangeResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ConfirmEmailChangeResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Areas\Identity\Pages\Account\ForgotPasswordResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ForgotPasswordResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Areas\Identity\Pages\Account\ForgotPasswordConfirmationResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ForgotPasswordConfirmation.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Areas\Identity\Pages\Account\LockoutResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LockoutResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Areas\Identity\Pages\Account\LoginWithRecoveryCodeResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LoginWithRecoveryCodeResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

@@ -1,40 +1,43 @@
 ﻿@page
+@using Microsoft.Extensions.Localization
+@using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account
+@using BrokenGrenade.Web.App.Resources
 @model LoginWith2faModel
+@inject IStringLocalizer<LoginWith2faResource> Localizer
 @{
-    ViewData["Title"] = "Two-factor authentication";
+    ViewData["Title"] = Localizer[nameof(LoginWith2faResource._2faLogin)];
     Layout = "_Layout";
 }
 
-<h1>@ViewData["Title"]</h1>
-<hr />
-<p>Your login is protected with an authenticator app. Enter your authenticator code below.</p>
-<div class="row">
-    <div class="col-md-4">
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-10 col-xl-8 col-xxl-6">
+        <p>@Localizer[nameof(LoginWith2faResource.AccountSecuredWith2fa)]</p>
         <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
-            <input asp-for="RememberMe" type="hidden" />
+            <input asp-for="RememberMe" type="hidden"/>
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.TwoFactorCode" class="form-control" autocomplete="off" />
+            <div class="mb-3">
+                <input asp-for="Input.TwoFactorCode" class="form-control" autocomplete="off"/>
                 <label asp-for="Input.TwoFactorCode" class="form-label"></label>
                 <span asp-validation-for="Input.TwoFactorCode" class="text-danger"></span>
             </div>
-            <div class="checkbox mb-3">
-                <label asp-for="Input.RememberMachine" class="form-label">
-                    <input asp-for="Input.RememberMachine" />
-                    @Html.DisplayNameFor(m => m.Input.RememberMachine)
-                </label>
+            <div class="mb-3">
+                <div class="form-check">
+                    <input asp-for="Input.RememberMachine" class="form-check-input"/>
+                    <label asp-for="Input.RememberMachine" class="form-check-label">
+                        @Html.DisplayNameFor(m => m.Input.RememberMachine)
+                    </label>
+                </div>
             </div>
             <div>
-                <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                <button type="submit" class="w-100 btn btn-lg btn-primary">@Localizer[nameof(SharedResources.LoginButton)]</button>
             </div>
         </form>
+        <p>
+            @Localizer[nameof(LoginWith2faResource.No2faCode1)]
+            <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl">@Localizer[nameof(LoginWith2faResource.No2faCode2)]</a>.
+        </p>
     </div>
 </div>
-<p>
-    Don't have access to your authenticator device? You can
-    <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl">log in with a recovery code</a>.
-</p>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

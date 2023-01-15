@@ -43,6 +43,8 @@ void ConfigureControllers(IServiceCollection serviceCollection)
     serviceCollection.AddControllers()
         .AddNewtonsoftJson();
 
+    serviceCollection.AddLocalization();
+
     serviceCollection.AddFluentValidationAutoValidation();
     serviceCollection.AddValidatorsFromAssemblyContaining<WebBLInstaller>();
 
@@ -177,7 +179,15 @@ void UseRoutingAndSecurityFeatures(WebApplication application)
     application.UseHttpsRedirection();
     application.UseStaticFiles();
     application.UseRouting();
-    application.UseRequestLocalization("cs-CZ");
+    
+    var supportedCultures = new[] {"cs", "en"};
+    var localizationOptions = new RequestLocalizationOptions()
+        .SetDefaultCulture(supportedCultures[0])
+        .AddSupportedCultures(supportedCultures)
+        .AddSupportedUICultures(supportedCultures);
+    
+    application.UseRequestLocalization(localizationOptions);
+    
     // application.UseIdentityServer();
     application.UseAuthentication();
     application.UseAuthorization();
