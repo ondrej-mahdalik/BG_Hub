@@ -29,3 +29,8 @@ body {
 .btn-sharp {
     border-radius: 0!important;
 }
+
+/* Minimum height */
+.min-h-400 {
+    min-height: 400px;
+}

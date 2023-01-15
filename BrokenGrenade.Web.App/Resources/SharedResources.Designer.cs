@@ -141,6 +141,15 @@ namespace BrokenGrenade.Web.App.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Uložit změny.
+        /// </summary>
+        public static string SaveChangesButton {
+            get {
+                return ResourceManager.GetString("SaveChangesButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Slotování.
         /// </summary>
         public static string Slotting {

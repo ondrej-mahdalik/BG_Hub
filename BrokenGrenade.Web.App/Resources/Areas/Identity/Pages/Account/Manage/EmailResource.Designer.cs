@@ -21,7 +21,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class EmailResource {
+    public class EmailResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -35,7 +35,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage.EmailResource" +
@@ -51,12 +51,86 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Změnit email.
+        /// </summary>
+        public static string ChangeEmailButton {
+            get {
+                return ResourceManager.GetString("ChangeEmailButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nastavení emailu.
+        /// </summary>
+        public static string ChangeEmailTitle {
+            get {
+                return ResourceManager.GetString("ChangeEmailTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ověřovací zpráva byla zaslána na novou adresu..
+        /// </summary>
+        public static string ConfirmationEmailSentMessage {
+            get {
+                return ResourceManager.GetString("ConfirmationEmailSentMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oveření emailové adresy.
+        /// </summary>
+        public static string ConfirmNewEmailMessageSubject {
+            get {
+                return ResourceManager.GetString("ConfirmNewEmailMessageSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pro potvrzené této emailové adresy klikni na odkaz  &lt;a href=&quot;{0}&quot;&gt;zde&lt;/a&gt;.
+        ///
+        ///Broken Grenade.
+        /// </summary>
+        public static string ConfirmNewEmailMessageText {
+            get {
+                return ResourceManager.GetString("ConfirmNewEmailMessageText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Byla zachována původní emailová adresa.
+        /// </summary>
+        public static string EmailUnchangedMessage {
+            get {
+                return ResourceManager.GetString("EmailUnchangedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nový email.
+        /// </summary>
+        public static string NewEmailField {
+            get {
+                return ResourceManager.GetString("NewEmailField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Odeslat ověřovací zprávu.
+        /// </summary>
+        public static string SendVerificationEmail {
+            get {
+                return ResourceManager.GetString("SendVerificationEmail", resourceCulture);
             }
         }
     }

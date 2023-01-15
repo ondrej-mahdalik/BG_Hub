@@ -2,17 +2,18 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks;
+using BrokenGrenade.Web.App.Resources;
+using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage;
 using BrokenGrenade.Web.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Localization;
 
 namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
 {
@@ -21,21 +22,25 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<UserEntity> _userManager;
         private readonly SignInManager<UserEntity> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly IStringLocalizer<EmailResource> _localizer;
 
         public EmailModel(
             UserManager<UserEntity> userManager,
             SignInManager<UserEntity> signInManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IStringLocalizer<EmailResource> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _localizer = localizer;
         }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
+        [Display(Name = nameof(SharedResources.Email), ResourceType = typeof(SharedResources))]
         public string Email { get; set; }
 
         /// <summary>
@@ -68,9 +73,9 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
-            [Display(Name = "New email")]
+            [Required(ErrorMessageResourceName = nameof(SharedResources.RequiredField), ErrorMessageResourceType = typeof(SharedResources))]
+            [EmailAddress(ErrorMessageResourceName = nameof(SharedResources.InvalidEmail), ErrorMessageResourceType = typeof(SharedResources))]
+            [Display(Name = nameof(EmailResource.NewEmailField), ResourceType = typeof(EmailResource))]
             public string NewEmail { get; set; }
         }
 
@@ -126,14 +131,14 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
                     protocol: Request.Scheme);
                 await _emailSender.SendEmailAsync(
                     Input.NewEmail,
-                    "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    _localizer[nameof(EmailResource.ConfirmNewEmailMessageSubject)],
+                    _localizer[nameof(EmailResource.ConfirmNewEmailMessageText), HtmlEncoder.Default.Encode(callbackUrl)]);
 
-                StatusMessage = "Confirmation link to change email sent. Please check your email.";
+                StatusMessage = _localizer[nameof(EmailResource.ConfirmationEmailSentMessage)];
                 return RedirectToPage();
             }
 
-            StatusMessage = "Your email is unchanged.";
+            StatusMessage = _localizer[nameof(EmailResource.EmailUnchangedMessage)];
             return RedirectToPage();
         }
 
@@ -162,8 +167,8 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                _localizer[nameof(EmailResource.ConfirmNewEmailMessageSubject)],
+                _localizer[nameof(EmailResource.ConfirmNewEmailMessageText), HtmlEncoder.Default.Encode(callbackUrl)]);
 
             StatusMessage = "Verification email sent. Please check your email.";
             return RedirectToPage();

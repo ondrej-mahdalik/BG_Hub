@@ -51,4 +51,7 @@
     <data name="AccessDenied" xml:space="preserve">
         <value>Přístup Odepřen</value>
     </data>
+    <data name="SaveChangesButton" xml:space="preserve">
+        <value>Uložit změny</value>
+    </data>
 </root>
