@@ -24,3 +24,8 @@
 body {
     color-scheme: dark;
 }
+
+/* Sharp button edges */
+.btn-sharp {
+    border-radius: 0!important;
+}
