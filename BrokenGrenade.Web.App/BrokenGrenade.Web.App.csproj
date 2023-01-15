@@ -83,6 +83,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>LoginWithRecoveryCodeResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\LayoutResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LayoutResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -146,5 +150,14 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>LoginWithRecoveryCodeResource.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Areas\Identity\Pages\Account\LayoutResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LayoutResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\Areas\Identity\Pages\Account\Manage" />
   </ItemGroup>
 </Project>

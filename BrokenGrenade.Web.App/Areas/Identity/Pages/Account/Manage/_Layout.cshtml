@@ -1,5 +1,7 @@
-﻿@using Microsoft.AspNetCore.Hosting
-@using Microsoft.AspNetCore.Mvc.ViewEngines
+﻿@using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<LayoutResource> Localizer
 <!DOCTYPE html>
 <html lang="cs" data-bs-theme="dark">
 <head>
@@ -21,7 +23,7 @@
             <div class="my-5">
                 <div class="mb-3">
                     <a class="btn btn-dark bg-dark-subtle" href="/">
-                        <i class="fa-solid fa-chevron-left fa-fw"></i> Zpět na hlavní stránku
+                        <i class="fa-solid fa-chevron-left fa-fw"></i> @Localizer[nameof(LayoutResource.BackToMainPage)]
                     </a>
                 </div>
                 <div class="card overflow-hidden bg-dark-subtle border-0">
