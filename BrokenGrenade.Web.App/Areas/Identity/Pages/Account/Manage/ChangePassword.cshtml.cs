@@ -5,10 +5,13 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using BrokenGrenade.Web.App.Resources;
+using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage;
 using BrokenGrenade.Web.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
@@ -18,15 +21,18 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<UserEntity> _userManager;
         private readonly SignInManager<UserEntity> _signInManager;
         private readonly ILogger<ChangePasswordModel> _logger;
+        private readonly IStringLocalizer<ChangePasswordResource> _localizer;
 
         public ChangePasswordModel(
             UserManager<UserEntity> userManager,
             SignInManager<UserEntity> signInManager,
-            ILogger<ChangePasswordModel> logger)
+            ILogger<ChangePasswordModel> logger,
+            IStringLocalizer<ChangePasswordResource> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -53,19 +59,19 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessageResourceName = nameof(SharedResources.RequiredField), ErrorMessageResourceType = typeof(SharedResources))]
             [DataType(DataType.Password)]
-            [Display(Name = "Current password")]
+            [Display(Name = nameof(ChangePasswordResource.InputOldPassword), ResourceType = typeof(ChangePasswordResource))]
             public string OldPassword { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessageResourceName = nameof(SharedResources.RequiredField), ErrorMessageResourceType = typeof(SharedResources))]
+            [StringLength(100, MinimumLength = 6, ErrorMessageResourceName = nameof(SharedResources.StringLengthRange), ErrorMessageResourceType = typeof(SharedResources))]
             [DataType(DataType.Password)]
-            [Display(Name = "New password")]
+            [Display(Name = nameof(ChangePasswordResource.InputNewPassword), ResourceType = typeof(ChangePasswordResource))]
             public string NewPassword { get; set; }
 
             /// <summary>
@@ -73,8 +79,8 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm new password")]
-            [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+            [Display(Name = nameof(ChangePasswordResource.InputConfirmPassword), ResourceType = typeof(ChangePasswordResource))]
+            [Compare(nameof(NewPassword), ErrorMessageResourceName = nameof(ChangePasswordResource.InputPasswordsDontMatch), ErrorMessageResourceType = typeof(ChangePasswordResource))]
             public string ConfirmPassword { get; set; }
         }
 
@@ -119,8 +125,8 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
+            _logger.LogInformation("User changed their password successfully");
+            StatusMessage = _localizer[nameof(ChangePasswordResource.PasswordChangedConfirmation)];
 
             return RedirectToPage();
         }

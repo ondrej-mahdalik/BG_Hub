@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="BrowserForgottenConfirmation" xml:space="preserve">
+        <value>Aktuální prohlížeč byl zapomenut. Při příštím přihlášení v tomto přihlížeči bude vyžadován ověřovací kód.</value>
+    </data>
+    <data name="TwoFactorAuthenticationTitle" xml:space="preserve">
+        <value>Dvoufázové ověřování</value>
+    </data>
+    <data name="NoRecoveryCodesLeftAlertTitle" xml:space="preserve">
+        <value>Už nemáš žádné nepoužité záložní kódy.</value>
+    </data>
+    <data name="NoRecoveryCodesLeftAlertMessage1" xml:space="preserve">
+        <value>Musíš si</value>
+    </data>
+    <data name="NoRecoveryCodesLeftAlertMessage2" xml:space="preserve">
+        <value>vygenerovat nové záložní kódy</value>
+    </data>
+    <data name="NoRecoveryCodesLeftAlertMessage3" xml:space="preserve">
+        <value>jinak se pomocí nich nebudeš moct přihlásit.</value>
+    </data>
+    <data name="OneRecoveryCodeLeftAlertTitle" xml:space="preserve">
+        <value>Zbývá ti poslední nepoužitý záložní kód.</value>
+    </data>
+    <data name="OneRecoveryCodeLeftAlertMessage1" xml:space="preserve">
+        <value>Měl by jsi si</value>
+    </data>
+    <data name="OneRecoveryCodeLeftAlertMessage2" xml:space="preserve">
+        <value>vygenerovat nové záložní kódy</value>
+    </data>
+    <data name="FewRecoveryCodesLeftAlertTitle" xml:space="preserve">
+        <value>Zbývají ti už jen {0} nepoužité záložní kódy.</value>
+    </data>
+    <data name="ForgetBrowserButton" xml:space="preserve">
+        <value>Zapomenout tento prohlížeč</value>
+    </data>
+    <data name="AuthenticatorApp" xml:space="preserve">
+        <value>Ověřovací aplikace</value>
+    </data>
+    <data name="AddAuthenticatorApp" xml:space="preserve">
+        <value>Přidat ověřovací aplikaci</value>
+    </data>
+    <data name="SetupAuthenticatorApp" xml:space="preserve">
+        <value>Nastavit ověřovací aplikaci</value>
+    </data>
+    <data name="ResetAuthenticatorApp" xml:space="preserve">
+        <value>Obnovit ověřovací aplikaci</value>
+    </data>
+    <data name="Disable2fa" xml:space="preserve">
+        <value>Deaktivovat dvoufázové ověřování</value>
+    </data>
+    <data name="ResetRecoveryCodes" xml:space="preserve">
+        <value>Obnovit záložní kódy</value>
+    </data>
+</root>

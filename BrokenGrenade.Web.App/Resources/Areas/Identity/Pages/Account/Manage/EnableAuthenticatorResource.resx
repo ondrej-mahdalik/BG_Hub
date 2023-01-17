@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Enable2faTitle" xml:space="preserve">
+        <value>Nastavení ověřovací aplikace</value>
+    </data>
+    <data name="Enable2faScanInstructions" xml:space="preserve">
+        <value>V aplikaci naskenuj QR kód zobrazený níže nebo opiš následující klíč:</value>
+    </data>
+    <data name="Enable2faCodeInstructions" xml:space="preserve">
+        <value>Poté, co jsi nasketoval QR kód (nebo opsal klíč), ti ověřovací aplikace vygeneruje kód. Opiš daný kód do políčka níže.</value>
+    </data>
+    <data name="Enable2faIntroductionInstructions" xml:space="preserve">
+        <value>Pro nastavení ověřovací aplikace následuj tyto kroky:</value>
+    </data>
+    <data name="Enable2faConfirmation" xml:space="preserve">
+        <value>Aplikace byla úspěšně ověřena dvoufázová verifikace aktivována.</value>
+    </data>
+    <data name="DownloadInstruction1" xml:space="preserve">
+        <value>Do telefonu si stáhni ověřovací aplikaci jako například Google Authenticator pro</value>
+    </data>
+    <data name="DownloadInstruction2" xml:space="preserve">
+        <value>nebo Microsoft Authenticator pro</value>
+    </data>
+</root>

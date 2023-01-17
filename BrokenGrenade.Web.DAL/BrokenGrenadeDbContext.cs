@@ -39,6 +39,10 @@ public class BrokenGrenadeDbContext : CustomApiAuthorizationDbContext<UserEntity
                 .WithOne(i => i.Creator)
                 .OnDelete(DeleteBehavior.SetNull);
 
+            entity.HasMany(i => i.TrainingsCreated)
+                .WithOne(i => i.Creator)
+                .OnDelete(DeleteBehavior.SetNull);
+
             entity.HasMany(i => i.ApplicationsEdited)
                 .WithOne(i => i.EditedBy)
                 .OnDelete(DeleteBehavior.SetNull);
@@ -49,22 +53,23 @@ public class BrokenGrenadeDbContext : CustomApiAuthorizationDbContext<UserEntity
             
             entity.HasMany(i => i.PunishmentsReceived)
                 .WithOne(i => i.User)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             entity.HasMany(i => i.PunishmentsIssued)
                 .WithOne(i => i.IssuedBy)
                 .OnDelete(DeleteBehavior.SetNull);
-
-            entity.HasOne(i => i.Application)
-                .WithOne(i => i.User)
-                .OnDelete(DeleteBehavior.SetNull);
         });
 
+        builder.Entity<ApplicationEntity>()
+            .HasOne(i => i.User)
+            .WithOne(i => i.Application)
+            .OnDelete(DeleteBehavior.ClientSetNull);
+        
         builder.Entity<ArticleCategoryEntity>(entity =>
         {
             entity.HasMany(i => i.Children)
                 .WithOne(i => i.Parent)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
             
             entity.HasMany(i => i.Articles)
                 .WithOne(i => i.Category)

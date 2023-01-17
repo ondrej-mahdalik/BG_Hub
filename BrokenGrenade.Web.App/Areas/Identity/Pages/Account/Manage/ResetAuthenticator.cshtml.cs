@@ -4,10 +4,12 @@
 
 using System;
 using System.Threading.Tasks;
+using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage;
 using BrokenGrenade.Web.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
@@ -17,15 +19,18 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<UserEntity> _userManager;
         private readonly SignInManager<UserEntity> _signInManager;
         private readonly ILogger<ResetAuthenticatorModel> _logger;
+        private readonly IStringLocalizer<ResetAuthenticatorResource> _localizer;
 
         public ResetAuthenticatorModel(
             UserManager<UserEntity> userManager,
             SignInManager<UserEntity> signInManager,
-            ILogger<ResetAuthenticatorModel> logger)
+            ILogger<ResetAuthenticatorModel> logger,
+            IStringLocalizer<ResetAuthenticatorResource> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -60,7 +65,7 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
             _logger.LogInformation("User with ID '{UserId}' has reset their authentication app key.", user.Id);
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your authenticator app key has been reset, you will need to configure your authenticator app using the new key.";
+            StatusMessage = _localizer[nameof(ResetAuthenticatorResource.AuthenticatorResetConfirmation)];
 
             return RedirectToPage("./EnableAuthenticator");
         }

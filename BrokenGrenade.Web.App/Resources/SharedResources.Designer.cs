@@ -69,6 +69,24 @@ namespace BrokenGrenade.Web.App.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to a.
+        /// </summary>
+        public static string And {
+            get {
+                return ResourceManager.GetString("And", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Broken Grenade.
+        /// </summary>
+        public static string AppName {
+            get {
+                return ResourceManager.GetString("AppName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Odstraněná kategorie.
         /// </summary>
         public static string DeletedMissionCategory {
@@ -114,11 +132,47 @@ namespace BrokenGrenade.Web.App.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Přihlášení se nezdařilo. Zkontroluj zadané údaje..
+        /// </summary>
+        public static string InvalidLogin {
+            get {
+                return ResourceManager.GetString("InvalidLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zadané heslo je nesprávné.
+        /// </summary>
+        public static string InvalidPassword {
+            get {
+                return ResourceManager.GetString("InvalidPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zadaný kód je nesprávný.
+        /// </summary>
+        public static string InvalidVerificationCode {
+            get {
+                return ResourceManager.GetString("InvalidVerificationCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Přihlásit se.
         /// </summary>
         public static string LoginButton {
             get {
                 return ResourceManager.GetString("LoginButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to nebo.
+        /// </summary>
+        public static string Or {
+            get {
+                return ResourceManager.GetString("Or", resourceCulture);
             }
         }
         
@@ -141,6 +195,15 @@ namespace BrokenGrenade.Web.App.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Uložit změny.
+        /// </summary>
+        public static string SaveChangesButton {
+            get {
+                return ResourceManager.GetString("SaveChangesButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Slotování.
         /// </summary>
         public static string Slotting {
@@ -150,11 +213,38 @@ namespace BrokenGrenade.Web.App.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pole {0} může být maximálně {1} znaků dlouhé..
+        /// </summary>
+        public static string StringLengthMax {
+            get {
+                return ResourceManager.GetString("StringLengthMax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pole {0} musí být {2} až {1} znaků dlouhé..
         /// </summary>
         public static string StringLengthRange {
             get {
                 return ResourceManager.GetString("StringLengthRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ověřovací kód.
+        /// </summary>
+        public static string VerificationCode {
+            get {
+                return ResourceManager.GetString("VerificationCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ověřit.
+        /// </summary>
+        public static string VerifyButton {
+            get {
+                return ResourceManager.GetString("VerifyButton", resourceCulture);
             }
         }
     }

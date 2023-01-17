@@ -24,3 +24,47 @@
 body {
     color-scheme: dark;
 }
+
+/* Sharp button edges */
+.btn-sharp {
+    border-radius: 0!important;
+}
+
+/* Minimum height */
+.min-h-400 {
+    min-height: 400px;
+}
+
+.h-max {
+    height: 100vh;
+}
+
+/* Image background */
+.bg-img-01 {
+    background-image: url("../assets/img/image01.webp");
+    /*background-position: center;*/
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.bg-img-02 {
+    background-image: url("../assets/img/image02.webp");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.bg-img-blur {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.bg-img-blur-subtle {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.bg-img-blur-max {
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+}

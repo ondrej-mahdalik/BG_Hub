@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
@@ -24,11 +25,14 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<UserEntity> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IStringLocalizer<SharedResources> _sharedLocalizer;
 
-        public LoginModel(SignInManager<UserEntity> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<UserEntity> signInManager, ILogger<LoginModel> logger,
+            IStringLocalizer<SharedResources> sharedLocalizer)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _sharedLocalizer = sharedLocalizer;
         }
 
         /// <summary>
@@ -133,7 +137,7 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, _sharedLocalizer[nameof(SharedResources.InvalidLogin)]);
                     return Page();
                 }
             }

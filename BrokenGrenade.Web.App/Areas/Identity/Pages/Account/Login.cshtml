@@ -4,6 +4,7 @@
 @using BrokenGrenade.Web.App.Resources
 @model LoginModel
 @inject IStringLocalizer<LoginResource> Localizer
+@inject IStringLocalizer<SharedResources> SharedLocalizer
 
 @{
     ViewData["Title"] = @Localizer[nameof(LoginResource.LoginPageTitle)];
@@ -35,15 +36,14 @@
                             <label class="form-check-label" asp-for="Input.RememberMe">@Html.DisplayNameFor(m => m.Input.RememberMe)</label>
                         </div>
                     </div>
-                    <div class="d-flex flex-column flex-sm-row-reverse gap-2">
-                        <button id="login-submit" type="submit" class="btn btn-primary w-100">@Localizer[nameof(SharedResources.LoginButton)]</button>
-                        <a class="btn btn-warning w-100 fw-bold" href="/Apply">
-                            <i class="fa-solid fa-crown fa-fw"></i> @Localizer[nameof(LoginResource.Join)]
-                        </a>
+                    <div class="mb-3">
+                        <button id="login-submit" type="submit" class="btn btn-primary">@SharedLocalizer[nameof(SharedResources.LoginButton)]</button>
                     </div>
-                    <div class="d-flex flex-column flex-sm-row gap-2 flex-nowrap">
-                        <a id="forgot-password" asp-page="./ForgotPassword" class="btn btn-link w-100">@Localizer[nameof(LoginResource.ForgottenPassword)]</a>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation" class="btn btn-link w-100">@Localizer[nameof(LoginResource.ResendEmail)]</a>
+                    <div class="row">
+                        <div class="d-flex flex-column">
+                            <a id="apply" href="/Apply" class="btn btn-link link-warning">@Localizer[nameof(LoginResource.Join)]</a>
+                            <a id="forgot-password" asp-page="./ForgotPassword" class="btn btn-link">@Localizer[nameof(LoginResource.ForgottenPassword)]</a>
+                        </div>
                     </div>
                 </div>
             </div>

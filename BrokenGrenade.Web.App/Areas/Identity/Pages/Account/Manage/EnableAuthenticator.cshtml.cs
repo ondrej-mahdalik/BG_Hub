@@ -9,10 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using BrokenGrenade.Web.App.Resources;
+using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage;
 using BrokenGrenade.Web.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
@@ -22,17 +25,23 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<UserEntity> _userManager;
         private readonly ILogger<EnableAuthenticatorModel> _logger;
         private readonly UrlEncoder _urlEncoder;
+        private readonly IStringLocalizer<EnableAuthenticatorResource> _localizer;
+        private readonly IStringLocalizer<SharedResources> _sharedLocalizer;
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
         public EnableAuthenticatorModel(
             UserManager<UserEntity> userManager,
             ILogger<EnableAuthenticatorModel> logger,
-            UrlEncoder urlEncoder)
+            UrlEncoder urlEncoder,
+            IStringLocalizer<EnableAuthenticatorResource> localizer,
+            IStringLocalizer<SharedResources> sharedLocalizer)
         {
             _userManager = userManager;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _localizer = localizer;
+            _sharedLocalizer = sharedLocalizer;
         }
 
         /// <summary>
@@ -78,10 +87,10 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [StringLength(7, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessageResourceName = nameof(SharedResources.RequiredField), ErrorMessageResourceType = typeof(SharedResources))]
+            [StringLength(7, MinimumLength = 6, ErrorMessageResourceName = nameof(SharedResources.StringLengthRange), ErrorMessageResourceType = typeof(SharedResources))]
             [DataType(DataType.Text)]
-            [Display(Name = "Verification Code")]
+            [Display(Name = nameof(SharedResources.VerificationCode), ResourceType = typeof(SharedResources))]
             public string Code { get; set; }
         }
 
@@ -120,7 +129,7 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
 
             if (!is2faTokenValid)
             {
-                ModelState.AddModelError("Input.Code", "Verification code is invalid.");
+                ModelState.AddModelError("Input.Code", _sharedLocalizer[nameof(SharedResources.InvalidVerificationCode)]);
                 await LoadSharedKeyAndQrCodeUriAsync(user);
                 return Page();
             }
@@ -129,7 +138,7 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
             var userId = await _userManager.GetUserIdAsync(user);
             _logger.LogInformation("User with ID '{UserId}' has enabled 2FA with an authenticator app.", userId);
 
-            StatusMessage = "Your authenticator app has been verified.";
+            StatusMessage = _localizer[nameof(EnableAuthenticatorResource.Enable2faConfirmation)];
 
             if (await _userManager.CountRecoveryCodesAsync(user) == 0)
             {
@@ -181,7 +190,7 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
             return string.Format(
                 CultureInfo.InvariantCulture,
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("Microsoft.AspNetCore.Identity.UI"),
+                _urlEncoder.Encode(_sharedLocalizer[nameof(SharedResources.AppName)]),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

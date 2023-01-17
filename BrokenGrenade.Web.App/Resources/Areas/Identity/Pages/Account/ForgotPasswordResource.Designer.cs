@@ -61,6 +61,15 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Zpět na přihlášení.
+        /// </summary>
+        public static string BackToLoginButton {
+            get {
+                return ResourceManager.GetString("BackToLoginButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Obnovení Hesla.
         /// </summary>
         public static string ForgotPasswordTitle {

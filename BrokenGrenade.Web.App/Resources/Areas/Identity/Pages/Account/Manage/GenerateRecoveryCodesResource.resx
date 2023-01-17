@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="GenerateRecoveryCodesTitle" xml:space="preserve">
+        <value>Generování záložních kódů</value>
+    </data>
+    <data name="SaveCodesInSafePlace" xml:space="preserve">
+        <value>Ulož si tyto kódy na bezpečném místě.</value>
+    </data>
+    <data name="NoCodesNoAccount" xml:space="preserve">
+        <value>Pokud ztratíš telefon s ověřovací aplikací a nebueš mít tyto záložní kódy, ztratíš přístup ke svému účtu.</value>
+    </data>
+    <data name="GeneratingNewCodes1" xml:space="preserve">
+        <value>Vygenerování nových záložních klíčů neovlivní funkčnost aktuálně používané ověřovací aplikace. Pokud ji chceš obnovit, měl by jsi</value>
+    </data>
+    <data name="GenerateRecoveryKeysButton" xml:space="preserve">
+        <value>Vygenerovat záložní klíče</value>
+    </data>
+    <data name="RecoveryCodesGeneratedConfirmation" xml:space="preserve">
+        <value>Nové záložní kódy byly úspěšně vygenerovány</value>
+    </data>
+    <data name="GeneratingNewCodes2" xml:space="preserve">
+        <value>obnovit ověřovací aplikaci</value>
+    </data>
+</root>

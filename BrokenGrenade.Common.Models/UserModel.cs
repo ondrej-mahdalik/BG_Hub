@@ -20,7 +20,6 @@ namespace BrokenGrenade.Common.Models
         [StringLength(50, MinimumLength = 3, ErrorMessage = "{0} musí mít minimálně {2} znaky a maximálně {1} znaků.")]
         public string Nickname { get; set; }
         
-        public Guid? ApplicationId { get; set; }
         public ApplicationModel? Application { get; set; }
 
         public IList<RoleModel> Roles { get; set; } = new List<RoleModel>();

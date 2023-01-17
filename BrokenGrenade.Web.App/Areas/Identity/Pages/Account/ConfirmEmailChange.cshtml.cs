@@ -2,15 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
 using System.Text;
-using System.Threading.Tasks;
+using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account;
 using BrokenGrenade.Web.DAL.Entities;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Localization;
 
 namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
 {
@@ -18,11 +17,14 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
     {
         private readonly UserManager<UserEntity> _userManager;
         private readonly SignInManager<UserEntity> _signInManager;
+        private readonly IStringLocalizer<ConfirmEmailChangeResource> _localizer;
 
-        public ConfirmEmailChangeModel(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager)
+        public ConfirmEmailChangeModel(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager,
+            IStringLocalizer<ConfirmEmailChangeResource> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -49,7 +51,7 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
             var result = await _userManager.ChangeEmailAsync(user, email, code);
             if (!result.Succeeded)
             {
-                StatusMessage = "Error changing email.";
+                StatusMessage = _localizer[nameof(ConfirmEmailChangeResource.ErrorChangingEmail)];
                 return Page();
             }
 
@@ -58,12 +60,12 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
             var setUserNameResult = await _userManager.SetUserNameAsync(user, email);
             if (!setUserNameResult.Succeeded)
             {
-                StatusMessage = "Error changing user name.";
+                StatusMessage = _localizer[nameof(ConfirmEmailChangeResource.ErrorChangingUsername)];
                 return Page();
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Thank you for confirming your email change.";
+            StatusMessage = _localizer[nameof(ConfirmEmailChangeResource.EmailChangedConfirmation)];
             return Page();
         }
     }

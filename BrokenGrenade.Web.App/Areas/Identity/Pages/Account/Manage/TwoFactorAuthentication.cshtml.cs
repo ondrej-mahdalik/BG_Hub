@@ -4,10 +4,12 @@
 
 using System;
 using System.Threading.Tasks;
+using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage;
 using BrokenGrenade.Web.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
@@ -17,13 +19,16 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<UserEntity> _userManager;
         private readonly SignInManager<UserEntity> _signInManager;
         private readonly ILogger<TwoFactorAuthenticationModel> _logger;
+        private readonly IStringLocalizer<TwoFactorAuthenticationResource> _localizer;
 
         public TwoFactorAuthenticationModel(
-            UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager, ILogger<TwoFactorAuthenticationModel> logger)
+            UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager, ILogger<TwoFactorAuthenticationModel> logger,
+            IStringLocalizer<TwoFactorAuthenticationResource> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -83,7 +88,7 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.ForgetTwoFactorClientAsync();
-            StatusMessage = "The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code.";
+            StatusMessage = _localizer[nameof(TwoFactorAuthenticationResource.BrowserForgottenConfirmation)];
             return RedirectToPage();
         }
     }

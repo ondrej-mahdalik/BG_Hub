@@ -1,16 +1,24 @@
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+
 namespace BrokenGrenade.Common.Models;
 
+[JsonObject(MemberSerialization.OptIn)]
 public class PunishmentModel : ModelBase
 {
     [Required]
+    [JsonProperty]
     public string Reason { get; set; }
     
     [Required]
+    [JsonProperty]
     public string Punishment { get; set; }
     
     [Required]
+    [JsonProperty]
     public DateTime IssuedOn { get; set; } = DateTime.Now;
+    
+    [JsonProperty]
     public DateTime? ExpiresOn { get; set; }
     
     [Required]

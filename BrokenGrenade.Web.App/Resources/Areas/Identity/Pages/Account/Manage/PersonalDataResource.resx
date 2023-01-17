@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="PersonalDataTitle" xml:space="preserve">
+        <value>Osobní údaje</value>
+    </data>
+    <data name="PersonalDataMessage" xml:space="preserve">
+        <value>Tvůj účet obsahuje osobní údaje, které jsi nám poskytnul. Tato stránka ti umožňuje si daná data stáhnout nebo odstranit.</value>
+    </data>
+    <data name="PersonalDataDeletionWarning" xml:space="preserve">
+        <value>Odstranění osobních dat je nevratné vede k odstranění účtu a opuštění skupiny.</value>
+    </data>
+    <data name="PersonalDataDownloadButton" xml:space="preserve">
+        <value>Stáhnout</value>
+    </data>
+    <data name="PersonalDataDeleteButton" xml:space="preserve">
+        <value>Odstranit</value>
+    </data>
+</root>

@@ -22,14 +22,14 @@ public sealed class UserEntity : IdentityUser<Guid>, ICloneable
         UserName = string.Empty;
     }
     
+    [PersonalData]
     public string Nickname { get; set; }
     
-    public Guid? ApplicationId { get; set; }
     public ApplicationEntity? Application { get; init; }
-    
     public ICollection<MissionEntity> MissionsCreated { get; init; } = new List<MissionEntity>();
     public ICollection<ApplicationEntity> ApplicationsEdited { get; init; } = new List<ApplicationEntity>();
     public ICollection<UserIsParticipatingTrainingEntity> TrainingsParticipating { get; init; } = new List<UserIsParticipatingTrainingEntity>();
+    public ICollection<TrainingEntity> TrainingsCreated { get; init; } = new List<TrainingEntity>();
     public ICollection<PunishmentEntity> PunishmentsReceived { get; init; } = new List<PunishmentEntity>();
     public ICollection<PunishmentEntity> PunishmentsIssued { get; init; } = new List<PunishmentEntity>();
 

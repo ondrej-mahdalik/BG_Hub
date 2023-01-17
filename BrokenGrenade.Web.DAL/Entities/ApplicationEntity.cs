@@ -17,6 +17,8 @@ public class ApplicationEntity : EntityBase
     public string HowDidYouFindUs { get; set; }
 
     public string? StaffComment { get; set; }
+    
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     public bool AgreedToRules { get; set; }
     public bool MeetsRequirements { get; set; }
@@ -27,6 +29,8 @@ public class ApplicationEntity : EntityBase
     public UserEntity? EditedBy { get; init; }
 
     public UserEntity? User { get; init; }
+    
+    public Guid? UserId { get; set; }
 
     public ApplicationEntity(string nickname, string email, string discord, string steamUrl, int age, int playTime,
         string about, string previousExperience, string reasonToJoin, string whatCanYouOffer,
