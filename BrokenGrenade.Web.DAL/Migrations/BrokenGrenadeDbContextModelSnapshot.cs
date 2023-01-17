@@ -273,7 +273,7 @@ namespace BrokenGrenade.Web.DAL.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Priority")
+                    b.Property<int>("Order")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

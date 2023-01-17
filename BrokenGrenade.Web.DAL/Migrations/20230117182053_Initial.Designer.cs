@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BrokenGrenade.Web.DAL.Migrations
 {
     [DbContext(typeof(BrokenGrenadeDbContext))]
-    [Migration("20230117140312_SwitchedUserApplicationRelation")]
-    partial class SwitchedUserApplicationRelation
+    [Migration("20230117182053_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -276,7 +276,7 @@ namespace BrokenGrenade.Web.DAL.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Priority")
+                    b.Property<int>("Order")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

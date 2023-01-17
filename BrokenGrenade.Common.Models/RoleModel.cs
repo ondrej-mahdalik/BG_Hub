@@ -17,8 +17,7 @@ namespace BrokenGrenade.Common.Models
         [Required]
         [Display(Name = "Priorita")]
         [Range(0, int.MaxValue, ErrorMessage = "{0} musí být kladné číslo.")]
-
-        public int Priority { get; set; } = 0;
+        public int Order { get; set; } = 0;
         
         public int UserCount { get; set; }
         
