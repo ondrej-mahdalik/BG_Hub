@@ -21,7 +21,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class EnableAuthenticatorResource {
+    public class EnableAuthenticatorResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -35,7 +35,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage.EnableAuthent" +
@@ -51,12 +51,68 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Poté, co jsi nasketoval QR kód (nebo opsal klíč), ti ověřovací aplikace vygeneruje kód. Opiš daný kód do políčka níže..
+        /// </summary>
+        public static string Enable2faCodeInstructions {
+            get {
+                return ResourceManager.GetString("Enable2faCodeInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aplikace byla úspěšně ověřena dvoufázová verifikace aktivována..
+        /// </summary>
+        public static string Enable2faConfirmation {
+            get {
+                return ResourceManager.GetString("Enable2faConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do telefonu si stáhni ověřovací aplikaci jako například Google Authenticator pro &lt;a href=&quot;https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;amp;hl=en&quot;&gt;Android&lt;/a&gt; a
+        ///                &lt;a href=&quot;https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8&quot;&gt;iOS&lt;/a&gt; nebo Microsoft Authenticator pro &lt;a href=&quot;https://go.microsoft.com/fwlink/?Linkid=825072&quot;&gt;Android&lt;/a&gt; a
+        ///                &lt;a href=&quot;https://go.microsoft.com/fwlink/?Linkid=825073&quot;&gt;iOS&lt;/a&gt;..
+        /// </summary>
+        public static string Enable2faDownloadInstructions {
+            get {
+                return ResourceManager.GetString("Enable2faDownloadInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pro nastavení ověřovací aplikace následuj tyto kroky:.
+        /// </summary>
+        public static string Enable2faIntroductionInstructions {
+            get {
+                return ResourceManager.GetString("Enable2faIntroductionInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to V aplikaci naskenuj QR kód zobrazený níže nebo opiš následující klíč: &lt;kbd&gt;{0}&lt;/kbd&gt;..
+        /// </summary>
+        public static string Enable2faScanInstructions {
+            get {
+                return ResourceManager.GetString("Enable2faScanInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nastavení ověřovací aplikace.
+        /// </summary>
+        public static string Enable2faTitle {
+            get {
+                return ResourceManager.GetString("Enable2faTitle", resourceCulture);
             }
         }
     }

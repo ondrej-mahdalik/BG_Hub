@@ -21,7 +21,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Disable2faResource {
+    public class Disable2faResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -35,7 +35,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage.Disable2faRes" +
@@ -51,12 +51,57 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Samotná deaktivace nezmění klíče používané ověřovací aplikací. Pokud si je přeješ změnit, můžeš to udělat &lt;a asp-page=&quot;{0}&quot;&gt;zde&lt;/a&gt;..
+        /// </summary>
+        public static string Disable2faAlertMessage {
+            get {
+                return ResourceManager.GetString("Disable2faAlertMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tato akce pouze deaktivuje dvoufázové ověřování.
+        /// </summary>
+        public static string Disable2faAlertTitle {
+            get {
+                return ResourceManager.GetString("Disable2faAlertTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deaktivovat dvoufázové ověřování.
+        /// </summary>
+        public static string Disable2faButton {
+            get {
+                return ResourceManager.GetString("Disable2faButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deaktivace dvoufázového ověřování.
+        /// </summary>
+        public static string Disable2faTitle {
+            get {
+                return ResourceManager.GetString("Disable2faTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dvoufázové ověřování bylo deaktivováno. Opětovnou aktivaci můžeš provést nastavením ověřovací aplikace..
+        /// </summary>
+        public static string Disabled2faConfirmation {
+            get {
+                return ResourceManager.GetString("Disabled2faConfirmation", resourceCulture);
             }
         }
     }

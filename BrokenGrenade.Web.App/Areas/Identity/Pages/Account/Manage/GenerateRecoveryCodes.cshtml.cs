@@ -5,10 +5,12 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage;
 using BrokenGrenade.Web.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
@@ -17,13 +19,16 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<UserEntity> _userManager;
         private readonly ILogger<GenerateRecoveryCodesModel> _logger;
+        private readonly IStringLocalizer<GenerateRecoveryCodesResource> _localizer;
 
         public GenerateRecoveryCodesModel(
             UserManager<UserEntity> userManager,
-            ILogger<GenerateRecoveryCodesModel> logger)
+            ILogger<GenerateRecoveryCodesModel> logger,
+            IStringLocalizer<GenerateRecoveryCodesResource> localizer)
         {
             _userManager = userManager;
             _logger = logger;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -76,7 +81,7 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
             RecoveryCodes = recoveryCodes.ToArray();
 
             _logger.LogInformation("User with ID '{UserId}' has generated new 2FA recovery codes.", userId);
-            StatusMessage = "You have generated new recovery codes.";
+            StatusMessage = _localizer[nameof(GenerateRecoveryCodesResource.RecoveryCodesGeneratedConfirmation)];
             return RedirectToPage("./ShowRecoveryCodes");
         }
     }

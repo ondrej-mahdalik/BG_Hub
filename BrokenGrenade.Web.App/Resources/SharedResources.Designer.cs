@@ -69,6 +69,15 @@ namespace BrokenGrenade.Web.App.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Broken Grenade.
+        /// </summary>
+        public static string AppName {
+            get {
+                return ResourceManager.GetString("AppName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Odstraněná kategorie.
         /// </summary>
         public static string DeletedMissionCategory {
@@ -132,6 +141,15 @@ namespace BrokenGrenade.Web.App.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Zadaný kód je nesprávný.
+        /// </summary>
+        public static string InvalidVerificationCode {
+            get {
+                return ResourceManager.GetString("InvalidVerificationCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Přihlásit se.
         /// </summary>
         public static string LoginButton {
@@ -191,6 +209,24 @@ namespace BrokenGrenade.Web.App.Resources {
         public static string StringLengthRange {
             get {
                 return ResourceManager.GetString("StringLengthRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ověřovací kód.
+        /// </summary>
+        public static string VerificationCode {
+            get {
+                return ResourceManager.GetString("VerificationCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ověřit.
+        /// </summary>
+        public static string VerifyButton {
+            get {
+                return ResourceManager.GetString("VerifyButton", resourceCulture);
             }
         }
     }

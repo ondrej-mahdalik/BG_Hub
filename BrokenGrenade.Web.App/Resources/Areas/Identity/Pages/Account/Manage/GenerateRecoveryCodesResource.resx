@@ -18,4 +18,22 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
+    <data name="GenerateRecoveryCodesTitle" xml:space="preserve">
+        <value>Generování záložních kódů</value>
+    </data>
+    <data name="SaveCodesInSafePlace" xml:space="preserve">
+        <value>Ulož si tyto kódy na bezpečném místě.</value>
+    </data>
+    <data name="NoCodesNoAccount" xml:space="preserve">
+        <value>Pokud ztratíš telefon s ověřovací aplikací a nebueš mít tyto záložní kódy, ztratíš přístup ke svému účtu.</value>
+    </data>
+    <data name="GeneratingNewCodes" xml:space="preserve">
+        <value>Vygenerování nových záložních klíčů neovlivní funkčnost aktuálně používané ověřovací aplikace. Pokud ji chceš obnovit, měl by jsi &lt;a asp-page="{0}"&gt;obnovit ověřovací aplikaci&lt;/a&gt;.</value>
+    </data>
+    <data name="GenerateRecoveryKeysButton" xml:space="preserve">
+        <value>Vygenerovat záložní klíče</value>
+    </data>
+    <data name="RecoveryCodesGeneratedConfirmation" xml:space="preserve">
+        <value>Nové záložní kódy byly úspěšně vygenerovány</value>
+    </data>
 </root>

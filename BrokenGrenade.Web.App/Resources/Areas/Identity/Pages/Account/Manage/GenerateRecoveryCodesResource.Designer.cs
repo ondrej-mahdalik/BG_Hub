@@ -21,7 +21,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class GenerateRecoveryCodesResource {
+    public class GenerateRecoveryCodesResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -35,7 +35,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage.GenerateRecov" +
@@ -51,12 +51,66 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generování záložních kódů.
+        /// </summary>
+        public static string GenerateRecoveryCodesTitle {
+            get {
+                return ResourceManager.GetString("GenerateRecoveryCodesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vygenerovat záložní klíče.
+        /// </summary>
+        public static string GenerateRecoveryKeysButton {
+            get {
+                return ResourceManager.GetString("GenerateRecoveryKeysButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vygenerování nových záložních klíčů neovlivní funkčnost aktuálně používané ověřovací aplikace. Pokud ji chceš obnovit, měl by jsi &lt;a asp-page=&quot;{0}&quot;&gt;obnovit ověřovací aplikaci&lt;/a&gt;..
+        /// </summary>
+        public static string GeneratingNewCodes {
+            get {
+                return ResourceManager.GetString("GeneratingNewCodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pokud ztratíš telefon s ověřovací aplikací a nebueš mít tyto záložní kódy, ztratíš přístup ke svému účtu..
+        /// </summary>
+        public static string NoCodesNoAccount {
+            get {
+                return ResourceManager.GetString("NoCodesNoAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nové záložní kódy byly úspěšně vygenerovány.
+        /// </summary>
+        public static string RecoveryCodesGeneratedConfirmation {
+            get {
+                return ResourceManager.GetString("RecoveryCodesGeneratedConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ulož si tyto kódy na bezpečném místě..
+        /// </summary>
+        public static string SaveCodesInSafePlace {
+            get {
+                return ResourceManager.GetString("SaveCodesInSafePlace", resourceCulture);
             }
         }
     }

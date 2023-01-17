@@ -1,7 +1,10 @@
 ﻿@page
+@using Microsoft.Extensions.Localization
+@using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage
 @model Disable2faModel
+@inject IStringLocalizer<Disable2faResource> Localizer
 @{
-    ViewData["Title"] = "Disable two-factor authentication (2FA)";
+    ViewData["Title"] = Localizer[nameof(Disable2faResource.Disable2faTitle)];
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
     Layout = "_Layout";
 }
@@ -11,16 +14,15 @@
 
 <div class="alert alert-warning" role="alert">
     <p>
-        <strong>This action only disables 2FA.</strong>
+        <strong>@Localizer[nameof(Disable2faResource.Disable2faAlertTitle)]</strong>
     </p>
     <p>
-        Disabling 2FA does not change the keys used in authenticator apps. If you wish to change the key
-        used in an authenticator app you should <a asp-page="./ResetAuthenticator">reset your authenticator keys.</a>
+        @Localizer[nameof(Disable2faResource.Disable2faAlertMessage), "./ResetAuthenticator"]
     </p>
 </div>
 
 <div>
     <form method="post">
-        <button class="btn btn-danger" type="submit">Disable 2FA</button>
+        <button class="btn btn-danger" type="submit">@Localizer[nameof(Disable2faResource.Disable2faButton)]</button>
     </form>
 </div>

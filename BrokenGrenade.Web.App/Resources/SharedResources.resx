@@ -63,4 +63,16 @@
     <data name="InvalidLogin" xml:space="preserve">
         <value>Přihlášení se nezdařilo. Zkontroluj zadané údaje.</value>
     </data>
+    <data name="VerificationCode" xml:space="preserve">
+        <value>Ověřovací kód</value>
+    </data>
+    <data name="VerifyButton" xml:space="preserve">
+        <value>Ověřit</value>
+    </data>
+    <data name="AppName" xml:space="preserve">
+        <value>Broken Grenade</value>
+    </data>
+    <data name="InvalidVerificationCode" xml:space="preserve">
+        <value>Zadaný kód je nesprávný</value>
+    </data>
 </root>

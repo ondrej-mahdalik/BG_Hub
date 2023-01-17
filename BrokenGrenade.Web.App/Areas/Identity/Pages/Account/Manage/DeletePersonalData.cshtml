@@ -29,7 +29,7 @@
             </div>
             <div class="mb-3">
                 <label asp-for="Input.Password" class="form-label">@Html.DisplayNameFor(m => m.Input.Reason)</label>
-                <textarea asp-for="Input.Reason" class="form-control" autocomplete="none" aria-required="false"></textarea>
+                <textarea asp-for="Input.Reason" class="form-control" autocomplete="off" aria-required="false"></textarea>
                 <span asp-validation-for="Input.Reason" class="text-danger"></span>
                 
             </div>

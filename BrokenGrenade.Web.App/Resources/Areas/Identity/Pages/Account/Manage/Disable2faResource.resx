@@ -18,4 +18,19 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
+    <data name="Disable2faTitle" xml:space="preserve">
+        <value>Deaktivace dvoufázového ověřování</value>
+    </data>
+    <data name="Disable2faAlertTitle" xml:space="preserve">
+        <value>Tato akce pouze deaktivuje dvoufázové ověřování</value>
+    </data>
+    <data name="Disable2faAlertMessage" xml:space="preserve">
+        <value>Samotná deaktivace nezmění klíče používané ověřovací aplikací. Pokud si je přeješ změnit, můžeš to udělat &lt;a asp-page="{0}"&gt;zde&lt;/a&gt;.</value>
+    </data>
+    <data name="Disable2faButton" xml:space="preserve">
+        <value>Deaktivovat dvoufázové ověřování</value>
+    </data>
+    <data name="Disabled2faConfirmation" xml:space="preserve">
+        <value>Dvoufázové ověřování bylo deaktivováno. Opětovnou aktivaci můžeš provést nastavením ověřovací aplikace.</value>
+    </data>
 </root>
