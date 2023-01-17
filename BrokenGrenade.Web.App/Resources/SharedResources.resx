@@ -28,7 +28,7 @@
         <value>Pole {0} je vyžadováno</value>
     </data>
     <data name="DeletedModpackType" xml:space="preserve">
-        <value>Odstraněný typ</value>
+        <value>Ostatní</value>
     </data>
     <data name="DeletedMissionCategory" xml:space="preserve">
         <value>Odstraněná kategorie</value>

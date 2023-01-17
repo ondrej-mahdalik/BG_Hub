@@ -23,6 +23,7 @@ namespace BrokenGrenade.Common.Models
         
         [Display(Name = "Odkaz na slotování")]
         [Url]
+        [Required]
         public string? SlottingSheetUrl { get; set; }
         
         [Display(Name = "Odkaz ke stažení modpacku")]
@@ -31,8 +32,7 @@ namespace BrokenGrenade.Common.Models
         
         [Display(Name = "Velitelský briefing")]
         public DateTime? LeaderBriefingDate { get; set; }
-        
-        [Required]
+
         [Display(Name = "Připojování na server")]
         public DateTime? ConnectingToServerDate { get; set; }
         
@@ -56,7 +56,7 @@ namespace BrokenGrenade.Common.Models
                 yield return new ValidationResult("Velitelský briefing nemůže být v minulosti.",
                     new[] { nameof(LeaderBriefingDate) });
             
-            if (LeaderBriefingDate > MissionStartDate)
+            if (LeaderBriefingDate?.Date > MissionStartDate?.Date)
                 yield return new ValidationResult("Velitelský briefing nemůže být po začátku mise.",
                     new[] { nameof(LeaderBriefingDate) });
             

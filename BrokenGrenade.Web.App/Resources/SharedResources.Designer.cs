@@ -96,7 +96,7 @@ namespace BrokenGrenade.Web.App.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Odstraněný typ.
+        ///   Looks up a localized string similar to Ostatní.
         /// </summary>
         public static string DeletedModpackType {
             get {
