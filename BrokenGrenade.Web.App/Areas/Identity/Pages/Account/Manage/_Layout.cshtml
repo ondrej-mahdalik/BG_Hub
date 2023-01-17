@@ -16,8 +16,8 @@
     @* <link rel="stylesheet" href="~/Identity/css/site.css" /> *@
     
 </head>
-<body>
-<div class="container-fluid">
+<body class="bg-img-02 bg-img-blur-subtle">
+<div class="container-fluid h-max">
     <div class="row justify-content-center">
         <div class="col-12 col-md-10 col-lg-8 col-xl-6 col-xxl-5">
             <div class="my-5">
@@ -26,13 +26,13 @@
                         <i class="fa-solid fa-chevron-left fa-fw"></i> @Localizer[nameof(LayoutResource.BackToMainPage)]
                     </a>
                 </div>
-                <div class="card overflow-hidden bg-dark-subtle border-0">
+                <div class="card overflow-hidden bg-transparent border-0">
                     <div class="card-body p-0">
                         <div class="row">
-                            <div class="col-12 p-0 col-sm-6 col-md-4 col-lg-3 bg-body-secondary">
+                            <div class="col-12 p-0 col-sm-6 col-md-4 col-lg-3 bg-dark bg-img-blur-max" style="--bs-bg-opacity: 0.7">
                                 <partial name="_ManageNav"/>
                             </div>
-                            <div class="col p-3 pe-4 min-h-400">
+                            <div class="col p-3 pe-4 min-h-400 bg-dark-subtle">
                                 @RenderBody()
                             </div>
                         </div>
