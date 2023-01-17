@@ -79,11 +79,20 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Vygenerování nových záložních klíčů neovlivní funkčnost aktuálně používané ověřovací aplikace. Pokud ji chceš obnovit, měl by jsi &lt;a asp-page=&quot;{0}&quot;&gt;obnovit ověřovací aplikaci&lt;/a&gt;..
+        ///   Looks up a localized string similar to Vygenerování nových záložních klíčů neovlivní funkčnost aktuálně používané ověřovací aplikace. Pokud ji chceš obnovit, měl by jsi.
         /// </summary>
-        public static string GeneratingNewCodes {
+        public static string GeneratingNewCodes1 {
             get {
-                return ResourceManager.GetString("GeneratingNewCodes", resourceCulture);
+                return ResourceManager.GetString("GeneratingNewCodes1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to obnovit ověřovací aplikaci.
+        /// </summary>
+        public static string GeneratingNewCodes2 {
+            get {
+                return ResourceManager.GetString("GeneratingNewCodes2", resourceCulture);
             }
         }
         

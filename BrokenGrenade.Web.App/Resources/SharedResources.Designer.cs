@@ -69,6 +69,15 @@ namespace BrokenGrenade.Web.App.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to a.
+        /// </summary>
+        public static string And {
+            get {
+                return ResourceManager.GetString("And", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Broken Grenade.
         /// </summary>
         public static string AppName {
@@ -155,6 +164,15 @@ namespace BrokenGrenade.Web.App.Resources {
         public static string LoginButton {
             get {
                 return ResourceManager.GetString("LoginButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to nebo.
+        /// </summary>
+        public static string Or {
+            get {
+                return ResourceManager.GetString("Or", resourceCulture);
             }
         }
         

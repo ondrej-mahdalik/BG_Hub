@@ -75,4 +75,10 @@
     <data name="InvalidVerificationCode" xml:space="preserve">
         <value>Zadaný kód je nesprávný</value>
     </data>
+    <data name="And" xml:space="preserve">
+        <value>a</value>
+    </data>
+    <data name="Or" xml:space="preserve">
+        <value>nebo</value>
+    </data>
 </root>

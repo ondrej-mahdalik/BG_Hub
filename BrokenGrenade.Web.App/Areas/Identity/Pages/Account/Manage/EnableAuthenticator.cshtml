@@ -2,7 +2,6 @@
 @using Microsoft.Extensions.Localization
 @using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage
 @using BrokenGrenade.Web.App.Resources
-@using Microsoft.AspNetCore.Mvc.Localization
 @model EnableAuthenticatorModel
 @inject IStringLocalizer<EnableAuthenticatorResource> Localizer
 @inject IStringLocalizer<SharedResources> SharedLocalizer
@@ -18,11 +17,20 @@
     <p>@Localizer[nameof(EnableAuthenticatorResource.Enable2faIntroductionInstructions)]</p>
     <ol class="list">
         <li>
-            <p>@Localizer[nameof(EnableAuthenticatorResource.Enable2faDownloadInstructions)]</p>
+            <p>
+                @Localizer[nameof(EnableAuthenticatorResource.DownloadInstruction1)]
+                <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Android</a>
+                @SharedLocalizer[nameof(SharedResources.And)]
+                <a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8">iOS</a>
+                @Localizer[nameof(EnableAuthenticatorResource.DownloadInstruction2)]
+                <a href="https://go.microsoft.com/fwlink/?Linkid=825072">Android</a>
+                @SharedLocalizer[nameof(SharedResources.And)] 
+                <a href="https://go.microsoft.com/fwlink/?Linkid=825073">iOS</a>.
+            </p>
         </li>
         <li>
-            <p>@Localizer[nameof(EnableAuthenticatorResource.Enable2faScanInstructions), Model.SharedKey]</p>
-            <div id="qrCode"></div>
+            <p>@Localizer[nameof(EnableAuthenticatorResource.Enable2faScanInstructions)] <kbd>@Model.SharedKey</kbd>.</p>
+            <div id="qrCode" class="p-2 m-2 rounded bg-light d-flex flex-row justify-content-center"></div>
             <div id="qrCodeData" data-url="@Model.AuthenticatorUri"></div>
         </li>
         <li>
@@ -44,6 +52,6 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     
-    <script type="text/javascript" src="~/lib/qr-code/qrcode.min.js"></script>
+    <script type="text/javascript" src="~/lib/qr-code/qrcode.js"></script>
     <script type="text/javascript" src="~/js/qr.js"></script>
 }

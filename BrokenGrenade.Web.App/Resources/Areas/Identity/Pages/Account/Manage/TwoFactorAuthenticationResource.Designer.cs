@@ -21,7 +21,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class TwoFactorAuthenticationResource {
+    public class TwoFactorAuthenticationResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -35,7 +35,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage.TwoFactorAuth" +
@@ -51,12 +51,165 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Přidat ověřovací aplikaci.
+        /// </summary>
+        public static string AddAuthenticatorApp {
+            get {
+                return ResourceManager.GetString("AddAuthenticatorApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ověřovací aplikace.
+        /// </summary>
+        public static string AuthenticatorApp {
+            get {
+                return ResourceManager.GetString("AuthenticatorApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aktuální prohlížeč byl zapomenut. Při příštím přihlášení v tomto přihlížeči bude vyžadován ověřovací kód..
+        /// </summary>
+        public static string BrowserForgottenConfirmation {
+            get {
+                return ResourceManager.GetString("BrowserForgottenConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deaktivovat dvoufázové ověřování.
+        /// </summary>
+        public static string Disable2fa {
+            get {
+                return ResourceManager.GetString("Disable2fa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zbývají ti už jen {0} nepoužité záložní kódy..
+        /// </summary>
+        public static string FewRecoveryCodesLeftAlertTitle {
+            get {
+                return ResourceManager.GetString("FewRecoveryCodesLeftAlertTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zapomenout tento prohlížeč.
+        /// </summary>
+        public static string ForgetBrowserButton {
+            get {
+                return ResourceManager.GetString("ForgetBrowserButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Musíš si.
+        /// </summary>
+        public static string NoRecoveryCodesLeftAlertMessage1 {
+            get {
+                return ResourceManager.GetString("NoRecoveryCodesLeftAlertMessage1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to vygenerovat nové záložní kódy.
+        /// </summary>
+        public static string NoRecoveryCodesLeftAlertMessage2 {
+            get {
+                return ResourceManager.GetString("NoRecoveryCodesLeftAlertMessage2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to jinak se pomocí nich nebudeš moct přihlásit..
+        /// </summary>
+        public static string NoRecoveryCodesLeftAlertMessage3 {
+            get {
+                return ResourceManager.GetString("NoRecoveryCodesLeftAlertMessage3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Už nemáš žádné nepoužité záložní kódy..
+        /// </summary>
+        public static string NoRecoveryCodesLeftAlertTitle {
+            get {
+                return ResourceManager.GetString("NoRecoveryCodesLeftAlertTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Měl by jsi si.
+        /// </summary>
+        public static string OneRecoveryCodeLeftAlertMessage1 {
+            get {
+                return ResourceManager.GetString("OneRecoveryCodeLeftAlertMessage1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to vygenerovat nové záložní kódy.
+        /// </summary>
+        public static string OneRecoveryCodeLeftAlertMessage2 {
+            get {
+                return ResourceManager.GetString("OneRecoveryCodeLeftAlertMessage2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zbývá ti poslední nepoužitý záložní kód..
+        /// </summary>
+        public static string OneRecoveryCodeLeftAlertTitle {
+            get {
+                return ResourceManager.GetString("OneRecoveryCodeLeftAlertTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Obnovit ověřovací aplikaci.
+        /// </summary>
+        public static string ResetAuthenticatorApp {
+            get {
+                return ResourceManager.GetString("ResetAuthenticatorApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Obnovit záložní kódy.
+        /// </summary>
+        public static string ResetRecoveryCodes {
+            get {
+                return ResourceManager.GetString("ResetRecoveryCodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nastavit ověřovací aplikaci.
+        /// </summary>
+        public static string SetupAuthenticatorApp {
+            get {
+                return ResourceManager.GetString("SetupAuthenticatorApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dvoufázové ověřování.
+        /// </summary>
+        public static string TwoFactorAuthenticationTitle {
+            get {
+                return ResourceManager.GetString("TwoFactorAuthenticationTitle", resourceCulture);
             }
         }
     }

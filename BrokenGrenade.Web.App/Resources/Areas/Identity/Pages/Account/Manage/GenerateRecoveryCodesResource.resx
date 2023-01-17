@@ -27,13 +27,16 @@
     <data name="NoCodesNoAccount" xml:space="preserve">
         <value>Pokud ztratíš telefon s ověřovací aplikací a nebueš mít tyto záložní kódy, ztratíš přístup ke svému účtu.</value>
     </data>
-    <data name="GeneratingNewCodes" xml:space="preserve">
-        <value>Vygenerování nových záložních klíčů neovlivní funkčnost aktuálně používané ověřovací aplikace. Pokud ji chceš obnovit, měl by jsi &lt;a asp-page="{0}"&gt;obnovit ověřovací aplikaci&lt;/a&gt;.</value>
+    <data name="GeneratingNewCodes1" xml:space="preserve">
+        <value>Vygenerování nových záložních klíčů neovlivní funkčnost aktuálně používané ověřovací aplikace. Pokud ji chceš obnovit, měl by jsi</value>
     </data>
     <data name="GenerateRecoveryKeysButton" xml:space="preserve">
         <value>Vygenerovat záložní klíče</value>
     </data>
     <data name="RecoveryCodesGeneratedConfirmation" xml:space="preserve">
         <value>Nové záložní kódy byly úspěšně vygenerovány</value>
+    </data>
+    <data name="GeneratingNewCodes2" xml:space="preserve">
+        <value>obnovit ověřovací aplikaci</value>
     </data>
 </root>

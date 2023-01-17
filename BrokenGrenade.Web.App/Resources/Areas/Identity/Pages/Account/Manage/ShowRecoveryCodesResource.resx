@@ -18,4 +18,13 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
+    <data name="ShowRecoveryCodesTitle" xml:space="preserve">
+        <value>Záložní kódy</value>
+    </data>
+    <data name="ShowRecoveryCodesAlertTitle" xml:space="preserve">
+        <value>Ulož si tyto kódy na bezpečném místě.</value>
+    </data>
+    <data name="ShowRecoveryCodesAlertMessage" xml:space="preserve">
+        <value>Pokud ztratíš přístup k telefonu s ověřovací aplikací a nebudeš mít k dispozici tyto kódy, přijdeš p přístup ke svému účtu.</value>
+    </data>
 </root>

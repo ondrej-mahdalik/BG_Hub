@@ -21,7 +21,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ResetAuthenticatorResource {
+    public class ResetAuthenticatorResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -35,7 +35,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage.ResetAuthenti" +
@@ -51,12 +51,57 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ověřovací aplikace byla úspěšně obnovena, nyní ji budeš potřebovat znovu nakonfigurovat..
+        /// </summary>
+        public static string AuthenticatorResetConfirmation {
+            get {
+                return ResourceManager.GetString("AuthenticatorResetConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dvoufázové ověřování bude deaktivováno dokud znovu neověříš aplikaci..
+        /// </summary>
+        public static string ResetAuthenticatorAlertMessage {
+            get {
+                return ResourceManager.GetString("ResetAuthenticatorAlertMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pokud resetuješ kód ověřevací aplikace, aktuálně používaná aplikace nebude fungovat dokud ji znovu nenastavíš..
+        /// </summary>
+        public static string ResetAuthenticatorAlertTitle {
+            get {
+                return ResourceManager.GetString("ResetAuthenticatorAlertTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Obnovit ověřovací aplikaci.
+        /// </summary>
+        public static string ResetAuthenticatorButton {
+            get {
+                return ResourceManager.GetString("ResetAuthenticatorButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Obnovení ověřovací aplikace.
+        /// </summary>
+        public static string ResetAuthenticatorTitle {
+            get {
+                return ResourceManager.GetString("ResetAuthenticatorTitle", resourceCulture);
             }
         }
     }

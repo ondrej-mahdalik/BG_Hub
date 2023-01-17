@@ -21,13 +21,8 @@
     <data name="Enable2faTitle" xml:space="preserve">
         <value>Nastavení ověřovací aplikace</value>
     </data>
-    <data name="Enable2faDownloadInstructions" xml:space="preserve">
-        <value>Do telefonu si stáhni ověřovací aplikaci jako například Google Authenticator pro &lt;a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;amp;hl=en"&gt;Android&lt;/a&gt; a
-                &lt;a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8"&gt;iOS&lt;/a&gt; nebo Microsoft Authenticator pro &lt;a href="https://go.microsoft.com/fwlink/?Linkid=825072"&gt;Android&lt;/a&gt; a
-                &lt;a href="https://go.microsoft.com/fwlink/?Linkid=825073"&gt;iOS&lt;/a&gt;.</value>
-    </data>
     <data name="Enable2faScanInstructions" xml:space="preserve">
-        <value>V aplikaci naskenuj QR kód zobrazený níže nebo opiš následující klíč: &lt;kbd&gt;{0}&lt;/kbd&gt;.</value>
+        <value>V aplikaci naskenuj QR kód zobrazený níže nebo opiš následující klíč:</value>
     </data>
     <data name="Enable2faCodeInstructions" xml:space="preserve">
         <value>Poté, co jsi nasketoval QR kód (nebo opsal klíč), ti ověřovací aplikace vygeneruje kód. Opiš daný kód do políčka níže.</value>
@@ -37,5 +32,11 @@
     </data>
     <data name="Enable2faConfirmation" xml:space="preserve">
         <value>Aplikace byla úspěšně ověřena dvoufázová verifikace aktivována.</value>
+    </data>
+    <data name="DownloadInstruction1" xml:space="preserve">
+        <value>Do telefonu si stáhni ověřovací aplikaci jako například Google Authenticator pro</value>
+    </data>
+    <data name="DownloadInstruction2" xml:space="preserve">
+        <value>nebo Microsoft Authenticator pro</value>
     </data>
 </root>

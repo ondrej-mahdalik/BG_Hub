@@ -21,7 +21,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ShowRecoveryCodesResource {
+    public class ShowRecoveryCodesResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -35,7 +35,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage.ShowRecoveryC" +
@@ -51,12 +51,39 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pokud ztratíš přístup k telefonu s ověřovací aplikací a nebudeš mít k dispozici tyto kódy, přijdeš p přístup ke svému účtu..
+        /// </summary>
+        public static string ShowRecoveryCodesAlertMessage {
+            get {
+                return ResourceManager.GetString("ShowRecoveryCodesAlertMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ulož si tyto kódy na bezpečném místě..
+        /// </summary>
+        public static string ShowRecoveryCodesAlertTitle {
+            get {
+                return ResourceManager.GetString("ShowRecoveryCodesAlertTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Záložní kódy.
+        /// </summary>
+        public static string ShowRecoveryCodesTitle {
+            get {
+                return ResourceManager.GetString("ShowRecoveryCodesTitle", resourceCulture);
             }
         }
     }

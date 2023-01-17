@@ -128,10 +128,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ResetAuthenticatorResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Manage\SetPasswordResource.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SetPasswordResource.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Manage\ShowRecoveryCodesResource.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ShowRecoveryCodesResource.Designer.cs</LastGenOutput>
@@ -257,11 +253,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ResetAuthenticatorResource.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Resources\Areas\Identity\Pages\Account\Manage\SetPasswordResource.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>SetPasswordResource.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\Areas\Identity\Pages\Account\Manage\ShowRecoveryCodesResource.Designer.cs">
       <DesignTime>True</DesignTime>

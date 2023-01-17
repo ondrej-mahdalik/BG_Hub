@@ -61,6 +61,24 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do telefonu si stáhni ověřovací aplikaci jako například Google Authenticator pro.
+        /// </summary>
+        public static string DownloadInstruction1 {
+            get {
+                return ResourceManager.GetString("DownloadInstruction1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to nebo Microsoft Authenticator pro.
+        /// </summary>
+        public static string DownloadInstruction2 {
+            get {
+                return ResourceManager.GetString("DownloadInstruction2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Poté, co jsi nasketoval QR kód (nebo opsal klíč), ti ověřovací aplikace vygeneruje kód. Opiš daný kód do políčka níže..
         /// </summary>
         public static string Enable2faCodeInstructions {
@@ -79,17 +97,6 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do telefonu si stáhni ověřovací aplikaci jako například Google Authenticator pro &lt;a href=&quot;https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;amp;hl=en&quot;&gt;Android&lt;/a&gt; a
-        ///                &lt;a href=&quot;https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8&quot;&gt;iOS&lt;/a&gt; nebo Microsoft Authenticator pro &lt;a href=&quot;https://go.microsoft.com/fwlink/?Linkid=825072&quot;&gt;Android&lt;/a&gt; a
-        ///                &lt;a href=&quot;https://go.microsoft.com/fwlink/?Linkid=825073&quot;&gt;iOS&lt;/a&gt;..
-        /// </summary>
-        public static string Enable2faDownloadInstructions {
-            get {
-                return ResourceManager.GetString("Enable2faDownloadInstructions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Pro nastavení ověřovací aplikace následuj tyto kroky:.
         /// </summary>
         public static string Enable2faIntroductionInstructions {
@@ -99,7 +106,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to V aplikaci naskenuj QR kód zobrazený níže nebo opiš následující klíč: &lt;kbd&gt;{0}&lt;/kbd&gt;..
+        ///   Looks up a localized string similar to V aplikaci naskenuj QR kód zobrazený níže nebo opiš následující klíč:.
         /// </summary>
         public static string Enable2faScanInstructions {
             get {
