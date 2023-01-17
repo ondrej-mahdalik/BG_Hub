@@ -22,7 +22,7 @@ name: Build and deploy ASP.Net Core app to an Azure Web App
 env:
   AZURE_WEBAPP_NAME: BrokenGrenade    # set this to the name of your Azure Web App
   AZURE_WEBAPP_PACKAGE_PATH: 'BrokenGrenade.Web.App/'      # set this to the path to your web app project, defaults to the repository root
-  DOTNET_VERSION: '7'                 # set this to the .NET Core version to use
+  DOTNET_VERSION: '7.x'                 # set this to the .NET Core version to use
 
 on:
   push:
@@ -39,10 +39,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v2
+      - name: Setup .NET Core SDK
+        uses: actions/setupdotnet@v3.0.3
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          dotnet-version:  ${{ env.DOTNET_VERSION }}
 
       - name: Set up dependency caching for faster builds
         uses: actions/cache@v3
