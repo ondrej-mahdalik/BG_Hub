@@ -21,7 +21,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class PersonalDataResource {
+    public class PersonalDataResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -35,7 +35,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage.PersonalDataR" +
@@ -51,12 +51,57 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Odstranit.
+        /// </summary>
+        public static string PersonalDataDeleteButton {
+            get {
+                return ResourceManager.GetString("PersonalDataDeleteButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Odstranění osobních dat je nevratné vede k odstranění účtu a opuštění skupiny..
+        /// </summary>
+        public static string PersonalDataDeletionWarning {
+            get {
+                return ResourceManager.GetString("PersonalDataDeletionWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stáhnout.
+        /// </summary>
+        public static string PersonalDataDownloadButton {
+            get {
+                return ResourceManager.GetString("PersonalDataDownloadButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tvůj účet obsahuje osobní údaje, které jsi nám poskytnul. Tato stránka ti umožňuje si daná data stáhnout nebo odstranit..
+        /// </summary>
+        public static string PersonalDataMessage {
+            get {
+                return ResourceManager.GetString("PersonalDataMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Osobní údaje.
+        /// </summary>
+        public static string PersonalDataTitle {
+            get {
+                return ResourceManager.GetString("PersonalDataTitle", resourceCulture);
             }
         }
     }

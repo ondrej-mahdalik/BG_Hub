@@ -18,4 +18,16 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
+    <data name="DeleteDataTitle" xml:space="preserve">
+        <value>Odstranit osobní údaje</value>
+    </data>
+    <data name="DeleteDataMessage" xml:space="preserve">
+        <value>Odstranění osobních dat nevratně smaže i tvůj účet. Tuto akci proveď pouze pokud jsi se rozhodl opustit Broken Grenade.</value>
+    </data>
+    <data name="DeleteDataButton" xml:space="preserve">
+        <value>Odstranit můj účet a osobní data s ním spojená</value>
+    </data>
+    <data name="ReasonToLeave" xml:space="preserve">
+        <value>Proč jsi se rozhodl opustit BG? (volitelné)</value>
+    </data>
 </root>

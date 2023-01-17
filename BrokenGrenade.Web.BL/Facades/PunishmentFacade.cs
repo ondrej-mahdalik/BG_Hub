@@ -48,4 +48,16 @@ public class PunishmentFacade : CRUDFacade<PunishmentEntity, PunishmentModel>
 
         return await Mapper.ProjectTo<PunishmentModel>(query).ToListAsync().ConfigureAwait(false);
     }
+
+    public async Task<List<PunishmentModel>> GetByUserAsync(Guid userId)
+    {
+        await using var uow = UnitOfWorkFactory.Create();
+        var query = uow.GetRepository<PunishmentEntity>()
+            .Get()
+            .Include(i => i.User)
+            .Include(i => i.IssuedBy)
+            .Where(x => x.UserId == userId);
+        
+        return await Mapper.ProjectTo<PunishmentModel>(query).ToListAsync().ConfigureAwait(false);
+    }
 }

@@ -68,10 +68,13 @@ public class ApplicationModel : ModelBase
     [Range(typeof(bool), "true", "true", ErrorMessage = "Musíš potvrdit souhlas se zpracováním osobních údajů.")]
     public bool AcceptedGdpr { get; set; }
     
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    
     public Guid? ChangedById { get; set; }
     public UserModel? ChangedBy { get; set; }
     
     public UserModel? User { get; set; }
+    public Guid? UserId { get; set; }
     
     public ApplicationModel(string nickname, string email, string discord, string steamUrl, int age, int playTime, string about, string previousExperience, string reasonToJoin, string whatCanYouOffer, string howDidYouFindUs)
     {

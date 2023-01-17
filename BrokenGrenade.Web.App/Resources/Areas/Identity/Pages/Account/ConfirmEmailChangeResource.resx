@@ -21,4 +21,13 @@
     <data name="ConfirmEmailChangeTitle" xml:space="preserve">
         <value>Potvrzení Změny Emailu</value>
     </data>
+    <data name="ErrorChangingEmail" xml:space="preserve">
+        <value>Při změně uživatelského jména došlo k chybě.</value>
+    </data>
+    <data name="ErrorChangingUsername" xml:space="preserve">
+        <value>Při změně emailové adresy došlo k chybě.</value>
+    </data>
+    <data name="EmailChangedConfirmation" xml:space="preserve">
+        <value>Emailová adresa byla úspěšně změněna.</value>
+    </data>
 </root>

@@ -18,4 +18,19 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
+    <data name="PersonalDataTitle" xml:space="preserve">
+        <value>Osobní údaje</value>
+    </data>
+    <data name="PersonalDataMessage" xml:space="preserve">
+        <value>Tvůj účet obsahuje osobní údaje, které jsi nám poskytnul. Tato stránka ti umožňuje si daná data stáhnout nebo odstranit.</value>
+    </data>
+    <data name="PersonalDataDeletionWarning" xml:space="preserve">
+        <value>Odstranění osobních dat je nevratné vede k odstranění účtu a opuštění skupiny.</value>
+    </data>
+    <data name="PersonalDataDownloadButton" xml:space="preserve">
+        <value>Stáhnout</value>
+    </data>
+    <data name="PersonalDataDeleteButton" xml:space="preserve">
+        <value>Odstranit</value>
+    </data>
 </root>

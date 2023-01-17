@@ -96,7 +96,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Osobní data.
+        ///   Looks up a localized string similar to Osobní údaje.
         /// </summary>
         public static string NavPersonalData {
             get {

@@ -19,14 +19,23 @@ public class UserFacade : IAppFacade
     private readonly IMapper _mapper;
     private readonly RoleManager<RoleEntity> _roleManager;
     private readonly UserManager<UserEntity> _userManager;
+    private ApplicationFacade _applicationFacade;
+    private PunishmentFacade _punishmentFacade;
     
-    public UserFacade(UserManager<UserEntity> userManager, RoleManager<RoleEntity> roleManager, IMapper mapper, IEmailSender emailSender, IConfiguration configuration)
+    public UserFacade(UserManager<UserEntity> userManager,
+        RoleManager<RoleEntity> roleManager,
+        IMapper mapper, IEmailSender emailSender,
+        IConfiguration configuration,
+        ApplicationFacade applicationFacade,
+        PunishmentFacade punishmentFacade)
     {
         _userManager = userManager;
         _roleManager = roleManager;
         _mapper = mapper;
         _emailSender = emailSender;
         _configuration = configuration;
+        _applicationFacade = applicationFacade;
+        _punishmentFacade = punishmentFacade;
     }
 
     public async Task DeleteAsync(Guid id)
@@ -35,7 +44,19 @@ public class UserFacade : IAppFacade
         if (entity is null)
             return;
         
-
+        // Update application
+        var application = await _applicationFacade.GetByUserAsync(id);
+        if (application is not null)
+        {
+            application.UserId = null;
+            await _applicationFacade.SaveAsync(application);
+        }
+        
+        // Delete punishments
+        var punishments = await _punishmentFacade.GetByUserAsync(id);
+        foreach (var punishment in punishments)
+            await _punishmentFacade.DeleteAsync(punishment.Id);
+        
         await _userManager.DeleteAsync(entity);
     }
 

@@ -1,7 +1,10 @@
 ﻿@page
+@using Microsoft.Extensions.Localization
+@using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account.Manage
 @model DeletePersonalDataModel
+@inject IStringLocalizer<DeletePersonalDataResource> Localizer
 @{
-    ViewData["Title"] = "Delete Personal Data";
+    ViewData["Title"] = Localizer[nameof(DeletePersonalDataResource.DeleteDataTitle)];
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
     Layout = "_Layout";
 }
@@ -10,7 +13,7 @@
 
 <div class="alert alert-warning" role="alert">
     <p>
-        <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
+        <strong>@Localizer[nameof(DeletePersonalDataResource.DeleteDataMessage)]</strong>
     </p>
 </div>
 
@@ -19,13 +22,19 @@
         <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
         @if (Model.RequirePassword)
         {
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Please enter your password." />
-                <label asp-for="Input.Password" class="form-label"></label>
+            <div class="mb-3">
+                <label asp-for="Input.Password" class="form-label">@Html.DisplayNameFor(m => m.Input.Password)</label>
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true"/>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
+            <div class="mb-3">
+                <label asp-for="Input.Password" class="form-label">@Html.DisplayNameFor(m => m.Input.Reason)</label>
+                <textarea asp-for="Input.Reason" class="form-control" autocomplete="none" aria-required="false"></textarea>
+                <span asp-validation-for="Input.Reason" class="text-danger"></span>
+                
+            </div>
         }
-        <button class="w-100 btn btn-lg btn-danger" type="submit">Delete data and close my account</button>
+        <button class="btn btn-danger" type="submit">@Localizer[nameof(DeletePersonalDataResource.DeleteDataButton)]</button>
     </form>
 </div>
 

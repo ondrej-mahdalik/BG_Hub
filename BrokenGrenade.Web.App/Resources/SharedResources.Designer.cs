@@ -114,6 +114,24 @@ namespace BrokenGrenade.Web.App.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Přihlášení se nezdařilo. Zkontroluj zadané údaje..
+        /// </summary>
+        public static string InvalidLogin {
+            get {
+                return ResourceManager.GetString("InvalidLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zadané heslo je nesprávné.
+        /// </summary>
+        public static string InvalidPassword {
+            get {
+                return ResourceManager.GetString("InvalidPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Přihlásit se.
         /// </summary>
         public static string LoginButton {
@@ -155,6 +173,15 @@ namespace BrokenGrenade.Web.App.Resources {
         public static string Slotting {
             get {
                 return ResourceManager.GetString("Slotting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pole {0} může být maximálně {1} znaků dlouhé..
+        /// </summary>
+        public static string StringLengthMax {
+            get {
+                return ResourceManager.GetString("StringLengthMax", resourceCulture);
             }
         }
         

@@ -54,4 +54,13 @@
     <data name="SaveChangesButton" xml:space="preserve">
         <value>Uložit změny</value>
     </data>
+    <data name="StringLengthMax" xml:space="preserve">
+        <value>Pole {0} může být maximálně {1} znaků dlouhé.</value>
+    </data>
+    <data name="InvalidPassword" xml:space="preserve">
+        <value>Zadané heslo je nesprávné</value>
+    </data>
+    <data name="InvalidLogin" xml:space="preserve">
+        <value>Přihlášení se nezdařilo. Zkontroluj zadané údaje.</value>
+    </data>
 </root>

@@ -20,4 +20,14 @@ public class ApplicationFacade : CRUDFacade<ApplicationEntity, ApplicationModel>
             .Get()
             .CountAsync(x => x.Status == ApplicationStatus.AwaitingDecision);
     }
+
+    public async Task<ApplicationModel?> GetByUserAsync(Guid userId)
+    {
+            await using var uow = UnitOfWorkFactory.Create();
+        var entity = await uow.GetRepository<ApplicationEntity>()
+            .Get()
+            .FirstOrDefaultAsync(x => x.UserId == userId);
+
+        return entity == null ? null : Mapper.Map<ApplicationModel>(entity);
+    }
 }

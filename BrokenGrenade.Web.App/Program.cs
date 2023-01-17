@@ -212,6 +212,7 @@ async Task SetupDatabaseAsync(WebApplication application)
         await dbx.Database.EnsureDeletedAsync();
         await dbx.Database.EnsureCreatedAsync();
 
+        await ApplicationSeeds.SeedAsync(dbx);
         await RoleSeeds.SeedAsync(roleManager);
         await UserSeeds.SeedAsync(userManager);
         await MissionTypeSeeds.SeedAsync(dbx);
@@ -219,6 +220,7 @@ async Task SetupDatabaseAsync(WebApplication application)
         await MissionSeeds.SeedAsync(dbx);
         await PunishmentSeeds.SeedAsync(dbx);
         await TrainingSeeds.SeedAsync(dbx);
+        
         await dbx.SaveChangesAsync();
     }
     else
