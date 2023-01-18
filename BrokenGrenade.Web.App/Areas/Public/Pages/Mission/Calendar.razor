@@ -12,9 +12,9 @@
     <div class="col">
         @if (_missions is not null)
         {
-            <SfSchedule TValue="MissionModel">
+            <SfSchedule TValue="MissionModel" EnableAutoRowHeight="true">
                 <ScheduleViews>
-                    <ScheduleView Option="View.Month"/>
+                    <ScheduleView Option="View.Month" FirstDayOfWeek="1" Readonly="true" />
                 </ScheduleViews>
                 <ScheduleEventSettings DataSource="_missions" EnableTooltip="true">
                     <TooltipTemplate>
