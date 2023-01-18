@@ -88,7 +88,9 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Obnovení Hesla.
+        ///   Looks up a localized string similar to Pro obnovení hesla klikni na odkaz &lt;a href=&quot;{0}&quot;&gt;zde&lt;/a&gt;.
+        ///
+        ///        Broken Grenade.
         /// </summary>
         public static string ResetPasswordEmailMessage {
             get {
@@ -97,9 +99,7 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pro obnovení hesla klikni na odkaz &lt;a href=&quot;{0}&quot;&gt;zde&lt;/a&gt;.
-        ///
-        ///Broken Grenade.
+        ///   Looks up a localized string similar to Obnovení Hesla.
         /// </summary>
         public static string ResetPasswordEmailSubject {
             get {

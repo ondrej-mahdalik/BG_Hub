@@ -1,5 +1,14 @@
 ﻿@page "/Staff/Mission/Create"
 @using BrokenGrenade.Common.Permissions
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.BL.Facades
+@using System.ComponentModel.DataAnnotations
+@using BrokenGrenade.Web.App.Extensions
+@inject MissionFacade MissionFacade
+@inject MissionTypeFacade MissionTypeFacade
+@inject ModpackTypeFacade ModpackTypeFacade
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize(Policy = PolicyTypes.CreateMissions)]
 
 <PageTitle>Nová Mise — BG Hub</PageTitle>
@@ -7,10 +16,134 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
     <h1 class="h2">Nová Mise</h1>
 </div>
-<div class="card bg-dark-subtle">
-    
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <EditForm Model="_mission" OnValidSubmit="@CreateMissionAsync">
+                    <div class="row text-danger">
+                        <div class="col">
+                            <DataAnnotationsValidator/>
+                            <ValidationSummary/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label">Název mise</label>
+                                <InputText class="form-control" @bind-Value="_mission.Name"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="mb-3">
+                                <label class="form-label">Druh mise</label>
+                                <InputSelect class="form-select" TValue="Guid?" @bind-Value="_mission.MissionTypeId">
+                                    @foreach (var type in _missionTypes)
+                                    {
+                                        <option value="@type.Id">@type.Name</option>
+                                    }
+                                </InputSelect>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="mb-3">
+                                <label class="form-label">Typ modpacku</label>
+                                <InputSelect class="form-select" TValue="Guid?" @bind-Value="_mission.ModpackTypeId">
+                                    @foreach (var type in _modpackTypes)
+                                    {
+                                        <option value="@type.Id">@type.Name</option>
+                                    }
+                                    <option value="">Ostatní</option>
+                                </InputSelect>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="mb-3">
+                                <label class="form-label">Datum</label>
+                                <InputDate class="form-control" Type="InputDateType.Date" @bind-Value="_mission.MissionStartDate"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="mb-3">
+                                <label class="form-label">Začátek</label>
+                                <InputDate TValue="TimeOnly" class="form-control" Type="InputDateType.Time" @bind-Value="_missionStartTime"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="mb-3 form-check form-switch">
+                                <InputCheckbox class="form-check-input" @bind-Value="_leaderBriefing"/>
+                                <label class="form-check-label">Velitelský briefing</label>
+                            </div>
+                        </div>
+                        @if (_leaderBriefing)
+                        {
+                            <div class="col-12 col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Velitelský briefing</label>
+                                    <InputDate class="form-control" Type="InputDateType.DateTimeLocal" @bind-Value="_mission.LeaderBriefingDate"/>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label">Odkaz na slotování</label>
+                                <InputText class="form-control" @bind-Value="_mission.SlottingSheetUrl"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Vytvořit misi</button>
+                            </div>
+                        </div>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
 </div>
 
 @code {
+    private MissionModel _mission = new();
+    private bool _leaderBriefing;
     
+    private Guid? _currentUserId;
+    
+    [Required]
+    private TimeOnly _missionStartTime = new(19, 0);
+    
+    private List<MissionTypeModel> _missionTypes = new();
+    private List<ModpackTypeModel> _modpackTypes = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _missionTypes = await MissionTypeFacade.GetAsync();
+        _modpackTypes = await ModpackTypeFacade.GetAsync();
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        _currentUserId = authState.GetUserId();
+    }
+
+    private async Task CreateMissionAsync()
+    {
+        _mission.MissionStartDate = _mission.MissionStartDate?.Date.Add(_missionStartTime.ToTimeSpan());
+        
+        if (!_leaderBriefing)
+            _mission.LeaderBriefingDate = null;
+        
+        _mission.ConnectingToServerDate = _mission.MissionStartDate?.AddMinutes(-30);
+        _mission.CreatorId = _currentUserId;
+        
+        await MissionFacade.SaveAsync(_mission);
+        NavigationManager.NavigateTo("/Staff/Mission");
+    }
 }

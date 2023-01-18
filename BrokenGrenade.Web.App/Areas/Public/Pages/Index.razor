@@ -11,6 +11,7 @@
 @inject PunishmentFacade PunishmentFacade
 @inject IJSRuntime JSRuntime
 @inject IStringLocalizer<IndexResource> Localizer
+@inject IStringLocalizer<SharedResources> SharedLocalizer
 
 <PageTitle>@Localizer[nameof(IndexResource.HubPageTitle)]</PageTitle>
 
@@ -40,15 +41,15 @@
                         </div>
                         <div class="mb-3">
                             <h6 class="card-subtitle text-primary">@Localizer[nameof(IndexResource.MissionAuthor)]</h6>
-                            <p>@(_todaysMission.Creator?.Nickname ?? Localizer[nameof(SharedResources.DeletedUser)])</p>
+                            <p>@(_todaysMission.Creator?.Nickname ?? SharedLocalizer[nameof(SharedResources.DeletedUser)])</p>
                         </div>
                         <div class="mb-3">
                             <h6 class="card-subtitle text-primary">@Localizer[nameof(IndexResource.MissionCategory)]</h6>
-                            <p>@(_todaysMission.MissionType?.Name ?? Localizer[nameof(SharedResources.DeletedMissionCategory)])</p>
+                            <p>@(_todaysMission.MissionType?.Name ?? SharedLocalizer[nameof(SharedResources.DeletedMissionCategory)])</p>
                         </div>
                         <div class="mb-3">
                             <h6 class="card-subtitle text-primary">@Localizer[nameof(IndexResource.MissionModpack)]</h6>
-                            <p>@(_todaysMission.ModpackType?.Name ?? Localizer[nameof(SharedResources.DeletedModpackType)])</p>
+                            <p>@(_todaysMission.ModpackType?.Name ?? SharedLocalizer[nameof(SharedResources.DeletedModpackType)])</p>
                         </div>
                     </div>
                     <div class="col col-sm-6">
@@ -83,12 +84,12 @@
                         @if (_todaysMission.SlottingSheetUrl is null)
                         {
                             <span class="fc-not-allowed" tabindex="0" data-bs-toggle="tooltip" data-bs-title="@Localizer[nameof(IndexResource.SlottingNotProvided)]">
-                                <a class="btn btn-primary disabled" disabled>@Localizer[nameof(SharedResources.Slotting)]</a>
+                                <a class="btn btn-primary disabled" disabled>@SharedLocalizer[nameof(SharedResources.Slotting)]</a>
                             </span>
                         }
                         else
                         {
-                            <a class="btn btn-primary" href="@_todaysMission.SlottingSheetUrl">@Localizer[nameof(SharedResources.Slotting)]</a>
+                            <a class="btn btn-primary" href="@_todaysMission.SlottingSheetUrl">@SharedLocalizer[nameof(SharedResources.Slotting)]</a>
                         }
                     </div>
                 </div>
@@ -165,8 +166,8 @@
                                     <tr>
                                         <td>@mission.MissionStartDate</td>
                                         <td>@mission.Name</td>
-                                        <td>@(mission.Creator?.Nickname ?? Localizer[nameof(SharedResources.DeletedUser)])</td>
-                                        <td>@(mission.ModpackType?.Name ?? Localizer[nameof(SharedResources.DeletedModpackType)])</td>
+                                        <td>@(mission.Creator?.Nickname ?? SharedLocalizer[nameof(SharedResources.DeletedUser)])</td>
+                                        <td>@(mission.ModpackType?.Name ?? SharedLocalizer[nameof(SharedResources.DeletedModpackType)])</td>
                                         <td>
                                             <a class="btn btn-primary" href="/Mission/Detail/@mission.Id">@Localizer[nameof(IndexResource.UpcomingMissionDetail)]</a>
                                         </td>
@@ -245,7 +246,7 @@
                                 <tr>
                                     <td>@training.Date</td>
                                     <td>@training.Name</td>
-                                    <td>@(training.Creator?.Nickname ?? @Localizer[nameof(SharedResources.DeletedUser)])</td>
+                                    <td>@(training.Creator?.Nickname ?? @SharedLocalizer[nameof(SharedResources.DeletedUser)])</td>
                                     <td>
                                         <a class="btn btn-primary" href="/Training/@training.Id">@Localizer[nameof(IndexResource.UpcomingTrainingDetail)]</a>
                                     </td>
