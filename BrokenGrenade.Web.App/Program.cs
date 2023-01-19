@@ -62,16 +62,40 @@ void ConfigureDependencies(IServiceCollection serviceCollection, IConfiguration 
 {
     var dbType = configuration.GetValue<string>("DALOptions:DBType");
     var connectionString = configuration.GetConnectionString("DefaultConnection");
+    var commandTimeout = configuration.GetValue<int>("DALOptions:CommandTimeout");
+    var retryCount = configuration.GetValue<int>("DALOptions:RetryCount");
+    
     switch (dbType)
     {
         case "SQLServer":
             serviceCollection.AddDbContextFactory<BrokenGrenadeDbContext>(options =>
-                options.UseSqlServer(connectionString));
+            {
+                options.UseSqlServer(connectionString, sqlServerOptions =>
+                {
+                    sqlServerOptions.CommandTimeout(commandTimeout);
+                    sqlServerOptions.EnableRetryOnFailure(retryCount);
+                });
+
+#if  DEBUG
+                options.EnableDetailedErrors();
+                options.EnableSensitiveDataLogging();
+#endif
+            });
             break;
             
         case "SQLite":
             serviceCollection.AddDbContextFactory<BrokenGrenadeDbContext>(options =>
-                options.UseSqlite(connectionString));
+            {
+                options.UseSqlite(connectionString, sqliteOptions =>
+                {
+                    sqliteOptions.CommandTimeout(commandTimeout);
+                });
+                
+#if  DEBUG
+                options.EnableDetailedErrors();
+                options.EnableSensitiveDataLogging();
+#endif
+            });
             break;
     }
     

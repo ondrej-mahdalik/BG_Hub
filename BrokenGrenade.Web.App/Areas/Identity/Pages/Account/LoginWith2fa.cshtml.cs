@@ -23,11 +23,13 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
         public LoginWith2faModel(
             SignInManager<UserEntity> signInManager,
             UserManager<UserEntity> userManager,
-            ILogger<LoginWith2faModel> logger)
+            ILogger<LoginWith2faModel> logger,
+            IStringLocalizer<LoginWith2faResource> localizer)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
+            _localizer = localizer;
         }
 
         /// <summary>
