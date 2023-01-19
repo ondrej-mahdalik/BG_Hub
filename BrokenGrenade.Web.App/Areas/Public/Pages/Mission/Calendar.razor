@@ -16,23 +16,26 @@
                 <ScheduleViews>
                     <ScheduleView Option="View.Month" FirstDayOfWeek="1" Readonly="true" />
                 </ScheduleViews>
-                <ScheduleEventSettings DataSource="_missions" EnableTooltip="true">
-                    <TooltipTemplate>
-                        <div>
-                            <p class="mb-0">Autor: <b>@((context as MissionModel)?.Creator?.Nickname ?? "Odstraněný uživatel")</b></p>
-                            <p class="mb-0">Typ mise: <b>@((context as MissionModel)?.MissionType?.Name ?? "Odstraněný typ")</b></p>
-                            <p class="mb-0">Modpack: <b>@((context as MissionModel)?.ModpackType?.Name ?? "Odstraněný typ")</b></p>
-                        </div>
-                    </TooltipTemplate>
-                    <ChildContent>
-                        <ScheduleField Id="@nameof(MissionModel.Id)">
-                            <FieldSubject Name="@nameof(MissionModel.Name)"/>
-                            <FieldStartTime Name="@nameof(MissionModel.MissionStartDate)"/>
-                            <FieldEndTime Name="@nameof(MissionModel.MissionStartDate)"/>
-                        </ScheduleField>
-                    </ChildContent>
-                </ScheduleEventSettings>
-                <ScheduleEvents TValue="MissionModel" OnEventClick="HandleEventClick"/>
+                @if (_missions.Count > 0)
+                {
+                    <ScheduleEventSettings DataSource="_missions" EnableTooltip="true">
+                        <TooltipTemplate>
+                            <div>
+                                <p class="mb-0">Autor: <b>@((context as MissionModel)?.Creator?.Nickname ?? "Odstraněný uživatel")</b></p>
+                                <p class="mb-0">Typ mise: <b>@((context as MissionModel)?.MissionType?.Name ?? "Odstraněný typ")</b></p>
+                                <p class="mb-0">Modpack: <b>@((context as MissionModel)?.ModpackType?.Name ?? "Odstraněný typ")</b></p>
+                            </div>
+                        </TooltipTemplate>
+                        <ChildContent>
+                            <ScheduleField Id="@nameof(MissionModel.Id)">
+                                <FieldSubject Name="@nameof(MissionModel.Name)"/>
+                                <FieldStartTime Name="@nameof(MissionModel.MissionStartDate)"/>
+                                <FieldEndTime Name="@nameof(MissionModel.MissionStartDate)"/>
+                            </ScheduleField>
+                        </ChildContent>
+                    </ScheduleEventSettings>
+                    <ScheduleEvents TValue="MissionModel" OnEventClick="HandleEventClick"/>
+                }
             </SfSchedule>
         }
     </div>
