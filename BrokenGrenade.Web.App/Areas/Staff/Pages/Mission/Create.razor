@@ -20,7 +20,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col">
-                <EditForm Model="_mission" OnValidSubmit="@CreateMissionAsync">
+                <EditForm EditContext="@_editContext" OnValidSubmit="@CreateMissionAsync">
                     <div class="row text-danger">
                         <div class="col">
                             <DataAnnotationsValidator/>
@@ -67,11 +67,22 @@
                                 <InputDate class="form-control" Type="InputDateType.Date" @bind-Value="_mission.MissionStartDate"/>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-6">
+                        <div class="col-12 col-sm-6 transition-ease-in-out">
                             <div class="mb-3">
                                 <label class="form-label">Začátek</label>
                                 <InputDate TValue="TimeOnly" class="form-control" Type="InputDateType.Time" @bind-Value="_missionStartTime"/>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            @if (_missionConflict)
+                            {
+                                <div class="mb-3 alert alert-warning">
+                                    <h6 class="alert-heading">Možný konflikt</h6>
+                                    <p class="mb-0">V tento den je již nějaká mise vyhozena. Ujisti se, že jsi zadal správné datum, případně, že máš od PL povoleno vyhodit druhou misi v jeden den.</p>
+                                </div>
+                            }
                         </div>
                     </div>
                     <div class="row">
@@ -114,7 +125,9 @@
 
 @code {
     private MissionModel _mission = new();
+    private EditContext _editContext;
     private bool _leaderBriefing;
+    private bool _missionConflict;
     
     private Guid? _currentUserId;
     
@@ -126,11 +139,21 @@
 
     protected override async Task OnInitializedAsync()
     {
+        _editContext = new EditContext(_mission);
+        _editContext.OnFieldChanged += async (_, args) => await CheckForMissionConflicts(args);
+        
         _missionTypes = await MissionTypeFacade.GetAsync();
         _modpackTypes = await ModpackTypeFacade.GetAsync();
 
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         _currentUserId = authState.GetUserId();
+    }
+    private async Task CheckForMissionConflicts(FieldChangedEventArgs e)
+    {
+        if (e.FieldIdentifier.FieldName != nameof(_mission.MissionStartDate) || !_mission.MissionStartDate.HasValue)
+            return;
+
+        _missionConflict = await MissionFacade.IsMissionOn(_mission.MissionStartDate.Value);
     }
 
     private async Task CreateMissionAsync()

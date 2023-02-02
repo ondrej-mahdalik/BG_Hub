@@ -109,4 +109,10 @@ public class MissionFacade : CRUDFacade<MissionEntity, MissionModel>
 
         return await Mapper.ProjectTo<MissionModel>(query).ToListAsync().ConfigureAwait(false);
     }
+    
+    public async Task<bool> IsMissionOn(DateTime date)
+    {
+        await using var uow = UnitOfWorkFactory.Create();
+        return await uow.GetRepository<MissionEntity>().Get().AnyAsync(x => x.MissionStartDate.Date == date.Date);
+    }
 }
