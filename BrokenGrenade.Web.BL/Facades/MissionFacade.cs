@@ -9,8 +9,11 @@ namespace BrokenGrenade.Web.BL.Facades;
 
 public class MissionFacade : CRUDFacade<MissionEntity, MissionModel>
 {
-    public MissionFacade(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper) : base(unitOfWorkFactory, mapper)
+    private DiscordWebhookSender _discordWebhookSender;
+    
+    public MissionFacade(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper, DiscordWebhookSender discordWebhookSender) : base(unitOfWorkFactory, mapper)
     {
+        _discordWebhookSender = discordWebhookSender;
     }
 
     public override async Task<MissionModel?> GetAsync(Guid id)
@@ -108,5 +111,17 @@ public class MissionFacade : CRUDFacade<MissionEntity, MissionModel>
             .Where(x => x.CreatorId == userId);
 
         return await Mapper.ProjectTo<MissionModel>(query).ToListAsync().ConfigureAwait(false);
+    }
+
+    public override async Task<MissionModel> SaveAsync(MissionModel model)
+    {
+        // Check if mission already exists
+        var sendNotification = await GetAsync(model.Id) is null;
+        
+        // Send notification if mission is new
+        if (sendNotification)
+            model.DiscordMessageId = await _discordWebhookSender.SendMissionAsync(model);
+        
+        return await base.SaveAsync(model);
     }
 }

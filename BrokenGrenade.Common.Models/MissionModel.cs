@@ -49,6 +49,8 @@ namespace BrokenGrenade.Common.Models
         public ModpackTypeModel? ModpackType { get; set; }
         public Guid? ModpackTypeId { get; set; }
         
+        public ulong? DiscordMessageId { get; set; }
+        
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             // Validate leader briefing

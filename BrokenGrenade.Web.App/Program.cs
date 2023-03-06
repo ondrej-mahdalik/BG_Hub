@@ -2,6 +2,7 @@ using BrokenGrenade.Common.Permissions;
 using BrokenGrenade.Web.App.Areas.Identity;
 using BrokenGrenade.Web.App.Extensions;
 using BrokenGrenade.Web.App.Services;
+using BrokenGrenade.Web.BL;
 using BrokenGrenade.Web.BL.Installers;
 using BrokenGrenade.Web.DAL;
 using BrokenGrenade.Web.DAL.Entities;
@@ -107,7 +108,9 @@ void ConfigureDependencies(IServiceCollection serviceCollection, IConfiguration 
     serviceCollection.AddTransient<IEmailSender, EmailSender>();
     serviceCollection.Configure<AuthMessageSenderOptions>(
         configuration.GetSection(AuthMessageSenderOptions.SendGrid));
-    
+
+    serviceCollection.AddSingleton<DiscordWebhookSender>();
+
 }
 
 void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguration configuration)

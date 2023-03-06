@@ -18,6 +18,8 @@ public class MissionEntity : EntityBase
     public ModpackTypeEntity? ModpackType { get; init; }
     public Guid? ModpackTypeId { get; set; }
     
+    public ulong? DiscordMessageId { get; set; }
+    
     public MissionEntity(string name, DateTime connectingToServerDate, DateTime missionStartDate)
     {
         Name = name;
