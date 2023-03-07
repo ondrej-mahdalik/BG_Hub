@@ -260,69 +260,69 @@
         </div>
     </div>
 </div>
-<div class="col-12 col-lg-6 col-xxl-4 mb-4">
-    <div class="card bg-dark-subtle">
-        <div class="card-header">
-            <h5 class="h6 card-title mb-0">@Localizer[nameof(IndexResource.ActivePunishments)]</h5>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <table class="w-100">
-                        <thead>
-                        <tr>
-                            <th>@Localizer[nameof(IndexResource.PunishmentUser)]</th>
-                            <th>@Localizer[nameof(IndexResource.PunishmentExpiration)]</th>
-                            <th>@Localizer[nameof(IndexResource.PunishmentName)]</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @if (_activePunishments is null)
-                        {
-                            <tr>
-                                <td>
-                                    <p class="placeholder-glow">
-                                        <span class="placeholder col-6"></span>
-                                    </p>
-                                </td>
-                                <td>
-                                    <p class="placeholder-glow">
-                                        <span class="placeholder col-6"></span>
-                                    </p>
-                                </td>
-                                <td>
-                                    <p class="placeholder-glow">
-                                        <span class="placeholder col-6"></span>
-                                    </p>
-                                </td>
-                            </tr>
-                        }
-                        else if (_activePunishments.Count == 0)
-                        {
-                            <tr>
-                                <td colspan="5">
-                                    <p class="text-center">@Localizer[nameof(IndexResource.NoActivePunishments)]</p>
-                                </td>
-                            </tr>
-                        }
-                        else
-                        {
-                            @foreach (var punishmentModel in _activePunishments)
-                            {
-                                <tr>
-                                    <td>@punishmentModel.User?.Nickname</td>
-                                    <td>@(punishmentModel.ExpiresOn.HasValue ? punishmentModel.ExpiresOn.Value : Localizer[nameof(IndexResource.NoExpirationDate)])</td>
-                                    <td>@punishmentModel.Punishment</td>
-                                </tr>
-                            }
-                        }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@* <div class="col-12 col-lg-6 col-xxl-4 mb-4"> *@
+@*     <div class="card bg-dark-subtle"> *@
+@*         <div class="card-header"> *@
+@*             <h5 class="h6 card-title mb-0">@Localizer[nameof(IndexResource.ActivePunishments)]</h5> *@
+@*         </div> *@
+@*         <div class="card-body"> *@
+@*             <div class="row"> *@
+@*                 <div class="col"> *@
+@*                     <table class="w-100"> *@
+@*                         <thead> *@
+@*                         <tr> *@
+@*                             <th>@Localizer[nameof(IndexResource.PunishmentUser)]</th> *@
+@*                             <th>@Localizer[nameof(IndexResource.PunishmentExpiration)]</th> *@
+@*                             <th>@Localizer[nameof(IndexResource.PunishmentName)]</th> *@
+@*                         </tr> *@
+@*                         </thead> *@
+@*                         <tbody> *@
+@*                         @if (_activePunishments is null) *@
+@*                         { *@
+@*                             <tr> *@
+@*                                 <td> *@
+@*                                     <p class="placeholder-glow"> *@
+@*                                         <span class="placeholder col-6"></span> *@
+@*                                     </p> *@
+@*                                 </td> *@
+@*                                 <td> *@
+@*                                     <p class="placeholder-glow"> *@
+@*                                         <span class="placeholder col-6"></span> *@
+@*                                     </p> *@
+@*                                 </td> *@
+@*                                 <td> *@
+@*                                     <p class="placeholder-glow"> *@
+@*                                         <span class="placeholder col-6"></span> *@
+@*                                     </p> *@
+@*                                 </td> *@
+@*                             </tr> *@
+@*                         } *@
+@*                         else if (_activePunishments.Count == 0) *@
+@*                         { *@
+@*                             <tr> *@
+@*                                 <td colspan="5"> *@
+@*                                     <p class="text-center">@Localizer[nameof(IndexResource.NoActivePunishments)]</p> *@
+@*                                 </td> *@
+@*                             </tr> *@
+@*                         } *@
+@*                         else *@
+@*                         { *@
+@*                             @foreach (var punishmentModel in _activePunishments) *@
+@*                             { *@
+@*                                 <tr> *@
+@*                                     <td>@punishmentModel.User?.Nickname</td> *@
+@*                                     <td>@(punishmentModel.ExpiresOn.HasValue ? punishmentModel.ExpiresOn.Value : Localizer[nameof(IndexResource.NoExpirationDate)])</td> *@
+@*                                     <td>@punishmentModel.Punishment</td> *@
+@*                                 </tr> *@
+@*                             } *@
+@*                         } *@
+@*                         </tbody> *@
+@*                     </table> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
 </div>
 
 @code
@@ -330,13 +330,13 @@
     private MissionModel? _todaysMission;
     private List<MissionModel>? _upcomingMissions;
     private List<TrainingModel>? _upcomingTrainings;
-    private List<PunishmentModel>? _activePunishments;
+    // private List<PunishmentModel>? _activePunishments;
 
     protected override async Task OnInitializedAsync()
     {
         _upcomingMissions = await MissionFacade.GetUpcomingAsync(7);
         _upcomingTrainings = await TrainingFacade.GetUpcomingAsync();
-        _activePunishments = await PunishmentFacade.GetActiveAsync();
+        // _activePunishments = await PunishmentFacade.GetActiveAsync();
 
         MissionFilterModel filter = new()
         {

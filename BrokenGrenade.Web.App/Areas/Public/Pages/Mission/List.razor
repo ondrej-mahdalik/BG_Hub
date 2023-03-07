@@ -236,7 +236,7 @@
     }).GroupBy(x => x.Index / 10)
         .Select(x => x.Select(v => v.Value).ToList()).ToList();
 
-    private int _currentPage = 0;
+    private int _currentPage;
     
     private List<MissionTypeModel>? _missionTypes;
     private List<ModpackTypeModel>? _modpackTypes;

@@ -7,6 +7,7 @@
 @inject MissionFacade MissionFacade
 @inject MissionTypeFacade MissionTypeFacade
 @inject ModpackTypeFacade ModpackTypeFacade
+@inject UserFacade UserFacade
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize(Policy = PolicyTypes.CreateMissions)]
@@ -80,7 +81,7 @@
                             {
                                 <div class="mb-3 alert alert-warning">
                                     <h6 class="alert-heading">Možný konflikt</h6>
-                                    <p class="mb-0">V tento den je již nějaká mise vyhozena. Ujisti se, že jsi zadal správné datum, případně, že máš od PL povoleno vyhodit druhou misi v jeden den.</p>
+                                    <p class="mb-0  ">V tento den je již nějaká mise vyhozena. Ujisti se, že jsi zadal správné datum, případně, že máš od PL povoleno vyhodit druhou misi v jeden den.</p>
                                 </div>
                             }
                         </div>
@@ -125,11 +126,11 @@
 
 @code {
     private MissionModel _mission = new();
-    private EditContext _editContext;
+    private EditContext? _editContext;
     private bool _leaderBriefing;
     private bool _missionConflict;
     
-    private Guid? _currentUserId;
+    private UserModel? _currentUser;
     
     [Required]
     private TimeOnly _missionStartTime = new(19, 0);
@@ -146,7 +147,7 @@
         _modpackTypes = await ModpackTypeFacade.GetAsync();
 
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        _currentUserId = authState.GetUserId();
+        _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
     }
     private async Task CheckForMissionConflicts(FieldChangedEventArgs e)
     {
@@ -158,15 +159,22 @@
 
     private async Task CreateMissionAsync()
     {
+        if (_currentUser is null)
+            throw new InvalidOperationException("Failed to get current user.");
+        
         _mission.MissionStartDate = _mission.MissionStartDate?.Date.Add(_missionStartTime.ToTimeSpan());
         
         if (!_leaderBriefing)
             _mission.LeaderBriefingDate = null;
         
         _mission.ConnectingToServerDate = _mission.MissionStartDate?.AddMinutes(-30);
-        _mission.CreatorId = _currentUserId;
+        _mission.CreatorId = _currentUser.Id;
         
         await MissionFacade.SaveAsync(_mission);
-        NavigationManager.NavigateTo("/Staff/Mission");
+        
+        if (!_currentUser.Roles.Any(x => x.ManageMissions))
+            NavigationManager.NavigateTo("/Mission/" + _mission.Id);
+        else
+            NavigationManager.NavigateTo("/Staff/Mission");
     }
 }
