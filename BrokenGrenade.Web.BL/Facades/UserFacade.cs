@@ -17,25 +17,24 @@ public class UserFacade : IAppFacade
     private readonly IConfiguration _configuration;
     private readonly IEmailSender _emailSender;
     private readonly IMapper _mapper;
-    private readonly RoleManager<RoleEntity> _roleManager;
     private readonly UserManager<UserEntity> _userManager;
-    private ApplicationFacade _applicationFacade;
-    private PunishmentFacade _punishmentFacade;
-    
+    private readonly ApplicationFacade _applicationFacade;
+    private readonly PunishmentFacade _punishmentFacade;
+    private readonly RoleFacade _roleFacade;
+
     public UserFacade(UserManager<UserEntity> userManager,
-        RoleManager<RoleEntity> roleManager,
         IMapper mapper, IEmailSender emailSender,
         IConfiguration configuration,
         ApplicationFacade applicationFacade,
-        PunishmentFacade punishmentFacade)
+        PunishmentFacade punishmentFacade, RoleFacade roleFacade)
     {
         _userManager = userManager;
-        _roleManager = roleManager;
         _mapper = mapper;
         _emailSender = emailSender;
         _configuration = configuration;
         _applicationFacade = applicationFacade;
         _punishmentFacade = punishmentFacade;
+        _roleFacade = roleFacade;
     }
 
     public async Task DeleteAsync(Guid id)
@@ -71,8 +70,11 @@ public class UserFacade : IAppFacade
         if (entity is null)
             return null;
         
+        var roles = await _roleFacade.GetByUserAsync(id);
+        
         var model = _mapper.Map<UserModel>(entity);
-        await GetRolesAsync(model);
+        model.Roles = roles;
+        
         return model;
     }
     
@@ -83,7 +85,10 @@ public class UserFacade : IAppFacade
 
         var users = _mapper.Map<List<UserModel>>(entities);
         foreach (var user in users)
-            await GetRolesAsync(user);
+        {
+            var roles = await _roleFacade.GetByUserAsync(user.Id);
+            user.Roles = roles;
+        }
 
         return users;
     }
@@ -163,22 +168,9 @@ public class UserFacade : IAppFacade
             $"Dobrý den,<br><br>Pro resetování hesla klikněte na <a href='{callbackUrl}'>tento odkaz</a>." +
             "<br><br>S pozdravem,<br><br>Broken Grenade");
     }
-    
-    private async Task GetRolesAsync(UserModel user)
-    {
-        var entity = await _userManager.FindByIdAsync(user.Id.ToString());
-        if (entity is null)
-            throw new InvalidOperationException("User not found");
-        
-        var roles = await _userManager.GetRolesAsync(entity);
-        user.Roles = _mapper.Map<List<RoleModel>>(roles.Select(x => _roleManager.FindByNameAsync(x).Result).ToList());
-    }
-    
+
     private async Task AssignRolesAsync(UserModel user)
     {
-        if (user.Roles is null)
-            return;
-        
         var entity = await _userManager.FindByIdAsync(user.Id.ToString());
         if (entity is null)
             throw new InvalidOperationException("User not found");

@@ -57,6 +57,15 @@ public class RoleFacade : IAppFacade
         
         return await MapRoleAsync(entity);
     }
+    
+    public async Task<RoleModel?> GetAsync(string name)
+    {
+        var entity = await _roleManager.FindByNameAsync(name);
+        if (entity is null)
+            return null;
+        
+        return await MapRoleAsync(entity);
+    }
 
     public async Task<List<RoleModel>> GetAsync()
     {
@@ -66,6 +75,25 @@ public class RoleFacade : IAppFacade
         foreach (var entity in entities)
             models.Add(await MapRoleAsync(entity));
         
+        return models;
+    }
+
+    public async Task<List<RoleModel>> GetByUserAsync(Guid userId)
+    {
+        var userEntity = await _userManager.FindByIdAsync(userId.ToString());
+        if (userEntity is null)
+            return new List<RoleModel>();
+        
+        var roleNames = await _userManager.GetRolesAsync(userEntity);
+        var models = new List<RoleModel>();
+
+        foreach (var roleName in roleNames)
+        {
+            var entity = await _roleManager.FindByNameAsync(roleName);
+            if (entity is not null)
+                models.Add(await MapRoleAsync(entity));
+        }
+
         return models;
     }
 
@@ -103,11 +131,17 @@ public class RoleFacade : IAppFacade
         }
 
         model.CreateMissions = permissions.Contains(PermissionTypes.CreateMissions);
+        model.CreateTrainings = permissions.Contains(PermissionTypes.CreateTrainings);
+        model.CreateArticles = permissions.Contains(PermissionTypes.CreateArticles);
         model.ManageMissions = permissions.Contains(PermissionTypes.ManageMissions);
+        model.ManageTrainings = permissions.Contains(PermissionTypes.ManageTrainings);
+        model.ManageArticles = permissions.Contains(PermissionTypes.ManageArticles);
         model.ManageUsers = permissions.Contains(PermissionTypes.ManageUsers);
         model.ManageRoles = permissions.Contains(PermissionTypes.ManageRoles);
         model.ManageMissionTypes = permissions.Contains(PermissionTypes.ManageMissionTypes);
         model.ManageModpackTypes = permissions.Contains(PermissionTypes.ManageModpackTypes);
+        model.ManageApplications = permissions.Contains(PermissionTypes.ManageApplications);
+        model.ManagePunishments = permissions.Contains(PermissionTypes.ManagePunishments);
 
         return model;
     }
@@ -131,11 +165,17 @@ public class RoleFacade : IAppFacade
         if (model.CreateTrainings)
             await _roleManager.AddClaimAsync(entity, new Claim("permission", PermissionTypes.CreateTrainings));
         
+        if (model.CreateArticles)
+            await _roleManager.AddClaimAsync(entity, new Claim("permission", PermissionTypes.CreateArticles));
+        
         if (model.ManageMissions)
             await _roleManager.AddClaimAsync(entity, new Claim("permission", PermissionTypes.ManageMissions));
         
         if (model.ManageTrainings)
             await _roleManager.AddClaimAsync(entity, new Claim("permission", PermissionTypes.ManageTrainings));
+        
+        if (model.ManageArticles)
+            await _roleManager.AddClaimAsync(entity, new Claim("permission", PermissionTypes.ManageArticles));
         
         if (model.ManageUsers)
             await _roleManager.AddClaimAsync(entity, new Claim("permission", PermissionTypes.ManageUsers));
@@ -151,5 +191,8 @@ public class RoleFacade : IAppFacade
         
         if (model.ManageApplications)
             await _roleManager.AddClaimAsync(entity, new Claim("permission", PermissionTypes.ManageApplications));
+        
+        if (model.ManagePunishments)
+            await _roleManager.AddClaimAsync(entity, new Claim("permission", PermissionTypes.ManagePunishments));
     }
 }

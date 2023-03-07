@@ -173,7 +173,7 @@
         await MissionFacade.SaveAsync(_mission);
         
         if (!_currentUser.Roles.Any(x => x.ManageMissions))
-            NavigationManager.NavigateTo("/Mission/" + _mission.Id);
+            NavigationManager.NavigateTo("/Mission/");
         else
             NavigationManager.NavigateTo("/Staff/Mission");
     }

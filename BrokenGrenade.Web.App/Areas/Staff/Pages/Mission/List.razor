@@ -240,6 +240,7 @@
     {
         _missionTypes = await MissionTypeFacade.GetAsync();
         _modpackTypes = await ModpackTypeFacade.GetAsync();
+        await FilterAsync();
     }
     
     private async Task FilterAsync()
