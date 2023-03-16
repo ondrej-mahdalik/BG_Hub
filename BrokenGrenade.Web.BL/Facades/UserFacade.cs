@@ -21,12 +21,13 @@ public class UserFacade : IAppFacade
     private readonly ApplicationFacade _applicationFacade;
     private readonly PunishmentFacade _punishmentFacade;
     private readonly RoleFacade _roleFacade;
+    private readonly MissionFacade _missionFacade;
 
     public UserFacade(UserManager<UserEntity> userManager,
         IMapper mapper, IEmailSender emailSender,
         IConfiguration configuration,
         ApplicationFacade applicationFacade,
-        PunishmentFacade punishmentFacade, RoleFacade roleFacade)
+        PunishmentFacade punishmentFacade, RoleFacade roleFacade, MissionFacade missionFacade)
     {
         _userManager = userManager;
         _mapper = mapper;
@@ -35,6 +36,7 @@ public class UserFacade : IAppFacade
         _applicationFacade = applicationFacade;
         _punishmentFacade = punishmentFacade;
         _roleFacade = roleFacade;
+        _missionFacade = missionFacade;
     }
 
     public async Task DeleteAsync(Guid id)
@@ -178,5 +180,17 @@ public class UserFacade : IAppFacade
         var allRoles = await _userManager.GetRolesAsync(entity);
         await _userManager.RemoveFromRolesAsync(entity, allRoles);
         await _userManager.AddToRolesAsync(entity, user.Roles.Select(x => x.Name));
+    }
+
+    public async Task<bool> CanUserEditMissionAsync(Guid userId, Guid missionId)
+    {
+        var user = await GetAsync(userId);
+        var mission = await _missionFacade.GetAsync(missionId);
+        
+        if (user is null || mission is null)
+            return false;
+        
+        return mission.CreatorId == userId || user.Roles.Any(x => x.ManageMissions);
+
     }
 }
