@@ -400,3 +400,4 @@ FodyWeavers.xsd
 /BrokenGrenade.Web.App/BrokenGrenade.Main
 /BrokenGrenade.Web.App/BrokenGrenade.Main-wal
 /BrokenGrenade.Web.App/BrokenGrenade.Main-shm
+/BrokenGrenade.Web.App/appsettings.Secrets.json
