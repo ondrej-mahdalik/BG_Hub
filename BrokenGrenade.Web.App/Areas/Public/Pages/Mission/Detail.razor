@@ -1,24 +1,46 @@
 ﻿@page "/Mission/Detail/{Id:guid}"
 @using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Extensions
 @using BrokenGrenade.Web.BL.Facades
 @inject MissionFacade MissionFacade
+@inject UserFacade UserFacade
 @inject IJSRuntime JSRuntime
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<PageTitle>Všechny mise</PageTitle>
 
 @if (_mission is null)
 {
-    <p class="text-center fw-bold">Načítání...</p>        
+    <p class="text-center fw-bold">Načítání...</p>
 }
 else
 {
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-        <h1 class="h2">@_mission.Name</h1>
+    <div class="pt-3 pb-2 mb-3">
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
                 <a class="btn btn-sm btn-link text-decoration-none" href="/Mission">
                     <i class="fa-solid fa-angles-left"></i> Všechny mise
                 </a>
+                @if (_mission.CreatorId == _currentUser?.Id)
+                {
+                    @if (_mission.MissionStartDate > DateTime.Now.AddMinutes(30))
+                    {
+                        <a class="btn btn-sm btn-link text-decoration-none" href="/Staff/Mission/Edit/@_mission.Id">
+                            <i class="fa-solid fa-edit"></i> Upravit misi
+                        </a>
+                    }
+                    else
+                    {
+                        <span tabindex="0" data-bs-toggle="tooltip" data-bs-title="Misi lze upravovat nejpozději 30 minut před jejím začátkem">
+                            <a class="btn btn-sm btn-link text-decoration-none disabled" disabled>
+                                <i class="fa-solid fa-edit"></i> Upravit misi
+                            </a>
+                        </span>
+                    }
+                }
             </div>
         </div>
+        <h1 class="h2">@_mission.Name</h1>
     </div>
     <div class="row">
         <div class="col-12 col-lg-6">
@@ -37,10 +59,8 @@ else
                                 <p>@(_mission.ModpackType?.Name ?? "Odstraněný typ")</p>
                             </div>
                             <div class="col">
-                                <h6 class="card-subtitle text-primary">Velitelský Briefing</h6>
-                                <p>@(_mission.LeaderBriefingDate.HasValue ? _mission.LeaderBriefingDate.Value : "Není plánován")</p>
                                 <h6 class="card-subtitle text-primary">Připojování na Server</h6>
-                                <p>@(_mission.ConnectingToServerDate)</p>
+                                <p>@(_mission.MissionStartDate?.AddMinutes(-30))</p>
                                 <h6 class="card-subtitle text-primary">Začátek Mise</h6>
                                 <p>@(_mission.MissionStartDate)</p>
                             </div>
@@ -78,12 +98,17 @@ else
     public Guid Id { get; set; }
 
     private MissionModel? _mission;
+    private UserModel? _currentUser;
 
     protected override async Task OnInitializedAsync()
     {
         _mission = await MissionFacade.GetAsync(Id);
+        
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
     }
-
+    
+    
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await JSRuntime.InvokeVoidAsync("InitTooltips");

@@ -8,7 +8,6 @@
 @using Microsoft.Extensions.Localization
 @inject MissionFacade MissionFacade
 @inject TrainingFacade TrainingFacade
-@inject PunishmentFacade PunishmentFacade
 @inject IJSRuntime JSRuntime
 @inject IStringLocalizer<IndexResource> Localizer
 @inject IStringLocalizer<SharedResources> SharedLocalizer
@@ -54,12 +53,8 @@
                     </div>
                     <div class="col col-sm-6">
                         <div class="mb-3">
-                            <h6 class="card-subtitle text-primary">@Localizer[nameof(IndexResource.MissionLeaderBriefing)]</h6>
-                            <p>@(_todaysMission.LeaderBriefingDate.HasValue ? _todaysMission.LeaderBriefingDate.Value.Humanize() : Localizer[nameof(IndexResource.NoLeaderBriefingPlanned)])</p>
-                        </div>
-                        <div class="mb-3">
                             <h6 class="card-subtitle text-primary">@Localizer[nameof(IndexResource.MissionConnecting)]</h6>
-                            <p>@_todaysMission.ConnectingToServerDate.Humanize()</p>
+                            <p>@_todaysMission.MissionStartDate?.AddMinutes(-30).Humanize()</p>
                         </div>
                         <div class="mb-3">
                             <h6 class="card-subtitle text-primary">@Localizer[nameof(IndexResource.MissionStart)]</h6>

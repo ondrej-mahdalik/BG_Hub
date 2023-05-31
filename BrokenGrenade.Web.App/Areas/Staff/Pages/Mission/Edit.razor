@@ -1,9 +1,176 @@
-﻿@page "/Staff/Mission/Edit/{Id}"
-@using BrokenGrenade.Common.Permissions
-@attribute [Authorize(Policy = PolicyTypes.ManageMissions)]
-<h3>Edit</h3>
+﻿@page "/Staff/Mission/Edit/{Id:guid}"
+@using BrokenGrenade.Web.App.Extensions
+@using BrokenGrenade.Web.BL.Facades
+@using BrokenGrenade.Common.Models
+
+@inject MissionFacade MissionFacade
+@inject MissionTypeFacade MissionTypeFacade
+@inject ModpackTypeFacade ModpackTypeFacade
+@inject UserFacade UserFacade
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<PageTitle>Upravit misi — BG Hub</PageTitle>
+
+<div class="pt-3 pb-2 mb-3">
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a class="btn btn-sm btn-link text-decoration-none" href="/Mission">
+                <i class="fa-solid fa-angles-left"></i> Všechny mise
+            </a>
+            @if (_mission is not null)
+            {
+                <a class="btn btn-sm btn-link link-danger text-decoration-none" href="/Staff/Mission/Edit/@_mission.Id">
+                    <i class="fa-solid fa-remove"></i> Odstranit misi
+                </a>
+            }
+        </div>
+    </div>
+    <h1 class="h2">Upravit misi</h1>
+</div>
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                @if (_mission is null)
+                {
+                    <p class="text-center fw-bold">Načítání...</p>
+                }
+                else
+                {
+                    <EditForm EditContext="@_editContext" OnValidSubmit="@EditMissionAsync">
+                        <div class="row text-danger">
+                            <div class="col">
+                                <DataAnnotationsValidator/>
+                                <ValidationSummary/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Název mise</label>
+                                    <InputText class="form-control" @bind-Value="_mission.Name"/>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Datum</label>
+                                    <InputDate class="form-control" Type="InputDateType.DateTimeLocal" @bind-Value="_mission.MissionStartDate"/>
+                                </div>
+                                @if (_missionConflict)
+                                {
+                                    <div class="mb-3 alert alert-warning">
+                                        <h6 class="alert-heading">Možný konflikt</h6>
+                                        <p class="mb-0">V tento den je již nějaká mise vyhozena. Ujisti se, že jsi zadal správné datum, případně, že máš od PL povoleno vyhodit druhou misi v jeden den.</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Druh mise</label>
+                                    <InputSelect class="form-select" TValue="Guid?" @bind-Value="_mission.MissionTypeId">
+                                        @foreach (var type in _missionTypes)
+                                        {
+                                            <option value="@type.Id">@type.Name</option>
+                                        }
+                                    </InputSelect>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Typ modpacku</label>
+                                    <InputSelect class="form-select" TValue="Guid?" @bind-Value="_mission.ModpackTypeId">
+                                        @foreach (var type in _modpackTypes)
+                                        {
+                                            <option value="@type.Id">@type.Name</option>
+                                        }
+                                        <option value="">Ostatní</option>
+                                    </InputSelect>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label">Odkaz na slotování</label>
+                                    <InputText class="form-control" @bind-Value="_mission.SlottingSheetUrl"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary">Vytvořit misi</button>
+                                </div>
+                            </div>
+                        </div>
+                    </EditForm>
+                }
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
+    
     [Parameter]
     public Guid Id { get; set; }
+
+    private MissionModel? _mission;
+    private EditContext? _editContext;
+    private bool _missionConflict;
+    
+    private UserModel? _currentUser;
+
+    private List<MissionTypeModel> _missionTypes = new();
+    private List<ModpackTypeModel> _modpackTypes = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _mission = await MissionFacade.GetAsync(Id);
+        if (_mission is null)
+        {
+            NavigationManager.NavigateTo("/Mission");
+            // TODO Show error
+            return;
+        }
+        
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
+
+        if (_mission.CreatorId != _currentUser?.Id && (!_currentUser?.Roles.Any(x => x.ManageMissions) ?? false))
+        {
+            NavigationManager.NavigateTo("/Mission");
+            // TODO Show error
+            return;
+        }
+        
+        _editContext = new EditContext(_mission);
+        _editContext.OnFieldChanged += async (_, args) => await CheckForMissionConflicts(args);
+        
+        _missionTypes = await MissionTypeFacade.GetAsync();
+        _modpackTypes = await ModpackTypeFacade.GetAsync();
+    }
+    private async Task CheckForMissionConflicts(FieldChangedEventArgs? e = null)
+    {
+        if (e is not null && e.FieldIdentifier.FieldName != nameof(_mission.MissionStartDate) || _mission?.MissionStartDate is null)
+            return;
+
+        _missionConflict = await MissionFacade.IsMissionOn(_mission.MissionStartDate.Value);
+    }
+
+    private async Task EditMissionAsync()
+    {
+        if (_mission is null)
+        {
+            // TODO Show error
+            return;
+        }
+        
+        await MissionFacade.SaveAsync(_mission);
+        
+        NavigationManager.NavigateTo($"/Mission/{_mission.Id}");
+    }
 }
