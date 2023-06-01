@@ -2,7 +2,6 @@
 @using BrokenGrenade.Common.Permissions
 @using BrokenGrenade.Common.Models
 @using BrokenGrenade.Web.BL.Facades
-@using System.ComponentModel.DataAnnotations
 @using BrokenGrenade.Web.App.Extensions
 @inject MissionFacade MissionFacade
 @inject MissionTypeFacade MissionTypeFacade
@@ -12,10 +11,10 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize(Policy = PolicyTypes.CreateMissions)]
 
-<PageTitle>Nová Mise — BG Hub</PageTitle>
+<PageTitle>Nová mise — BG Hub</PageTitle>
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2">Nová Mise</h1>
+<div class="pt-3 pb-2 mb-3">
+    <h1 class="h2">Nová mise</h1>
 </div>
 <div class="card bg-dark-subtle mb-4">
     <div class="card-body">
@@ -29,11 +28,24 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col">
+                        <div class="col-12 col-sm-6">
                             <div class="mb-3">
                                 <label class="form-label">Název mise</label>
                                 <InputText class="form-control" @bind-Value="_mission.Name"/>
                             </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="mb-3">
+                                <label class="form-label">Datum</label>
+                                <InputDate class="form-control" Type="InputDateType.DateTimeLocal" @bind-Value="_mission.MissionStartDate"/>
+                            </div>
+                            @if (_missionConflict)
+                            {
+                                <div class="mb-3 alert alert-warning">
+                                    <h6 class="alert-heading">Možný konflikt</h6>
+                                    <p class="mb-0  ">V tento den je již nějaká mise vyhozena. Ujisti se, že jsi zadal správné datum, případně, že máš od PL povoleno vyhodit druhou misi v jeden den.</p>
+                                </div>
+                            }
                         </div>
                     </div>
                     <div class="row">
@@ -62,48 +74,6 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 col-sm-6">
-                            <div class="mb-3">
-                                <label class="form-label">Datum</label>
-                                <InputDate class="form-control" Type="InputDateType.Date" @bind-Value="_mission.MissionStartDate"/>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6 transition-ease-in-out">
-                            <div class="mb-3">
-                                <label class="form-label">Začátek</label>
-                                <InputDate TValue="TimeOnly" class="form-control" Type="InputDateType.Time" @bind-Value="_missionStartTime"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            @if (_missionConflict)
-                            {
-                                <div class="mb-3 alert alert-warning">
-                                    <h6 class="alert-heading">Možný konflikt</h6>
-                                    <p class="mb-0  ">V tento den je již nějaká mise vyhozena. Ujisti se, že jsi zadal správné datum, případně, že máš od PL povoleno vyhodit druhou misi v jeden den.</p>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-sm-6">
-                            <div class="mb-3 form-check form-switch">
-                                <InputCheckbox class="form-check-input" @bind-Value="_leaderBriefing"/>
-                                <label class="form-check-label">Velitelský briefing</label>
-                            </div>
-                        </div>
-                        @if (_leaderBriefing)
-                        {
-                            <div class="col-12 col-sm-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Velitelský briefing</label>
-                                    <InputDate class="form-control" Type="InputDateType.DateTimeLocal" @bind-Value="_mission.LeaderBriefingDate"/>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                    <div class="row">
                         <div class="col">
                             <div class="mb-3">
                                 <label class="form-label">Odkaz na slotování</label>
@@ -112,7 +82,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 col-sm-6">
+                        <div class="col">
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary">Vytvořit misi</button>
                             </div>
@@ -125,16 +95,13 @@
 </div>
 
 @code {
+
     private MissionModel _mission = new();
     private EditContext? _editContext;
-    private bool _leaderBriefing;
     private bool _missionConflict;
     
     private UserModel? _currentUser;
-    
-    [Required]
-    private TimeOnly _missionStartTime = new(19, 0);
-    
+
     private List<MissionTypeModel> _missionTypes = new();
     private List<ModpackTypeModel> _modpackTypes = new();
 
@@ -145,13 +112,18 @@
         
         _missionTypes = await MissionTypeFacade.GetAsync();
         _modpackTypes = await ModpackTypeFacade.GetAsync();
+        
+        _mission.MissionStartDate = DateTime.Today.AddHours(19);
+        _mission.MissionTypeId = _missionTypes.FirstOrDefault()?.Id;
+        _mission.ModpackTypeId = _modpackTypes.FirstOrDefault()?.Id;
+        await CheckForMissionConflicts();
 
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
     }
-    private async Task CheckForMissionConflicts(FieldChangedEventArgs e)
+    private async Task CheckForMissionConflicts(FieldChangedEventArgs? e = null)
     {
-        if (e.FieldIdentifier.FieldName != nameof(_mission.MissionStartDate) || !_mission.MissionStartDate.HasValue)
+        if (e is not null && e.FieldIdentifier.FieldName != nameof(_mission.MissionStartDate) || !_mission.MissionStartDate.HasValue)
             return;
 
         _missionConflict = await MissionFacade.IsMissionOn(_mission.MissionStartDate.Value);
@@ -162,19 +134,9 @@
         if (_currentUser is null)
             throw new InvalidOperationException("Failed to get current user.");
         
-        _mission.MissionStartDate = _mission.MissionStartDate?.Date.Add(_missionStartTime.ToTimeSpan());
-        
-        if (!_leaderBriefing)
-            _mission.LeaderBriefingDate = null;
-        
-        _mission.ConnectingToServerDate = _mission.MissionStartDate?.AddMinutes(-30);
         _mission.CreatorId = _currentUser.Id;
-        
         await MissionFacade.SaveAsync(_mission);
-        
-        if (!_currentUser.Roles.Any(x => x.ManageMissions))
-            NavigationManager.NavigateTo("/Mission/");
-        else
-            NavigationManager.NavigateTo("/Staff/Mission");
+
+        NavigationManager.NavigateTo($"/Mission/{_mission.Id}");
     }
 }

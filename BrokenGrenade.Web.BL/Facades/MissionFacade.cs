@@ -113,10 +113,10 @@ public class MissionFacade : CRUDFacade<MissionEntity, MissionModel>
         return await Mapper.ProjectTo<MissionModel>(query).ToListAsync().ConfigureAwait(false);
     }
     
-    public async Task<bool> IsMissionOn(DateTime date)
+    public async Task<bool> IsMissionOn(DateTime date, Guid? missionToIgnore = null)
     {
         await using var uow = UnitOfWorkFactory.Create();
-        return await uow.GetRepository<MissionEntity>().Get().AnyAsync(x => x.MissionStartDate.Date == date.Date);
+        return await uow.GetRepository<MissionEntity>().Get().AnyAsync(x => x.MissionStartDate.Date == date.Date && x.Id != missionToIgnore).ConfigureAwait(false);
     }
 
     public override async Task<MissionModel> SaveAsync(MissionModel model)
@@ -124,10 +124,13 @@ public class MissionFacade : CRUDFacade<MissionEntity, MissionModel>
         // Check if mission already exists
         var sendNotification = await GetAsync(model.Id) is null;
         
-        // Send notification if mission is new
-        if (sendNotification)
-            model.DiscordMessageId = await _discordWebhookSender.SendMissionAsync(model);
+        // Save the mission
+        var result = await base.SaveAsync(model);
         
-        return await base.SaveAsync(model);
+        // Send notification if the mission is new
+        if (sendNotification)
+            model.DiscordMessageId = await _discordWebhookSender.SendMissionAsync(result);
+
+        return result;
     }
 }

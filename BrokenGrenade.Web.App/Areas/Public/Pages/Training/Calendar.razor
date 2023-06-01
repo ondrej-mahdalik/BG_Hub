@@ -1,9 +1,59 @@
 ﻿@page "/Training/Calendar"
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.BL.Facades
+@inject TrainingFacade TrainingFacade
+@inject NavigationManager NavigationManager
 
-<PageTitle>Kalendář Výcviků — BG Hub</PageTitle>
+<PageTitle>Kalendář výcviků — BG Hub</PageTitle>
 
-<h3>Calendar</h3>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+    <h1 class="h2">Kalendář výcviků</h1>
+</div>
+<div class="row">
+    <div class="col">
+        @if (_trainings is not null)
+        {
+            <SfSchedule TValue="TrainingModel" EnableAutoRowHeight="true">
+                <ScheduleViews>
+                    <ScheduleView Option="View.Month" FirstDayOfWeek="1" Readonly="true" />
+                </ScheduleViews>
+                @if (_trainings.Count > 0)
+                {
+                    <ScheduleEventSettings DataSource="_trainings" EnableTooltip="true">
+                        <TooltipTemplate>
+                            <div>
+                                <p class="mb-0">Instruktor: <b>@((context as TrainingModel)?.Creator?.Nickname ?? "Odstraněný uživatel")</b></p>
+                            </div>
+                        </TooltipTemplate>
+                        <ChildContent>
+                            <ScheduleField Id="@nameof(TrainingModel.Id)">
+                                <FieldSubject Name="@nameof(TrainingModel.Name)"/>
+                                <FieldStartTime Name="@nameof(TrainingModel.Date)"/>
+                                <FieldEndTime Name="@nameof(TrainingModel.Date)"/>
+                            </ScheduleField>
+                        </ChildContent>
+                    </ScheduleEventSettings>
+                    <ScheduleEvents TValue="TrainingModel" OnEventClick="HandleEventClick"/>
+                }
+            </SfSchedule>
+        }
+    </div>
+</div>
 
 @code {
     
+    private List<TrainingModel>? _trainings = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _trainings = await TrainingFacade.GetAsync();
+    }
+
+    private void HandleEventClick(EventClickArgs<TrainingModel> obj)
+    {
+        if (obj.Event is null)
+            return;
+        
+        NavigationManager.NavigateTo($"/Training/{obj.Event.Id}");
+    }
 }

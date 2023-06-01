@@ -1,12 +1,13 @@
 ﻿@page "/Mission/Calendar"
-@using Syncfusion.Blazor.Schedule
 @using BrokenGrenade.Common.Models
 @using BrokenGrenade.Web.BL.Facades
 @inject MissionFacade MissionFacade
 @inject NavigationManager NavigationManager
 
+<PageTitle>Kalendář misí — BG Hub</PageTitle>
+
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2">Kalendář Misí</h1>
+    <h1 class="h2">Kalendář misí</h1>
 </div>
 <div class="row">
     <div class="col">
@@ -55,7 +56,6 @@
         if (obj.Event is null)
             return;
         
-        NavigationManager.NavigateTo($"/Mission/Detail/{obj.Event.Id}");
+        NavigationManager.NavigateTo($"/Mission/{obj.Event.Id}");
     }
-
 }

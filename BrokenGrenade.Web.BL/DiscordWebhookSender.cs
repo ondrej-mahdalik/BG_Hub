@@ -84,7 +84,7 @@ public class DiscordWebhookSender
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
                     .WithName("Připojování")
-                    .WithValue(mission.ConnectingToServerDate?.ToString("HH:mm") ?? "Neuvedeno")
+                    .WithValue(mission.MissionStartDate?.AddMinutes(-30).ToString("HH:mm") ?? "Neuvedeno")
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
                     .WithName("Začátek mise")

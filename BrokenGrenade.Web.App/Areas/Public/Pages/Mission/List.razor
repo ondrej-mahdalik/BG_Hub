@@ -8,10 +8,10 @@
 @inject UserFacade UserFacade
 @inject NavigationManager NavigationManager
 
-<PageTitle>Seznam Misí — BG Hub</PageTitle>
+<PageTitle>Seznam misí — BG Hub</PageTitle>
 
 <div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2">Seznam Misí</h1>
+    <h1 class="h2">Seznam misí</h1>
 </div>
 <div class="card bg-dark-subtle mb-4">
     <div class="card-header">
@@ -133,7 +133,7 @@
         }
         else
         {
-            <table class="table table-striped">
+            <table class="table table-striped table-hover">
                 <thead>
                 <tr>
                     <th scope="col">Datum Konání</th>
@@ -141,7 +141,6 @@
                     <th scope="col">Autor</th>
                     <th scope="col">Kategorie Mise</th>
                     <th scope="col">Modpack</th>
-                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -149,15 +148,12 @@
                 {
                     @foreach (var mission in MissionsPages[_currentPage])
                     {
-                        <tr>
+                        <tr class="cursor-pointer" @onclick='() => NavigationManager.NavigateTo($"/Mission/{mission.Id}")'>
                             <td>@mission.MissionStartDate</td>
                             <td>@mission.Name</td>
                             <td>@(mission.Creator?.Nickname ?? "Odstraněný uživatel")</td>
                             <td>@(mission.MissionType?.Name ?? "Odstraněná kategorie")</td>
                             <td>@(mission.ModpackType?.Name ?? "Odstraněný typ")</td>
-                            <td>
-                                <a class="btn btn-primary" href="/Mission/Detail/@mission.Id">Detail</a>
-                            </td>
                         </tr>
                     }
                 }

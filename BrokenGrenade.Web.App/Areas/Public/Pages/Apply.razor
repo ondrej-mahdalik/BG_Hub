@@ -12,7 +12,15 @@
     <div class="card-body transition-ease-in-out">
         @if (_submitted)
         {
-            <p class="text-center fw-bold text-success">Přihláška byla úspěšně odeslána!</p>
+            <div class="d-flex flex-column align-items-center">
+                <h4 class="text-center text-success">Přihláška byla úspěšně odeslána!</h4>
+                <p class="text-center">Nyní tvoji přihlášku posoudí vedení skupiny a instruktoři.</p>
+                <p class="text-center">Odpověď můžeš očekávat do 48 hodin, a to prostřednictvím Discordu,
+                    proto <b>je nutné se připojit na náš Discord server</b>.</p>
+                <a class="btn btn-warning" href="https://discord.gg/uWMUa6Ngb9" target="_blank">
+                    <i class="fa-brands fa-discord"></i> Připojit se na BG Discord
+                </a>
+            </div>
         }
         else
         {
