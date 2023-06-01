@@ -1,8 +1,86 @@
 ﻿@page "/Staff/Training/Create"
 @using BrokenGrenade.Common.Permissions
-@attribute [Authorize(Policy = PolicyTypes.ManageRoles)]
-<h3>Create</h3>
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Extensions
+@using BrokenGrenade.Web.BL.Facades
+@inject UserFacade UserFacade
+@inject TrainingFacade TrainingFacade
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@attribute [Authorize(Policy = PolicyTypes.CreateTrainings)]
+
+<PageTitle>Nový výcvik — BG Hub</PageTitle>
+
+<div class="pt-3 pb-2 mb-3">
+    <h1 class="h2">Nový výcvik</h1>
+</div>
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <EditForm Model="@_training" OnValidSubmit="@CreateTrainingAsync">
+                    <div class="row text-danger">
+                        <div class="col">
+                            <DataAnnotationsValidator/>
+                            <ValidationSummary/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="mb-3">
+                                <label class="form-label">Název výcviku</label>
+                                <InputText class="form-control" @bind-Value="_training.Name"/>
+                            </div>
+                        </div>
+                        <div class="col12 col-sm-6">
+                            <div class="mb-3">
+                                <label class="form-label">Datum</label>
+                                <InputDate class="form-control" Type="InputDateType.DateTimeLocal" @bind-Value="_training.Date"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label>Poznámka</label>
+                                <InputTextArea class="form-control" @bind-Value="_training.Note" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Vytvořit výcvik</button>
+                            </div>
+                        </div>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
-    
+    private TrainingModel _training = new();
+    private UserModel? _currentUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
+    }
+
+    private async Task CreateTrainingAsync()
+    {
+        if (_currentUser is null)
+            throw new InvalidOperationException("Current user is null");
+
+        if (_training.Note?.Length == 0)
+            _training.Note = null;
+        
+        _training.CreatorId = _currentUser.Id;
+        await TrainingFacade.SaveAsync(_training);
+
+        NavigationManager.NavigateTo($"/Training/{_training.Id}");
+    }
 }
