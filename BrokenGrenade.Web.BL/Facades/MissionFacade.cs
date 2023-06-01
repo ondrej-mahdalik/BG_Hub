@@ -124,10 +124,13 @@ public class MissionFacade : CRUDFacade<MissionEntity, MissionModel>
         // Check if mission already exists
         var sendNotification = await GetAsync(model.Id) is null;
         
-        // Send notification if mission is new
-        if (sendNotification)
-            model.DiscordMessageId = await _discordWebhookSender.SendMissionAsync(model);
+        // Save the mission
+        var result = await base.SaveAsync(model);
         
-        return await base.SaveAsync(model);
+        // Send notification if the mission is new
+        if (sendNotification)
+            model.DiscordMessageId = await _discordWebhookSender.SendMissionAsync(result);
+
+        return result;
     }
 }
