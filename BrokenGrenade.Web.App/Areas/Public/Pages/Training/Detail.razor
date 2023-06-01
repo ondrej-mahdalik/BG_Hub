@@ -1,11 +1,38 @@
 ﻿@page "/Training/{Id:guid}"
 @using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Extensions
 @using BrokenGrenade.Web.BL.Facades
 @inject TrainingFacade TrainingFacade
+@inject UserFacade UserFacade
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>Detail Výcviku — BG Hub</PageTitle>
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+<div class="pt-3 pb-2 mb-3">
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a class="btn btn-sm btn-link text-decoration-none" href="/Training">
+                <i class="fa-solid fa-angles-left"></i> Všechny výcviky
+            </a>
+            @if (_training is not null && _training.CreatorId == _currentUser?.Id)
+            {
+                @if (_training.Date > DateTime.Now.AddMinutes(30))
+                {
+                    <a class="btn btn-sm btn-link text-decoration-none" href="/Staff/Training/Edit/@_training.Id">
+                        <i class="fa-solid fa-edit"></i> Upravit výcvik
+                    </a>
+                }
+                else
+                {
+                    <span tabindex="0" data-bs-toggle="tooltip" data-bs-title="Výcvik lze upravovat nejpozději 30 minut před jeho začátkem">
+                        <a class="btn btn-sm btn-link text-decoration-none disabled" disabled>
+                            <i class="fa-solid fa-edit"></i> Upravit výcvik
+                        </a>
+                    </span>
+                }
+            }
+        </div>
+    </div>
     @if (_training is null)
     {
         <div class="col">
@@ -18,13 +45,6 @@
     {
         <h1 class="h2">@_training?.Name</h1>
     }
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group me-2">
-            <a class="btn btn-sm btn-link text-decoration-none" href="/Training">
-                <i class="fa-solid fa-angles-left"></i> Všechny výcviky
-            </a>
-        </div>
-    </div>
 </div>
 <div class="row">
     <div class="col-12 col-lg-6">
@@ -87,10 +107,13 @@
     public Guid Id { get; set; }
     
     private TrainingModel? _training;
+    private UserModel? _currentUser;
 
     protected override async Task OnInitializedAsync()
     {
         _training = await TrainingFacade.GetAsync(Id);
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
     }
 
 }
