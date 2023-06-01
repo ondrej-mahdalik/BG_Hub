@@ -164,7 +164,7 @@
                                         <td>@(mission.Creator?.Nickname ?? SharedLocalizer[nameof(SharedResources.DeletedUser)])</td>
                                         <td>@(mission.ModpackType?.Name ?? SharedLocalizer[nameof(SharedResources.DeletedModpackType)])</td>
                                         <td>
-                                            <a class="btn btn-primary" href="/Mission/Detail/@mission.Id">@Localizer[nameof(IndexResource.UpcomingMissionDetail)]</a>
+                                            <a class="btn btn-primary" href="/Mission/@mission.Id">@Localizer[nameof(IndexResource.UpcomingMissionDetail)]</a>
                                         </td>
                                     </tr>
                                 }

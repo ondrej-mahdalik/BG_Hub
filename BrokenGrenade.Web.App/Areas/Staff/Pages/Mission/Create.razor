@@ -137,6 +137,6 @@
         _mission.CreatorId = _currentUser.Id;
         await MissionFacade.SaveAsync(_mission);
 
-        NavigationManager.NavigateTo(_currentUser.Roles.Any(x => x.ManageMissions) ? "/Staff/Mission" : "/Mission/");
+        NavigationManager.NavigateTo($"/Mission/{_mission.Id}");
     }
 }

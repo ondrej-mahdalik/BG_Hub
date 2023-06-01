@@ -1,5 +1,4 @@
 ﻿@page "/Mission/Calendar"
-@using Syncfusion.Blazor.Schedule
 @using BrokenGrenade.Common.Models
 @using BrokenGrenade.Web.BL.Facades
 @inject MissionFacade MissionFacade
@@ -55,7 +54,7 @@
         if (obj.Event is null)
             return;
         
-        NavigationManager.NavigateTo($"/Mission/Detail/{obj.Event.Id}");
+        NavigationManager.NavigateTo($"/Mission/{obj.Event.Id}");
     }
 
 }

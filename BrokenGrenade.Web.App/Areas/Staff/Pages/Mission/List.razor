@@ -145,7 +145,7 @@
                 {
                     @foreach (var mission in MissionsPages[_currentPage])
                     {
-                        <tr class="cursor-pointer" @onclick='() => NavigationManager.NavigateTo($"/Mission/Detail/{mission.Id}")'>
+                        <tr class="cursor-pointer" @onclick='() => NavigationManager.NavigateTo($"/Mission/{mission.Id}")'>
                             <td>@mission.MissionStartDate</td>
                             <td>@mission.Name</td>
                             <td>@(mission.Creator?.Nickname ?? "Odstraněný uživatel")</td>
@@ -243,6 +243,7 @@
     {
         _currentPage = 0;
         _missions = null;
+        
         _missions = (await MissionFacade.GetAsync(_filter)).OrderBy(x => x.MissionStartDate).ToList();
     }
 
