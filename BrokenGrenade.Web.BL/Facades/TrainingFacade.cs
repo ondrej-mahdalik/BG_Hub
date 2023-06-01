@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BrokenGrenade.Common.Models;
+using BrokenGrenade.Common.Models.Filters;
 using BrokenGrenade.Web.DAL.Entities;
 using BrokenGrenade.Web.DAL.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,27 @@ public class TrainingFacade : CRUDFacade<TrainingEntity, TrainingModel>
             .Include(i => i.Creator)
             .Where(x => x.Date.Date > DateTime.Today);
 
+        return await Mapper.ProjectTo<TrainingModel>(query).ToListAsync().ConfigureAwait(false);
+    }
+
+    public async Task<List<TrainingModel>> GetAsync(TrainingFilterModel filter)
+    {
+        await using var uow = UnitOfWorkFactory.Create();
+        var query = uow.GetRepository<TrainingEntity>()
+            .Get()
+            .Include(x => x.Creator)
+            .Include(x => x.Participants)
+            .Where(x => true);
+
+        if (!string.IsNullOrWhiteSpace(filter.Name))
+            query = query.Where(x => x.Name.ToLower().Contains(filter.Name.ToLower()));
+        
+        if(!string.IsNullOrWhiteSpace(filter.Creator))
+            query = query.Where(x => x.Creator != null && x.Creator.Nickname.ToLower().Contains(filter.Creator.ToLower()));
+        
+        if(filter.Date.HasValue)
+            query = query.Where(x => x.Date.Date == filter.Date.Value.Date);
+        
         return await Mapper.ProjectTo<TrainingModel>(query).ToListAsync().ConfigureAwait(false);
     }
 }
