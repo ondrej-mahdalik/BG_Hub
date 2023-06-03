@@ -123,10 +123,10 @@
     }
     private async Task CheckForMissionConflicts(FieldChangedEventArgs? e = null)
     {
-        if (e is not null && e.FieldIdentifier.FieldName != nameof(_mission.MissionStartDate) || !_mission.MissionStartDate.HasValue)
+        if (e is not null && e.FieldIdentifier.FieldName != nameof(_mission.MissionStartDate))
             return;
 
-        _missionConflict = await MissionFacade.IsMissionOn(_mission.MissionStartDate.Value);
+        _missionConflict = await MissionFacade.IsMissionOn(_mission.MissionStartDate);
     }
 
     private async Task CreateMissionAsync()

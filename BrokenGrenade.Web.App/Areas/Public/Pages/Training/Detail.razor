@@ -6,6 +6,7 @@
 @inject UserFacade UserFacade
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
+
 <PageTitle>Detail Výcviku — BG Hub</PageTitle>
 
 <div class="pt-3 pb-2 mb-3">
@@ -90,12 +91,15 @@
                             <p>@_training.Date</p>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <h6h class="card-subtitle text-primary">Poznámka</h6h>
-                            <p>@_training.Note</p>
+                    @if (_training.Note is not null)
+                    {
+                        <div class="row">
+                            <div class="col">
+                                <h6h class="card-subtitle text-primary">Poznámka</h6h>
+                                <p>@_training.Note</p>
+                            </div>
                         </div>
-                    </div>
+                    }
                 }
             </div>
         </div>
@@ -115,5 +119,4 @@
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
     }
-
 }

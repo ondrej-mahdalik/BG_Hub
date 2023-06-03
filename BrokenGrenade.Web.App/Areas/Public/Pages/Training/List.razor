@@ -1,74 +1,109 @@
 ﻿@page "/Training"
 @using BrokenGrenade.Common.Models
+@using BrokenGrenade.Common.Models.Filters
 @using BrokenGrenade.Web.BL.Facades
 @inject TrainingFacade TrainingFacade
+@inject NavigationManager NavigationManager
 
-<PageTitle>Seznam Výcviků — BG Hub</PageTitle>
+<PageTitle>Seznam výcviků - BG Hub</PageTitle>
 
-<div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2">Seznam Výcviků</h1>
+<div class="pt-3 pb-2 mb-3">
+    <h1 class="h2">Seznam výcviků</h1>
 </div>
 
 <div class="card bg-dark-subtle mb-4">
     <div class="card-header">
-        <h6 class="card-title mb-0">Filtrování</h6>
+        <h6 class=" cardcard-title mb-0">Filtrování</h6>
     </div>
     <div class="card-body">
-        <!-- TODO Filtrování !-->
+        <EditForm Model="_filter" id="filterForm" OnSubmit="() => FilterAsync()">
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3"> 
+                        <label for="searchName" class="form-label">Podle názvu</label>
+                        <InputText id="searchName" class="form-control" @bind-Value="_filter.Name"/>
+                    </div>
+
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label for="searchAuthor" class="form-label">Podle autora</label>
+                        <InputText id="searchAuthor" class="form-control" @bind-Value="_filter.Creator"/>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="searchDate">Podle data</label>
+                        <InputDate Type="InputDateType.Date" class="form-control" id="searchDate" @bind-Value="_filter.Date"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">  
+                    <button type="submit" class="btn btn-primary">Filtrovat</button>
+                    <button type="reset" class="btn btn-outline-secondary" @onclick="ResetFilter">Vymazat filtry</button>
+                </div>
+            </div>
+
+        </EditForm>
+        
     </div>
 </div>
 
 <div class="card bg-dark-subtle mb-4">
     <div class="card-body">
-        @if (_trainings is null)
-        {
-            <p class="text-center fw-bold">Načítání...</p>
-        }
-        else
-        {
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">Název</th>
-                    <th scope="col">Datum</th>
-                    <th scope="col">Instruktor</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-                @if (_trainings.Count == 0)
-                {
-                    <tr>
-                        <td colspan="4">
-                            <p class="text-center">Nebyly nalezeny žádné výcviky</p>
-                        </td>
-                    </tr>
-                }
-                else
-                {
-                    @foreach (var training in _trainings)
-                    {
-                        <tr>
-                            <td>@training.Name</td>
-                            <td>@training.Date</td>
-                            <td>@(training.Creator?.Nickname ?? "Odstraněný uživatel")</td>
-                            <td>
-                                <a class="btn btn-primary" href="/Training/Detail/@training.Id">Detail</a>
-                            </td>
-                        </tr>
-                    }
-                }
-                </tbody>
-            </table>
-        }
+        <PaginatedListComponent @ref="_list"
+                                TItem="TrainingModel"
+                                TotalCount="TrainingFacade.GetCountAsync(_filter).Result"
+                                DetailPageUrl="/Training/"
+                                Items="_trainings"
+                                EmptyMessage="Nebyly nalezeny žádné výcviky"
+                                PageNumberChanged="OnPageNumberChangedAsync"
+                                Class="table-striped table-hover">
+            <TableHeader>
+                <th>Datum</th>
+                <th>Název</th>
+                <th>Instruktor</th>
+            </TableHeader>
+            <RowTemplate Context="training">
+                <td>@training.Date</td>
+                <td>@training.Name</td>
+                <td>@(training.Creator?.Nickname ?? "Odstraněný uživatel")</td>
+            </RowTemplate>
+        </PaginatedListComponent>
     </div>
 </div>
 
+
+
 @code {
+
     private List<TrainingModel>? _trainings;
-    
+    private TrainingFilterModel _filter = new();
+    private PaginatedListComponent<TrainingModel> _list = null!;
+
     protected override async Task OnInitializedAsync()
     {
-        _trainings = await TrainingFacade.GetAsync();
+        await FilterAsync();
+    }
+    
+    private async Task FilterAsync(int page = 0)
+    {
+        _trainings = await TrainingFacade.GetPaginatedAsync(_filter, page);
+    }
+
+    private void ResetFilter()
+    {
+        NavigationManager.NavigateTo(new Uri(NavigationManager.Uri).GetLeftPart(UriPartial.Path));
+        _filter = new();
+        
+        _list.CurrentPage = 0;
+    }
+    private async Task OnPageNumberChangedAsync(int page)
+    {
+        await FilterAsync(page);
     }
 }

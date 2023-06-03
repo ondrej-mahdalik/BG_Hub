@@ -12,7 +12,7 @@ namespace BrokenGrenade.Common.Models
 
         public MissionModel()
         {
-
+            MissionStartDate = DateTime.Now;
         }
 
         [Required]
@@ -31,7 +31,7 @@ namespace BrokenGrenade.Common.Models
 
         [Required]
         [Display(Name = "Začátek mise")]
-        public DateTime? MissionStartDate { get; set; }
+        public DateTime MissionStartDate { get; set; }
         
         public UserModel? Creator { get; set; }
         public Guid? CreatorId { get; set; }

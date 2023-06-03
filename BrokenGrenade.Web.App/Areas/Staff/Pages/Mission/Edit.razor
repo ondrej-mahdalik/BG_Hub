@@ -158,19 +158,15 @@
         if (e is not null && e.FieldIdentifier.FieldName != nameof(_mission.MissionStartDate) || _mission?.MissionStartDate is null)
             return;
 
-        _missionConflict = await MissionFacade.IsMissionOn(_mission.MissionStartDate.Value);
+        _missionConflict = await MissionFacade.IsMissionOn(_mission.MissionStartDate);
     }
 
     private async Task EditMissionAsync()
     {
         if (_mission is null)
-        {
-            // TODO Show error
             return;
-        }
-        
+
         await MissionFacade.SaveAsync(_mission);
-        
         NavigationManager.NavigateTo($"/Mission/{_mission.Id}");
     }
 }

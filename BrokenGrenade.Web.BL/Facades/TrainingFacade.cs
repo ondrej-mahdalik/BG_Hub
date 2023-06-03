@@ -26,7 +26,32 @@ public class TrainingFacade : CRUDFacade<TrainingEntity, TrainingModel>
 
     public async Task<List<TrainingModel>> GetAsync(TrainingFilterModel filter)
     {
-        await using var uow = UnitOfWorkFactory.Create();
+        var query = GetFiltered(filter);
+        
+        return await Mapper.ProjectTo<TrainingModel>(query).ToListAsync().ConfigureAwait(false);
+    }
+
+    public async Task<List<TrainingModel>> GetPaginatedAsync(TrainingFilterModel filter, int page)
+    {
+        var query = GetFiltered(filter);
+        query = query
+            .OrderByDescending(x => x.Date)
+            .ThenBy(x => x.Id)
+            .Skip(page * 10)
+            .Take(10);
+
+        return await Mapper.ProjectTo<TrainingModel>(query).ToListAsync().ConfigureAwait(false);
+    }
+
+    public async Task<int> GetCountAsync(TrainingFilterModel filter)
+    {
+        var query = GetFiltered(filter);
+        return await query.CountAsync().ConfigureAwait(false);
+    }
+
+    private IQueryable<TrainingEntity> GetFiltered(TrainingFilterModel filter)
+    {
+        var uow = UnitOfWorkFactory.Create();
         var query = uow.GetRepository<TrainingEntity>()
             .Get()
             .Include(x => x.Creator)
@@ -41,7 +66,7 @@ public class TrainingFacade : CRUDFacade<TrainingEntity, TrainingModel>
         
         if(filter.Date.HasValue)
             query = query.Where(x => x.Date.Date == filter.Date.Value.Date);
-        
-        return await Mapper.ProjectTo<TrainingModel>(query).ToListAsync().ConfigureAwait(false);
+
+        return query;
     }
 }

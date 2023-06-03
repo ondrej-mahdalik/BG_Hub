@@ -4,7 +4,6 @@
 @using BrokenGrenade.Web.BL.Facades
 @inject MissionFacade MissionFacade
 @inject UserFacade UserFacade
-@inject IJSRuntime JSRuntime
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>Všechny mise</PageTitle>
@@ -60,7 +59,7 @@ else
                             </div>
                             <div class="col">
                                 <h6 class="card-subtitle text-primary">Připojování na Server</h6>
-                                <p>@(_mission.MissionStartDate?.AddMinutes(-30))</p>
+                                <p>@(_mission.MissionStartDate.AddMinutes(-30))</p>
                                 <h6 class="card-subtitle text-primary">Začátek Mise</h6>
                                 <p>@(_mission.MissionStartDate)</p>
                             </div>
@@ -107,11 +106,4 @@ else
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
     }
-    
-    
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await JSRuntime.InvokeVoidAsync("InitTooltips");
-    }
-
 }

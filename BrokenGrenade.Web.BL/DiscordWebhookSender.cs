@@ -72,7 +72,7 @@ public class DiscordWebhookSender
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
                     .WithName("Datum")
-                    .WithValue(mission.MissionStartDate?.ToString("dd.MM.yyyy") ?? "Neuvedeno")
+                    .WithValue(mission.MissionStartDate.ToString("dd.MM.yyyy"))
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
                     .WithName("Druh Mise")
@@ -84,11 +84,11 @@ public class DiscordWebhookSender
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
                     .WithName("Připojování")
-                    .WithValue(mission.MissionStartDate?.AddMinutes(-30).ToString("HH:mm") ?? "Neuvedeno")
+                    .WithValue(mission.MissionStartDate.AddMinutes(-30).ToString("HH:mm"))
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
                     .WithName("Začátek mise")
-                    .WithValue(mission.MissionStartDate?.ToString("HH:mm") ?? "Neuvedeno")
+                    .WithValue(mission.MissionStartDate.ToString("HH:mm"))
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
                     .WithName("Slotování")
