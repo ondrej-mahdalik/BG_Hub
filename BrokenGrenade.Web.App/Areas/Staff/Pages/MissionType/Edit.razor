@@ -1,9 +1,87 @@
-﻿@page "/Staff/MissionType/Edit/{Id}"
+﻿@page "/Staff/MissionType/Edit/{Id:guid}"
 @using BrokenGrenade.Common.Permissions
+@using BrokenGrenade.Web.BL.Facades
+@using BrokenGrenade.Common.Models
+@inject MissionTypeFacade MissionTypeFacade
+@inject NavigationManager NavigationManager
 @attribute [Authorize(Policy = PolicyTypes.ManageMissionTypes)]
-<h3>Edit</h3>
+
+<PageTitle>Upravit druh mise — BG Hub</PageTitle>
+
+<div class="pt-3 pb-2 mb-3">
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a class="btn btn-sm btn-link text-decoration-none" href="/Staff/MissionType">
+                <i class="fa-solid fa-angles-left"></i> Zpět na všechny druhy
+            </a>
+            <button class="btn btn-sm btn-link text-danger text-decoration-none">
+                <i class="fa-solid fa-trash-can"></i> Odstranit
+            </button>
+        </div>
+    </div>
+    <h1 class="h2">Upravit druh mise</h1>
+</div>
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-body">
+    @if (_missionType is null)
+    {
+        <p class="text-center fw-bold">Načítání...</p>
+    }
+    else
+    {
+        <EditForm Model="_missionType" OnValidSubmit="EditMissionTypeAsync">
+            <div class="row text-danger">
+                <div class="col">
+                    <DataAnnotationsValidator/>
+                    <ValidationSummary/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label class="form-label">Název</label>
+                        <InputText class="form-control" @bind-Value="_missionType.Name"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label class="form-label">Poznámka (volitelné)</label>
+                        <InputTextArea class="form-control" @bind-Value="_missionType.Note"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Uložit změny</button>
+                </div>
+            </div>
+        </EditForm>
+        }
+    </div>
+</div>
 
 @code {
     [Parameter]
     public Guid Id { get; set; }
+    
+    private MissionTypeModel? _missionType;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _missionType = await MissionTypeFacade.GetAsync(Id);
+    }
+
+    private async Task EditMissionTypeAsync()
+    {
+        if (_missionType is null)
+            return;
+        
+        if (_missionType.Note == string.Empty)
+            _missionType.Note = null;
+        
+        await MissionTypeFacade.SaveAsync(_missionType);
+        NavigationManager.NavigateTo("/Staff/MissionType");
+    }
 }

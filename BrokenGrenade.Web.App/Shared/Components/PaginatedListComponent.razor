@@ -76,9 +76,18 @@ else
         {
             @foreach (var item in Items)
             {
-                <tr class="cursor-pointer" @onclick="() => NavigationManager.NavigateTo(DetailPageUrl + item.Id)">
-                    @RowTemplate?.Invoke(item)
-                </tr>
+                @if (DetailPageUrl is not null)
+                {
+                    <tr class="cursor-pointer" @onclick="() => NavigationManager.NavigateTo(DetailPageUrl + item.Id)">
+                        @RowTemplate?.Invoke(item)
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        @RowTemplate?.Invoke(item)
+                    </tr>
+                }
             }
         }
         </tbody>

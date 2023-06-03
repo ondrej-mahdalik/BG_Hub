@@ -1,8 +1,52 @@
 ﻿@page "/Staff/MissionType"
 @using BrokenGrenade.Common.Permissions
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.BL.Facades
+@inject MissionTypeFacade MissionTypeFacade
 @attribute [Authorize(Policy = PolicyTypes.ManageMissionTypes)]
-<h3>List</h3>
+
+<PageTitle>Správa druhů misí — BG Hub</PageTitle>
+
+<div class="pt-3 pb-2 mb-3">
+    <h1 class="h2">Správa druhů misí</h1>
+</div>
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-header">
+        <div class="d-flex justify-content-end">
+            <a class="btn btn-sm btn-primary" href="/Staff/MissionType/Create">
+                <i class="fa-solid fa-plus"></i> Nový typ
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <ListComponent TItem="MissionTypeModel"
+                       @ref="_list"
+                       Items="_missionTypes"
+                       Class="table-striped">
+            <TableHeader>
+                <th>Název</th>
+                <th>Poznámka v popisu mise</th>
+                <th></th>
+            </TableHeader>
+            <RowTemplate Context="missionType">
+                <td>@missionType.Name</td>
+                <td>@missionType.Note</td>
+                <td>
+                    <div class="d-flex justify-content-end">
+                        <a class="btn btn-sm btn-primary" href="/Staff/MissionType/Edit/@missionType.Id">Upravit</a>
+                    </div>
+                </td>
+            </RowTemplate>
+        </ListComponent>
+    </div>
+</div>
 
 @code {
-    
+    private ListComponent<MissionTypeModel> _list = null!;
+    private List<MissionTypeModel>? _missionTypes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _missionTypes = await MissionTypeFacade.GetAsync();
+    }
 }
