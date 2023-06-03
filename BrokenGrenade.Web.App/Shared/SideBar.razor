@@ -136,9 +136,12 @@
           <AuthorizeView Policy="@PolicyTypes.ManageUsers">
             <Authorized>
               <li class="nav-item">
-                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Punishment">
-                  <i class="fa-solid fa-person-harassing fa-fw"></i> Varování a zákazy
-                </NavLink>
+                <div class="nav-link">
+                  <i class="fa-solid fa-person-harassing fa-fw"></i> Varování a zákazy <span class="badge bg-secondary">JIŽ BRZY</span>
+                </div>
+                @* <NavLink class="nav-link" ActiveClass="active" href="/Staff/Punishment"> *@
+                @*   <i class="fa-solid fa-person-harassing fa-fw"></i> Varování a zákazy *@
+                @* </NavLink> *@
               </li>
               <li class="nav-item">
                 <NavLink class="nav-link" ActiveClass="active" href="/Staff/User">

@@ -1,4 +1,5 @@
-﻿namespace BrokenGrenade.Common.Models;
+﻿using BrokenGrenade.Common.Enums;
+namespace BrokenGrenade.Common.Models;
 
 public class TrainingModel : ModelBase
 {
@@ -8,6 +9,8 @@ public class TrainingModel : ModelBase
     
     public UserModel? Creator { get; set; }
     public Guid CreatorId { get; set; }
+
+    public ulong? DiscordMessageId { get; set; }
 
     public TrainingModel(string name, DateTime date, string? note = null)
     {

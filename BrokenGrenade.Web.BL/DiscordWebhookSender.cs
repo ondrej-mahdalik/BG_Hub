@@ -1,4 +1,5 @@
-﻿using BrokenGrenade.Common.Models;
+﻿using BrokenGrenade.Common.Enums;
+using BrokenGrenade.Common.Models;
 using Discord;
 using Discord.Webhook;
 using Microsoft.Extensions.Configuration;
@@ -14,8 +15,9 @@ public class DiscordWebhookSender
     
     private readonly string _username;
     private readonly string _avatarUrl;
-    private readonly int _color;
+    private readonly uint _color;
     private readonly string _missionMention;
+    private readonly string _newbieMention;
     
     private readonly DiscordWebhookClient? _applicationWebhook;
     private readonly DiscordWebhookClient? _missionWebhook;
@@ -29,8 +31,9 @@ public class DiscordWebhookSender
         _baseUrl = configuration["BaseUrl"] ?? "https://hub.brokengrenade.cz";
         _username = configuration["Discord:Username"] ?? "Broken Grenade";
         _avatarUrl = configuration["Discord:AvatarUrl"] ?? "https://www.brokengrenade.cz/wp-content/uploads/2023/03/logo_kruh.jpg";
-        _color = int.Parse(configuration["Discord:Color"] ?? "9703438");
+        _color = uint.Parse(configuration["Discord:Color"] ?? "9703438");
         _missionMention = configuration["Discord:MissionMention"] ?? "<@&688394199984504996>";
+        _newbieMention = configuration["Discord:NewbieMention"] ?? "<@&611969964353519645>";
 
         if (configuration["Discord:ApplicationWebhookUrl"] is not null)
             _applicationWebhook = new DiscordWebhookClient(configuration["Discord:ApplicationWebhookUrl"]);
@@ -43,9 +46,6 @@ public class DiscordWebhookSender
 
         if (configuration["Discord:ManagementWebhookUrl"] is not null)
             _managementWebhook = new DiscordWebhookClient(configuration["Discord:ManagementWebhookUrl"]);
-
-        
-        
     }
 
     public void SendManagementMessage(string title, string message)
@@ -63,7 +63,7 @@ public class DiscordWebhookSender
 
         var builder = new EmbedBuilder()
             .WithTitle(mission.Name)
-            .WithColor((uint)_color)
+            .WithColor(_color)
             .WithUrl($"{_baseUrl}/Mission/{mission.Id}")
             .WithFields(
                 new EmbedFieldBuilder()
@@ -104,146 +104,96 @@ public class DiscordWebhookSender
             avatarUrl: _avatarUrl);
     }
     
-    public void SendApplication(ApplicationModel application)
+    public async Task<ulong?> SendApplicationAsync(ApplicationModel application)
     {
-        // if (_applicationWebhook is null)
-        // {
-        //     _logger.LogError("Failed to send application to Discord, application webhook URL is null");
-        //     return;
-        // }
-        //
-        // var embed = new Embed
-        // {
-        //     title = "Nová přihláška",
-        //     url = $"{_baseUrl}/Application/Detail/{application.Id}",
-        //     color = 9703438,
-        //     fields = new[]
-        //     {
-        //         new Field
-        //         {
-        //             name = "Přezdívka",
-        //             value = application.User?.Nickname,
-        //             inline = true
-        //         },
-        //         new Field
-        //         {
-        //             name = "Email",
-        //             value = application.Email,
-        //             inline = true
-        //         },
-        //         new Field
-        //         {
-        //             name = "Discord",
-        //             value = application.Discord,
-        //             inline = true
-        //         },
-        //         new Field
-        //         {
-        //             name = "Věk",
-        //             value = application.Age.ToString(),
-        //             inline = true
-        //         },
-        //         new Field
-        //         {
-        //             name = "Herní čas",
-        //             value = application.PlayTime.ToString(),
-        //             inline = true
-        //         },
-        //         new Field
-        //         {
-        //             name = "Popiš sám sebe",
-        //             value = application.About
-        //         },
-        //         new Field
-        //         {
-        //             name = "Předchozí zkušenosti",
-        //             value = application.PreviousExperience
-        //         },
-        //         new Field
-        //         {
-        //             name = "Proč se chceš přidat k BG?",
-        //             value = application.ReasonToJoin
-        //         },
-        //         new Field
-        //         {
-        //             name = "Co nám můžeš nabídnout?",
-        //             value = application.WhatCanYouOffer
-        //         },
-        //         new Field
-        //         {
-        //             name = "Reference",
-        //             value = application.HowDidYouFindUs
-        //         }
-        //     }
-        // };
-        //
-        // var message = new WebhookObject
-        // {
-        //     username = _username,
-        //     avatar_url = _avatarUrl,
-        //     embeds = new[] {embed}
-        // };
-        //
-        // try
-        // {
-        //     _applicationWebhook.PostData(message);
-        // }
-        // catch (Exception e)
-        // {
-        //     _logger.LogError(e, "Failed to send application to Discord");
-        // }
+        if (_applicationWebhook is null)
+        {
+            _logger.LogError("Failed to send application to Discord, application webhook URL is null");
+            return null;
+        }
+
+        var builder = new EmbedBuilder()
+            .WithTitle("Nová přihláška")
+            .WithColor(_color)
+            .WithUrl($"{_baseUrl}/Staff/Application/{application.Id}")
+            .WithFields(
+                new EmbedFieldBuilder()
+                    .WithName("Přezdívka")
+                    .WithValue(application.Nickname ?? "Neuvedeno")
+                    .WithIsInline(true),
+                new EmbedFieldBuilder()
+                    .WithName("Email")
+                    .WithValue(application.Email)
+                    .WithIsInline(true),
+                new EmbedFieldBuilder()
+                    .WithName("Discord")
+                    .WithValue(application.Discord)
+                    .WithIsInline(true),
+                new EmbedFieldBuilder()
+                    .WithName("Věk")
+                    .WithValue(application.Age)
+                    .WithIsInline(true),
+                new EmbedFieldBuilder()
+                    .WithName("Herní čas")
+                    .WithValue(application.PlayTime)
+                    .WithIsInline(true),
+                new EmbedFieldBuilder()
+                    .WithName("Popiš sám sebe")
+                    .WithValue(application.About),
+                new EmbedFieldBuilder()
+                    .WithName("Předchozí zkušenosti")
+                    .WithValue(application.PreviousExperience),
+                new EmbedFieldBuilder()
+                    .WithName("Proč se chceš přidat k BG?")
+                    .WithValue(application.ReasonToJoin),
+                new EmbedFieldBuilder()
+                    .WithName("Reference")
+                    .WithValue(application.HowDidYouFindUs)
+            );
+
+        return await _applicationWebhook.SendMessageAsync(text: "@everyone",
+            embeds: new[]
+            {
+                builder.Build()
+            },
+            username: _username,
+            avatarUrl: _avatarUrl);
     }
     
-    public void SendTraining(TrainingModel training)
+    public async Task<ulong?> SendTrainingAsync(TrainingModel training, TrainingMentionType mentionType)
     {
-        // if (_trainingWebhook is null)
-        // {
-        //     _logger.LogError("Failed to send training to Discord, training webhook URL is null");
-        //     return;
-        // }
-        //
-        // var embed = new Embed
-        // {
-        //     title = training.Name,
-        //     color = 9703438,
-        //     fields = new[]
-        //     {
-        //         new Field
-        //         {
-        //             name = "Instruktor",
-        //             value = training.Creator?.Nickname,
-        //             inline = true
-        //         },
-        //         new Field
-        //         {
-        //             name = "Datum",
-        //             value = training.Date.ToString("dd.MM.yyyy HH:mm"),
-        //             inline = true
-        //         }
-        //     }
-        // };
-        //
-        // if (!string.IsNullOrWhiteSpace(training.Note))
-        //     embed.fields = embed.fields.Append(new Field
-        //     {
-        //         name = "Poznámka",
-        //         value = training.Note
-        //     }).ToArray();
-        //
-        // var message = new WebhookObject
-        // {
-        //     username = _username,
-        //     avatar_url = _avatarUrl,
-        //     embeds = new[] { embed }
-        // };
-        //
-        // try
-        // {
-        //     _trainingWebhook.PostData(message);
-        // }
-        // catch (Exception e)
-        // {
-        //     _logger.LogError(e, "Failed to send training to Discord");
-        // }
+        if (_trainingWebhook is null)
+        {
+            _logger.LogError("Failed to send training to Discord, training webhook URL is null");
+            return null;
+        }
+
+        var builder = new EmbedBuilder()
+            .WithTitle(training.Name)
+            .WithColor(_color)
+            .WithUrl($"{_baseUrl}/Training/{training.Id}")
+            .WithFields(
+                new EmbedFieldBuilder()
+                    .WithName("Datum")
+                    .WithValue(training.Date.ToString("d. m. yyyy H:mm"))
+                    .WithIsInline(true),
+                new EmbedFieldBuilder()
+                    .WithName("Instruktor")
+                    .WithValue(training.Creator?.Nickname ?? "Neuvedeno")
+                    .WithIsInline(true)
+            );
+        
+        var mention = mentionType switch
+        {
+            TrainingMentionType.None => "",
+            TrainingMentionType.Newbies => _newbieMention,
+            TrainingMentionType.Subscribers => _missionMention,
+            _ => throw new ArgumentOutOfRangeException(nameof(mentionType), mentionType, null)
+        };
+        return await _trainingWebhook.SendMessageAsync(text: mention, embeds: new[]
+            {
+                builder.Build()
+            },
+            username: _username, avatarUrl: _avatarUrl);
     }
 }

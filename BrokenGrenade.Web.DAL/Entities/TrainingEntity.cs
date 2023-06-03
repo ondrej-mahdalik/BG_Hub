@@ -8,6 +8,7 @@ public class TrainingEntity : EntityBase
     
     public UserEntity? Creator { get; init; }
     public Guid? CreatorId { get; set; }
+    public ulong? DiscordMessageId { get; set; }
     
     public ICollection<UserIsParticipatingTrainingEntity> Participants { get; init; } = new List<UserIsParticipatingTrainingEntity>();
 

@@ -3,6 +3,7 @@
 @using BrokenGrenade.Common.Models
 @using BrokenGrenade.Web.App.Extensions
 @using BrokenGrenade.Web.BL.Facades
+@using BrokenGrenade.Common.Enums
 @inject UserFacade UserFacade
 @inject TrainingFacade TrainingFacade
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -42,8 +43,20 @@
                     <div class="row">
                         <div class="col">
                             <div class="mb-3">
-                                <label>Poznámka</label>
+                                <label class="form-label">Poznámka</label>
                                 <InputTextArea class="form-control" @bind-Value="_training.Note" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label">Zmínka</label>
+                                <select class="form-control" @bind="_mentionType">
+                                    <option value="@TrainingMentionType.None" selected>Bez zmínky</option>
+                                    <option value="@TrainingMentionType.Newbies">Zmínit nováčky</option>
+                                    <option value="@TrainingMentionType.Subscribers">Zmínit odběratele</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -63,7 +76,7 @@
 @code {
     private TrainingModel _training = new();
     private UserModel? _currentUser;
-
+    private TrainingMentionType _mentionType = TrainingMentionType.None;
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -79,7 +92,7 @@
             _training.Note = null;
         
         _training.CreatorId = _currentUser.Id;
-        await TrainingFacade.SaveAsync(_training);
+        await TrainingFacade.SaveAsync(_training, _mentionType);
 
         NavigationManager.NavigateTo($"/Training/{_training.Id}");
     }

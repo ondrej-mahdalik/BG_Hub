@@ -96,17 +96,14 @@ public class MissionFacade : CRUDFacade<MissionEntity, MissionModel>
 
     public override async Task<MissionModel> SaveAsync(MissionModel model)
     {
-        // Check if mission already exists
-        var sendNotification = await GetAsync(model.Id) is null;
-        
-        // Save the mission
-        var result = await base.SaveAsync(model);
-        
-        // Send notification if the mission is new
-        if (sendNotification)
-            model.DiscordMessageId = await _discordWebhookSender.SendMissionAsync(result);
+        var exists = await GetAsync(model.Id) is not null;
+        if (!exists)
+        {
+            model = await base.SaveAsync(model);
+            model.DiscordMessageId = await _discordWebhookSender.SendMissionAsync(model);
+        }
 
-        return result;
+        return await base.SaveAsync(model);
     }
 
     private IQueryable<MissionEntity> GetFiltered(MissionFilterModel? filter)

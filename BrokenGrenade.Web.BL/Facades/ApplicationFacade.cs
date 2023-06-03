@@ -9,8 +9,11 @@ namespace BrokenGrenade.Web.BL.Facades;
 
 public class ApplicationFacade : CRUDFacade<ApplicationEntity, ApplicationModel>
 {
-    public ApplicationFacade(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper) : base(unitOfWorkFactory, mapper)
+    private DiscordWebhookSender _discordWebhookSender;
+    
+    public ApplicationFacade(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper, DiscordWebhookSender discordWebhookSender) : base(unitOfWorkFactory, mapper)
     {
+        _discordWebhookSender = discordWebhookSender;
     }
 
     public async Task<int> GetUnhanledApplicationsCountAsync()
@@ -29,5 +32,17 @@ public class ApplicationFacade : CRUDFacade<ApplicationEntity, ApplicationModel>
             .FirstOrDefaultAsync(x => x.UserId == userId);
 
         return entity == null ? null : Mapper.Map<ApplicationModel>(entity);
+    }
+
+    public override async Task<ApplicationModel> SaveAsync(ApplicationModel model)
+    {
+        var exists = await GetAsync(model.Id) is not null;
+        if (!exists)
+        {
+            model = await base.SaveAsync(model);
+            await _discordWebhookSender.SendApplicationAsync(model);
+        }
+
+        return await base.SaveAsync(model);
     }
 }

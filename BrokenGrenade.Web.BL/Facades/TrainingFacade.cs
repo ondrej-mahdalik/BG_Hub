@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BrokenGrenade.Common.Enums;
 using BrokenGrenade.Common.Models;
 using BrokenGrenade.Common.Models.Filters;
 using BrokenGrenade.Web.DAL.Entities;
@@ -9,8 +10,11 @@ namespace BrokenGrenade.Web.BL.Facades;
 
 public class TrainingFacade : CRUDFacade<TrainingEntity, TrainingModel>
 {
-    public TrainingFacade(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper) : base(unitOfWorkFactory, mapper)
+    private DiscordWebhookSender _discordWebhookSender;
+    
+    public TrainingFacade(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper, DiscordWebhookSender discordWebhookSender) : base(unitOfWorkFactory, mapper)
     {
+        _discordWebhookSender = discordWebhookSender;
     }
 
     public async Task<List<TrainingModel>> GetUpcomingAsync()
@@ -68,5 +72,17 @@ public class TrainingFacade : CRUDFacade<TrainingEntity, TrainingModel>
             query = query.Where(x => x.Date.Date == filter.Date.Value.Date);
 
         return query;
+    }
+
+    public async Task<TrainingModel> SaveAsync(TrainingModel model, TrainingMentionType mentionType)
+    {
+        var exists = await GetAsync(model.Id) is not null;
+        if (!exists)
+        {
+            model = await base.SaveAsync(model);
+            model.DiscordMessageId = await _discordWebhookSender.SendTrainingAsync(model, mentionType);
+        }
+
+        return await base.SaveAsync(model);
     }
 }

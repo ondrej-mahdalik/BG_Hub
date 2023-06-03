@@ -1,4 +1,6 @@
 @page "/Staff/User"
+@using BrokenGrenade.Common.Permissions
+@attribute [Authorize(Policy = PolicyTypes.ManageUsers)]
 <h3>List</h3>
 
 @code {

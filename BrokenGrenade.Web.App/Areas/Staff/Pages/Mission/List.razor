@@ -14,6 +14,24 @@
 <PageTitle>Správa misí — BG Hub</PageTitle>
 
 <div class="pt-3 pb-2 mb-3">
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <AuthorizeView Policy="@PolicyTypes.ManageMissionTypes">
+                <Authorized>
+                    <a class="btn btn-sm btn-link text-decoration-none" href="/Staff/MissionType">
+                        <i class="fa-solid fa-gear"></i> Správa druhů misí
+                    </a>
+                </Authorized>
+            </AuthorizeView>
+            <AuthorizeView Policy="@PolicyTypes.ManageModpackTypes">
+                <Authorized>
+                    <a class="btn btn-sm btn-link text-decoration-none" href="/Staff/ModpackType">
+                        <i class="fa-solid fa-gear"></i> Správa modpacků
+                    </a>
+                </Authorized>
+            </AuthorizeView>
+        </div>
+    </div>
     <h1 class="h2">Správa misí</h1>
 </div>
 <div class="card bg-dark-subtle mb-4">
