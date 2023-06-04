@@ -17,59 +17,55 @@
 </div>
 <div class="card bg-dark-subtle mb-4">
     <div class="card-body">
-        <div class="row">
-            <div class="col">
-                <EditForm Model="@_training" OnValidSubmit="@CreateTrainingAsync">
-                    <div class="row text-danger">
-                        <div class="col">
-                            <DataAnnotationsValidator/>
-                            <ValidationSummary/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-sm-6">
-                            <div class="mb-3">
-                                <label class="form-label">Název výcviku</label>
-                                <InputText class="form-control" @bind-Value="_training.Name"/>
-                            </div>
-                        </div>
-                        <div class="col12 col-sm-6">
-                            <div class="mb-3">
-                                <label class="form-label">Datum</label>
-                                <InputDate class="form-control" Type="InputDateType.DateTimeLocal" @bind-Value="_training.Date"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="mb-3">
-                                <label class="form-label">Poznámka</label>
-                                <InputTextArea class="form-control" @bind-Value="_training.Note" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="mb-3">
-                                <label class="form-label">Zmínka</label>
-                                <select class="form-control" @bind="_mentionType">
-                                    <option value="@TrainingMentionType.None" selected>Bez zmínky</option>
-                                    <option value="@TrainingMentionType.Newbies">Zmínit nováčky</option>
-                                    <option value="@TrainingMentionType.Subscribers">Zmínit odběratele</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Vytvořit výcvik</button>
-                            </div>
-                        </div>
-                    </div>
-                </EditForm>
+        <EditForm Model="@_training" OnValidSubmit="@CreateTrainingAsync">
+            <div class="row text-danger">
+                <div class="col">
+                    <DataAnnotationsValidator/>
+                    <ValidationSummary/>
+                </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label">Název výcviku</label>
+                        <InputText class="form-control" @bind-Value="_training.Name"/>
+                    </div>
+                </div>
+                <div class="col12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label">Datum</label>
+                        <InputDate class="form-control" Type="InputDateType.DateTimeLocal" @bind-Value="_training.Date"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label class="form-label">Poznámka</label>
+                        <InputTextArea class="form-control" @bind-Value="_training.Note" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label class="form-label">Zmínka</label>
+                        <select class="form-control" @bind="_mentionType">
+                            <option value="@TrainingMentionType.None" selected>Bez zmínky</option>
+                            <option value="@TrainingMentionType.Newbies">Zmínit nováčky</option>
+                            <option value="@TrainingMentionType.Subscribers">Zmínit odběratele</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Vytvořit výcvik</button>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
     </div>
 </div>
 

@@ -1,8 +1,91 @@
 @page "/Staff/User/Create"
 @using BrokenGrenade.Common.Permissions
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.BL.Facades
+@inject UserFacade UserFacade
+@inject RoleFacade RoleFacade
+@inject NavigationManager NavigationManager
 @attribute [Authorize(Policy = PolicyTypes.ManageUsers)]
-<h3>Create</h3>
+
+<PageTitle>Nový uživatel — BG Hub</PageTitle>
+
+<div class="pt-3 pb-2 mb-3">
+    <h1 class="h2">Nový uživatel</h1>
+</div>
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-body">
+        <EditForm Model="_user" OnValidSubmit="CreateUserAsync">
+            <div class="row text-danger">
+                <div class="col">
+                    <DataAnnotationsValidator/>
+                    <ValidationSummary/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="nickname">Přezdívka</label>
+                        <InputText class="form-control" id="nickname" @bind-Value="_user.Nickname"></InputText>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="email">Email</label>
+                        <InputText class="form-control" id="email" @bind-Value="_user.Email"></InputText>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label></label>
+                        @if (_roles is null)
+                        {
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Načítání...</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <SfMultiSelect id="roleSelect"
+                                           CssClass="form-select"
+                                           TValue="Guid[]"
+                                           TItem="RoleModel"
+                                           DataSource="_roles"
+                                           @bind-Value="_selectedRoles"
+                                           AllowFiltering="true"
+                                           Placeholder="Výběr rolí">
+                                <MultiSelectFieldSettings Value="@nameof(RoleModel.Id)" Text="@nameof(RoleModel.Name)"></MultiSelectFieldSettings>
+                            </SfMultiSelect>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Vytvořit</button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
 
 @code {
-    
+    private UserModel _user = new(string.Empty, string.Empty);
+
+    private List<RoleModel>? _roles;
+    private Guid[] _selectedRoles = Array.Empty<Guid>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _roles = await RoleFacade.GetAsync();
+    }
+    private async Task CreateUserAsync()
+    {
+        if (_roles is not null)
+            _user.Roles = _roles.IntersectBy(_selectedRoles, x => x.Id).ToList();
+        
+        await UserFacade.CreateAsync(_user);
+        NavigationManager.NavigateTo("/Staff/User");
+    }
 }

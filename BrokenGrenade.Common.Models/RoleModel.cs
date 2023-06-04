@@ -21,6 +21,8 @@ namespace BrokenGrenade.Common.Models
         
         public int UserCount { get; set; }
         
+        public string? ColorHex { get; set; }
+        
         public bool CreateMissions { get; set; }
         public bool CreateTrainings { get; set; }
         public bool CreateArticles { get; set; }

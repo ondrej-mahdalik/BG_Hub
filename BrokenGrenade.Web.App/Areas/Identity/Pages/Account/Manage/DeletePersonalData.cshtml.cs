@@ -102,7 +102,7 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            await _userFacade.DeleteAsync(user.Id);
+            await _userFacade.DeleteAsync(user.Id, Input.Reason);
             await _signInManager.SignOutAsync();
 
             _logger.LogInformation("User with ID '{UserId}' deleted themselves.", user.Id);

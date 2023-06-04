@@ -58,6 +58,11 @@ public class BrokenGrenadeDbContext : CustomApiAuthorizationDbContext<UserEntity
             entity.HasMany(i => i.PunishmentsIssued)
                 .WithOne(i => i.IssuedBy)
                 .OnDelete(DeleteBehavior.SetNull);
+            
+            entity.HasMany(e => e.UserRoles)
+                .WithOne()
+                .HasForeignKey(ur => ur.UserId)
+                .IsRequired();
         });
 
         builder.Entity<ApplicationEntity>()

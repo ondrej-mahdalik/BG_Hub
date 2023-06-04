@@ -44,15 +44,6 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required(ErrorMessageResourceName = nameof(SharedResources.RequiredField), ErrorMessageResourceType = typeof(SharedResources))]
-            [EmailAddress(ErrorMessageResourceName = nameof(SharedResources.InvalidEmail), ErrorMessageResourceType = typeof(SharedResources))]
-            [Display(Name = nameof(SharedResources.Email), ResourceType = typeof(SharedResources))]
-            public string Email { get; set; }
-
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required(ErrorMessageResourceName = nameof(SharedResources.RequiredField), ErrorMessageResourceType = typeof(SharedResources))]
             [StringLength(100, ErrorMessageResourceName = nameof(SharedResources.StringLengthRange), ErrorMessageResourceType = typeof(SharedResources), MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = nameof(SharedResources.Password), ResourceType = typeof(SharedResources))]
@@ -73,20 +64,28 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             public string Code { get; set; }
+            
+            [Required]
+            public string UserId { get; set; }
 
         }
 
-        public IActionResult OnGet(string code = null)
+        public IActionResult OnGet(string code = null, string userId = default)
         {
             if (code == null)
             {
                 return BadRequest(_localizer[nameof(ResetPasswordResource.ResetCodeMissing)]);
             }
+            else if (userId == default)
+            {
+                return BadRequest(_localizer[nameof(ResetPasswordResource.UserIdMissing)]);
+            }
             else
             {
                 Input = new InputModel
                 {
-                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code))
+                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code)),
+                    UserId = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(userId))
                 };
                 return Page();
             }
@@ -99,7 +98,7 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
                 return Page();
             }
 
-            var user = await _userManager.FindByEmailAsync(Input.Email);
+            var user = await _userManager.FindByIdAsync(Input.UserId);
             if (user == null)
             {
                 // Don't reveal that the user does not exist

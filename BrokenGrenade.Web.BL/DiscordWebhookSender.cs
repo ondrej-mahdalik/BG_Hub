@@ -49,9 +49,22 @@ public class DiscordWebhookSender
             _managementWebhook = new DiscordWebhookClient(configuration["Discord:ManagementWebhookUrl"]);
     }
 
-    public void SendManagementMessage(string title, string message)
+    public async Task SendManagementMessageAsync(string title, string message)
     {
-        throw new NotImplementedException();
+        if (_managementWebhook is null)
+        {
+            _logger.LogError("Failed to send management message to Discord, management webhook URL is null");
+            return;
+        }
+
+        var builder = new EmbedBuilder()
+            .WithTitle(title)
+            .WithColor(_color)
+            .WithDescription(message);
+        
+        await _managementWebhook.SendMessageAsync(embeds: new[] { builder.Build() },
+            username: _username,
+            avatarUrl: _avatarUrl);
     }
 
     public async Task<ulong?> SendMissionAsync(MissionModel mission)

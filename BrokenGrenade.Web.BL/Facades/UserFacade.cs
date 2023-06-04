@@ -2,6 +2,7 @@
 using System.Text.Encodings.Web;
 using AutoMapper;
 using BrokenGrenade.Common.Models;
+using BrokenGrenade.Common.Models.Filters;
 using BrokenGrenade.Web.Common.Facades;
 using BrokenGrenade.Web.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -22,12 +23,13 @@ public class UserFacade : IAppFacade
     private readonly PunishmentFacade _punishmentFacade;
     private readonly RoleFacade _roleFacade;
     private readonly MissionFacade _missionFacade;
+    private readonly DiscordWebhookSender _discordWebhookSender;
 
     public UserFacade(UserManager<UserEntity> userManager,
         IMapper mapper, IEmailSender emailSender,
         IConfiguration configuration,
         ApplicationFacade applicationFacade,
-        PunishmentFacade punishmentFacade, RoleFacade roleFacade, MissionFacade missionFacade)
+        PunishmentFacade punishmentFacade, RoleFacade roleFacade, MissionFacade missionFacade, DiscordWebhookSender discordWebhookSender)
     {
         _userManager = userManager;
         _mapper = mapper;
@@ -37,13 +39,17 @@ public class UserFacade : IAppFacade
         _punishmentFacade = punishmentFacade;
         _roleFacade = roleFacade;
         _missionFacade = missionFacade;
+        _discordWebhookSender = discordWebhookSender;
     }
 
-    public async Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(Guid id, string? reason = null)
     {
         var entity = await _userManager.FindByIdAsync(id.ToString());
         if (entity is null)
             return;
+        
+        // Send management notification
+        await _discordWebhookSender.SendManagementMessageAsync("Odstraněný uživatel", $"Uživatel {entity.Nickname} byl odstraněn." + (!string.IsNullOrWhiteSpace(reason) ? $" Důvod: {reason}" : ""));
         
         // Update application
         var application = await _applicationFacade.GetByUserAsync(id);
@@ -61,9 +67,9 @@ public class UserFacade : IAppFacade
         await _userManager.DeleteAsync(entity);
     }
 
-    public async Task DeleteAsync(UserModel user)
+    public async Task DeleteAsync(UserModel user, string? reason = null)
     {
-        await DeleteAsync(user.Id);
+        await DeleteAsync(user.Id, reason);
     }
     
     public async Task<UserModel?> GetAsync(Guid id)
@@ -79,6 +85,39 @@ public class UserFacade : IAppFacade
         
         return model;
     }
+
+    public async Task<List<UserModel>> GetPaginatedAsync(UserFilterModel filter, int page)
+    {
+        var query = GetFiltered(filter);
+        var entities = await query
+            .OrderBy(x => x.Nickname)
+            .ThenBy(x => x.Id)
+            .Skip(page * 10)
+            .Take(10)
+            .ToListAsync();
+        
+        var users = _mapper.Map<List<UserModel>>(entities);
+        foreach (var user in users)
+        {
+            var roles = await _roleFacade.GetByUserAsync(user.Id);
+            user.Roles = roles;
+        }
+
+        return users;
+    }
+
+    public async Task<List<UserModel>> GetAsync(UserFilterModel filter)
+    {
+        var entities = await GetFiltered(filter).ToListAsync();
+        var users = _mapper.Map<List<UserModel>>(entities);
+        foreach (var user in users)
+        {
+            var roles = await _roleFacade.GetByUserAsync(user.Id);
+            user.Roles = roles;
+        }
+        
+        return users;
+    }
     
     public async Task<List<UserModel>> GetAsync()
     {
@@ -93,6 +132,11 @@ public class UserFacade : IAppFacade
         }
 
         return users;
+    }
+    
+    public async Task<int> GetCountAsync(UserFilterModel filter)
+    {
+        return await GetFiltered(filter).CountAsync();
     }
 
     public async Task<string> GetNicknameAsync(Guid userId)
@@ -192,5 +236,26 @@ public class UserFacade : IAppFacade
         
         return mission.CreatorId == userId || user.Roles.Any(x => x.ManageMissions);
 
+    }
+
+    private IQueryable<UserEntity> GetFiltered(UserFilterModel? filter)
+    {
+        var query = _userManager.Users
+            .Include(x => x.UserRoles)
+            .Where(x => true);
+        
+        if (filter is null)
+            return query;
+
+        if (!string.IsNullOrEmpty(filter.Nickname))
+            query = query.Where(x => x.Nickname.ToLower().Contains(filter.Nickname.ToLower()));
+
+        if (!string.IsNullOrEmpty(filter.Email))
+            query = query.Where(x => x.Email != null && x.Email.ToLower().Contains(filter.Email.ToLower()));
+
+        if (filter.RoleId is not null)
+            query = query.Where(x => x.UserRoles.Any(y => y.RoleId == filter.RoleId));
+
+        return query;
     }
 }

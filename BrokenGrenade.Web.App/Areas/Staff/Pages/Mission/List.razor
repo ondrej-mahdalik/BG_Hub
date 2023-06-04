@@ -37,12 +37,12 @@
 </div>
 <div class="card bg-dark-subtle mb-4">
     <div class="card-header">
-        <h6 class="card-title">Filtrování</h6>
+        <h6 class="card-title mb-0">Filtrování</h6>
     </div>
     <div class="card-body">
         <EditForm Model="_filter" id="filterForm" OnSubmit="() => FilterAsync()">
             <div class="row">
-                <div class="col col-sm-6">
+                <div class="col-12 col-sm-6">
                     <div class="mb-3">
                         <label for="searchName" class="form-label">Podle názvu</label>
                         <InputText class="form-control" @bind-Value="_filter.Name" id="searchName"/>
@@ -65,7 +65,7 @@
                         <InputDate Type="InputDateType.Date" class="form-control" @bind-Value="_filter.Date" id="searchDate"/>
                     </div>
                 </div>
-                <div class="col col-sm-6">
+                <div class="col-12 col-sm-6">
                     <div class="mb-3">
                         <label for="searchCreator" class="form-label">Podle autora</label>
                         <InputText class="form-control" @bind-Value="_filter.Creator" id="searchCreator"/>
@@ -91,7 +91,6 @@
                         <button type="submit" class="btn btn-primary">Filtrovat</button>
                         <button type="reset" class="btn btn-outline-secondary" @onclick="ResetFilter">Vymazat filtry</button>
                     </div>
-                    
                 </div>
             </div>
         </EditForm>
@@ -100,7 +99,7 @@
 <div class="card bg-dark-subtle mb-4">
     <div class="card-body">
         <PaginatedListComponent TItem="MissionModel"
-                                @ref="_list"
+                                @ref="_listComponent"
                                 Items="_missions"
                                 TotalCount="MissionFacade.GetCountAsync(_filter).Result"
                                 DetailPageUrl="/Mission/"
@@ -134,7 +133,7 @@
 @code {
     private List<MissionModel>? _missions;
     private MissionFilterModel _filter = new();
-    private PaginatedListComponent<MissionModel> _list = null!;
+    private PaginatedListComponent<MissionModel> _listComponent = null!;
 
     private List<MissionTypeModel>? _missionTypes;
     private List<ModpackTypeModel>? _modpackTypes;
@@ -153,7 +152,7 @@
     private void ResetFilter()
     {
         _filter = new();
-        _list.CurrentPage = 0;
+        _listComponent.CurrentPage = 0;
     }
     
     private async Task OnPageNumberChangedAsync(int page)
