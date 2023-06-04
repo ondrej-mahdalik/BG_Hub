@@ -1,9 +1,69 @@
-﻿@page "/Staff/ModpackType/Edit/{Id}"
+﻿@page "/Staff/ModpackType/Edit/{Id:guid}"
 @using BrokenGrenade.Common.Permissions
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.BL.Facades
+@inject ModpackTypeFacade ModpackTypeFacade
+@inject NavigationManager NavigationManager
 @attribute [Authorize(Policy = PolicyTypes.ManageModpackTypes)]
-<h3>Edit</h3>
+
+<PageTitle>Upravit modpack — BG Hub</PageTitle>
+
+<div class="pt-3 pb-2 mb-3">
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a class="btn btn-sm btn-link text-decoration-none" href="/Staff/ModpackType">
+                <i class="fa-solid fa-angles-left"></i> Zpět na všechny typy
+            </a>
+            <button class="btn btn-sm btn-link text-danger text-decoration-none">
+                <i class="fa-solid fa-trash-can"></i> Odstranit
+            </button>
+        </div>
+    </div>
+    <h1 class="h2">Upravit modpack</h1>
+</div>
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-body">
+        <EditForm Model="_modpackType" OnValidSubmit="EditModpackTypeAsync">
+            <div class="row text-danger">
+                <div class="col">
+                    <DataAnnotationsValidator/>
+                    <ValidationSummary/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label class="form-label">Název</label>
+                        <InputText class="form-control" @bind-Value="_modpackType.Name"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Uložit změny</button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
 
 @code {
     [Parameter]
     public Guid Id { get; set; }
+
+    private ModpackTypeModel? _modpackType;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _modpackType = await ModpackTypeFacade.GetAsync(Id);
+    }
+    
+    private async Task EditModpackTypeAsync()
+    {
+        if (_modpackType is null)
+            return;
+        
+        await ModpackTypeFacade.SaveAsync(_modpackType);
+        NavigationManager.NavigateTo($"/Staff/ModpackType{_modpackType.Id}");
+    }
 }
