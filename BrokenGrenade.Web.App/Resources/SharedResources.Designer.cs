@@ -230,5 +230,29 @@ namespace BrokenGrenade.Web.App.Resources {
                 return ResourceManager.GetString("MissionStartTime", resourceCulture);
             }
         }
+        
+        public static string TrainingCreator {
+            get {
+                return ResourceManager.GetString("TrainingCreator", resourceCulture);
+            }
+        }
+        
+        public static string TrainingNote {
+            get {
+                return ResourceManager.GetString("TrainingNote", resourceCulture);
+            }
+        }
+        
+        public static string TrainingDate {
+            get {
+                return ResourceManager.GetString("TrainingDate", resourceCulture);
+            }
+        }
+        
+        public static string TrainingName {
+            get {
+                return ResourceManager.GetString("TrainingName", resourceCulture);
+            }
+        }
     }
 }

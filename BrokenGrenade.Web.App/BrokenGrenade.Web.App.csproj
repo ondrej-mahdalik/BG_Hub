@@ -154,6 +154,18 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MissionDetailResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Public\Pages\Training\TrainingCalendarResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TrainingCalendarResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Public\Pages\Training\TrainingDetailResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TrainingDetailResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Public\Pages\Training\TrainingListResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TrainingListResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -301,6 +313,21 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>MissionDetailResources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Areas\Public\Pages\Training\TrainingCalendarResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TrainingCalendarResources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Areas\Public\Pages\Training\TrainingDetailResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TrainingDetailResources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Areas\Public\Pages\Training\TrainingListResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TrainingListResources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

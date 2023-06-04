@@ -1,13 +1,18 @@
 ﻿@page "/Calendar/Training"
 @using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Resources
+@using BrokenGrenade.Web.App.Resources.Areas.Public.Pages.Training
 @using BrokenGrenade.Web.BL.Facades
+@using Microsoft.Extensions.Localization
 @inject TrainingFacade TrainingFacade
 @inject NavigationManager NavigationManager
+@inject IStringLocalizer<TrainingCalendarResources> Localizer
+@inject IStringLocalizer<SharedResources> SharedLocalizer
 
-<PageTitle>Kalendář výcviků — BG Hub</PageTitle>
+<PageTitle>@Localizer[nameof(TrainingCalendarResources.HubPageTitle)] — BG Hub</PageTitle>
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2">Kalendář výcviků</h1>
+<div class="pt-3 pb-2 mb-3">
+    <h1 class="h2">@Localizer[nameof(TrainingCalendarResources.HubPageTitle)]</h1>
 </div>
 <div class="row">
     <div class="col">
@@ -22,7 +27,7 @@
                     <ScheduleEventSettings DataSource="_trainings" EnableTooltip="true">
                         <TooltipTemplate>
                             <div>
-                                <p class="mb-0">Instruktor: <b>@((context as TrainingModel)?.Creator?.Nickname ?? "Odstraněný uživatel")</b></p>
+                                <p class="mb-0">@SharedLocalizer[nameof(SharedResources.TrainingCreator)]: <b>@((context as TrainingModel)?.Creator?.Nickname ?? SharedLocalizer[nameof(SharedResources.DeletedUser)])</b></p>
                             </div>
                         </TooltipTemplate>
                         <ChildContent>
