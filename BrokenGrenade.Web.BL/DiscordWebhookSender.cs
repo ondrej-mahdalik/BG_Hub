@@ -1,4 +1,5 @@
 ﻿using BrokenGrenade.Common.Enums;
+using BrokenGrenade.Common.Extensions;
 using BrokenGrenade.Common.Models;
 using Discord;
 using Discord.Webhook;
@@ -72,7 +73,7 @@ public class DiscordWebhookSender
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
                     .WithName("Datum")
-                    .WithValue(mission.MissionStartDate.ToString("dd.MM.yyyy"))
+                    .WithValue(mission.MissionStartDate.ToDateString())
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
                     .WithName("Druh Mise")
@@ -175,7 +176,7 @@ public class DiscordWebhookSender
             .WithFields(
                 new EmbedFieldBuilder()
                     .WithName("Datum")
-                    .WithValue(training.Date.ToString("d. m. yyyy H:mm"))
+                    .WithValue(training.Date.ToDateTimeString())
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
                     .WithName("Instruktor")

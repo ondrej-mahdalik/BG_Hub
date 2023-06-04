@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="HubPageTitle" xml:space="preserve">
+        <value>Přidat se</value>
+    </data>
+    <data name="ConfirmationTitle" xml:space="preserve">
+        <value>Přihláška byla úspěšně odeslána!</value>
+    </data>
+    <data name="Confirmation1" xml:space="preserve">
+        <value>Nyní tvoji přihlášku posoudí vedení skupiny a instruktoři.</value>
+    </data>
+    <data name="Confirmation2" xml:space="preserve">
+        <value>Odpověď můžeš očekávat do 48 hodin, a to prostřednictvím Discordu, proto &lt;b&gt;je nutné se připojit na náš Discord server&lt;/b&gt;</value>
+    </data>
+    <data name="JoinDiscordButton" xml:space="preserve">
+        <value>Připojit se na BG Discord</value>
+    </data>
+    <data name="Nickname" xml:space="preserve">
+        <value>Přezdívka</value>
+    </data>
+    <data name="Email" xml:space="preserve">
+        <value>Email</value>
+    </data>
+    <data name="Discord" xml:space="preserve">
+        <value>Discord</value>
+    </data>
+    <data name="Steam" xml:space="preserve">
+        <value>Steam Profil</value>
+    </data>
+    <data name="Age" xml:space="preserve">
+        <value>Věk</value>
+    </data>
+    <data name="Playtime" xml:space="preserve">
+        <value>Nahraný čas v Arma 3</value>
+    </data>
+    <data name="About" xml:space="preserve">
+        <value>Popiš sám sebe</value>
+    </data>
+    <data name="Experience" xml:space="preserve">
+        <value>Máš již nějakou zkušenost s Arma skupinami?</value>
+    </data>
+    <data name="Optional" xml:space="preserve">
+        <value>(volitelné)</value>
+    </data>
+    <data name="Reason" xml:space="preserve">
+        <value>Proč se k nám chceš přidat?</value>
+    </data>
+    <data name="Offer" xml:space="preserve">
+        <value>Co nám můžeš nabídnout?</value>
+    </data>
+    <data name="Rules" xml:space="preserve">
+        <value>Prohlašuji, že jsem si důkladně přečetl &lt;a class="link-primary" href="https://www.brokengrenade.cz/pravidla/" target="_blank"&gt;pravidla&lt;/a&gt;&lt;i class="fa-solid fa-external-link fa-fw link-primary"&gt;&lt;/i&gt; a hodlám je dodržovat.</value>
+    </data>
+    <data name="MeetsRequirements" xml:space="preserve">
+        <value>Prohlašuji, že jsem starší 15-ti let, mám funkční a dostatečně kvalitní mikrofon a čas na hraní.</value>
+    </data>
+    <data name="GDPR" xml:space="preserve">
+        <value>Souhlasím se sdílením výše uvedených údajů s vedením skupiny a instruktory skupiny BG v souladu s &lt;a class="link link-primary" href="https://www.brokengrenade.cz/ochrana-osobnich-udaju/" target="_blank"&gt;Ochranou osobních údajů&lt;/a&gt;&lt;i class="fa-solid fa-external-link fa-fw link-primary"&gt;&lt;/i&gt;.</value>
+    </data>
+    <data name="Referral" xml:space="preserve">
+        <value>Jak jsi se o nás dozvěděl?</value>
+    </data>
+    <data name="SocialNetworks" xml:space="preserve">
+        <value>Sociální sítě (Facebook, Instagram)</value>
+    </data>
+    <data name="Videos" xml:space="preserve">
+        <value>Videa (YouTube, Twitch)</value>
+    </data>
+    <data name="Search" xml:space="preserve">
+        <value>Vyhledávání</value>
+    </data>
+    <data name="OtherMember" xml:space="preserve">
+        <value>Od jiného člena</value>
+    </data>
+    <data name="Other" xml:space="preserve">
+        <value>Jinak</value>
+    </data>
+    <data name="SendApplicationButton" xml:space="preserve">
+        <value>Odeslat přihlášku</value>
+    </data>
+    <data name="ErrorMessage" xml:space="preserve">
+        <value>Při odesílání přihlášky došlo k chybě:</value>
+    </data>
+</root>

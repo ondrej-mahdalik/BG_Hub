@@ -6,6 +6,7 @@
 @using BrokenGrenade.Web.App.Resources.Areas.Public.Pages
 @using Humanizer
 @using Microsoft.Extensions.Localization
+@using BrokenGrenade.Common.Extensions
 @inject MissionFacade MissionFacade
 @inject TrainingFacade TrainingFacade
 @inject IStringLocalizer<IndexResources> Localizer
@@ -53,37 +54,33 @@
                     <div class="col col-sm-6">
                         <div class="mb-3">
                             <h6 class="card-subtitle text-primary">@Localizer[nameof(IndexResources.MissionConnecting)]</h6>
-                            <p>@_todaysMission.MissionStartDate.AddMinutes(-30).Humanize()</p>
+                            <p>@_todaysMission.MissionStartDate.ToShortTimeString() (@_todaysMission.MissionStartDate.AddMinutes(-30).Humanize())</p>
                         </div>
                         <div class="mb-3">
                             <h6 class="card-subtitle text-primary">@Localizer[nameof(IndexResources.MissionStart)]</h6>
-                            <p>@_todaysMission.MissionStartDate.Humanize()</p>
+                            <p>@_todaysMission.MissionStartDate.ToShortTimeString() (@_todaysMission.MissionStartDate.Humanize())</p>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-auto">
-                        @if (_todaysMission.ModpackUrl is null)
-                        {
-                            <span class="fc-not-allowed" tabindex="0" data-bs-toggle="tooltip" data-bs-title="@Localizer[nameof(IndexResources.NoCustomModpack)]">
-                                <a class="btn btn-primary disabled" disabled>@Localizer[nameof(IndexResources.DownloadModpack)]</a>
-                            </span>
-                        }
-                        else
-                        {
+                    @if (_todaysMission.ModpackUrl is not null)
+                    {
+                        <div class="col-auto">
+
                             <a class="btn btn-primary" href="@_todaysMission.ModpackUrl">@Localizer[nameof(IndexResources.DownloadModpack)]</a>
-                        }
-                    </div>
+
+                        </div>
+                    }
                     <div class="col-auto">
                         @if (_todaysMission.SlottingSheetUrl is null)
                         {
                             <span class="fc-not-allowed" tabindex="0" data-bs-toggle="tooltip" data-bs-title="@Localizer[nameof(IndexResources.SlottingNotProvided)]">
-                                <a class="btn btn-primary disabled" disabled>@SharedLocalizer[nameof(SharedResources.Slotting)]</a>
+                                <a class="btn btn-primary disabled" disabled>@SharedLocalizer[nameof(SharedResources.Slotting)] <i class="fa-solid fa-external-link"></i></a>
                             </span>
                         }
                         else
                         {
-                            <a class="btn btn-primary" href="@_todaysMission.SlottingSheetUrl">@SharedLocalizer[nameof(SharedResources.Slotting)]</a>
+                            <a class="btn btn-primary" href="@_todaysMission.SlottingSheetUrl">@SharedLocalizer[nameof(SharedResources.Slotting)] <i class="fa-solid fa-external-link"></i></a>
                         }
                     </div>
                 </div>
@@ -109,7 +106,7 @@
                     <th>@Localizer[nameof(IndexResources.UpcomingMissionModpack)]</th>
                 </TableHeader>
                 <RowTemplate Context="mission">
-                    <td>@mission.MissionStartDate</td>
+                    <td>@mission.MissionStartDate.ToDateTimeString()</td>
                     <td>@mission.Name</td>
                     <td>@(mission.Creator?.Nickname ?? SharedLocalizer[nameof(SharedResources.DeletedUser)])</td>
                     <td>@(mission.ModpackType?.Name ?? SharedLocalizer[nameof(SharedResources.DeletedModpackType)])</td>
@@ -135,7 +132,7 @@
                     <th>@Localizer[nameof(IndexResources.UpcomingTrainingInstructor)]</th>
                 </TableHeader>
                 <RowTemplate Context="training">
-                    <td>@training.Date</td>
+                    <td>@training.Date.ToDateTimeString()</td>
                     <td>@training.Name</td>
                     <td>@(training.Creator?.Nickname ?? @SharedLocalizer[nameof(SharedResources.DeletedUser)])</td>
                 </RowTemplate>

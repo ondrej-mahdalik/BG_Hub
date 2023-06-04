@@ -1,24 +1,26 @@
 ﻿@page "/Apply"
 @using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Resources.Areas.Public.Pages
 @using BrokenGrenade.Web.BL.Facades
+@using Microsoft.Extensions.Localization
 @inject ApplicationFacade ApplicationFacade
+@inject IStringLocalizer<ApplyResources> Localizer
 
-<PageTitle>Přidat se — BG Hub</PageTitle>
+<PageTitle>@Localizer[nameof(IndexResources.HubPageTitle)] — BG Hub</PageTitle>
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Přidat se</h1>
+<div class="pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">@Localizer[nameof(IndexResources.HubPageTitle)]</h1>
 </div>
 <div class="card bg-dark-subtle mb-4">
     <div class="card-body transition-ease-in-out">
         @if (_submitted)
         {
             <div class="d-flex flex-column align-items-center">
-                <h4 class="text-center text-success">Přihláška byla úspěšně odeslána!</h4>
-                <p class="text-center">Nyní tvoji přihlášku posoudí vedení skupiny a instruktoři.</p>
-                <p class="text-center">Odpověď můžeš očekávat do 48 hodin, a to prostřednictvím Discordu,
-                    proto <b>je nutné se připojit na náš Discord server</b>.</p>
+                <h4 class="text-center text-success">@Localizer[nameof(ApplyResources.ConfirmationTitle)]</h4>
+                <p class="text-center">@Localizer[nameof(ApplyResources.Confirmation1)]</p>
+                <p class="text-center">@((MarkupString)Localizer[nameof(ApplyResources.Confirmation2)].Value)</p>
                 <a class="btn btn-warning" href="https://discord.gg/uWMUa6Ngb9" target="_blank">
-                    <i class="fa-brands fa-discord"></i> Připojit se na BG Discord
+                    <i class="fa-brands fa-discord"></i> @Localizer[nameof(ApplyResources.JoinDiscordButton)]
                 </a>
             </div>
         }
@@ -34,13 +36,13 @@
                 <div class="row">
                     <div class="col col-sm-6">
                         <div class="mb-3">
-                            <label for="nickname" class="form-label">Přezdívka</label>
+                            <label for="nickname" class="form-label">@Localizer[nameof(ApplyResources.Nickname)]</label>
                             <InputText id="nickname" tab class="form-control" @bind-Value="_application.Nickname"/>
                         </div>
                     </div>
                     <div class="col col-sm-6">
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
+                            <label for="email" class="form-label">@Localizer[nameof(ApplyResources.Email)]</label>
                             <InputText id="email" class="form-control" @bind-Value="_application.Email"/>
                         </div>
                     </div>
@@ -48,13 +50,13 @@
                 <div class="row">
                     <div class="col col-sm-6">
                         <div class="mb-3">
-                            <label for="discord" class="form-label">Discord</label>
+                            <label for="discord" class="form-label">@Localizer[nameof(ApplyResources.Discord)]</label>
                             <InputText id="discord" class="form-control" @bind-Value="_application.Discord"/>
                         </div>
                     </div>
                     <div class="col col-sm-6">
                         <div class="mb-3">
-                            <label for="steam" class="form-label">Steam Profil</label>
+                            <label for="steam" class="form-label">@Localizer[nameof(ApplyResources.Steam)]</label>
                             <InputText id="steam" class="form-control" @bind-Value="_application.SteamUrl"/>
                         </div>
                     </div>
@@ -62,13 +64,13 @@
                 <div class="row">
                     <div class="col col-sm-6">
                         <div class="mb-3">
-                            <label for="age" class="form-label">Věk</label>
+                            <label for="age" class="form-label">@Localizer[nameof(ApplyResources.Age)]</label>
                             <InputNumber TValue="int?" id="age" class="form-control" @bind-Value="_application.Age"/>
                         </div>
                     </div>
                     <div class="col col-sm-6">
                         <div class="mb-3">
-                            <label for="playtime" class="form-label">Nahraný čas v Arma 3</label>
+                            <label for="playtime" class="form-label">@Localizer[nameof(ApplyResources.Playtime)]</label>
                             <InputNumber TValue="int?" id="playtime" class="form-control" @bind-Value="_application.PlayTime"/>
                         </div>
                     </div>
@@ -76,19 +78,19 @@
                 <div class="row">
                     <div class="col">
                         <div class="mb-3">
-                            <label for="about" class="form-label">Popiš sám sebe</label>
+                            <label for="about" class="form-label">@Localizer[nameof(ApplyResources.About)]</label>
                             <InputTextArea id="about" class="form-control" @bind-Value="_application.About"/>
                         </div>
                         <div class="mb-3">
-                            <label for="experience" class="form-label">Máš již nějakou zkušenost s Arma skupinami? (volitelné)</label>
+                            <label for="experience" class="form-label">@Localizer[nameof(ApplyResources.Experience)] @Localizer[nameof(ApplyResources.Optional)]</label>
                             <InputTextArea id="experience" class="form-control" @bind-Value="_application.PreviousExperience"/>
                         </div>
                         <div class="mb-3">
-                            <label for="reason" class="form-label">Proč se k nám chceš přidat?</label>
+                            <label for="reason" class="form-label">@Localizer[nameof(ApplyResources.Reason)]</label>
                             <InputTextArea id="reason" class="form-control" @bind-Value="_application.ReasonToJoin"/>
                         </div>
                         <div class="mb-3">
-                            <label for="offer" class="form-label">Co nám můžeš nabídnout?</label>
+                            <label for="offer" class="form-label">@Localizer[nameof(ApplyResources.Offer)]</label>
                             <InputTextArea id="offer" class="form-control" @bind-Value="_application.WhatCanYouOffer"/>
                         </div>
                     </div>
@@ -97,32 +99,28 @@
                     <div class="col">
                         <div class="mb-3">
                             <InputCheckbox id="rules" class="form-check-input" @bind-Value="_application.AgreedToRules"/>
-                            <label for="rules" class="form-check-label">Prohlašuji, že jsem si důkladně přečetl
-                                <a class="link-primary" href="https://www.brokengrenade.cz/pravidla/" target="_blank">pravidla</a>
-                                <i class="fa-solid fa-external-link fa-fw link-primary"></i> a hodlám je dodržovat.</label>
+                            <label for="rules" class="form-check-label">@((MarkupString)Localizer[nameof(ApplyResources.Rules)].Value)</label>
                         </div>
                         <div class="mb-3">
                             <InputCheckbox id="requirements" class="form-check-input" @bind-Value="_application.MeetsRequirements"/>
-                            <label for="requirements" class="form-check-label">Prohlašuji, že jsem starší 15-ti let, mám funkční a dostatečně kvalitní mikrofon a čas na hraní.</label>
+                            <label for="requirements" class="form-check-label">@Localizer[nameof(ApplyResources.MeetsRequirements)]</label>
                         </div>
                         <div class="mb-3">
                             <InputCheckbox id="gdpr" class="form-check-input" @bind-Value="_application.AcceptedGdpr"/>
-                            <label for="gdpr" class="form-check-label">Souhlasím se sdílením výše uvedených údajů s vedením skupiny a instruktory skupiny BG v souladu s
-                                <a class="link link-primary" href="https://www.brokengrenade.cz/ochrana-osobnich-udaju/" target="_blank">Ochranou osobních údajů</a>
-                                <i class="fa-solid fa-external-link fa-fw link-primary"></i>.</label>
+                            <label for="gdpr" class="form-check-label">@((MarkupString)Localizer[nameof(ApplyResources.GDPR)].Value)</label>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col col-sm-6">
                         <div class="mb-3">
-                            <label for="referral" class="form-label">Jak jsi se o nás dozvěděl? (volitelné)</label>
+                            <label for="referral" class="form-label">@Localizer[nameof(ApplyResources.Referral)] @Localizer[nameof(ApplyResources.Optional)]</label>
                             <InputSelect id="referral" class="form-select" @bind-Value="_application.HowDidYouFindUs">
-                                <option value="Sociální sítě" selected>Sociální sítě (Facebook, Instagram, TikTok)</option>
-                                <option value="YouTube/Twitch">Videa (YouTube, Twitch)</option>
-                                <option value="Vyhledávání">Vyhledávání</option>
-                                <option value="Od jiného člena">Od jiného člena</option>
-                                <option value="Ostatní">Jinak</option>
+                                <option value="Sociální sítě" selected>@Localizer[nameof(ApplyResources.SocialNetworks)]</option>
+                                <option value="YouTube/Twitch">@Localizer[nameof(ApplyResources.Videos)]</option>
+                                <option value="Vyhledávání">@Localizer[nameof(ApplyResources.Search)]</option>
+                                <option value="Od jiného člena">@Localizer[nameof(ApplyResources.OtherMember)]</option>
+                                <option value="Ostatní">@Localizer[nameof(ApplyResources.Other)]</option>
                             </InputSelect>
                         </div>
                     </div>
@@ -130,7 +128,7 @@
                 <div class="row">
                     <div class="col">
                         <button type="submit" class="btn btn-primary @(_submitting ? "disabled" : "")" disabled="@_submitting">
-                            <i class="fa-solid fa-paper-plane fa-fw"></i> Odeslat přihlášku
+                            <i class="fa-solid fa-paper-plane fa-fw"></i> @Localizer[nameof(ApplyResources.SendApplicationButton)]
                         </button>
                         @if (_error is not null)
                         {
@@ -161,7 +159,7 @@
         }
         catch (Exception e)
         {
-            _error =  $"Při odesílání přihlášky došlo k chybě: {e.Message}";
+            _error =  $"{Localizer[nameof(ApplyResources.ErrorMessage)]} {e.Message}";
         }
         finally
         {

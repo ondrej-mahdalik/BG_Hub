@@ -138,6 +138,22 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>TwoFactorAuthenticationResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Public\Pages\ApplyResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ApplyResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Public\Pages\Mission\MissionCalendarResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MissionCalendarResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Public\Pages\Mission\MissionListResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MissionListResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Areas\Public\Pages\Mission\MissionDetailResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MissionDetailResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -265,6 +281,26 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>TwoFactorAuthenticationResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Areas\Public\Pages\ApplyResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ApplyResources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Areas\Public\Pages\Mission\MissionCalendarResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MissionCalendarResources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Areas\Public\Pages\Mission\MissionListResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MissionListResources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Areas\Public\Pages\Mission\MissionDetailResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MissionDetailResources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

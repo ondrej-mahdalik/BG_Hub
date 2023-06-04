@@ -2,33 +2,38 @@
 @using BrokenGrenade.Web.BL.Facades
 @using BrokenGrenade.Common.Models
 @using BrokenGrenade.Common.Models.Filters
+@using BrokenGrenade.Web.App.Resources
+@using BrokenGrenade.Web.App.Resources.Areas.Public.Pages.Mission
+@using Microsoft.Extensions.Localization
 @inject MissionFacade MissionFacade
 @inject MissionTypeFacade MissionTypeFacade
 @inject ModpackTypeFacade ModpackTypeFacade
 @inject UserFacade UserFacade
 @inject NavigationManager NavigationManager
+@inject IStringLocalizer<MissionListResources> Localizer
+@inject IStringLocalizer<SharedResources> SharedLocalizer
 
-<PageTitle>Seznam misí — BG Hub</PageTitle>
+<PageTitle>@Localizer[nameof(MissionListResources.HubPageTitle)] — BG Hub</PageTitle>
 
 <div class="pt-3 pb-2 mb-3">
-    <h1 class="h2">Seznam misí</h1>
+    <h1 class="h2">@Localizer[nameof(MissionListResources.HubPageTitle)]</h1>
 </div>
 <div class="card bg-dark-subtle mb-4">
     <div class="card-header">
-        <h6 class="card-title mb-0">Filtrování</h6>
+        <h6 class="card-title mb-0">@SharedLocalizer[nameof(SharedResources.Filter)]</h6>
     </div>
     <div class="card-body">
         <EditForm Model="_filter" id="filterForm" OnSubmit="() => FilterAsync()">
             <div class="row">
                 <div class="col col-sm-6">
                     <div class="mb-3">
-                        <label for="searchName" class="form-label">Podle názvu</label>
+                        <label for="searchName" class="form-label">@Localizer[nameof(MissionListResources.NameFilter)]</label>
                         <InputText class="form-control" @bind-Value="_filter.Name" id="searchName"/>
                     </div>
                     <div class="mb-3">
-                        <label for="searchMissionType" class="form-label">Podle kategorie</label>
+                        <label for="searchMissionType" class="form-label">@Localizer[nameof(MissionListResources.MissionTypeFilter)]</label>
                         <InputSelect TValue="Guid?" class="form-select" @bind-Value="_filter.MissionType" id="searchMissionType">
-                            <option value="" selected>Všechny kategorie</option>
+                            <option value="" selected>@Localizer[nameof(MissionListResources.AllTypes)]</option>
                             @if (_missionTypes is not null)
                             {
                                 @foreach (var type in _missionTypes)
@@ -39,13 +44,13 @@
                         </InputSelect>
                     </div>
                     <div class="mb-3">
-                        <label for="searchDate" class="form-label">Podle data</label>
+                        <label for="searchDate" class="form-label">@Localizer[nameof(MissionListResources.DateFilter)]</label>
                         <InputDate Type="InputDateType.Date" class="form-control" @bind-Value="_filter.Date" id="searchDate"/>
                     </div>
                 </div>
                 <div class="col col-sm-6">
                     <div class="mb-3">
-                        <label for="searchCreator" class="form-label">Podle autora</label>
+                        <label for="searchCreator" class="form-label">@Localizer[nameof(MissionListResources.CreatorFilter)]</label>
                         @if (_creatorName is not null)
                         {
                             <input class="form-control disabled" value="@_creatorName" disabled/>
@@ -56,9 +61,9 @@
                         }
                     </div>
                     <div class="mb-3">
-                        <label for="searchModpackType" class="form-label">Podle modpacku</label>
+                        <label for="searchModpackType" class="form-label">@Localizer[nameof(MissionListResources.ModpackFilter)]</label>
                         <InputSelect TValue="Guid?" class="form-select" @bind-Value="_filter.ModpackType" id="searchModpackType">
-                            <option value="" selected>Všechny modpacky</option>
+                            <option value="" selected>@Localizer[nameof(MissionListResources.AllModpacks)]</option>
                             @if (_modpackTypes is not null)
                             {
                                 @foreach (var type in _modpackTypes)
@@ -73,8 +78,8 @@
             <div class="row">
                 <div class="col">
                     <div class="d-flex flex-row gap-2">
-                        <button type="submit" class="btn btn-primary">Filtrovat</button>
-                        <button type="reset" class="btn btn-outline-secondary" @onclick="ResetFilter">Vymazat filtry</button>
+                        <button type="submit" class="btn btn-primary">@SharedLocalizer[nameof(SharedResources.FilterButton)]</button>
+                        <button type="reset" class="btn btn-outline-secondary" @onclick="ResetFilter">@SharedLocalizer[nameof(SharedResources.ResetFilterButton)]</button>
                     </div>
                     
                 </div>
@@ -89,22 +94,22 @@
                                 Items="_missions"
                                 DetailPageUrl="/Mission/"
                                 TotalCount="MissionFacade.GetCountAsync(_filter).Result"
-                                EmptyMessage="Nebyly nalezeny žádné mise"
+                                EmptyMessage="@Localizer[nameof(MissionListResources.NoMissionsFound)]"
                                 PageNumberChanged="OnPageNumberChangedAsync"
                                 Class="table-striped table-hover">
             <TableHeader>
-                <th>Datum</th>
-                <th>Název</th>
-                <th>Autor</th>
-                <th>Kategorie mise</th>
-                <th>Modpack</th>
+                <th>@SharedLocalizer[nameof(SharedResources.MissionDate)]</th>
+                <th>@SharedLocalizer[nameof(SharedResources.MissionName)]</th>
+                <th>@SharedLocalizer[nameof(SharedResources.MissionCreator)]</th>
+                <th>@SharedLocalizer[nameof(SharedResources.MissionType)]</th>
+                <th>@SharedLocalizer[nameof(SharedResources.ModpackType)]</th>
             </TableHeader>
             <RowTemplate Context="mission">
                 <td>@mission.MissionStartDate</td>
                 <td>@mission.Name</td>
-                <td>@(mission.Creator?.Nickname ?? "Odstraněný uživatel")</td>
-                <td>@(mission.MissionType?.Name ?? "Odstraněná kategorie")</td>
-                <td>@(mission.ModpackType?.Name ?? "Vlastní")</td>
+                <td>@(mission.Creator?.Nickname ?? @SharedLocalizer[nameof(SharedResources.DeletedUser)])</td>
+                <td>@(mission.MissionType?.Name ?? @SharedLocalizer[nameof(SharedResources.DeletedMissionCategory)])</td>
+                <td>@(mission.ModpackType?.Name ?? @SharedLocalizer[nameof(SharedResources.DeletedModpackType)])</td>
             </RowTemplate>
         </PaginatedListComponent>
     </div>

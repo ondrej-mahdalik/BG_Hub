@@ -1,95 +1,140 @@
 ﻿@page "/Mission/{Id:guid}"
 @using BrokenGrenade.Common.Models
 @using BrokenGrenade.Web.App.Extensions
+@using BrokenGrenade.Web.App.Resources
+@using BrokenGrenade.Web.App.Resources.Areas.Public.Pages.Mission
 @using BrokenGrenade.Web.BL.Facades
+@using Microsoft.Extensions.Localization
 @inject MissionFacade MissionFacade
 @inject UserFacade UserFacade
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IStringLocalizer<MissionDetailResources> Localizer
+@inject IStringLocalizer<SharedResources> SharedLocalizer
 
-<PageTitle>Všechny mise</PageTitle>
+<PageTitle>@(_mission?.Name ?? Localizer[nameof(MissionDetailResources.HubPageTitle)]) — BG Hub</PageTitle>
 
-@if (_mission is null)
-{
-    <p class="text-center fw-bold">Načítání...</p>
-}
-else
-{
     <div class="pt-3 pb-2 mb-3">
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
                 <a class="btn btn-sm btn-link text-decoration-none" href="/Mission">
-                    <i class="fa-solid fa-angles-left"></i> Všechny mise
+                    <i class="fa-solid fa-angles-left"></i> @Localizer[nameof(MissionDetailResources.AllMissionsButton)]
                 </a>
-                @if (_mission.CreatorId == _currentUser?.Id)
+                @if (_mission is not null && _mission.CreatorId == _currentUser?.Id)
                 {
                     @if (_mission.MissionStartDate > DateTime.Now.AddMinutes(30))
                     {
                         <a class="btn btn-sm btn-link text-decoration-none" href="/Staff/Mission/Edit/@_mission.Id">
-                            <i class="fa-solid fa-edit"></i> Upravit misi
+                            <i class="fa-solid fa-edit"></i> @Localizer[nameof(MissionDetailResources.EditMissionButton)]
                         </a>
                     }
                     else
                     {
-                        <span tabindex="0" data-bs-toggle="tooltip" data-bs-title="Misi lze upravovat nejpozději 30 minut před jejím začátkem">
+                        <span tabindex="0" data-bs-toggle="tooltip" data-bs-title="@Localizer[nameof(MissionDetailResources.EditMissionTooltip)]">
                             <a class="btn btn-sm btn-link text-decoration-none disabled" disabled>
-                                <i class="fa-solid fa-edit"></i> Upravit misi
+                                <i class="fa-solid fa-edit"></i> @Localizer[nameof(MissionDetailResources.EditMissionButton)]
                             </a>
                         </span>
                     }
                 }
             </div>
         </div>
-        <h1 class="h2">@_mission.Name</h1>
+        @if (_mission is null)
+        {
+            <h1 class="h2 placeholder-glow">
+                <span class="placeholder col-3"></span>
+            </h1>
+        }
+        else
+        {
+            <h1 class="h2">@_mission.Name</h1>
+        }
     </div>
-    <div class="row">
-        <div class="col-12 col-lg-6">
-            <div class="card bg-dark-subtle">
-                    <div class="card-header">
-                        <h5 class="h6 card-title mb-0">Základní Informace</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <h6 class="card-subtitle text-primary">Autor</h6>
-                                <p>@(_mission.Creator?.Nickname ?? "Odstraněný uživatel")</p>
-                                <h6 class="card-subtitle text-primary">Kategorie Mise</h6>
-                                <p>@(_mission.MissionType?.Name ?? "Odstraněná kategorie")</p>
-                                <h6 class="card-subtitle text-primary">Typ Modpacku</h6>
-                                <p>@(_mission.ModpackType?.Name ?? "Odstraněný typ")</p>
-                            </div>
-                            <div class="col">
-                                <h6 class="card-subtitle text-primary">Připojování na Server</h6>
-                                <p>@(_mission.MissionStartDate.AddMinutes(-30))</p>
-                                <h6 class="card-subtitle text-primary">Začátek Mise</h6>
-                                <p>@(_mission.MissionStartDate)</p>
-                            </div>
+<div class="row">
+    <div class="col-12 col-lg-6">
+        <div class="card bg-dark-subtle">
+            <div class="card-header">
+                <h5 class="h6 card-title mb-0">@Localizer[nameof(MissionDetailResources.BasicInformation)]</h5>
+            </div>
+            <div class="card-body">
+                @if (_mission is null)
+                {
+                    <div class="row">
+                        <div class="col">
+                            <h6 class="card-subtitle text-primary">@SharedLocalizer[nameof(SharedResources.MissionCreator)]</h6>
+                            <p class="placeholder-glow">
+                                <span class="placeholder col-6"></span>
+                            </p>
+                            <h6 class="card-subtitle text-primary">@SharedLocalizer[nameof(SharedResources.MissionType)]</h6>
+                            <p class="placeholder-glow">
+                                <span class="placeholder col-6"></span>
+                            </p>
+                            <h6 class="card-subtitle text-primary">@SharedLocalizer[nameof(SharedResources.ModpackType)]</h6>
+                            <p class="placeholder-glow">
+                                <span class="placeholder col-6"></span>
+                            </p>
                         </div>
-                        <div class="row">
-                            <div class="col-auto">
-                                <div class="d-flex flex-row gap-2">
-                                    @if (_mission.ModpackUrl is not null)
-                                    {
-                                        <a class="btn btn-primary" href="@_mission.ModpackUrl">Stáhnout Modpack</a>
-                                    }
-                                    @if (_mission.SlottingSheetUrl is null)
-                                    {
-                                        <span class="fc-not-allowed" tabindex="0" data-bs-toggle="tooltip" data-bs-title="Slotování nebylo autorem dodáno">
-                                            <a class="btn btn-primary disabled" disabled>Slotování</a>
-                                        </span>
-                                    }
-                                    else
-                                    {
-                                        <a class="btn btn-primary" href="@_mission.SlottingSheetUrl">Slotování</a>
-                                    }
-                                </div>
+                        <div class="col">
+                            <h6 class="card-subtitle text-primary">@SharedLocalizer[nameof(SharedResources.MissionConnectingToServer)]</h6>
+                            <p class="placeholder-glow">
+                                <span class="placeholder col-6"></span>
+                            </p>
+                            <h6 class="card-subtitle text-primary">@SharedLocalizer[nameof(SharedResources.MissionStartTime)]</h6>
+                            <p class="placeholder-glow">
+                                <span class="placeholder col-6"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="d-flex flex-row gap-2">
+                                <a class="btn btn-primary disabled placeholder col-3" ></a>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col">
+                            <h6 class="card-subtitle text-primary">@SharedLocalizer[nameof(SharedResources.MissionCreator)]</h6>
+                            <p>@(_mission.Creator?.Nickname ?? SharedLocalizer[nameof(SharedResources.DeletedUser)])</p>
+                            <h6 class="card-subtitle text-primary">@SharedLocalizer[nameof(SharedResources.MissionType)]</h6>
+                            <p>@(_mission.MissionType?.Name ?? SharedLocalizer[nameof(SharedResources.DeletedMissionCategory)])</p>
+                            <h6 class="card-subtitle text-primary">@SharedLocalizer[nameof(SharedResources.ModpackType)]</h6>
+                            <p>@(_mission.ModpackType?.Name ?? SharedLocalizer[nameof(SharedResources.DeletedModpackType)])</p>
+                        </div>
+                        <div class="col">
+                            <h6 class="card-subtitle text-primary">@SharedLocalizer[nameof(SharedResources.MissionConnectingToServer)]</h6>
+                            <p>@(_mission.MissionStartDate.AddMinutes(-30))</p>
+                            <h6 class="card-subtitle text-primary">@SharedLocalizer[nameof(SharedResources.MissionStartTime)]</h6>
+                            <p>@(_mission.MissionStartDate)</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="d-flex flex-row gap-2">
+                                @if (_mission.ModpackUrl is not null)
+                                {
+                                    <a class="btn btn-primary" href="@_mission.ModpackUrl">@Localizer[nameof(MissionDetailResources.DownloadModpackButton)]</a>
+                                }
+                                @if (_mission.SlottingSheetUrl is null)
+                                {
+                                    <span class="fc-not-allowed" tabindex="0" data-bs-toggle="tooltip" data-bs-title="@Localizer[nameof(MissionDetailResources.SlottingButtonTooltip)]">
+                                        <a class="btn btn-primary disabled" disabled>@Localizer[nameof(MissionDetailResources.SlottingButton)]</a>
+                                    </span>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-primary" href="@_mission.SlottingSheetUrl">@Localizer[nameof(MissionDetailResources.SlottingButton)] <i class="fa-solid fa-external-link"></i></a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
     </div>
-    
-}
+</div>
 
 @code
 {

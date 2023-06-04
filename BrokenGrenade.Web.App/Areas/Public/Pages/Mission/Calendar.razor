@@ -1,13 +1,18 @@
 ﻿@page "/Calendar/Mission"
 @using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Resources
+@using BrokenGrenade.Web.App.Resources.Areas.Public.Pages.Mission
 @using BrokenGrenade.Web.BL.Facades
+@using Microsoft.Extensions.Localization
 @inject MissionFacade MissionFacade
 @inject NavigationManager NavigationManager
+@inject IStringLocalizer<MissionCalendarResources> Localizer
+@inject IStringLocalizer<SharedResources> SharedLocalizer
 
-<PageTitle>Kalendář misí — BG Hub</PageTitle>
+<PageTitle>@Localizer[nameof(MissionCalendarResources.HubPageTitle)] — BG Hub</PageTitle>
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2">Kalendář misí</h1>
+<div class="pt-3 pb-2 mb-3">
+    <h1 class="h2">@Localizer[nameof(MissionCalendarResources.HubPageTitle)]</h1>
 </div>
 <div class="row">
     <div class="col">
@@ -22,9 +27,9 @@
                     <ScheduleEventSettings DataSource="_missions" EnableTooltip="true">
                         <TooltipTemplate>
                             <div>
-                                <p class="mb-0">Autor: <b>@((context as MissionModel)?.Creator?.Nickname ?? "Odstraněný uživatel")</b></p>
-                                <p class="mb-0">Typ mise: <b>@((context as MissionModel)?.MissionType?.Name ?? "Odstraněný typ")</b></p>
-                                <p class="mb-0">Modpack: <b>@((context as MissionModel)?.ModpackType?.Name ?? "Odstraněný typ")</b></p>
+                                <p class="mb-0">@SharedLocalizer[nameof(SharedResources.MissionCreator)]: <b>@((context as MissionModel)?.Creator?.Nickname ?? @SharedLocalizer[nameof(SharedResources.DeletedUser)])</b></p>
+                                <p class="mb-0">@SharedLocalizer[nameof(SharedResources.MissionType)]: <b>@((context as MissionModel)?.MissionType?.Name ?? @SharedLocalizer[nameof(SharedResources.DeletedMissionCategory)])</b></p>
+                                <p class="mb-0">@SharedLocalizer[nameof(SharedResources.ModpackType)]: <b>@((context as MissionModel)?.ModpackType?.Name ?? @SharedLocalizer[nameof(SharedResources.DeletedModpackType)])</b></p>
                             </div>
                         </TooltipTemplate>
                         <ChildContent>

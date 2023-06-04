@@ -5,6 +5,7 @@
 @using BrokenGrenade.Common.Models
 @using BrokenGrenade.Common.Models.Filters
 @using BrokenGrenade.Web.App.Extensions
+@using BrokenGrenade.Common.Extensions
 @inject MissionFacade MissionFacade
 @inject ModpackTypeFacade ModpackTypeFacade
 @inject MissionTypeFacade MissionTypeFacade
@@ -115,7 +116,7 @@
                 <th></th>
             </TableHeader>
             <RowTemplate Context="mission">
-                <td>@mission.MissionStartDate.ToShortString()</td>
+                <td>@mission.MissionStartDate.ToDateTimeString()</td>
                 <td>@mission.Name</td>
                 <td>@(mission.Creator?.Nickname ?? "Odstraněný uživatel")</td>
                 <td>@(mission.MissionType?.Name ?? "Odstraněná kategorie")</td>

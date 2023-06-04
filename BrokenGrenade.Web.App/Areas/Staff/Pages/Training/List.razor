@@ -4,6 +4,7 @@
 @using BrokenGrenade.Common.Permissions
 @using BrokenGrenade.Web.App.Extensions
 @using BrokenGrenade.Web.BL.Facades
+@using BrokenGrenade.Common.Extensions
 @inject TrainingFacade TrainingFacade
 @attribute [Authorize(Policy = PolicyTypes.ManageTrainings)]
 
@@ -70,7 +71,7 @@
                 <th></th>
             </TableHeader>
             <RowTemplate Context="training">
-                <td>@training.Date.ToShortString()</td>
+                <td>@training.Date.ToDateTimeString()</td>
                 <td>@training.Name</td>
                 <td>@(training.Creator?.Nickname ?? "Odstraněný uživatel")</td>
                 <td>

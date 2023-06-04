@@ -72,7 +72,7 @@ public class MissionFacade : CRUDFacade<MissionEntity, MissionModel>
     {
         await using var uow = UnitOfWorkFactory.Create();
         var query = GetFiltered(filter);
-        query = query.Where(x => x.MissionStartDate.Date <= DateTime.Today.AddDays(days));
+        query = query.Where(x => x.MissionStartDate.Date >= DateTime.Today && x.MissionStartDate.Date <= DateTime.Today.AddDays(days));
         
         return await Mapper.ProjectTo<MissionModel>(query).ToListAsync().ConfigureAwait(false);
     }
