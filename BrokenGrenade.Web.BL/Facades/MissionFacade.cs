@@ -124,6 +124,9 @@ public class MissionFacade : CRUDFacade<MissionEntity, MissionModel>
         
         if(!string.IsNullOrWhiteSpace(filter.Creator))
             query = query.Where(x => x.Creator != null && x.Creator.Nickname.ToLower().Contains(filter.Creator.ToLower()));
+
+        if (filter.CreatorId is not null)
+            query = query.Where(x => x.CreatorId == filter.CreatorId);
         
         if(filter.ModpackType is not null)
             query = query.Where(x => x.ModpackTypeId == filter.ModpackType);

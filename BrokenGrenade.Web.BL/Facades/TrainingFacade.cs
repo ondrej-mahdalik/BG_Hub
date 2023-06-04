@@ -68,6 +68,9 @@ public class TrainingFacade : CRUDFacade<TrainingEntity, TrainingModel>
         if(!string.IsNullOrWhiteSpace(filter.Creator))
             query = query.Where(x => x.Creator != null && x.Creator.Nickname.ToLower().Contains(filter.Creator.ToLower()));
         
+        if (filter.CreatorId is not null)
+            query = query.Where(x => x.CreatorId == filter.CreatorId);
+        
         if(filter.Date.HasValue)
             query = query.Where(x => x.Date.Date == filter.Date.Value.Date);
 

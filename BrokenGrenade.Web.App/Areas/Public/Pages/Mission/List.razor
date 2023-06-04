@@ -115,7 +115,6 @@
     [Parameter]
     [SupplyParameterFromQuery(Name = "creator_id")]
     public Guid? CreatorId { get; set; }
-
     private string? _creatorName;
 
     private List<MissionModel>? _missions;
@@ -139,6 +138,9 @@
     
     private async Task FilterAsync(int pageNumber = 0)
     {
+        if (CreatorId is not null)
+            _filter.CreatorId = CreatorId;
+        
         _missions = await MissionFacade.GetPaginatedAsync(_filter, pageNumber);
     }
 
@@ -146,9 +148,9 @@
     {
         NavigationManager.NavigateTo(new Uri(NavigationManager.Uri).GetLeftPart(UriPartial.Path));
         _filter = new();
-        _creatorName = null;
         CreatorId = null;
-        
+        _creatorName = null;
+
         _list.CurrentPage = 0;
     }
 
