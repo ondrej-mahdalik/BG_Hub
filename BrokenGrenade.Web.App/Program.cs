@@ -10,6 +10,7 @@ using BrokenGrenade.Web.DAL.Seeds;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -203,6 +204,10 @@ void UseDevelopmentSettings(WebApplication application)
 
 void UseRoutingAndSecurityFeatures(WebApplication application)
 {
+    application.UseForwardedHeaders(new ForwardedHeadersOptions
+    {
+        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+    });
     application.UseHttpsRedirection();
     application.UseStaticFiles();
     application.UseRouting();
@@ -215,7 +220,6 @@ void UseRoutingAndSecurityFeatures(WebApplication application)
     
     application.UseRequestLocalization(localizationOptions);
     
-    // application.UseIdentityServer();
     application.UseAuthentication();
     application.UseAuthorization();
     application.MapControllers();
