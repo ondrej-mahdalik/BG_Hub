@@ -1,6 +1,139 @@
 @page "/Staff/User"
-<h3>List</h3>
+@using BrokenGrenade.Common.Permissions
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Common.Models.Filters
+@using BrokenGrenade.Web.BL.Facades
+@inject RoleFacade RoleFacade
+@inject UserFacade UserFacade
+@attribute [Authorize(Policy = PolicyTypes.ManageUsers)]
 
+<PageTitle>Správa uživatelů — BG Hub</PageTitle>
+
+<div class="pt-3 pb-2 mb-3">
+    <h1 class="h2">Správa uživatelů</h1>
+</div>
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-header">
+        <h6 class="card-title mb-0">Filtrování</h6>
+    </div>
+    <div class="card-body">
+        <EditForm Model="_filter" OnSubmit="() => FilterAsync()">
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="searchNickname">Podle přezdívky</label>
+                        <InputText class="form-control" id="searchNickname" @bind-Value="_filter.Nickname"/>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="searchEmail">Podle emailu</label>
+                        <InputText class="form-control" id="searchEmail" @bind-Value="_filter.Email"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="searchRole">Podle role</label>
+                        <InputSelect class="form-select" id="searchRole" TValue="Guid?"
+                                     @bind-Value="_filter.RoleId">
+                            <option value="" selected>Všechny role</option>
+                            @foreach (var role in _roles ?? new List<RoleModel>())
+                            {
+                                <option value="@role.Id">@role.Name</option>
+                            }
+                        </InputSelect>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex flex-row gap-2">
+                        <button type="submit" class="btn btn-primary">Filtrovat</button>
+                        <button type="reset" class="btn btn-outline-secondary" @onclick="ResetFilter">Vymazat filtry</button>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-header">
+        <div class="d-flex justify-content-end">
+            <a class="btn btn-sm btn-primary" href="/Staff/User/Create">
+                <i class="fa-solid fa-plus"></i> Vytořit uživatele
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <PaginatedListComponent TItem="UserModel"
+                                @ref="_listComponent"
+                                Items="_users"
+                                TotalCount="UserFacade.GetCountAsync(_filter).Result"
+                                EmptyMessage="Nebyli nalezeni žádní uživatelé"
+                                PageNumberChanged="OnpageNumberChangedAsync"
+                                Class="table-striped">
+            <TableHeader>
+                <th>Přezdívka</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th></th>
+            </TableHeader>
+            <RowTemplate Context="user">
+                <td>@user.Nickname</td>
+                <td>@user.Email</td>
+                <td>
+                    <div class="d-flex flex-wrap gap-1">
+                        @foreach (var role in user.Roles.OrderByDescending(x => x.Order))
+                        {
+                            @if (role.ColorHex is null)
+                            {
+                                <span class="badge bg-secondary">@role.Name</span>
+                            }
+                            else
+                            {
+                                <span class="badge" style="background-color: @role.ColorHex">@role.Name</span>
+                            }
+                        }
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex justify-content-end">
+                        <a class="btn btn-sm btn-primary" href="/Staff/User/Edit/@user.Id">Upravit</a>
+                    </div>
+                </td>
+            </RowTemplate>
+        </PaginatedListComponent>
+    </div>
+</div>
 @code {
+    private List<UserModel>? _users;
+    private PaginatedListComponent<UserModel> _listComponent = null!;
+
+    private UserFilterModel _filter = new();
+
+    private List<RoleModel>? _roles;
     
+    protected override async Task OnInitializedAsync()
+    {
+        await FilterAsync();
+        _roles = await RoleFacade.GetAsync();
+    }
+
+    private async Task FilterAsync(int page = 0)
+    {
+        _users = await UserFacade.GetPaginatedAsync(_filter, page);
+    }
+
+    private void ResetFilter()
+    {
+        _filter = new();
+        _listComponent.CurrentPage = 0;
+    }
+
+    private async Task OnpageNumberChangedAsync(int page)
+    {
+        await FilterAsync(page);
+    }
 }

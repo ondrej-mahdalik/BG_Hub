@@ -1,6 +1,114 @@
 ﻿@page "/Staff/Training"
-<h3>List</h3>
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Common.Models.Filters
+@using BrokenGrenade.Common.Permissions
+@using BrokenGrenade.Web.App.Extensions
+@using BrokenGrenade.Web.BL.Facades
+@using BrokenGrenade.Common.Extensions
+@inject TrainingFacade TrainingFacade
+@attribute [Authorize(Policy = PolicyTypes.ManageTrainings)]
+
+<PageTitle>Správa výcviků - BG Hub</PageTitle>
+
+<div class="pt-3 pb-2 mb-3">
+    <h1 class="h2">Správa výcviků</h1>
+</div>
+
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-header">
+        <h6 class=" cardcard-title mb-0">Filtrování</h6>
+    </div>
+    <div class="card-body">
+        <EditForm Model="_filter" id="filterForm" OnSubmit="() => FilterAsync()">
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3"> 
+                        <label for="searchName" class="form-label">Podle názvu</label>
+                        <InputText id="searchName" class="form-control" @bind-Value="_filter.Name"/>
+                    </div>
+
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label for="searchAuthor" class="form-label">Podle autora</label>
+                        <InputText id="searchAuthor" class="form-control" @bind-Value="_filter.Creator"/>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="searchDate">Podle data</label>
+                        <InputDate Type="InputDateType.Date" class="form-control" id="searchDate" @bind-Value="_filter.Date"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">  
+                    <button type="submit" class="btn btn-primary">Filtrovat</button>
+                    <button type="reset" class="btn btn-outline-secondary" @onclick="ResetFilter">Vymazat filtry</button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-body">
+        <PaginatedListComponent TItem="TrainingModel"
+                                @ref="_list"
+                                Items="_trainings"
+                                TotalCount="TrainingFacade.GetCountAsync(_filter).Result"
+                                DetailPageUrl="/Training/"
+                                EmptyMessage="Nebyly nalezeny žádné výcviky."
+                                PageNumberChanged="OnPageNumberChangedAsync"
+                                Class="table-striped table-hover">
+            <TableHeader>
+                <th>Název</th>
+                <th>Datum</th>
+                <th>Instruktor</th>
+                <th></th>
+            </TableHeader>
+            <RowTemplate Context="training">
+                <td>@training.Date.ToDateTimeString()</td>
+                <td>@training.Name</td>
+                <td>@(training.Creator?.Nickname ?? "Odstraněný uživatel")</td>
+                <td>
+                    <div class="d-flex justify-content-end" @onclick:stopPropagation="true">
+                        <a class="btn btn-sm btn-primary" href="/Staff/Training/Edit/@training.Id">Upravit</a>
+                    </div>
+                </td>
+            </RowTemplate>
+        </PaginatedListComponent>
+    </div>
+</div>
+
+
 
 @code {
+
+    private List<TrainingModel>? _trainings;
+    private TrainingFilterModel _filter = new();
+    private PaginatedListComponent<TrainingModel> _list = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await FilterAsync();
+    }
     
+    private async Task FilterAsync(int page = 0)
+    {
+        _trainings = await TrainingFacade.GetPaginatedAsync(_filter, page);
+    }
+
+    private void ResetFilter()
+    {
+        _filter = new();
+        _list.CurrentPage = 0;
+    }
+    private async Task OnPageNumberChangedAsync(int page)
+    {
+        await FilterAsync(page);
+    }
 }

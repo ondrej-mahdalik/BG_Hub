@@ -1,0 +1,100 @@
+@typeparam TItem where TItem : BrokenGrenade.Common.Models.IModel
+@inject NavigationManager NavigationManager
+
+@if (Items is null)
+{
+    <table class="table table-striped @Class">
+        <thead>
+        <tr>
+            @TableHeader
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <p class="placeholder-glow">
+                    <span class="placeholder col-auto"></span>
+                </p>
+            </td>
+            <td>
+                <p class="placeholder-glow">
+                    <span class="placeholder col-auto"></span>
+                </p>
+            </td>
+            <td>
+                <p class="placeholder-glow">
+                    <span class="placeholder col-auto"></span>
+                </p>
+            </td>
+            <td>
+                <p class="placeholder-glow">
+                    <span class="placeholder col-auto"></span>
+                </p>
+            </td>
+            <td>
+                <p class="placeholder-glow">
+                    <span class="placeholder col-auto"></span>
+                </p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+}
+else
+{
+    <table class="table @Class">
+        <thead>
+        <tr>
+            @TableHeader
+        </tr>
+        </thead>
+        <tbody>
+        @if (Items.Count == 0)
+        {
+            <tr>
+                <td colspan="100">
+                    <p class="text-center fw-bold p-2">@EmptyMessage</p>
+                </td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in Items)
+            {
+                @if (DetailPageUrl is not null)
+                {
+                    <tr class="cursor-pointer" @onclick="() => NavigationManager.NavigateTo(DetailPageUrl + item.Id)">
+                        @RowTemplate?.Invoke(item)
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        @RowTemplate?.Invoke(item)
+                    </tr>
+                }
+            }
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    [Parameter]
+    public RenderFragment? TableHeader { get; set; }
+    
+    [Parameter]
+    public RenderFragment<TItem>? RowTemplate { get; set; }
+
+    [Parameter]
+    public List<TItem>? Items { get; set; }
+    
+    [Parameter]
+    public string? DetailPageUrl { get; set; }
+
+    [Parameter]
+    public string EmptyMessage { get; set; } = "Nebyly nalezeny žádné položky.";
+    
+    [Parameter]
+    public string? Class { get; set; }
+}

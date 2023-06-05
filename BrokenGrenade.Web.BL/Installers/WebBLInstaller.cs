@@ -25,6 +25,7 @@ public class WebBLInstaller : IInstaller
         serviceCollection.AddSingleton<PunishmentFacade>();
         serviceCollection.AddScoped<RoleFacade>();
         serviceCollection.AddScoped<UserFacade>();
+        serviceCollection.AddSingleton<DiscordWebhookSender>();
 
         serviceCollection.AddAutoMapper((serviceProvider, cfg) =>
         {

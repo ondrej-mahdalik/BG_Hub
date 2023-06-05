@@ -21,14 +21,19 @@ namespace BrokenGrenade.Common.Models
         
         public int UserCount { get; set; }
         
+        public string? ColorHex { get; set; }
+        
         public bool CreateMissions { get; set; }
         public bool CreateTrainings { get; set; }
+        public bool CreateArticles { get; set; }
         public bool ManageUsers { get; set; }
         public bool ManageRoles { get; set; }
         public bool ManageMissions { get; set; }
         public bool ManageTrainings { get; set; }
+        public bool ManageArticles { get; set; }
         public bool ManageMissionTypes { get; set; }
         public bool ManageModpackTypes { get; set; }
         public bool ManageApplications { get; set; }
+        public bool ManagePunishments { get; set; }
     }
 }

@@ -19,7 +19,7 @@
         </a>
         <ul id="menu_mission" class="submenu collapse list-unstyled" data-bs-target="#nav_accordion">
           <li class="nav-item ms-4">
-            <NavLink class="nav-link" ActiveClass="active" href="/Mission/Calendar">
+            <NavLink class="nav-link" ActiveClass="active" href="/Calendar/Mission">
               <i class="fa-solid fa-calendar fa-fw"></i> Kalendář misí
             </NavLink>
           </li>
@@ -37,7 +37,7 @@
         </a>
         <ul id="menu_training" class="submenu collapse list-unstyled" data-bs-target="#nav_accordion">
           <li class="nav-item ms-4">
-            <NavLink class="nav-link" ActiveClass="active" href="/Training/Calendar">
+            <NavLink class="nav-link" ActiveClass="active" href="/Calendar/Training">
               <i class="fa-solid fa-calendar fa-fw"></i> Kalendář výcviků
             </NavLink>
           </li>
@@ -49,9 +49,9 @@
         </ul>
       </li>
       <li class="nav-item">
-        <NavLink class="nav-link" ActiveClass="active" href="/Article">
-          <i class="fa-solid fa-book fa-fw"></i> Návody
-        </NavLink>
+        <a class="nav-link" ActiveClass="active" aria-disabled="True">
+          <i class="fa-solid fa-book fa-fw"></i> Návody <span class="badge bg-secondary">JIŽ BRZY</span>
+        </a>
       </li>
     </ul>
     <AuthorizeView Policy="@PolicyTypes.CreateMissions">
@@ -95,18 +95,24 @@
     <AuthorizeView Policy="@PolicyTypes.CreateArticles">
       <Authorized>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span class="text-uppercase">Návody</span>
+          <span class="text-uppercase">Návody <span class="badge bg-secondary">JIŽ BRZY</span></span>
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <NavLink class="nav-link" ActiveClass="active" href="@($"/Article?creator_id={context.GetUserId()}")">
+            <div class="nav-link">
               <i class="fa-solid fa-book fa-fw"></i> Moje návody
-            </NavLink>
+            </div>
+            @* <NavLink class="nav-link" ActiveClass="active" href="@($"/Article?creator_id={context.GetUserId()}")"> *@
+            @*   <i class="fa-solid fa-book fa-fw"></i> Moje návody *@
+            @* </NavLink> *@
           </li>
           <li class="nav-item">
-            <NavLink class="nav-link" ActiveClass="active" href="/Staff/Article/Create">
+            <div class="nav-link">
               <i class="fa-solid fa-file-circle-plus fa-fw"></i> Vytvořit návod
-            </NavLink>
+            </div>
+            @* <NavLink class="nav-link" ActiveClass="active" href="/Staff/Article/Create" disabled> *@
+            @*   <i class="fa-solid fa-file-circle-plus fa-fw"></i> Vytvořit návod *@
+            @* </NavLink> *@
           </li>
         </ul>
       </Authorized>
@@ -130,9 +136,12 @@
           <AuthorizeView Policy="@PolicyTypes.ManageUsers">
             <Authorized>
               <li class="nav-item">
-                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Punishment">
-                  <i class="fa-solid fa-person-harassing fa-fw"></i> Varování a zákazy
-                </NavLink>
+                <div class="nav-link">
+                  <i class="fa-solid fa-person-harassing fa-fw"></i> Varování a zákazy <span class="badge bg-secondary">JIŽ BRZY</span>
+                </div>
+                @* <NavLink class="nav-link" ActiveClass="active" href="/Staff/Punishment"> *@
+                @*   <i class="fa-solid fa-person-harassing fa-fw"></i> Varování a zákazy *@
+                @* </NavLink> *@
               </li>
               <li class="nav-item">
                 <NavLink class="nav-link" ActiveClass="active" href="/Staff/User">
@@ -168,9 +177,12 @@
           </AuthorizeView>
           <AuthorizeView Policy="@PolicyTypes.ManageTrainings"><Authorized>
               <li class="nav-item">
-                <NavLink class="nav-link" ActiveClass="active" href="/Staff/Article">
-                  <i class="fa-solid fa-book fa-fw"></i> Správa návodů
-                </NavLink>
+                <div class="nav-link">
+                  <i class="fa-solid fa-book fa-fw"></i> Správa návodů <span class="badge bg-secondary">JIŽ BRZY</span>
+                </div>
+                @* <NavLink class="nav-link" ActiveClass="active" href="/Staff/Article"> *@
+                @*   <i class="fa-solid fa-book fa-fw"></i> Správa návodů *@
+                @* </NavLink> *@
               </li></Authorized>
           </AuthorizeView>
         </ul>

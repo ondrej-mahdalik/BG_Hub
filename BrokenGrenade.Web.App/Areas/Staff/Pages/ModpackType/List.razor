@@ -1,8 +1,57 @@
 ﻿@page "/Staff/ModpackType"
 @using BrokenGrenade.Common.Permissions
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.BL.Facades
+@inject ModpackTypeFacade ModpackTypeFacade
 @attribute [Authorize(Policy = PolicyTypes.ManageModpackTypes)]
-<h3>List</h3>
+
+<PageTitle>Správa modpacků — BG Hub</PageTitle>
+
+<div class="pt-3 pb-2 mb-3">
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a class="btn btn-sm btn-link text-decoration-none" href="/Staff/Mission">
+                <i class="fa-solid fa-angles-left"></i> Zpět na správu misí
+            </a>
+        </div>
+    </div>
+    <h1 class="h2">Správa modpacků</h1>
+</div>
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-header">
+        <div class="d-flex justify-content-end">
+            <a class="btn btn-sm btn-primary" href="/Staff/ModpackType/Create">
+                <i class="fa-solid fa-plus"></i> Nový modpack
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <ListComponent TItem="ModpackTypeModel"
+                       @ref="_listComponent"
+                       Items="_modpackTypes"
+                       Class="table-striped">
+            <TableHeader>
+                <th>Název</th>
+                <th></th>
+            </TableHeader>
+            <RowTemplate Context="missionType">
+                <td>@missionType.Name</td>
+                <td>
+                    <div class="d-flex justify-content-end">
+                        <a class="btn btn-sm btn-primary" href="/Staff/ModpackType/Edit/@missionType.Id">Upravit</a>
+                    </div>
+                </td>
+            </RowTemplate>
+        </ListComponent>
+    </div>
+</div>
 
 @code {
-    
+    private ListComponent<ModpackTypeModel> _listComponent = null!;
+    private List<ModpackTypeModel>? _modpackTypes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _modpackTypes = await ModpackTypeFacade.GetAsync();
+    }
 }

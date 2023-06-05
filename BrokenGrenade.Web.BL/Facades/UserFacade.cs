@@ -2,6 +2,7 @@
 using System.Text.Encodings.Web;
 using AutoMapper;
 using BrokenGrenade.Common.Models;
+using BrokenGrenade.Common.Models.Filters;
 using BrokenGrenade.Web.Common.Facades;
 using BrokenGrenade.Web.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -17,32 +18,38 @@ public class UserFacade : IAppFacade
     private readonly IConfiguration _configuration;
     private readonly IEmailSender _emailSender;
     private readonly IMapper _mapper;
-    private readonly RoleManager<RoleEntity> _roleManager;
     private readonly UserManager<UserEntity> _userManager;
-    private ApplicationFacade _applicationFacade;
-    private PunishmentFacade _punishmentFacade;
-    
+    private readonly ApplicationFacade _applicationFacade;
+    private readonly PunishmentFacade _punishmentFacade;
+    private readonly RoleFacade _roleFacade;
+    private readonly MissionFacade _missionFacade;
+    private readonly DiscordWebhookSender _discordWebhookSender;
+
     public UserFacade(UserManager<UserEntity> userManager,
-        RoleManager<RoleEntity> roleManager,
         IMapper mapper, IEmailSender emailSender,
         IConfiguration configuration,
         ApplicationFacade applicationFacade,
-        PunishmentFacade punishmentFacade)
+        PunishmentFacade punishmentFacade, RoleFacade roleFacade, MissionFacade missionFacade, DiscordWebhookSender discordWebhookSender)
     {
         _userManager = userManager;
-        _roleManager = roleManager;
         _mapper = mapper;
         _emailSender = emailSender;
         _configuration = configuration;
         _applicationFacade = applicationFacade;
         _punishmentFacade = punishmentFacade;
+        _roleFacade = roleFacade;
+        _missionFacade = missionFacade;
+        _discordWebhookSender = discordWebhookSender;
     }
 
-    public async Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(Guid id, string? reason = null)
     {
         var entity = await _userManager.FindByIdAsync(id.ToString());
         if (entity is null)
             return;
+        
+        // Send management notification
+        await _discordWebhookSender.SendManagementMessageAsync("Odstraněný uživatel", $"Uživatel {entity.Nickname} byl odstraněn." + (!string.IsNullOrWhiteSpace(reason) ? $" Důvod: {reason}" : ""));
         
         // Update application
         var application = await _applicationFacade.GetByUserAsync(id);
@@ -60,9 +67,9 @@ public class UserFacade : IAppFacade
         await _userManager.DeleteAsync(entity);
     }
 
-    public async Task DeleteAsync(UserModel user)
+    public async Task DeleteAsync(UserModel user, string? reason = null)
     {
-        await DeleteAsync(user.Id);
+        await DeleteAsync(user.Id, reason);
     }
     
     public async Task<UserModel?> GetAsync(Guid id)
@@ -71,9 +78,45 @@ public class UserFacade : IAppFacade
         if (entity is null)
             return null;
         
+        var roles = await _roleFacade.GetByUserAsync(id);
+        
         var model = _mapper.Map<UserModel>(entity);
-        await GetRolesAsync(model);
+        model.Roles = roles;
+        
         return model;
+    }
+
+    public async Task<List<UserModel>> GetPaginatedAsync(UserFilterModel filter, int page)
+    {
+        var query = GetFiltered(filter);
+        var entities = await query
+            .OrderBy(x => x.Nickname)
+            .ThenBy(x => x.Id)
+            .Skip(page * 10)
+            .Take(10)
+            .ToListAsync();
+        
+        var users = _mapper.Map<List<UserModel>>(entities);
+        foreach (var user in users)
+        {
+            var roles = await _roleFacade.GetByUserAsync(user.Id);
+            user.Roles = roles;
+        }
+
+        return users;
+    }
+
+    public async Task<List<UserModel>> GetAsync(UserFilterModel filter)
+    {
+        var entities = await GetFiltered(filter).ToListAsync();
+        var users = _mapper.Map<List<UserModel>>(entities);
+        foreach (var user in users)
+        {
+            var roles = await _roleFacade.GetByUserAsync(user.Id);
+            user.Roles = roles;
+        }
+        
+        return users;
     }
     
     public async Task<List<UserModel>> GetAsync()
@@ -83,9 +126,23 @@ public class UserFacade : IAppFacade
 
         var users = _mapper.Map<List<UserModel>>(entities);
         foreach (var user in users)
-            await GetRolesAsync(user);
+        {
+            var roles = await _roleFacade.GetByUserAsync(user.Id);
+            user.Roles = roles;
+        }
 
         return users;
+    }
+
+    public async Task<List<UserModel>> GetWithoutNavigationPropertiesAsync()
+    {
+        var query = _userManager.Users;
+        return await _mapper.ProjectTo<UserModel>(query).ToListAsync().ConfigureAwait(false);
+    }
+    
+    public async Task<int> GetCountAsync(UserFilterModel filter)
+    {
+        return await GetFiltered(filter).CountAsync();
     }
 
     public async Task<string> GetNicknameAsync(Guid userId)
@@ -163,22 +220,9 @@ public class UserFacade : IAppFacade
             $"Dobrý den,<br><br>Pro resetování hesla klikněte na <a href='{callbackUrl}'>tento odkaz</a>." +
             "<br><br>S pozdravem,<br><br>Broken Grenade");
     }
-    
-    private async Task GetRolesAsync(UserModel user)
-    {
-        var entity = await _userManager.FindByIdAsync(user.Id.ToString());
-        if (entity is null)
-            throw new InvalidOperationException("User not found");
-        
-        var roles = await _userManager.GetRolesAsync(entity);
-        user.Roles = _mapper.Map<List<RoleModel>>(roles.Select(x => _roleManager.FindByNameAsync(x).Result).ToList());
-    }
-    
+
     private async Task AssignRolesAsync(UserModel user)
     {
-        if (user.Roles is null)
-            return;
-        
         var entity = await _userManager.FindByIdAsync(user.Id.ToString());
         if (entity is null)
             throw new InvalidOperationException("User not found");
@@ -186,5 +230,38 @@ public class UserFacade : IAppFacade
         var allRoles = await _userManager.GetRolesAsync(entity);
         await _userManager.RemoveFromRolesAsync(entity, allRoles);
         await _userManager.AddToRolesAsync(entity, user.Roles.Select(x => x.Name));
+    }
+
+    public async Task<bool> CanUserEditMissionAsync(Guid userId, Guid missionId)
+    {
+        var user = await GetAsync(userId);
+        var mission = await _missionFacade.GetAsync(missionId);
+        
+        if (user is null || mission is null)
+            return false;
+        
+        return mission.CreatorId == userId || user.Roles.Any(x => x.ManageMissions);
+
+    }
+
+    private IQueryable<UserEntity> GetFiltered(UserFilterModel? filter)
+    {
+        var query = _userManager.Users
+            .Include(x => x.UserRoles)
+            .Where(x => true);
+        
+        if (filter is null)
+            return query;
+
+        if (!string.IsNullOrEmpty(filter.Nickname))
+            query = query.Where(x => x.Nickname.ToLower().Contains(filter.Nickname.ToLower()));
+
+        if (!string.IsNullOrEmpty(filter.Email))
+            query = query.Where(x => x.Email != null && x.Email.ToLower().Contains(filter.Email.ToLower()));
+
+        if (filter.RoleId is not null)
+            query = query.Where(x => x.UserRoles.Any(y => y.RoleId == filter.RoleId));
+
+        return query;
     }
 }

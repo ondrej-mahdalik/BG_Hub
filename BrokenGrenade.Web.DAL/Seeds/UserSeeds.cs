@@ -23,6 +23,8 @@ public static class UserSeeds
         await userManager.AddToRoleAsync(Administrator, RoleSeeds.Administrator.Name!);
         if (onlyDefaultAccount)
             return;
+
+        await userManager.AddToRoleAsync(Administrator, RoleSeeds.MissionMaker.Name!);
         
         await userManager.CreateAsync(Borek, "Pass123$");
         await userManager.AddToRoleAsync(Borek, RoleSeeds.MissionMaker.Name!);

@@ -1,9 +1,159 @@
-﻿@page "/Staff/Role/Edit/{Id}"
+﻿@page "/Staff/Role/Edit/{Id:guid}"
 @using BrokenGrenade.Common.Permissions
+@using BrokenGrenade.Web.BL.Facades
+@using BrokenGrenade.Common.Models
+@inject RoleFacade RoleFacade
+@inject NavigationManager NavigationManager
 @attribute [Authorize(Policy = PolicyTypes.ManageRoles)]
-<h3>Edit</h3>
+
+<PageTitle>Upravit roli — BG Hub</PageTitle>
+
+<div class="pt-3 pb-2 mb-3">
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a class="btn btn-sm btn-link text-decoration-none" href="/Staff/Role">
+                <i class="fa-solid fa-angles-left"></i> Zpět na všechny role
+            </a>
+            <button class="btn btn-sm btn-link text-danger text-decoration-none">
+                <i class="fa-solid fa-trash-can"></i> Odstranit
+            </button>
+        </div>
+    </div>
+    <h1 class="h2">Upravit roli</h1>
+</div>
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-body">
+        @if (_role is null)
+        {
+        }
+        else
+        {
+            <EditForm Model="_role" OnValidSubmit="EditRoleAsync">
+                <div class="row text-danger">
+                    <div class="col">
+                        <DataAnnotationsValidator/>
+                        <ValidationSummary/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="roleName">Název</label>
+                            <InputText class="form-control" id="roleName" @bind-Value="_role.Name"/>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="order">Pořadí</label>
+                            <InputNumber class="form-control" id="order" @bind-Value="_role.Order"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label>Oprávnění</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-auto">
+                        <div class="form-check form-switch mb-3">
+                            <InputCheckbox class="form-check-input" role="switch" id="createArticles" @bind-Value="_role.CreateArticles"/>
+                            <label class="form-check-label" for="createArticles">Vytvářet návody</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-auto">
+                        <div class="form-check form-switch mb-3">
+                            <InputCheckbox class="form-check-input" role="switch" id="createMissions" @bind-Value="_role.CreateMissions"/>
+                            <label class="form-check-label" for="createMissions">Vytvářet mise</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-auto">
+                        <div class="form-check form-switch mb-3">
+                            <InputCheckbox class="form-check-input" role="switch" id="createTrainings" @bind-Value="_role.CreateTrainings"/>
+                            <label class="form-check-label" for="createTrainings">Vytvářet výcviky</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-auto">
+                        <div class="form-check form-switch mb-3">
+                            <InputCheckbox class="form-check-input" role="switch" id="manageArticles" @bind-Value="_role.ManageArticles"/>
+                            <label class="form-check-label" for="manageArticles">Spravovat návody</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-auto">
+                        <div class="form-check form-switch mb-3">
+                            <InputCheckbox class="form-check-input" role="switch" id="manageMissions" @bind-Value="_role.ManageMissions"/>
+                            <label class="form-check-label" for="manageMissions">Spravovat mise</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-auto">
+                        <div class="form-check form-switch mb-3">
+                            <InputCheckbox class="form-check-input" role="switch" id="manageMissionTypes" @bind-Value="_role.ManageMissionTypes"/>
+                            <label class="form-check-label" for="manageMissionTypes">Spravovat typy misí</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-auto">
+                        <div class="form-check form-switch mb-3">
+                            <InputCheckbox class="form-check-input" role="switch" id="manageModpackTypes" @bind-Value="_role.ManageModpackTypes"/>
+                            <label class="form-check-label" for="manageModpackTypes">Spravovat modpacky</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-auto">
+                        <div class="form-check form-switch mb-3">
+                            <InputCheckbox class="form-check-input" role="switch" id="manageTrainings" @bind-Value="_role.ManageTrainings"/>
+                            <label class="form-check-label" for="manageTrainings">Spravovat výcviky</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-auto">
+                        <div class="form-check form-switch mb-3">
+                            <InputCheckbox class="form-check-input" role="switch" id="manageApplications" @bind-Value="_role.ManageApplications"/>
+                            <label class="form-check-label" for="manageApplications">Spravovat přihlášky</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-auto">
+                        <div class="form-check form-switch mb-3">
+                            <InputCheckbox class="form-check-input" role="switch" id="manageUsers" @bind-Value="_role.ManageUsers"/>
+                            <label class="form-check-label" for="manageUsers">Spravovat uživatele</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-auto">
+                        <div class="form-check form-switch mb-3">
+                            <InputCheckbox class="form-check-input" role="switch" id="manageRoles" @bind-Value="_role.ManageRoles"/>
+                            <label class="form-check-label" for="manageRoles">Spravovat role</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-auto">
+                        <div class="form-check form-switch mb-3">
+                            <InputCheckbox class="form-check-input" role="switch" id="managePunishments" @bind-Value="_role.ManagePunishments"/>
+                            <label class="form-check-label" for="managePunishments">Spravovat tresty</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Uložit změny</button>
+                    </div>
+                </div>
+            </EditForm>
+        }
+    </div>
+</div>
 
 @code {
     [Parameter]
     public Guid Id { get; set; }
+    
+    private RoleModel? _role;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _role = await RoleFacade.GetAsync(Id);
+    }
+    private async Task EditRoleAsync()
+    {
+        if (_role is null)
+            return;
+        
+        await RoleFacade.UpdateAsync(_role);
+        NavigationManager.NavigateTo("/Staff/Role");
+    }
 }

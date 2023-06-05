@@ -1,29 +1,48 @@
 ﻿@page "/Staff/Mission"
-
 @using BrokenGrenade.Common.Permissions
 @using BrokenGrenade.Web.BL.Facades
 @using Microsoft.AspNetCore.Components
 @using BrokenGrenade.Common.Models
 @using BrokenGrenade.Common.Models.Filters
-
+@using BrokenGrenade.Web.App.Extensions
+@using BrokenGrenade.Common.Extensions
 @inject MissionFacade MissionFacade
 @inject ModpackTypeFacade ModpackTypeFacade
 @inject MissionTypeFacade MissionTypeFacade
-@inject NavigationManager NavigationManager
 
 @attribute [Authorize(Policy = PolicyTypes.ManageMissions)]
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2">Seznam Misí</h1>
+<PageTitle>Správa misí — BG Hub</PageTitle>
+
+<div class="pt-3 pb-2 mb-3">
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <AuthorizeView Policy="@PolicyTypes.ManageMissionTypes">
+                <Authorized>
+                    <a class="btn btn-sm btn-link text-decoration-none" href="/Staff/MissionType">
+                        <i class="fa-solid fa-gear"></i> Správa druhů misí
+                    </a>
+                </Authorized>
+            </AuthorizeView>
+            <AuthorizeView Policy="@PolicyTypes.ManageModpackTypes">
+                <Authorized>
+                    <a class="btn btn-sm btn-link text-decoration-none" href="/Staff/ModpackType">
+                        <i class="fa-solid fa-gear"></i> Správa modpacků
+                    </a>
+                </Authorized>
+            </AuthorizeView>
+        </div>
+    </div>
+    <h1 class="h2">Správa misí</h1>
 </div>
 <div class="card bg-dark-subtle mb-4">
     <div class="card-header">
-        <h6 class="card-title">Filtrování</h6>
+        <h6 class="card-title mb-0">Filtrování</h6>
     </div>
     <div class="card-body">
-        <EditForm Model="_filter" id="filterForm" OnSubmit="FilterAsync">
+        <EditForm Model="_filter" id="filterForm" OnSubmit="() => FilterAsync()">
             <div class="row">
-                <div class="col col-sm-6">
+                <div class="col-12 col-sm-6">
                     <div class="mb-3">
                         <label for="searchName" class="form-label">Podle názvu</label>
                         <InputText class="form-control" @bind-Value="_filter.Name" id="searchName"/>
@@ -46,7 +65,7 @@
                         <InputDate Type="InputDateType.Date" class="form-control" @bind-Value="_filter.Date" id="searchDate"/>
                     </div>
                 </div>
-                <div class="col col-sm-6">
+                <div class="col-12 col-sm-6">
                     <div class="mb-3">
                         <label for="searchCreator" class="form-label">Podle autora</label>
                         <InputText class="form-control" @bind-Value="_filter.Creator" id="searchCreator"/>
@@ -70,9 +89,8 @@
                 <div class="col">
                     <div class="d-flex flex-row gap-2">
                         <button type="submit" class="btn btn-primary">Filtrovat</button>
-                        <button type="reset" class="btn btn-outline-secondary" @onclick="ResetFilterAsync">Vymazat filtry</button>
+                        <button type="reset" class="btn btn-outline-secondary" @onclick="ResetFilter">Vymazat filtry</button>
                     </div>
-                    
                 </div>
             </div>
         </EditForm>
@@ -80,180 +98,65 @@
 </div>
 <div class="card bg-dark-subtle mb-4">
     <div class="card-body">
-        @if (_missions is null)
-        {
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Datum Konání</th>
-                    <th>Název Mise</th>
-                    <th>Autor</th>
-                    <th>Kategorie Mise</th>
-                    <th>Modpack</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>
-                        <p class="placeholder-glow">
-                            <span class="placeholder col-6"></span>
-                        </p>
-                    </td>
-                    <td>
-                        <p class="placeholder-glow">
-                            <span class="placeholder col-6"></span>
-                        </p>
-                    </td>
-                    <td>
-                        <p class="placeholder-glow">
-                            <span class="placeholder col-6"></span>
-                        </p>
-                    </td>
-                    <td>
-                        <p class="placeholder-glow">
-                            <span class="placeholder col-6"></span>
-                        </p>
-                    </td>
-                    <td>
-                        <p class="placeholder-glow">
-                            <span class="placeholder col-6"></span>
-                        </p>
-                    </td>
-                    <td>
-                        <a tabindex="-1" class="btn btn-primary placeholder disabled col-12"></a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">Datum Konání</th>
-                    <th scope="col">Název Mise</th>
-                    <th scope="col">Autor</th>
-                    <th scope="col">Kategorie Mise</th>
-                    <th scope="col">Modpack</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                @if (_missions.Count > 0)
-                {
-                    @foreach (var mission in MissionsPages[_currentPage])
-                    {
-                        <tr>
-                            <td>@mission.MissionStartDate</td>
-                            <td>@mission.Name</td>
-                            <td>@(mission.Creator?.Nickname ?? "Odstraněný uživatel")</td>
-                            <td>@(mission.MissionType?.Name ?? "Odstraněná kategorie")</td>
-                            <td>@(mission.ModpackType?.Name ?? "Odstraněný typ")</td>
-                            <td>
-                                <div class="d-flex flex-row gap-2 flex-wrap justify-content-end">
-                                    <a class="btn btn-primary" href="/Mission/Detail/@mission.Id">Detail</a>
-                                    <a class="btn btn-primary" href="/Staff/Mission/Edit/@mission.Id">Upravit</a>
-                                </div>
-                                
-                            </td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="6">
-                            <p class="text-center">Nebyly nalezeny žádné mise</p>
-                        </td>
-                    </tr>
-                }
-                </tbody>
-            </table>
-            <div class="row">
-                <div class="col col-md-6 align-self-center">
-                    <p>Zobrazeno @(1 + _currentPage * 10)-@(10 + _currentPage * 10 < _missions.Count ? 10 + _currentPage * 10 : _missions.Count) z @_missions.Count</p>
-                </div>
-                <div class="col col-md-6">
-                    <nav class="d-flex justify-content-end" aria-label="Stránkování">
-                        <ul class="pagination">
-                            <li class="page-item @(_currentPage <= 0 ? "disabled" : "")">
-                                <a class="page-link" href="#" aria-label="Předchozí">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            @for (var i = _currentPage - 1; i <= _currentPage + 1; i++)
-                            {
-                                var num = i;
-                                if (_currentPage == 0)
-                                    num = i + 1; // So user cant go to page -1
-                                                
-                                else if (_currentPage >= MissionsPages.Count - 1)
-                                    num = i - 1; // So user cant go to a page that is too high
-                                                
-                                if (num > MissionsPages.Count - 1)
-                                {
-                                    break; // If there are fewer than 3 pages total
-                                }
-                                if (_currentPage == 1 && MissionsPages.Count == 2 && i == 0)
-                                {
-                                    // If only 2 pages are available, clicking the second one would make page 0 appear
-                                    // which is obviously not possible
-                                    continue;
-                                }
-                                                
-                                <li class="page-item @(_currentPage == num ? "active" : "")">
-                                    <a class="page-link" @onclick="() => _currentPage = num" role="button">@(num + 1)</a>
-                                </li>
-                            }
-                            <li class="page-item @(_currentPage >= MissionsPages.Count - 1 ? "disabled" : "")">
-                                <a class="page-link" href="#" aria-label="Následující">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        }
+        <PaginatedListComponent TItem="MissionModel"
+                                @ref="_listComponent"
+                                Items="_missions"
+                                TotalCount="MissionFacade.GetCountAsync(_filter).Result"
+                                DetailPageUrl="/Mission/"
+                                EmptyMessage="Nebyly nalezeny žádné mise"
+                                PageNumberChanged="OnPageNumberChangedAsync"
+                                Class="table-striped table-hover">
+            <TableHeader>
+                <th>Datum</th>
+                <th>Název</th>
+                <th>Autor</th>
+                <th>Kategorie mise</th>
+                <th>Modpack</th>
+                <th></th>
+            </TableHeader>
+            <RowTemplate Context="mission">
+                <td>@mission.MissionStartDate.ToDateTimeString()</td>
+                <td>@mission.Name</td>
+                <td>@(mission.Creator?.Nickname ?? "Odstraněný uživatel")</td>
+                <td>@(mission.MissionType?.Name ?? "Odstraněná kategorie")</td>
+                <td>@(mission.ModpackType?.Name ?? "Ostatní")</td>
+                <td>
+                    <div class="d-flex justify-content-end" @onclick:stopPropagation="true">
+                        <a class="btn btn-sm btn-primary" href="/Staff/Mission/Edit/@mission.Id">Upravit</a>
+                    </div>
+                </td>
+            </RowTemplate>
+        </PaginatedListComponent>
     </div>
 </div>
 
 @code {
     private List<MissionModel>? _missions;
-    private List<List<MissionModel>> MissionsPages => _missions is null ? new List<List<MissionModel>>() : _missions.Select((x, i) =>
-    new {
-        Index = i,
-        Value = x
-    }).GroupBy(x => x.Index / 10)
-        .Select(x => x.Select(v => v.Value).ToList()).ToList();
+    private MissionFilterModel _filter = new();
+    private PaginatedListComponent<MissionModel> _listComponent = null!;
 
-    private int _currentPage;
-    
     private List<MissionTypeModel>? _missionTypes;
     private List<ModpackTypeModel>? _modpackTypes;
-    
-    private MissionFilterModel _filter = new();
-
     protected override async Task OnInitializedAsync()
     {
+        await FilterAsync();
         _missionTypes = await MissionTypeFacade.GetAsync();
         _modpackTypes = await ModpackTypeFacade.GetAsync();
     }
     
-    private async Task FilterAsync()
+    private async Task FilterAsync(int page = 0)
     {
-        _currentPage = 0;
-        _missions = null;
-        _missions = (await MissionFacade.GetAsync(_filter)).OrderBy(x => x.MissionStartDate).ToList();
+        _missions = await MissionFacade.GetPaginatedAsync(_filter, page);
     }
 
-    private async Task ResetFilterAsync()
+    private void ResetFilter()
     {
-        NavigationManager.NavigateTo(new Uri(NavigationManager.Uri).GetLeftPart(UriPartial.Path));
         _filter = new();
-        
-        await FilterAsync();
+        _listComponent.CurrentPage = 0;
+    }
+    
+    private async Task OnPageNumberChangedAsync(int page)
+    {
+        await FilterAsync(page);
     }
 }

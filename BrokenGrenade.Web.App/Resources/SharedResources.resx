@@ -81,4 +81,46 @@
     <data name="Or" xml:space="preserve">
         <value>nebo</value>
     </data>
+    <data name="MissionCreator" xml:space="preserve">
+        <value>Autor</value>
+    </data>
+    <data name="MissionType" xml:space="preserve">
+        <value>Typ mise</value>
+    </data>
+    <data name="ModpackType" xml:space="preserve">
+        <value>Modpack</value>
+    </data>
+    <data name="Filter" xml:space="preserve">
+        <value>Filtrování</value>
+    </data>
+    <data name="FilterButton" xml:space="preserve">
+        <value>Filtrovat</value>
+    </data>
+    <data name="ResetFilterButton" xml:space="preserve">
+        <value>Obnovit filtrování</value>
+    </data>
+    <data name="MissionDate" xml:space="preserve">
+        <value>Datum</value>
+    </data>
+    <data name="MissionName" xml:space="preserve">
+        <value>Název</value>
+    </data>
+    <data name="MissionConnectingToServer" xml:space="preserve">
+        <value>Připojování na server</value>
+    </data>
+    <data name="MissionStartTime" xml:space="preserve">
+        <value>Začátek mise</value>
+    </data>
+    <data name="TrainingCreator" xml:space="preserve">
+        <value>Instruktor</value>
+    </data>
+    <data name="TrainingNote" xml:space="preserve">
+        <value>Poznámka</value>
+    </data>
+    <data name="TrainingDate" xml:space="preserve">
+        <value>Datum</value>
+    </data>
+    <data name="TrainingName" xml:space="preserve">
+        <value>Název</value>
+    </data>
 </root>

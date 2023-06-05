@@ -25,7 +25,7 @@
         <value>Dnešní mise</value>
     </data>
     <data name="NoMissionToday" xml:space="preserve">
-        <value>Dnes se nekoná žádná mise.</value>
+        <value>Dnes se nekoná žádná mise</value>
     </data>
     <data name="MissionName" xml:space="preserve">
         <value>Název</value>
@@ -91,7 +91,7 @@
         <value>Instruktor</value>
     </data>
     <data name="NoUpcomingTrainings" xml:space="preserve">
-        <value>Aktuálně nejsou plánovány žádné výcviky.</value>
+        <value>Aktuálně nejsou plánovány žádné výcviky</value>
     </data>
     <data name="UpcomingTrainingDetail" xml:space="preserve">
         <value>Detail</value>

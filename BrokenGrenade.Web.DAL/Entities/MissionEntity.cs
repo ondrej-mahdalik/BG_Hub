@@ -5,8 +5,6 @@ public class MissionEntity : EntityBase
     public string Name { get; set; }
     public string? SlottingSheetUrl { get; set; }
     public string? ModpackUrl { get; set; }
-    public DateTime? LeaderBriefingDate { get; set; }
-    public DateTime ConnectingToServerDate { get; set; }
     public DateTime MissionStartDate { get; set; }
     
     public UserEntity? Creator { get; init; }
@@ -18,10 +16,11 @@ public class MissionEntity : EntityBase
     public ModpackTypeEntity? ModpackType { get; init; }
     public Guid? ModpackTypeId { get; set; }
     
-    public MissionEntity(string name, DateTime connectingToServerDate, DateTime missionStartDate)
+    public ulong? DiscordMessageId { get; set; }
+    
+    public MissionEntity(string name, DateTime missionStartDate)
     {
         Name = name;
-        ConnectingToServerDate = connectingToServerDate;
         MissionStartDate = missionStartDate;
     }
 }

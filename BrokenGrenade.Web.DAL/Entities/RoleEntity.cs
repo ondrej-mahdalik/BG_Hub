@@ -4,6 +4,8 @@ namespace BrokenGrenade.Web.DAL.Entities;
 
 public sealed class RoleEntity : IdentityRole<Guid>, ICloneable
 {
+    public string? ColorHex { get; set; }
+
     public RoleEntity(string name) : base(name)
     {
         Id = Guid.NewGuid();

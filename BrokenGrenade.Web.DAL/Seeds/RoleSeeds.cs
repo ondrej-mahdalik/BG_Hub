@@ -9,12 +9,15 @@ public static class RoleSeeds
 {
     public static readonly RoleEntity Administrator = new("Administrátor")
     {
-        Id = new Guid("8848CA4E-4B0A-4705-95CA-DB0E9B3B394C")
+        Id = new Guid("8848CA4E-4B0A-4705-95CA-DB0E9B3B394C"),
+        Order = 100
     };
 
     public static readonly RoleEntity MissionMaker = new("Mission Maker")
     {
-        Id = new Guid("233BB63A-FABE-460B-817D-269DD81CDE64")
+        Id = new Guid("233BB63A-FABE-460B-817D-269DD81CDE64"),
+        ColorHex = "#ff6c00",
+        Order = 10
     };
 
 

@@ -68,3 +68,8 @@ body {
     backdrop-filter: blur(32px);
     -webkit-backdrop-filter: blur(32px);
 }
+
+/* Custom styles */
+.cursor-pointer {
+    cursor: pointer;
+}

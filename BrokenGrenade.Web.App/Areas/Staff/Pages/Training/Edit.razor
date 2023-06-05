@@ -1,7 +1,132 @@
-﻿@page "/Staff/Training/Edit/{Id}"
-<h3>Edit</h3>
+﻿@page "/Staff/Training/Edit/{Id:guid}"
+@using BrokenGrenade.Web.App.Extensions
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.BL.Facades
+@inject TrainingFacade TrainingFacade
+@inject UserFacade UserFacade
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<PageTitle>Úprava výcviku — BG Hub</PageTitle>
+
+<div class="pt-3 pb-2 mb-3">
+    <h1 class="h2">Úprava výcviku</h1>
+</div>
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                @if (_training is not null)
+                {
+                    <EditForm Model="@_training" OnValidSubmit="@EditTrainingAsync">
+                        <div class="row text-danger">
+                            <div class="col">
+                                <DataAnnotationsValidator/>
+                                <ValidationSummary/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Název výcviku</label>
+                                    <InputText class="form-control" @bind-Value="_training.Name"/>
+                                </div>
+                            </div>
+                            <div class="col12 col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Datum</label>
+                                    <InputDate class="form-control" Type="InputDateType.DateTimeLocal" @bind-Value="_training.Date"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label>Poznámka</label>
+                                    <InputTextArea class="form-control" @bind-Value="_training.Note"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary">Upravit výcvik</button>
+                            </div>
+                        </div>
+                    </EditForm>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <div class="mb-3">
+                                <label class="form-label">Název výcviku</label>
+                                <p class="form-control placeholder-glow" aria-hidden="true">
+                                    <span class="placeholder w-100"></span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col12 col-sm-6">
+                            <div class="mb-3">
+                                <label class="form-label">Datum</label>
+                                <p class="form-control placeholder-glow" aria-hidden="true">
+                                    <span class="placeholder w-100"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label>Poznámka</label>
+                                <p class="form-control placeholder-glow" aria-hidden="true">
+                                    <span class="placeholder w-100"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <a class="btn btn-primary disabled placeholder col-4"></a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
     [Parameter]
     public Guid Id { get; set; }
+
+    private TrainingModel? _training;
+    private UserModel? _currentUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _training = await TrainingFacade.GetAsync(Id);
+        if (_training == null)
+        {
+            NavigationManager.NavigateTo("/Training");
+    // TODO: Show error
+            return;
+        }
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
+
+        if (_training.CreatorId != _currentUser?.Id && (!_currentUser?.Roles.Any(x => x.ManageTrainings) ?? false))
+        {
+    // TODO Show error
+        }
+    }
+
+    private async Task EditTrainingAsync()
+    {
+        if (_training is null)
+            return;
+
+        await TrainingFacade.SaveAsync(_training);
+        NavigationManager.NavigateTo($"/Training/{_training.Id}");
+    }
 }

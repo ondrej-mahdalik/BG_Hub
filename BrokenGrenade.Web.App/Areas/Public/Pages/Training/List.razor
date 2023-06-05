@@ -1,9 +1,135 @@
 ﻿@page "/Training"
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Common.Models.Filters
+@using BrokenGrenade.Web.App.Resources
+@using BrokenGrenade.Web.App.Resources.Areas.Public.Pages.Training
+@using BrokenGrenade.Web.BL.Facades
+@using Microsoft.Extensions.Localization
+@inject TrainingFacade TrainingFacade
+@inject UserFacade UserFacade
+@inject NavigationManager NavigationManager
+@inject IStringLocalizer<TrainingListResources> Localizer
+@inject IStringLocalizer<SharedResources> SharedLocalizer
 
-<PageTitle>Seznam Výcviků — BG Hub</PageTitle>
+<PageTitle>@Localizer[nameof(TrainingListResources.HubPageTitle)] — BG Hub</PageTitle>
 
-<h3>List</h3>
+<div class="pt-3 pb-2 mb-3">
+    <h1 class="h2">@Localizer[nameof(TrainingListResources.HubPageTitle)]</h1>
+</div>
+
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-header">
+        <h6 class=" cardcard-title mb-0">@SharedLocalizer[nameof(SharedResources.Filter)]</h6>
+    </div>
+    <div class="card-body">
+        <EditForm Model="_filter" id="filterForm" OnSubmit="() => FilterAsync()">
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3"> 
+                        <label for="searchName" class="form-label">@Localizer[nameof(TrainingListResources.NameFilter)]</label>
+                        <InputText id="searchName" class="form-control" @bind-Value="_filter.Name"/>
+                    </div>
+
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label for="searchCreator" class="form-label">@Localizer[nameof(TrainingListResources.CreatorFilter)]</label>
+                        @if (_creatorName is not null)
+                        {
+                            <input class="form-control disabled" id="searchCreator" value="@_creatorName" disabled/>
+                        }
+                        else
+                        {
+                            <InputText class="form-control" @bind-Value="_filter.Creator" id="searchCreator"/>
+                        }
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="searchDate">@Localizer[nameof(TrainingListResources.DateFilter)]</label>
+                        <InputDate Type="InputDateType.Date" class="form-control" id="searchDate" @bind-Value="_filter.Date"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">  
+                    <button type="submit" class="btn btn-primary">@SharedLocalizer[nameof(SharedResources.FilterButton)]</button>
+                    <button type="reset" class="btn btn-outline-secondary" @onclick="ResetFilter">@SharedLocalizer[nameof(SharedResources.ResetFilterButton)]</button>
+                </div>
+            </div>
+
+        </EditForm>
+        
+    </div>
+</div>
+
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-body">
+        <PaginatedListComponent @ref="_list"
+                                TItem="TrainingModel"
+                                TotalCount="TrainingFacade.GetCountAsync(_filter).Result"
+                                DetailPageUrl="/Training/"
+                                Items="_trainings"
+                                EmptyMessage="@Localizer[nameof(TrainingListResources.NoTrainingsFound)]"
+                                PageNumberChanged="OnPageNumberChangedAsync"
+                                Class="table-striped table-hover">
+            <TableHeader>
+                <th>@SharedLocalizer[nameof(SharedResources.TrainingDate)]</th>
+                <th>@SharedLocalizer[nameof(SharedResources.TrainingName)]</th>
+                <th>@SharedLocalizer[nameof(SharedResources.TrainingCreator)]</th>
+            </TableHeader>
+            <RowTemplate Context="training">
+                <td>@training.Date</td>
+                <td>@training.Name</td>
+                <td>@(training.Creator?.Nickname ?? @SharedLocalizer[nameof(SharedResources.DeletedUser)])</td>
+            </RowTemplate>
+        </PaginatedListComponent>
+    </div>
+</div>
+
+
 
 @code {
+
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "creator_id")]
+    public Guid? CreatorId { get; set; }
+    private string? _creatorName;
     
+    private List<TrainingModel>? _trainings;
+    private TrainingFilterModel _filter = new();
+    private PaginatedListComponent<TrainingModel> _list = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (CreatorId.HasValue)
+            _creatorName = await UserFacade.GetNicknameAsync(CreatorId.Value);
+        
+        await FilterAsync();
+    }
+    
+    private async Task FilterAsync(int page = 0)
+    {
+        if (CreatorId is not null)
+            _filter.CreatorId = CreatorId;
+        
+        _trainings = await TrainingFacade.GetPaginatedAsync(_filter, page);
+    }
+
+    private void ResetFilter()
+    {
+        NavigationManager.NavigateTo(new Uri(NavigationManager.Uri).GetLeftPart(UriPartial.Path));
+        _filter = new();
+        CreatorId = null;
+        _creatorName = null;
+        
+        _list.CurrentPage = 0;
+    }
+    private async Task OnPageNumberChangedAsync(int page)
+    {
+        await FilterAsync(page);
+    }
 }
