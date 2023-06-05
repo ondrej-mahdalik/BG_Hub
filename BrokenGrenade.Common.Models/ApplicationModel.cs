@@ -87,8 +87,8 @@ public class ApplicationModel : ModelBase
     [JsonProperty]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     
-    public Guid? ChangedById { get; set; }
-    public UserModel? ChangedBy { get; set; }
+    public Guid? EditedById { get; set; }
+    public UserModel? EditedBy { get; set; }
     
     [JsonProperty]
     public ApplicationStatus Status { get; set; } = ApplicationStatus.AwaitingDecision; 

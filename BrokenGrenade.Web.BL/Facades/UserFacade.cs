@@ -133,6 +133,12 @@ public class UserFacade : IAppFacade
 
         return users;
     }
+
+    public async Task<List<UserModel>> GetWithoutNavigationPropertiesAsync()
+    {
+        var query = _userManager.Users;
+        return await _mapper.ProjectTo<UserModel>(query).ToListAsync().ConfigureAwait(false);
+    }
     
     public async Task<int> GetCountAsync(UserFilterModel filter)
     {

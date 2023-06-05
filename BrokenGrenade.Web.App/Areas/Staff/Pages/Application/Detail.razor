@@ -1,0 +1,168 @@
+﻿@page "/Staff/Application/{Id:guid}"
+@using BrokenGrenade.Common.Permissions
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.BL.Facades
+@using BrokenGrenade.Common.Enums
+@using BrokenGrenade.Web.App.Extensions
+@inject ApplicationFacade ApplicationFacade
+@inject UserFacade UserFacade
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@attribute [Authorize(Policy = PolicyTypes.ManageApplications)]
+
+<PageTitle>Správa přihlášky — BG Hub</PageTitle>
+
+<div class="pt-3 pb-2 mb-3">
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a class="btn btn-sm btn-link text-decoration-none" href="/Staff/Application">
+                <i class="fa-solid fa-angles-left"></i> Zpět na všechny přihlášky
+            </a>
+            @if (_application is not null)
+            {
+                <button class="btn btn-sm btn-link link-danger text-decoration-none">
+                    <i class="fa-solid fa-remove"></i> Odstranit přihlášku
+                </button>
+            }
+        </div>
+    </div>
+    <h1 class="h2">Správa přihlášky</h1>
+</div>
+
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-header">
+        <h6 class="card-title mb-0">Detail přihlášky</h6>
+    </div>
+    <div class="card-body">
+        @if (_application is null)
+        {
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-4">
+                    <p class="form-control placeholder-glow" aria-hidden="true">
+                        <span class="placeholder w-100"></span>
+                    </p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-12 col-sm-4 col-md-3 mb-3">
+                    <label class="form-label">Přezdívka</label>
+                    <input class="form-control disabled" value="@_application.Nickname" disabled/>
+                </div>
+                <div class="col-12 col-sm-4 col-md-3 mb-3">
+                    <label class="form-label">Discord</label>
+                    <input class="form-control disabled" value="@_application.Discord" disabled/>
+                </div>
+                <div class="col-4 col-sm-2 col-md-1 mb-3">
+                    <label class="form-label">Věk</label>
+                    <input class="form-control disabled" value="@_application.Age" disabled/>
+                </div>
+                <div class="col-6 col-sm-3 col-md-2">
+                    <label class="form-label">Herní čas</label>
+                    <input class="form-control disabled" value="@_application.PlayTime" disabled/>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 mb-3">
+                    <label class="form-label">Email</label>
+                    <div class="input-group">
+                        <input class="form-control disabled" value="@_application.Email" disabled/>
+                        <span class="input-group-text">
+                            <a class="btn btn-sm btn-link text-decoration-none" href="mailto:@_application.Email">
+                                <i class="fa-solid fa-lg fa-envelope"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 mb-3">
+                    <label class="form-label">Steam účet</label>
+                    <div class="input-group">
+                        <input class="form-control disabled" value="@_application.SteamUrl" disabled/>
+                        <span class="input-group-text">
+                            <a class="btn btn-sm btn-link text-decoration-none" href="@_application.SteamUrl" target="_blank">
+                                <i class="fa-solid fa-lg fa-external-link"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label class="form-label">Popiš sám sebe</label>
+                    <textarea class="form-control disabled" value="@_application.About" disabled></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label class="form-label">Předchozí zkušenosti</label>
+                    <textarea class="form-control disabled" value="@_application.PreviousExperience" disabled></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label class="form-label">Proč se k nám chceš přidat?</label>
+                    <textarea class="form-control disabled" value="@_application.ReasonToJoin" disabled></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label class="form-label">Co nám můžeš nabídnout?</label>
+                    <textarea class="form-control disabled" value="@_application.WhatCanYouOffer" disabled></textarea>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-header">
+        <h6 class="card-title mb-0">Akce</h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <div class="d-flex flex-row gap-2">
+                    <button class="btn btn-success" @onclick="AcceptAsync">Přijmout přihlášku</button>
+                    <button class="btn btn-danger" @onclick="RejectAsync">Odmítnout přihlášku</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private ApplicationModel? _application;
+    private UserModel? _currentUser;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        _application = await ApplicationFacade.GetAsync(Id);
+        
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
+    }
+
+    private async Task RejectAsync()
+    {
+        if (_application is null || _currentUser is null)
+            return;
+        
+        _application.Status = ApplicationStatus.Rejected;
+        _application.EditedById = _currentUser.Id;
+        await ApplicationFacade.SaveAsync(_application);
+    }
+
+    private async Task AcceptAsync()
+    {
+        if (_application is null || _currentUser is null)
+            return;
+        
+        // TODO Create user
+        
+        _application.Status = ApplicationStatus.Accepted;
+        _application.EditedById = _currentUser.Id;
+        await ApplicationFacade.SaveAsync(_application);
+    }
+}

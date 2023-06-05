@@ -1,20 +1,182 @@
 ﻿@page "/Staff/Application"
 @using BrokenGrenade.Common.Permissions
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Common.Models.Filters
+@using BrokenGrenade.Web.BL.Facades
+@using BrokenGrenade.Common.Extensions
+@using BrokenGrenade.Common.Enums
+@inject ApplicationFacade ApplicationFacade
+@inject UserFacade UserFacade
 @attribute [Authorize(Policy = PolicyTypes.ManageApplications)]
 
+<PageTitle>Správa přihlášek — BG Hub</PageTitle>
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2">Přihlášky</h1>
+<div class="pt-3 pb-2 mb-3">
+    <h1 class="h2">Správa přihlášek</h1>
 </div>
 <div class="card bg-dark-subtle mb-4">
+    <div class="card-header">
+        <h6 class="card-title mb-0">Filtrování</h6>
+    </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col">
+        <EditForm Model="_filter" OnSubmit="() => FilterAsync()">
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="searchNickname">Podle přezdívky</label>
+                        <InputText class="form-control" id="searchNickname" @bind-Value="_filter.Nickname"/>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="">Podle emailu</label>
+                        <InputText class="form-control" id="searchEmail" @bind-Value="_filter.Email"/>
+                    </div>
+                </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="searchDiscord">Podle discordu</label>
+                        <InputText class="form-control" id="searchDiscord" @bind-Value="_filter.Discord"/>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="searchSteam">Podle steamu</label>
+                        <InputText class="form-control" id="searchSteam" @bind-Value="_filter.Steam"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="searchAge">Podle věku</label>
+                        <InputNumber class="form-control" id="searchAge" @bind-Value="_filter.Age"/>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="searchCreatedAt">Podle data vytvoření</label>
+                        <InputDate Type="InputDateType.Date" class="form-control" id="searchCreatedAt" @bind-Value="_filter.CreatedAt"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="searchUser">Podle vytvořeného uživatele</label>
+                        <SfDropDownList TItem="UserModel"
+                                        TValue="Guid?"
+                                        id="searchUser"
+                                        DataSource="_users"
+                                        @bind-Value="_filter.UserId"
+                                        Placeholder="Všichni uživatelé"
+                                        AllowFiltering="true"
+                                        CssClass="form-control"
+                                        ShowClearButton="true">
+                            <DropDownListFieldSettings Value="@nameof(UserModel.Id)" Text="@nameof(UserModel.Nickname)"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="searchEditedBy">Podle uživatele provádějícího poslední změnu (PL)</label>
+                        <SfDropDownList TItem="UserModel"
+                                        TValue="Guid?"
+                                        id="searchEditedBy"
+                                        DataSource="_users"
+                                        @bind-Value="_filter.EditedById"
+                                        Placeholder="Všichni uživatelé"
+                                        AllowFiltering="true"
+                                        CssClass="form-control"
+                                        ShowClearButton="true">
+                            <DropDownListFieldSettings Value="@nameof(UserModel.Id)" Text="@nameof(UserModel.Nickname)"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">  
+                    <button type="submit" class="btn btn-primary">Filtrovat</button>
+                    <button type="reset" class="btn btn-outline-secondary" @onclick="ResetFilter">Vymazat filtry</button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-body">
+        <PaginatedListComponent TItem="ApplicationModel"
+                                @ref="_list"
+                                Items="_applications"
+                                TotalCount="ApplicationFacade.GetCountAsync(_filter).Result"
+                                DetailPageUrl="/Staff/Application/"
+                                EmptyMessage="Nebyly nalezeny žádné přihlášky"
+                                PageNumberChanged="OnPageNumberChangedAsync"
+                                Class="table-striped table-hover">
+            <TableHeader>
+                <th>Datum vytvoření</th>
+                <th>Přezdívka</th>
+                <th>Discord</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Naposledy upravil</th>
+            </TableHeader>
+            <RowTemplate Context="application">
+                <td>@application.CreatedAt.ToDateTimeString()</td>
+                <td>@application.Nickname</td>
+                <td>@application.Discord</td>
+                <td>@application.Email</td>
+                <td>
+                    @switch (application.Status)
+                    {
+                        case ApplicationStatus.AwaitingDecision:
+                            <span class="badge bg-warning">Nerozhodnuto</span>
+                            break;
+                        case ApplicationStatus.Accepted:
+                            <span class="badge bg-success">Přijat</span>
+                            break;
+                        case ApplicationStatus.Rejected:
+                            <span class="badge bg-danger">Odmítnut</span>
+                            break;
+                        default:
+                            <span>Neznámý stav</span>
+                            break;
+                    }
+                </td>
+                <td>@application.EditedBy?.Nickname</td>
+            </RowTemplate>
+        </PaginatedListComponent>
     </div>
 </div>
 
 @code {
-    
+    private List<ApplicationModel>? _applications;
+    private ApplicationFilterModel _filter = new();
+    private PaginatedListComponent<ApplicationModel> _list = null!;
+    private List<UserModel>? _users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await FilterAsync();
+        _users = await UserFacade.GetWithoutNavigationPropertiesAsync();
+    }
+
+    private async Task FilterAsync(int page = 0)
+    {
+        _applications = await ApplicationFacade.GetPaginatedAsync(_filter, page);
+    }
+
+    private void ResetFilter()
+    {
+        _filter = new();
+        _list.CurrentPage = 0;
+    }
+
+    private async Task OnPageNumberChangedAsync(int page)
+    {
+        await FilterAsync(page);
+    }
 }

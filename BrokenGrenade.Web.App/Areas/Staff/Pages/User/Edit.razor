@@ -30,59 +30,98 @@
 </div>
 <div class="card bg-dark-subtle mb-4">
     <div class="card-body">
-        <EditForm Model="_user" OnValidSubmit="EditUserAsync">
-            <div class="row text-danger">
-                <div class="col">
-                    <DataAnnotationsValidator/>
-                    <ValidationSummary/>
-                </div>
-            </div>
+        @if (_user is null)
+        {
             <div class="row">
                 <div class="col-12 col-sm-6">
                     <div class="mb-3">
                         <label class="form-label" for="nickname">Přezdívka</label>
-                        <InputText class="form-control" id="nickname" @bind-Value="_user.Nickname"></InputText>
+                        <p class="form-control placeholder-glow" aria-hidden="true">
+                            <span class="placeholder w-100"></span>
+                        </p>
                     </div>
                 </div>
                 <div class="col-12 col-sm-6">
                     <div class="mb-3">
                         <label class="form-label" for="email">Email</label>
-                        <InputText class="form-control" id="email" @bind-Value="_user.Email"></InputText>
+                        <p class="form-control placeholder-glow" aria-hidden="true">
+                            <span class="placeholder w-100"></span>
+                        </p>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 col-sm-6">
                     <div class="mb-3">
-                        <label></label>
-                        @if (_roles is null)
-                        {
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Načítání...</span>
-                            </div>
-                        }
-                        else
-                        {
-                            <SfMultiSelect id="roleSelect"
-                                           CssClass="form-select"
-                                           TValue="Guid[]"
-                                           TItem="RoleModel"
-                                           DataSource="_roles"
-                                           @bind-Value="_selectedRoles"
-                                           AllowFiltering="true"
-                                           Placeholder="Výběr rolí">
-                                <MultiSelectFieldSettings Value="@nameof(RoleModel.Id)" Text="@nameof(RoleModel.Name)"></MultiSelectFieldSettings>
-                            </SfMultiSelect>
-                        }
+                        <label class="form-label">Role</label>
+                        <p class="form-control placeholder-glow" aria-hidden="true">
+                            <span class="placeholder w-100"></span>
+                        </p>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <button type="submit" class="btn btn-primary">Uložit změny</button>
+                    <a class="btn btn-primary disabled placeholder col-4"></a>
                 </div>
             </div>
-        </EditForm>
+        }
+        else
+        {
+            <EditForm Model="_user" OnValidSubmit="EditUserAsync">
+                <div class="row text-danger">
+                    <div class="col">
+                        <DataAnnotationsValidator/>
+                        <ValidationSummary/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="nickname">Přezdívka</label>
+                            <InputText class="form-control" id="nickname" @bind-Value="                                _user.Nickname"></InputText>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="email">Email</label>
+                            <InputText class="form-control" id="email" @bind-Value="                                _user.Email"></InputText>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label">Role</label>
+                            @if (_roles is null)
+                            {
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Načítání...</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <SfMultiSelect id="roleSelect"
+                                               CssClass="form-select"
+                                               TValue="Guid[]"
+                                               TItem="RoleModel"
+                                               DataSource="_roles"
+                                               @bind-Value="                                            _selectedRoles"
+                                               AllowFiltering="true"
+                                               Placeholder="Výběr rolí">
+                                    <MultiSelectFieldSettings Value="@nameof(RoleModel.Id)" Text="@nameof(RoleModel.Name)"></MultiSelectFieldSettings>
+                                </SfMultiSelect>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Uložit změny</button>
+                    </div>
+                </div>
+            </EditForm>
+        }
     </div>
 </div>
 
