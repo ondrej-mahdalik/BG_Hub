@@ -44,6 +44,12 @@ void ConfigureControllers(IServiceCollection serviceCollection)
     serviceCollection.AddServerSideBlazor();
     serviceCollection.AddControllers()
         .AddNewtonsoftJson();
+    
+    serviceCollection.Configure<ForwardedHeadersOptions>(options =>
+    {
+        options.ForwardedHeaders =
+            ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    });
 
     serviceCollection.AddLocalization();
 
@@ -192,11 +198,20 @@ void UseDevelopmentSettings(WebApplication application)
     // Configure the HTTP request pipeline.
     if (application.Environment.IsDevelopment())
     {
+        application.UseForwardedHeaders(new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+        });
         application.UseMigrationsEndPoint();
     }
     else
     {
         application.UseExceptionHandler("/Error");
+        application.UseForwardedHeaders(new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+        });
+        application.UseHttpsRedirection();
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         application.UseHsts();
     }
@@ -204,11 +219,7 @@ void UseDevelopmentSettings(WebApplication application)
 
 void UseRoutingAndSecurityFeatures(WebApplication application)
 {
-    application.UseForwardedHeaders(new ForwardedHeadersOptions
-    {
-        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-    });
-    application.UseHttpsRedirection();
+
     application.UseStaticFiles();
     application.UseRouting();
     
