@@ -5,6 +5,7 @@
 @using Microsoft.Extensions.Localization
 @inject ApplicationFacade ApplicationFacade
 @inject IStringLocalizer<ApplyResources> Localizer
+@inject IToastService ToastService
 
 <PageTitle>@Localizer[nameof(IndexResources.HubPageTitle)] — BG Hub</PageTitle>
 
@@ -30,7 +31,6 @@
                 <div class="row text-danger">
                     <div class="col">
                         <DataAnnotationsValidator/>
-                        <ValidationSummary/>
                     </div>
                 </div>
                 <div class="row">
@@ -116,11 +116,12 @@
                         <div class="mb-3">
                             <label for="referral" class="form-label">@Localizer[nameof(ApplyResources.Referral)] @Localizer[nameof(ApplyResources.Optional)]</label>
                             <InputSelect id="referral" class="form-select" @bind-Value="_application.HowDidYouFindUs">
-                                <option value="Sociální sítě" selected>@Localizer[nameof(ApplyResources.SocialNetworks)]</option>
-                                <option value="YouTube/Twitch">@Localizer[nameof(ApplyResources.Videos)]</option>
-                                <option value="Vyhledávání">@Localizer[nameof(ApplyResources.Search)]</option>
-                                <option value="Od jiného člena">@Localizer[nameof(ApplyResources.OtherMember)]</option>
-                                <option value="Ostatní">@Localizer[nameof(ApplyResources.Other)]</option>
+                                <option value="" selected>@Localizer[nameof(ApplyResources.NotSpecified)]</option>
+                                <option value="@Localizer[nameof(ApplyResources.SocialNetworks)]">@Localizer[nameof(ApplyResources.SocialNetworks)]</option>
+                                <option value="@Localizer[nameof(ApplyResources.Videos)]">@Localizer[nameof(ApplyResources.Videos)]</option>
+                                <option value="@Localizer[nameof(ApplyResources.Search)]">@Localizer[nameof(ApplyResources.Search)]</option>
+                                <option value="@Localizer[nameof(ApplyResources.OtherMember)]">@Localizer[nameof(ApplyResources.OtherMember)]</option>
+                                <option value="@Localizer[nameof(ApplyResources.Other)]">@Localizer[nameof(ApplyResources.Other)]</option>
                             </InputSelect>
                         </div>
                     </div>
@@ -130,10 +131,11 @@
                         <button type="submit" class="btn btn-primary @(_submitting ? "disabled" : "")" disabled="@_submitting">
                             <i class="fa-solid fa-paper-plane fa-fw"></i> @Localizer[nameof(ApplyResources.SendApplicationButton)]
                         </button>
-                        @if (_error is not null)
-                        {
-                            <p class="text-danger">@_error</p>
-                        }
+                    </div>
+                </div>
+                <div class="row text-danger">
+                    <div class="col mt-3">
+                        <ValidationSummary/>
                     </div>
                 </div>
             </EditForm>
@@ -146,11 +148,8 @@
     private bool _submitting;
     private bool _submitted;
     
-    private string? _error;
-
     private async Task HandleValidSubmitAsync()
     {
-        _error = null;
         _submitting = true;
         try
         {
@@ -159,7 +158,7 @@
         }
         catch (Exception e)
         {
-            _error =  $"{Localizer[nameof(ApplyResources.ErrorMessage)]} {e.Message}";
+            ToastService.ShowError( $"{Localizer[nameof(ApplyResources.ErrorMessage)]} {e.Message}");
         }
         finally
         {

@@ -3,10 +3,14 @@
 @using BrokenGrenade.Common.Models
 @using BrokenGrenade.Web.BL.Facades
 @using BrokenGrenade.Common.Enums
+@using BrokenGrenade.Common.Extensions
 @using BrokenGrenade.Web.App.Extensions
+@using BrokenGrenade.Web.App.Shared.Modals
 @inject ApplicationFacade ApplicationFacade
 @inject UserFacade UserFacade
+@inject IToastService ToastService
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
 @attribute [Authorize(Policy = PolicyTypes.ManageApplications)]
 
 <PageTitle>Správa přihlášky — BG Hub</PageTitle>
@@ -19,7 +23,7 @@
             </a>
             @if (_application is not null)
             {
-                <button class="btn btn-sm btn-link link-danger text-decoration-none">
+                <button class="btn btn-sm btn-link link-danger text-decoration-none" @onclick="DeleteApplicationAsync">
                     <i class="fa-solid fa-remove"></i> Odstranit přihlášku
                 </button>
             }
@@ -30,7 +34,7 @@
 
 <div class="card bg-dark-subtle mb-4">
     <div class="card-header">
-        <h6 class="card-title mb-0">Detail přihlášky</h6>
+        <h6 class="card-title mb-0">Obsah přihlášky</h6>
     </div>
     <div class="card-body">
         @if (_application is null)
@@ -88,25 +92,25 @@
             <div class="row">
                 <div class="col mb-3">
                     <label class="form-label">Popiš sám sebe</label>
-                    <textarea class="form-control disabled" value="@_application.About" disabled></textarea>
+                    <textarea class="form-control disabled" value="@_application.About" rows="@_application.About.Rows()" disabled></textarea>
                 </div>
             </div>
             <div class="row">
                 <div class="col mb-3">
                     <label class="form-label">Předchozí zkušenosti</label>
-                    <textarea class="form-control disabled" value="@_application.PreviousExperience" disabled></textarea>
+                    <textarea class="form-control disabled" value="@_application.PreviousExperience" rows="@_application.PreviousExperience.Rows()" disabled></textarea>
                 </div>
             </div>
             <div class="row">
                 <div class="col mb-3">
                     <label class="form-label">Proč se k nám chceš přidat?</label>
-                    <textarea class="form-control disabled" value="@_application.ReasonToJoin" disabled></textarea>
+                    <textarea class="form-control disabled" value="@_application.ReasonToJoin" rows="@_application.ReasonToJoin.Rows()" disabled></textarea>
                 </div>
             </div>
             <div class="row">
                 <div class="col mb-3">
                     <label class="form-label">Co nám můžeš nabídnout?</label>
-                    <textarea class="form-control disabled" value="@_application.WhatCanYouOffer" disabled></textarea>
+                    <textarea class="form-control disabled" value="@_application.WhatCanYouOffer" rows="@_application.WhatCanYouOffer.Rows()" disabled></textarea>
                 </div>
             </div>
         }
@@ -115,23 +119,76 @@
 
 <div class="card bg-dark-subtle mb-4">
     <div class="card-header">
-        <h6 class="card-title mb-0">Akce</h6>
+        <h6 class="card-title mb-0">Stav přihlášky</h6>
     </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col">
-                <div class="d-flex flex-row gap-2">
-                    <button class="btn btn-success" @onclick="AcceptAsync">Přijmout přihlášku</button>
-                    <button class="btn btn-danger" @onclick="RejectAsync">Odmítnout přihlášku</button>
+        @if (_application is null)
+        {
+            <p class="text-center fw-bold">Načítání...</p>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-12 col-sm-4 col-md-3 mb-3">
+                    <label class="form-label">Vytvořeno</label>
+                    <input type="text" class="form-control disabled" value="@_application.CreatedAt.ToDateTimeString()" disabled/>
+                </div>
+                <div class="col-12 col-sm-4 col-md-3 mb-3">
+                    
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label class="form-label">Status</label>
+                    @switch (_application.Status)
+                    {
+                        case ApplicationStatus.AwaitingDecision:
+                            <a role="button" class="form-control btn btn-warning disabled">Nerozhodnuto</a>
+                            break;
+                                            
+                        case ApplicationStatus.Accepted:
+                            <a role="button" class="form-control btn btn-sm btn-success disabled">Přijat</a>
+                            break;
+                                                
+                        case ApplicationStatus.Rejected:
+                            <a role="button" class="form-control btn btn-sm btn-danger disabled">Odmítnut</a>
+                            break;
+                        default:
+                            <span>Neznámý stav</span>
+                            break;
+                    }
+                    
                 </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex flex-row gap-2">
+                        @if (_application.Status != ApplicationStatus.Accepted)
+                        {
+                            <button class="btn btn-success" @onclick="AcceptAsync">Přijmout přihlášku</button>
+                            <button class="btn btn-danger" @onclick="RejectAsync">Odmítnout přihlášku</button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-success disabled">Přijmout přihlášku</button>
+                            <span data-bs-toggle="tooltip" data-bs-title="Přijatou přihlášku již nelze dál upravovat">
+                                <button class="btn btn-danger disabled" >Odmítnout přihlášku</button>
+                            </span>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </div>
 
 @code {
     [Parameter]
     public Guid Id { get; set; }
+    
+    [CascadingParameter]
+    public IModalService Modal { get; set; } = default!;
 
     private ApplicationModel? _application;
     private UserModel? _currentUser;
@@ -152,17 +209,55 @@
         _application.Status = ApplicationStatus.Rejected;
         _application.EditedById = _currentUser.Id;
         await ApplicationFacade.SaveAsync(_application);
+        ToastService.ShowSuccess("Přihláška byla úspěšně zamítnuta.");
     }
 
     private async Task AcceptAsync()
     {
         if (_application is null || _currentUser is null)
             return;
+
+        var parameters = new ModalParameters()
+            .Add(nameof(CreateUserFromApplicationModal.Application), _application);
+
+        var modalResult = await Modal.Show<CreateUserFromApplicationModal>(string.Empty, parameters, ModalPresets.CustomLayout).Result;
+        if (!modalResult.Confirmed)
+            return;
         
-        // TODO Create user
+        var user = modalResult.Data as UserModel;
+        if (user is null)
+        {
+            ToastService.ShowError("Nepodařilo se vytvořit uživatele.");
+            return;
+        }
+        
+        await UserFacade.CreateAsync(user);
+        ToastService.ShowSuccess("Uživatel byl úspěšně vytvořen.");
         
         _application.Status = ApplicationStatus.Accepted;
+        _application.UserId = user.Id;
         _application.EditedById = _currentUser.Id;
+        
         await ApplicationFacade.SaveAsync(_application);
+        ToastService.ShowSuccess("Přihláška byla úspěšně přijata.");
+    }
+
+    private async Task DeleteApplicationAsync()
+    {
+        if (_application is null)
+            return;
+        
+        var parameters = new ModalParameters()
+            .Add(nameof(DeleteConfirmationModal.Title), "Opravdu chcete odstranit tuto přihlášku?")
+            .Add(nameof(DeleteConfirmationModal.WarningText), "V případě již přijaté přihlášky zůstane uživatel zachován.")
+            .Add(nameof(DeleteConfirmationModal.DangerText), "Tato operace je nevratná");
+
+        var modalResult = await Modal.Show<DeleteConfirmationModal>(string.Empty, parameters, ModalPresets.CustomLayout).Result;
+        if (!modalResult.Confirmed)
+            return;
+        
+        await ApplicationFacade.DeleteAsync(_application);
+        NavigationManager.NavigateTo("/applications");
+        ToastService.ShowSuccess("Přihláška byla úspěšně odstraněna.");
     }
 }

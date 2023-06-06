@@ -2,6 +2,7 @@
 @using BrokenGrenade.Web.App.Extensions
 @using BrokenGrenade.Web.BL.Facades
 @using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Shared.Modals
 
 @inject MissionFacade MissionFacade
 @inject MissionTypeFacade MissionTypeFacade
@@ -9,6 +10,7 @@
 @inject UserFacade UserFacade
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IToastService ToastService
 
 <PageTitle>Upravit misi — BG Hub</PageTitle>
 
@@ -20,7 +22,7 @@
             </a>
             @if (_mission is not null)
             {
-                <button class="btn btn-sm btn-link link-danger text-decoration-none">
+                <button class="btn btn-sm btn-link link-danger text-decoration-none" @onclick="DeleteMissionAsync">
                     <i class="fa-solid fa-remove"></i> Odstranit misi
                 </button>
             }
@@ -117,6 +119,9 @@
     
     [Parameter]
     public Guid Id { get; set; }
+    
+    [CascadingParameter]
+    public IModalService Modal { get; set; } = default!;
 
     private MissionModel? _mission;
     private EditContext? _editContext;
@@ -133,7 +138,7 @@
         if (_mission is null)
         {
             NavigationManager.NavigateTo("/Mission");
-            // TODO Show error
+            ToastService.ShowError("Při načítání mise došlo k chybě.");
             return;
         }
         
@@ -143,7 +148,7 @@
         if (_mission.CreatorId != _currentUser?.Id && (!_currentUser?.Roles.Any(x => x.ManageMissions) ?? false))
         {
             NavigationManager.NavigateTo("/Mission");
-            // TODO Show error
+            ToastService.ShowError("Nemáš oprávnění upravovat tuto misi.");
             return;
         }
         
@@ -168,5 +173,24 @@
 
         await MissionFacade.SaveAsync(_mission);
         NavigationManager.NavigateTo($"/Mission/{_mission.Id}");
+        ToastService.ShowSuccess("Mise byla úspěšně upravena.");
+    }
+
+    private async Task DeleteMissionAsync()
+    {
+        if (_mission is null)
+            return;
+        
+        var parameters = new ModalParameters()
+            .Add(nameof(DeleteConfirmationModal.Title), "Opravdu chcete odstranit tuto misi?")
+            .Add(nameof(DeleteConfirmationModal.DangerText), "Tato operace je nevratná.");
+        
+        var modalResult = await Modal.Show<DeleteConfirmationModal>("Opravdu chcete odstranit tuto misi?", parameters, ModalPresets.CustomLayout).Result;
+        if (!modalResult.Confirmed)
+            return;
+        
+        await MissionFacade.DeleteAsync(_mission);
+        NavigationManager.NavigateTo("/Mission");
+        ToastService.ShowSuccess("Mise byla úspěšně odstraněna.");
     }
 }

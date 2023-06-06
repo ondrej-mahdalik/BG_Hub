@@ -133,7 +133,7 @@ public class DiscordWebhookSender
             .WithFields(
                 new EmbedFieldBuilder()
                     .WithName("Přezdívka")
-                    .WithValue(application.Nickname ?? "Neuvedeno")
+                    .WithValue(application.Nickname)
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
                     .WithName("Email")
@@ -156,13 +156,13 @@ public class DiscordWebhookSender
                     .WithValue(application.About),
                 new EmbedFieldBuilder()
                     .WithName("Předchozí zkušenosti")
-                    .WithValue(application.PreviousExperience),
+                    .WithValue(string.IsNullOrWhiteSpace(application.PreviousExperience) ? "*Neuvedeno*" : application.PreviousExperience),
                 new EmbedFieldBuilder()
                     .WithName("Proč se chceš přidat k BG?")
                     .WithValue(application.ReasonToJoin),
                 new EmbedFieldBuilder()
                     .WithName("Reference")
-                    .WithValue(application.HowDidYouFindUs)
+                    .WithValue(string.IsNullOrWhiteSpace(application.HowDidYouFindUs) ? "*Neuvedeno*" : application.HowDidYouFindUs)
             );
 
         return await _applicationWebhook.SendMessageAsync(text: "@everyone",

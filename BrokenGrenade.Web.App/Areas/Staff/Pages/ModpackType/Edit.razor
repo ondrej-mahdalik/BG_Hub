@@ -1,9 +1,12 @@
 ﻿@page "/Staff/ModpackType/Edit/{Id:guid}"
 @using BrokenGrenade.Common.Permissions
 @using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Extensions
+@using BrokenGrenade.Web.App.Shared.Modals
 @using BrokenGrenade.Web.BL.Facades
 @inject ModpackTypeFacade ModpackTypeFacade
 @inject NavigationManager NavigationManager
+@inject IToastService ToastService
 @attribute [Authorize(Policy = PolicyTypes.ManageModpackTypes)]
 
 <PageTitle>Upravit modpack — BG Hub</PageTitle>
@@ -14,7 +17,7 @@
             <a class="btn btn-sm btn-link text-decoration-none" href="/Staff/ModpackType">
                 <i class="fa-solid fa-angles-left"></i> Zpět na všechny typy
             </a>
-            <button class="btn btn-sm btn-link text-danger text-decoration-none">
+            <button class="btn btn-sm btn-link text-danger text-decoration-none" @onclick="DeleteModpackTypeAsync">
                 <i class="fa-solid fa-trash-can"></i> Odstranit
             </button>
         </div>
@@ -57,6 +60,9 @@
 @code {
     [Parameter]
     public Guid Id { get; set; }
+    
+    [CascadingParameter]
+    public IModalService Modal { get; set; } = default!;
 
     private ModpackTypeModel? _modpackType;
 
@@ -72,5 +78,25 @@
         
         await ModpackTypeFacade.SaveAsync(_modpackType);
         NavigationManager.NavigateTo($"/Staff/ModpackType");
+        ToastService.ShowSuccess("Typ modpacku byl úspěšně upraven.");
+    }
+    
+    private async Task DeleteModpackTypeAsync()
+    {
+        if (_modpackType is null)
+            return;
+
+        var parameters = new ModalParameters()
+            .Add(nameof(DeleteConfirmationModal.Title), "Opravdu chcete odstranit tento typ modpacku?")
+            .Add(nameof(DeleteConfirmationModal.WarningText), "Všechny mise s tímto typem modpacku se budou zobrazovat jako \"Ostatní\".")
+            .Add(nameof(DeleteConfirmationModal.DangerText), "Tato akce je nevratná.");
+        
+        var modalResult = await Modal.Show<DeleteConfirmationModal>(string.Empty, parameters, ModalPresets.CustomLayout).Result;
+        if (!modalResult.Confirmed)
+            return;
+        
+        await ModpackTypeFacade.DeleteAsync(_modpackType);
+        NavigationManager.NavigateTo($"/Staff/ModpackType");
+        ToastService.ShowSuccess("Typ modpacku byl úspěšně odstraněn.");
     }
 }

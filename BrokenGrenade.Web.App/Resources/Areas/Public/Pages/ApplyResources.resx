@@ -99,4 +99,7 @@
     <data name="ErrorMessage" xml:space="preserve">
         <value>Při odesílání přihlášky došlo k chybě:</value>
     </data>
+    <data name="NotSpecified" xml:space="preserve">
+        <value>Neuvedeno</value>
+    </data>
 </root>
