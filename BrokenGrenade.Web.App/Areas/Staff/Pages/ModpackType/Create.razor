@@ -50,6 +50,6 @@
     private async Task CreateModpackTypeAsync()
     {
         await ModpackTypeFacade.SaveAsync(_modpackType);
-        NavigationManager.NavigateTo($"/Staff/ModpackType/{_modpackType.Id}");
+        NavigationManager.NavigateTo($"/Staff/ModpackType");
     }
 }

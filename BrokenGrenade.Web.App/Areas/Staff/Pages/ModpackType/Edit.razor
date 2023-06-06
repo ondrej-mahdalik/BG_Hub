@@ -23,27 +23,34 @@
 </div>
 <div class="card bg-dark-subtle mb-4">
     <div class="card-body">
-        <EditForm Model="_modpackType" OnValidSubmit="EditModpackTypeAsync">
-            <div class="row text-danger">
-                <div class="col">
-                    <DataAnnotationsValidator/>
-                    <ValidationSummary/>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="mb-3">
-                        <label class="form-label">Název</label>
-                        <InputText class="form-control" @bind-Value="_modpackType.Name"/>
+        @if (_modpackType is null)
+        {
+            <p class="text-center fw-bold">Načítání...</p>
+        }
+        else
+        {
+            <EditForm Model="_modpackType" OnValidSubmit="EditModpackTypeAsync">
+                <div class="row text-danger">
+                    <div class="col">
+                        <DataAnnotationsValidator/>
+                        <ValidationSummary/>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <button type="submit" class="btn btn-primary">Uložit změny</button>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="form-label">Název</label>
+                            <InputText class="form-control" @bind-Value="_modpackType.Name"/>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </EditForm>
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Uložit změny</button>
+                    </div>
+                </div>
+            </EditForm>
+        }
     </div>
 </div>
 
@@ -64,6 +71,6 @@
             return;
         
         await ModpackTypeFacade.SaveAsync(_modpackType);
-        NavigationManager.NavigateTo($"/Staff/ModpackType{_modpackType.Id}");
+        NavigationManager.NavigateTo($"/Staff/ModpackType");
     }
 }
