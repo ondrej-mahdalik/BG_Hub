@@ -1,3 +1,5 @@
+using Blazored.Modal;
+using Blazored.Toast;
 using BrokenGrenade.Common.Permissions;
 using BrokenGrenade.Web.App.Areas.Identity;
 using BrokenGrenade.Web.App.Extensions;
@@ -27,7 +29,7 @@ builder.Configuration
 
 ConfigureControllers(builder.Services);
 ConfigureDependencies(builder.Services, builder.Configuration);
-ConfigureAuthentication(builder.Services, builder.Configuration);
+ConfigureAuthentication(builder.Services);
 
 var app = builder.Build();
 
@@ -106,6 +108,9 @@ void ConfigureDependencies(IServiceCollection serviceCollection, IConfiguration 
             });
             break;
     }
+
+    serviceCollection.AddBlazoredModal();
+    serviceCollection.AddBlazoredToast();
     
     Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(configuration.GetValue<string>("License:Syncfusion:SyncfusionKey"));
     serviceCollection.AddSyncfusionBlazor();
@@ -120,19 +125,12 @@ void ConfigureDependencies(IServiceCollection serviceCollection, IConfiguration 
 
 }
 
-void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguration configuration)
+void ConfigureAuthentication(IServiceCollection serviceCollection)
 {
     serviceCollection.AddDefaultIdentity<UserEntity>(options => options.SignIn.RequireConfirmedEmail = true)
         .AddRoles<RoleEntity>()
         .AddEntityFrameworkStores<BrokenGrenadeDbContext>();
-    // serviceCollection.AddIdentityServer()
-    //     .AddApiAuthorization<UserEntity, BrokenGrenadeDbContext>(options =>
-    //     {
-    //         options.IdentityResources["openid"].UserClaims.Add("role");
-    //         options.ApiResources.Single().UserClaims.Add("role");
-    //         options.IdentityResources["openid"].UserClaims.Add("permission");
-    //         options.ApiResources.Single().UserClaims.Add("permission");
-    //     });
+
     serviceCollection.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<UserEntity>>();
 
     serviceCollection.AddAuthentication();
@@ -178,19 +176,6 @@ void ConfigureAuthentication(IServiceCollection serviceCollection, IConfiguratio
                     or PermissionTypes.ManagePunishments 
                 })));
     });
-
-    // serviceCollection.Configure<IdentityOptions>(options =>
-    // {
-    //     options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier;
-    // });
-
-    // serviceCollection.Configure<JwtBearerOptions>(IdentityServerJwtConstants.IdentityServerJwtBearerScheme,
-    //     options => { options.Authority = configuration["IdentityServer:Authority"]; });
-
-    // serviceCollection.Configure<SecurityStampValidatorOptions>(options =>
-    // {
-    //     options.ValidationInterval = TimeSpan.FromMinutes(5);
-    // });
 }
 
 void UseDevelopmentSettings(WebApplication application)

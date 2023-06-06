@@ -4,6 +4,7 @@
 @using BrokenGrenade.Web.BL.Facades
 @inject RoleFacade RoleFacade
 @inject NavigationManager NavigationManager
+@inject IToastService ToastService
 @attribute [Authorize(Policy = PolicyTypes.ManageRoles)]
 
 <PageTitle>Nová role — BG Hub</PageTitle>
@@ -136,5 +137,6 @@
     {
         await RoleFacade.CreateAsync(_role);
         NavigationManager.NavigateTo("/Staff/Role");
+        ToastService.ShowSuccess("Role byla úspěšně vytvořena.");
     }
 }

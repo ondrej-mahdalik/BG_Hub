@@ -1,8 +1,15 @@
-﻿@inherits LayoutComponentBase
+﻿@using Blazored.Toast.Configuration
+@inherits LayoutComponentBase
 @inject IJSRuntime JSRuntime
 
 <PageTitle>Broken Grenade Hub</PageTitle>
 
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                    Timeout="10"
+                    IconType="IconType.FontAwesome"
+                    ShowProgressBar="true"
+                    ShowCloseButton="true"
+                    PauseProgressOnHover="true"/>
 <NavBar/>
 <div class="container-fluid">
     <div class="row">

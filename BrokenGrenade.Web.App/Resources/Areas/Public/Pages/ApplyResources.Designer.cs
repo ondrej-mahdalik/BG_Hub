@@ -206,5 +206,11 @@ namespace BrokenGrenade.Web.App.Resources.Areas.Public.Pages {
                 return ResourceManager.GetString("ErrorMessage", resourceCulture);
             }
         }
+        
+        internal static string NotSpecified {
+            get {
+                return ResourceManager.GetString("NotSpecified", resourceCulture);
+            }
+        }
     }
 }

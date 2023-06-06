@@ -4,6 +4,7 @@
 @using BrokenGrenade.Web.BL.Facades
 @inject MissionTypeFacade MissionTypeFacade
 @inject NavigationManager NavigationManager
+@inject IToastService ToastService
 @attribute [Authorize(Policy = PolicyTypes.ManageMissionTypes)]
 
 <PageTitle>Nový druh mise — BG Hub</PageTitle>
@@ -62,5 +63,6 @@
         
         await MissionTypeFacade.SaveAsync(_missionType);
         NavigationManager.NavigateTo("/Staff/MissionType");
+        ToastService.ShowSuccess("Druh mise byl úspěšně vytvořen.");
     }
 }

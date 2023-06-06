@@ -1,0 +1,101 @@
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.BL.Facades
+@inject RoleFacade RoleFacade
+
+<div class="modal fade show d-block" tabindex="-1" role="dialog">
+    <div class="modal-backdrop fade show" @onclick="CancelAsync"></div>
+    <div class="modal-dialog" style="z-index: 1050">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Vytvořit uživatele</h5>
+                <button class="btn btn-close" aria-label="Zavřít" @onclick="CancelAsync"></button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="_user" OnValidSubmit="ConfirmAsync">
+                    <div class="row">
+                        <div class="col">
+                            <DataAnnotationsValidator/>
+                            <ValidationSummary/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="nickname">Přezdívka</label>
+                                <InputText id="nickname" class="form-control" @bind-Value="_user.Nickname"/>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="email">Email</label>
+                                <InputText id="email" class="form-control" @bind-Value="_user.Email"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label" for="roles">Role</label>
+                                <SfMultiSelect id="roles"
+                                               CssClass="form-select"
+                                               TValue="Guid[]"
+                                               TItem="RoleModel"
+                                               DataSource="_roles"
+                                               @bind-Value="_selectedRoles"
+                                               AllowFiltering="true"
+                                               Placeholder="Výběr rolí">
+                                    <MultiSelectFieldSettings Value="@nameof(RoleModel.Id)" Text="@nameof(RoleModel.Name)"></MultiSelectFieldSettings>
+                                </SfMultiSelect>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="reset" class="btn btn-outline-secondary" @onclick="CancelAsync">Zrušit</button>
+                                <button type="submit" class="btn btn-primary">Vytvořit uživatele</button>
+                            </div>
+                        </div>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    BlazoredModalInstance Modal { get; set; } = default!;
+    
+    [Parameter]
+    public ApplicationModel? Application { get; set; }
+
+    private UserModel _user = new(string.Empty, string.Empty);
+    
+    private List<RoleModel>? _roles;
+    private Guid[] _selectedRoles = Array.Empty<Guid>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Application is null)
+            return;
+        
+        _roles = await RoleFacade.GetAsync();
+        
+        _user.Nickname = Application.Nickname;
+        _user.Email = Application.Email;
+    }
+
+    private async Task ConfirmAsync()
+    {
+        if (_roles is not null)
+            _user.Roles = _roles.IntersectBy(_selectedRoles, x => x.Id).ToList();
+        
+        await Modal.CloseAsync(ModalResult.Ok(_user));
+    }
+    
+    private async Task CancelAsync()
+    {
+        await Modal.CancelAsync();
+    }
+}

@@ -9,6 +9,7 @@
 @inject UserFacade UserFacade
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IToastService ToastService
 @attribute [Authorize(Policy = PolicyTypes.CreateMissions)]
 
 <PageTitle>Nová mise — BG Hub</PageTitle>
@@ -130,11 +131,15 @@
     private async Task CreateMissionAsync()
     {
         if (_currentUser is null)
-            throw new InvalidOperationException("Failed to get current user.");
-        
+        {
+            ToastService.ShowError("Při vytváření mise došlo k chybě. Zkus to prosím znovu.");
+            return;
+        }
+
         _mission.CreatorId = _currentUser.Id;
         await MissionFacade.SaveAsync(_mission);
 
         NavigationManager.NavigateTo($"/Mission/{_mission.Id}");
+        ToastService.ShowSuccess("Mise byla úspěšně vytvořena.");
     }
 }

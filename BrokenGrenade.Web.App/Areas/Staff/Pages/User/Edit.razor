@@ -1,10 +1,13 @@
 ﻿@page "/Staff/User/Edit/{Id:guid}"
 @using BrokenGrenade.Common.Permissions
 @using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Extensions
+@using BrokenGrenade.Web.App.Shared.Modals
 @using BrokenGrenade.Web.BL.Facades
 @inject UserFacade UserFacade
 @inject RoleFacade RoleFacade
 @inject NavigationManager NavigationManager
+@inject IToastService ToastService
 @attribute [Authorize(Policy = PolicyTypes.ManageUsers)]
 
 <PageTitle>Upravit uživatele — BG Hub</PageTitle>
@@ -106,7 +109,7 @@
                                                TValue="Guid[]"
                                                TItem="RoleModel"
                                                DataSource="_roles"
-                                               @bind-Value="                                            _selectedRoles"
+                                               @bind-Value="_selectedRoles"
                                                AllowFiltering="true"
                                                Placeholder="Výběr rolí">
                                     <MultiSelectFieldSettings Value="@nameof(RoleModel.Id)" Text="@nameof(RoleModel.Name)"></MultiSelectFieldSettings>
@@ -128,6 +131,9 @@
 @code {
     [Parameter]
     public Guid Id { get; set; }
+    
+    [CascadingParameter]
+    public IModalService Modal { get; set; } = default!;
 
     private UserModel? _user;
     private List<RoleModel>? _roles;
@@ -137,8 +143,12 @@
     {
         _user = await UserFacade.GetAsync(Id);
         if (_user is null)
-            return; // TODO: Error handling
-        
+        {
+            NavigationManager.NavigateTo("/Staff/User");
+            ToastService.ShowError("Nepodařilo se načíst uživatele.");
+            return;
+        }
+
         _roles = await RoleFacade.GetAsync();
         _selectedRoles = _user.Roles.Select(x => x.Id).ToArray();
     }
@@ -153,5 +163,25 @@
         
         await UserFacade.UpdateAsync(_user);
         NavigationManager.NavigateTo("/Staff/User");
+        ToastService.ShowSuccess("Uživatel byl úspěšně upraven.");
+    }
+
+    private async Task DeleteUserAsync()
+    {
+        if (_user is null)
+            return;
+
+        var parameters = new ModalParameters()
+            .Add(nameof(DeleteConfirmationModal.Title), "Opravdu chcete odstranit tohoto uživatele?")
+            .Add(nameof(DeleteConfirmationModal.WarningText), $"U všech misí a výcviků daného uživatele se bude zobrazovat \"Odstraněný uživatel\".\nVšechna osobní data budou odstraněna.")
+            .Add(nameof(DeleteConfirmationModal.DangerText), "Tato akce je nevratná.");
+
+        var modalResult = await Modal.Show<DeleteConfirmationModal>(string.Empty, parameters, ModalPresets.CustomLayout).Result;
+        if (!modalResult.Confirmed)
+            return;
+
+        await UserFacade.DeleteAsync(_user);
+        NavigationManager.NavigateTo("/Staff/User");
+        ToastService.ShowSuccess("Uživatel byl úspěšně odstraněn.");
     }
 }

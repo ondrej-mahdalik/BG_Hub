@@ -1,16 +1,28 @@
 ﻿@page "/Staff/Training/Edit/{Id:guid}"
 @using BrokenGrenade.Web.App.Extensions
 @using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Shared.Modals
 @using BrokenGrenade.Web.BL.Facades
 @inject TrainingFacade TrainingFacade
 @inject UserFacade UserFacade
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IToastService ToastService
 
-<PageTitle>Úprava výcviku — BG Hub</PageTitle>
+<PageTitle>Upravit výcvik — BG Hub</PageTitle>
 
 <div class="pt-3 pb-2 mb-3">
-    <h1 class="h2">Úprava výcviku</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a class="btn btn-sm btn-link text-decoration-none" href="/Training">
+                <i class="fa-solid fa-angles-left"></i> Zpět na všechny výcviky
+            </a>
+            <button class="btn btn-sm btn-link text-danger text-decoration-none" @onclick="DeleteTrainingAsync">
+                <i class="fa-solid fa-trash-can"></i> Odstranit
+            </button>
+        </div>
+    </div>
+    <h1 class="h2">Upravit výcvik</h1>
 </div>
 <div class="card bg-dark-subtle mb-4">
     <div class="card-body">
@@ -98,6 +110,9 @@
 @code {
     [Parameter]
     public Guid Id { get; set; }
+    
+    [CascadingParameter]
+    public IModalService Modal { get; set; } = default!;
 
     private TrainingModel? _training;
     private UserModel? _currentUser;
@@ -108,7 +123,7 @@
         if (_training == null)
         {
             NavigationManager.NavigateTo("/Training");
-    // TODO: Show error
+            ToastService.ShowError("Při načítání výcviku došlo k chybě.");
             return;
         }
 
@@ -117,7 +132,8 @@
 
         if (_training.CreatorId != _currentUser?.Id && (!_currentUser?.Roles.Any(x => x.ManageTrainings) ?? false))
         {
-    // TODO Show error
+            NavigationManager.NavigateTo("/");
+            ToastService.ShowError("Nemáte oprávnění upravovat tento výcvik.");
         }
     }
 
@@ -128,5 +144,24 @@
 
         await TrainingFacade.SaveAsync(_training);
         NavigationManager.NavigateTo($"/Training/{_training.Id}");
+        ToastService.ShowSuccess("Výcvik byl úspěšně upraven.");
+    }
+
+    private async Task DeleteTrainingAsync()
+    {
+        if (_training is null)
+            return;
+
+        var parameters = new ModalParameters()
+            .Add(nameof(DeleteConfirmationModal.Title), "Opravdu chcete odstranit tento výcvik?")
+            .Add(nameof(DeleteConfirmationModal.DangerText), "Tato operace je nevratná.");
+
+        var modalResult = await Modal.Show<DeleteConfirmationModal>(string.Empty, parameters, ModalPresets.CustomLayout).Result;
+        if (!modalResult.Confirmed)
+            return;
+
+        await TrainingFacade.DeleteAsync(_training);
+        NavigationManager.NavigateTo("/Training");
+        ToastService.ShowSuccess("Výcvik byl úspěšně odstraněn.");
     }
 }

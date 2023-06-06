@@ -5,6 +5,7 @@
 @inject UserFacade UserFacade
 @inject RoleFacade RoleFacade
 @inject NavigationManager NavigationManager
+@inject IToastService ToastService
 @attribute [Authorize(Policy = PolicyTypes.ManageUsers)]
 
 <PageTitle>Nový uživatel — BG Hub</PageTitle>
@@ -87,5 +88,6 @@
         
         await UserFacade.CreateAsync(_user);
         NavigationManager.NavigateTo("/Staff/User");
+        ToastService.ShowSuccess("Uživatel byl úspěšně vytvořen.");
     }
 }

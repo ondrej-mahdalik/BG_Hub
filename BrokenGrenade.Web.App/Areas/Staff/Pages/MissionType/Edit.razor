@@ -2,8 +2,11 @@
 @using BrokenGrenade.Common.Permissions
 @using BrokenGrenade.Web.BL.Facades
 @using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Extensions
+@using BrokenGrenade.Web.App.Shared.Modals
 @inject MissionTypeFacade MissionTypeFacade
 @inject NavigationManager NavigationManager
+@inject IToastService ToastService
 @attribute [Authorize(Policy = PolicyTypes.ManageMissionTypes)]
 
 <PageTitle>Upravit druh mise — BG Hub</PageTitle>
@@ -14,7 +17,7 @@
             <a class="btn btn-sm btn-link text-decoration-none" href="/Staff/MissionType">
                 <i class="fa-solid fa-angles-left"></i> Zpět na všechny druhy
             </a>
-            <button class="btn btn-sm btn-link text-danger text-decoration-none">
+            <button class="btn btn-sm btn-link text-danger text-decoration-none" @onclick="DeleteMissionTypeAsync">
                 <i class="fa-solid fa-trash-can"></i> Odstranit
             </button>
         </div>
@@ -66,6 +69,9 @@
     [Parameter]
     public Guid Id { get; set; }
     
+    [CascadingParameter]
+    public IModalService Modal { get; set; } = default!;
+    
     private MissionTypeModel? _missionType;
 
     protected override async Task OnInitializedAsync()
@@ -83,5 +89,24 @@
         
         await MissionTypeFacade.SaveAsync(_missionType);
         NavigationManager.NavigateTo("/Staff/MissionType");
+    }
+
+    private async Task DeleteMissionTypeAsync()
+    {
+        if (_missionType is null)
+            return;
+        
+        var parameters = new ModalParameters()
+            .Add(nameof(DeleteConfirmationModal.Title), "Opravdu chcete odstranit tento druh mise?")
+            .Add(nameof(DeleteConfirmationModal.WarningText), "U všech misí tohoto druhu se bude zobrazovat \"Odstraněný druh\".")
+            .Add(nameof(DeleteConfirmationModal.DangerText), "Tato akce je nevratná.");
+
+        var modalResult = await Modal.Show<DeleteConfirmationModal>(string.Empty, parameters, ModalPresets.CustomLayout).Result;
+        if (!modalResult.Confirmed)
+            return;
+        
+        await MissionTypeFacade.DeleteAsync(_missionType);
+        NavigationManager.NavigateTo("/Staff/MissionType");
+        ToastService.ShowSuccess("Druh mise byl úspěšně odstraněn.");
     }
 }

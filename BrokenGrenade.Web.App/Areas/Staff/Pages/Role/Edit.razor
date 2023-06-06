@@ -2,8 +2,11 @@
 @using BrokenGrenade.Common.Permissions
 @using BrokenGrenade.Web.BL.Facades
 @using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Extensions
+@using BrokenGrenade.Web.App.Shared.Modals
 @inject RoleFacade RoleFacade
 @inject NavigationManager NavigationManager
+@inject IToastService ToastService
 @attribute [Authorize(Policy = PolicyTypes.ManageRoles)]
 
 <PageTitle>Upravit roli — BG Hub</PageTitle>
@@ -14,7 +17,7 @@
             <a class="btn btn-sm btn-link text-decoration-none" href="/Staff/Role">
                 <i class="fa-solid fa-angles-left"></i> Zpět na všechny role
             </a>
-            <button class="btn btn-sm btn-link text-danger text-decoration-none">
+            <button class="btn btn-sm btn-link text-danger text-decoration-none" @onclick="DeleteRoleAsync">
                 <i class="fa-solid fa-trash-can"></i> Odstranit
             </button>
         </div>
@@ -142,6 +145,9 @@
     [Parameter]
     public Guid Id { get; set; }
     
+    [CascadingParameter]
+    public IModalService Modal { get; set; } = default!;
+    
     private RoleModel? _role;
 
     protected override async Task OnInitializedAsync()
@@ -155,5 +161,25 @@
         
         await RoleFacade.UpdateAsync(_role);
         NavigationManager.NavigateTo("/Staff/Role");
+        ToastService.ShowSuccess("Role byla úspěšně upravena.");
+    }
+
+    private async Task DeleteRoleAsync()
+    {
+        if (_role is null)
+            return;
+
+        var parameters = new ModalParameters()
+            .Add(nameof(DeleteConfirmationModal.Title), "Opravdu chcete odstranit tuto roli?")
+            .Add(nameof(DeleteConfirmationModal.WarningText), "Všichni uživatelé s touto rolí přijdou o ni a s ní spojená oprávnění.")
+            .Add(nameof(DeleteConfirmationModal.DangerText), "Tato akce je nevratná.");
+        
+        var modalResult = await Modal.Show<DeleteConfirmationModal>("Opravdu chcete odstranit tuto roli?", parameters, ModalPresets.CustomLayout).Result;
+        if (!modalResult.Confirmed)
+            return;
+        
+        await RoleFacade.DeleteAsync(_role.Id);
+        NavigationManager.NavigateTo("/Staff/Role");
+        ToastService.ShowSuccess("Role byla úspěšně odstraněna.");
     }
 }

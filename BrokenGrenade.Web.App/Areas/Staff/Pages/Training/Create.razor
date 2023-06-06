@@ -8,6 +8,7 @@
 @inject TrainingFacade TrainingFacade
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
+@inject IToastService ToastService
 @attribute [Authorize(Policy = PolicyTypes.CreateTrainings)]
 
 <PageTitle>Nový výcvik — BG Hub</PageTitle>
@@ -91,5 +92,6 @@
         await TrainingFacade.SaveAsync(_training, _mentionType);
 
         NavigationManager.NavigateTo($"/Training/{_training.Id}");
+        ToastService.ShowSuccess("Výcvik byl úspěšně vytvořen.x");
     }
 }

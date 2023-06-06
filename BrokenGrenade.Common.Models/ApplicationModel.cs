@@ -50,7 +50,7 @@ public class ApplicationModel : ModelBase
     [Display(Name = "Máš již nějakou zkušenost s Arma skupinami?")]
     [StringLength(500, ErrorMessage = "Odpověď musí mít maximálně {1} znaků.")]
     [JsonProperty]
-    public string PreviousExperience { get; set; }
+    public string? PreviousExperience { get; set; }
     
     [Required(ErrorMessage = "Pole {0} je povinné.")]
     [Display(Name = "Proč se k nám chceš přidat?")]
@@ -67,7 +67,7 @@ public class ApplicationModel : ModelBase
     [Display(Name = "Jak jsi se o nás dozvěděl?")]
     [StringLength(500, ErrorMessage = "Odpověď musí mít maximálně {1} znaků.")]
     [JsonProperty]
-    public string HowDidYouFindUs { get; set; }
+    public string? HowDidYouFindUs { get; set; }
     
     [Required(ErrorMessage = "Pole {0} je povinné.")]
     [Range(typeof(bool), "true", "true", ErrorMessage = "Musíš souhlasit s našimi pravidly.")]
