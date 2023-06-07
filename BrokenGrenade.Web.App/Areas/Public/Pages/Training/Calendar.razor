@@ -30,9 +30,7 @@
                 <ScheduleViews>
                     <ScheduleView Option="View.Month" FirstDayOfWeek="1" Readonly="true" />
                 </ScheduleViews>
-                @if (_trainings.Count > 0)
-                {
-                    <ScheduleEventSettings DataSource="_trainings" EnableTooltip="true">
+                <ScheduleEventSettings DataSource="_trainings" EnableTooltip="true">
                         <TooltipTemplate>
                             <div>
                                 <p class="mb-0">@SharedLocalizer[nameof(SharedResources.TrainingCreator)]: <b>@((context as TrainingModel)?.Creator?.Nickname ?? SharedLocalizer[nameof(SharedResources.DeletedUser)])</b></p>
@@ -47,7 +45,6 @@
                         </ChildContent>
                     </ScheduleEventSettings>
                     <ScheduleEvents TValue="TrainingModel" OnEventClick="HandleEventClick"/>
-                }
             </SfSchedule>
         }
     </div>
@@ -55,7 +52,7 @@
 
 @code {
     
-    private List<TrainingModel>? _trainings = new();
+    private List<TrainingModel>? _trainings;
 
     protected override async Task OnInitializedAsync()
     {
