@@ -20,10 +20,10 @@
             </a>
             @if (_user is not null)
             {
-                <button class="btn btn-sm btn-link link-warning text-decoration-none">
+                <button class="btn btn-sm btn-link link-warning text-decoration-none" @onclick="ResetPasswordAsync">
                     <i class="fa-solid fa-key"></i> Obnovit heslo
                 </button>
-                <button class="btn btn-sm btn-link link-danger text-decoration-none">
+                <button class="btn btn-sm btn-link link-danger text-decoration-none" @onclick="DeleteUserAsync">
                     <i class="fa-solid fa-remove"></i> Odstranit uživatele
                 </button>
             }
@@ -183,5 +183,17 @@
         await UserFacade.DeleteAsync(_user);
         NavigationManager.NavigateTo("/Staff/User");
         ToastService.ShowSuccess("Uživatel byl úspěšně odstraněn.");
+    }
+
+    private async Task ResetPasswordAsync()
+    {
+        if (_user is null)
+            return;
+        
+        var modalResult = await Modal.Show<ConfirmPasswordResetModal>(string.Empty, ModalPresets.CustomLayout).Result;
+        if (!modalResult.Confirmed)
+            return;
+
+        await UserFacade.ResetPasswordAsync(_user.Email);
     }
 }
