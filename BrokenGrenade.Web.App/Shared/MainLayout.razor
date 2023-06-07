@@ -24,6 +24,9 @@
 {
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (firstRender)
+            await JSRuntime.InvokeVoidAsync("HideLoadingIndicator");
+        
         await JSRuntime.InvokeVoidAsync("InitTooltips");
     }
 }
