@@ -15,3 +15,8 @@ function CollapseSidebar(sidebarId, buttonId) {
         EmulateClick(buttonId);
     }
 }
+
+function HideLoadingIndicator() {
+    const element = document.getElementById("loadingIndicator");
+    element.remove();
+}
