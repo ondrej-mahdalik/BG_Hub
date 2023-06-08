@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using BrokenGrenade.Web.App.Resources;
 using BrokenGrenade.Web.App.Resources.Areas.Identity.Pages.Account;
+using BrokenGrenade.Web.BL.Facades;
 using BrokenGrenade.Web.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -22,12 +23,14 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
         private readonly UserManager<UserEntity> _userManager;
         private readonly IEmailSender _emailSender;
         private readonly IStringLocalizer<ForgotPasswordResource> _localizer;
+        private readonly UserFacade _userFacade;
 
-        public ForgotPasswordModel(UserManager<UserEntity> userManager, IEmailSender emailSender, IStringLocalizer<ForgotPasswordResource> localizer)
+        public ForgotPasswordModel(UserManager<UserEntity> userManager, IEmailSender emailSender, IStringLocalizer<ForgotPasswordResource> localizer, UserFacade userFacade)
         {
             _userManager = userManager;
             _emailSender = emailSender;
             _localizer = localizer;
+            _userFacade = userFacade;
         }
 
         /// <summary>
@@ -56,27 +59,14 @@ namespace BrokenGrenade.Web.App.Areas.Identity.Pages.Account
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(Input.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                try
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
+                    await _userFacade.ResetPasswordAsync(Input.Email);
+                }
+                catch
+                {
                     return RedirectToPage("./ForgotPasswordConfirmation");
                 }
-
-                // For more information on how to enable account confirmation and password reset please
-                // visit https://go.microsoft.com/fwlink/?LinkID=532713
-                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callbackUrl = Url.Page(
-                    "/Account/ResetPassword",
-                    pageHandler: null,
-                    values: new { area = "Identity", code },
-                    protocol: Request.Scheme);
-
-                await _emailSender.SendEmailAsync(
-                    Input.Email,
-                    _localizer[nameof(ForgotPasswordResource.ResetPasswordEmailSubject)],
-                    _localizer[nameof(ForgotPasswordResource.ResetPasswordEmailMessage), HtmlEncoder.Default.Encode(callbackUrl ?? throw new InvalidOperationException("No callback url"))]);
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }
