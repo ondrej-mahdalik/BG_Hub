@@ -35,10 +35,21 @@
                         <InputText class="form-control" id="roleName" @bind-Value="_role.Name"/>
                     </div>
                 </div>
-                <div class="col-12 col-sm-6">
+                <div class="col-6 col-sm-3">
                     <div class="mb-3">
                         <label class="form-label" for="order">Pořadí</label>
                         <InputNumber class="form-control" id="order" @bind-Value="_role.Order"/>
+                    </div>
+                </div>
+                <div class="col-6 col-sm-3">
+                    <div class="mb-3 d-flex flex-column">
+                        <label class="form-label" for="color">Barva</label>
+                        <SfColorPicker id="color"
+                                       @bind-Value="_role.ColorHex"
+                                       NoColor="true"
+                                       EnableOpacity="false"
+                                       ShowButtons="false"
+                                       ModeSwitcher="false"/> 
                     </div>
                 </div>
             </div>
