@@ -3,6 +3,7 @@
 @using BrokenGrenade.Common.Models
 @using BrokenGrenade.Web.BL.Facades
 @inject ModpackTypeFacade ModpackTypeFacade
+@inject IToastService ToastService
 @attribute [Authorize(Policy = PolicyTypes.ManageModpackTypes)]
 
 <PageTitle>Správa modpacků — BG Hub</PageTitle>
@@ -52,6 +53,16 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _modpackTypes = await ModpackTypeFacade.GetAsync();
+        try
+        {
+            _modpackTypes = await ModpackTypeFacade.GetAsync();
+            if (_modpackTypes is null)
+                throw new Exception("Nepodařilo se načíst seznam modpacků.");
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
+        
     }
 }

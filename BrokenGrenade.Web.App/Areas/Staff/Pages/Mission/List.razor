@@ -9,6 +9,7 @@
 @inject MissionFacade MissionFacade
 @inject ModpackTypeFacade ModpackTypeFacade
 @inject MissionTypeFacade MissionTypeFacade
+@inject IToastService ToastService
 
 @attribute [Authorize(Policy = PolicyTypes.ManageMissions)]
 
@@ -140,13 +141,27 @@
     protected override async Task OnInitializedAsync()
     {
         await FilterAsync();
-        _missionTypes = await MissionTypeFacade.GetAsync();
-        _modpackTypes = await ModpackTypeFacade.GetAsync();
+        try
+        {
+            _missionTypes = await MissionTypeFacade.GetAsync();
+            _modpackTypes = await ModpackTypeFacade.GetAsync();
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
     }
     
     private async Task FilterAsync(int page = 0)
     {
-        _missions = await MissionFacade.GetPaginatedAsync(_filter, page);
+        try
+        {
+            _missions = await MissionFacade.GetPaginatedAsync(_filter, page);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
     }
 
     private void ResetFilter()

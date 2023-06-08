@@ -7,6 +7,7 @@
 @using BrokenGrenade.Common.Enums
 @inject ApplicationFacade ApplicationFacade
 @inject UserFacade UserFacade
+@inject IToastService ToastService
 @attribute [Authorize(Policy = PolicyTypes.ManageApplications)]
 
 <PageTitle>Správa přihlášek — BG Hub</PageTitle>
@@ -161,12 +162,26 @@
     protected override async Task OnInitializedAsync()
     {
         await FilterAsync();
-        _users = await UserFacade.GetWithoutNavigationPropertiesAsync();
+        try
+        {
+            _users = await UserFacade.GetWithoutNavigationPropertiesAsync();
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
     }
 
     private async Task FilterAsync(int page = 0)
     {
-        _applications = await ApplicationFacade.GetPaginatedAsync(_filter, page);
+        try
+        {
+            _applications = await ApplicationFacade.GetPaginatedAsync(_filter, page);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
     }
 
     private void ResetFilter()

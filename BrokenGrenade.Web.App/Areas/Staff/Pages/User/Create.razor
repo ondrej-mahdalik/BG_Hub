@@ -79,14 +79,29 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _roles = await RoleFacade.GetAsync();
+        try
+        {
+            _roles = await RoleFacade.GetAsync();
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
     }
     private async Task CreateUserAsync()
     {
         if (_roles is not null)
             _user.Roles = _roles.IntersectBy(_selectedRoles, x => x.Id).ToList();
+        try
+        {
+            await UserFacade.CreateAsync(_user);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
         
-        await UserFacade.CreateAsync(_user);
         NavigationManager.NavigateTo("/Staff/User");
         ToastService.ShowSuccess("Uživatel byl úspěšně vytvořen.");
     }

@@ -2,7 +2,9 @@
 @using BrokenGrenade.Common.Permissions
 @using BrokenGrenade.Common.Models
 @using BrokenGrenade.Web.BL.Facades
+@using Humanizer
 @inject MissionTypeFacade MissionTypeFacade
+@inject IToastService ToastService
 @attribute [Authorize(Policy = PolicyTypes.ManageMissionTypes)]
 
 <PageTitle>Správa druhů misí — BG Hub</PageTitle>
@@ -54,6 +56,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _missionTypes = await MissionTypeFacade.GetAsync();
+        try
+        {
+            _missionTypes = await MissionTypeFacade.GetAsync();
+            if (_missionTypes is null)
+                throw new Exception("Nepodařilo se načíst seznam typů misí.");
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
     }
 }

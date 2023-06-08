@@ -8,6 +8,8 @@
 @inject MissionFacade MissionFacade
 @inject UserFacade UserFacade
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@inject IToastService ToastService
 @inject IStringLocalizer<MissionDetailResources> Localizer
 @inject IStringLocalizer<SharedResources> SharedLocalizer
 
@@ -146,8 +148,17 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _mission = await MissionFacade.GetAsync(Id);
-        
+        try
+        {
+            _mission = await MissionFacade.GetAsync(Id);
+        }
+        catch (Exception e)
+        {
+            NavigationManager.NavigateTo("/Mission");
+            ToastService.ShowError(e.Message);
+            return;
+        }
+
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
     }

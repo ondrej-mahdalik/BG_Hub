@@ -5,6 +5,7 @@
 @using BrokenGrenade.Web.BL.Facades
 @using Microsoft.AspNetCore.Components
 @inject RoleFacade RoleFacade
+@inject IToastService ToastService
 @attribute [Authorize(Policy = PolicyTypes.ManageRoles)]
 
 <PageTitle>Seznam Rolí — BG Hub</PageTitle>
@@ -83,7 +84,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _roles = await RoleFacade.GetAsync();
+        await FilterAsync();
     }
 
     private async Task ResetFilterAsync()
@@ -94,6 +95,15 @@
 
     private async Task FilterAsync()
     {
-        _roles = await RoleFacade.GetAsync(_filter);
+        try
+        {
+            _roles = await RoleFacade.GetAsync(_filter);
+            if (_roles is null)
+                throw new Exception("Nepodařilo se načíst seznam rolí.");
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
     }
 }

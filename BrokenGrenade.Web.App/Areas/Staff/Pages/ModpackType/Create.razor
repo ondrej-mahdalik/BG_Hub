@@ -50,7 +50,16 @@
     
     private async Task CreateModpackTypeAsync()
     {
-        await ModpackTypeFacade.SaveAsync(_modpackType);
+        try
+        {
+            await ModpackTypeFacade.SaveAsync(_modpackType);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
+        
         NavigationManager.NavigateTo($"/Staff/ModpackType");
         ToastService.ShowSuccess("Typ modpacku byl úspěšně vytvořen.");
     }

@@ -60,8 +60,16 @@
     {
         if (_missionType.Note == string.Empty)
             _missionType.Note = null;
-        
-        await MissionTypeFacade.SaveAsync(_missionType);
+
+        try
+        {
+            await MissionTypeFacade.SaveAsync(_missionType);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
         NavigationManager.NavigateTo("/Staff/MissionType");
         ToastService.ShowSuccess("Druh mise byl úspěšně vytvořen.");
     }

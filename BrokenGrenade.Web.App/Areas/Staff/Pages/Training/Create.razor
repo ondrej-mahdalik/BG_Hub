@@ -89,7 +89,15 @@
             _training.Note = null;
         
         _training.CreatorId = _currentUser.Id;
-        await TrainingFacade.SaveAsync(_training, _mentionType);
+        try
+        {
+            await TrainingFacade.SaveAsync(_training, _mentionType);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
 
         NavigationManager.NavigateTo($"/Training/{_training.Id}");
         ToastService.ShowSuccess("Výcvik byl úspěšně vytvořen.x");

@@ -152,14 +152,32 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _role = await RoleFacade.GetAsync(Id);
+        try
+        {
+            _role = await RoleFacade.GetAsync(Id);
+            if (_role is null)
+                throw new Exception("Nepodařilo se načíst roli.");
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
     }
     private async Task EditRoleAsync()
     {
         if (_role is null)
             return;
+
+        try
+        {
+            await RoleFacade.UpdateAsync(_role);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
         
-        await RoleFacade.UpdateAsync(_role);
         NavigationManager.NavigateTo("/Staff/Role");
         ToastService.ShowSuccess("Role byla úspěšně upravena.");
     }
@@ -177,8 +195,17 @@
         var modalResult = await Modal.Show<DeleteConfirmationModal>("Opravdu chcete odstranit tuto roli?", parameters, ModalPresets.CustomLayout).Result;
         if (!modalResult.Confirmed)
             return;
+
+        try
+        {
+            await RoleFacade.DeleteAsync(_role.Id);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
         
-        await RoleFacade.DeleteAsync(_role.Id);
         NavigationManager.NavigateTo("/Staff/Role");
         ToastService.ShowSuccess("Role byla úspěšně odstraněna.");
     }

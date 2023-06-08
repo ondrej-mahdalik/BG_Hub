@@ -134,14 +134,22 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _mission = await MissionFacade.GetAsync(Id);
-        if (_mission is null)
+        try
+        {
+            _mission = await MissionFacade.GetAsync(Id);
+            if (_mission is null)
+                throw new Exception("Při načítání mise došlo k chybě.");
+            
+            _missionTypes = await MissionTypeFacade.GetAsync();
+            _modpackTypes = await ModpackTypeFacade.GetAsync();
+        }
+        catch (Exception e)
         {
             NavigationManager.NavigateTo("/Mission");
-            ToastService.ShowError("Při načítání mise došlo k chybě.");
+            ToastService.ShowError(e.Message);
             return;
         }
-        
+
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
 
@@ -155,15 +163,21 @@
         _editContext = new EditContext(_mission);
         _editContext.OnFieldChanged += async (_, args) => await CheckForMissionConflicts(args);
         
-        _missionTypes = await MissionTypeFacade.GetAsync();
-        _modpackTypes = await ModpackTypeFacade.GetAsync();
+        
     }
-    private async Task CheckForMissionConflicts(FieldChangedEventArgs? e = null)
+    private async Task CheckForMissionConflicts(FieldChangedEventArgs? args = null)
     {
-        if (e is not null && e.FieldIdentifier.FieldName != nameof(_mission.MissionStartDate) || _mission?.MissionStartDate is null)
+        if (args is not null && args.FieldIdentifier.FieldName != nameof(_mission.MissionStartDate) || _mission?.MissionStartDate is null)
             return;
 
-        _missionConflict = await MissionFacade.IsMissionOn(_mission.MissionStartDate);
+        try
+        {
+            _missionConflict = await MissionFacade.IsMissionOn(_mission.MissionStartDate);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
     }
 
     private async Task EditMissionAsync()
@@ -171,7 +185,16 @@
         if (_mission is null)
             return;
 
-        await MissionFacade.SaveAsync(_mission);
+        try
+        {
+            await MissionFacade.SaveAsync(_mission);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
+        
         NavigationManager.NavigateTo($"/Mission/{_mission.Id}");
         ToastService.ShowSuccess("Mise byla úspěšně upravena.");
     }
@@ -188,8 +211,17 @@
         var modalResult = await Modal.Show<DeleteConfirmationModal>("Opravdu chcete odstranit tuto misi?", parameters, ModalPresets.CustomLayout).Result;
         if (!modalResult.Confirmed)
             return;
+
+        try
+        {
+            await MissionFacade.DeleteAsync(_mission);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
         
-        await MissionFacade.DeleteAsync(_mission);
         NavigationManager.NavigateTo("/Mission");
         ToastService.ShowSuccess("Mise byla úspěšně odstraněna.");
     }
