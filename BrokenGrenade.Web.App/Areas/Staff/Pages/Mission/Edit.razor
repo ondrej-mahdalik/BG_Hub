@@ -101,6 +101,25 @@
                                 </div>
                             </div>
                         </div>
+                        @if (_currentUser?.Roles.Any(x => x.ManageMissions) ?? false)
+                        {
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="creator">Autor</label>
+                                        <SfDropDownList id="creator"
+                                                        TItem="UserModel"
+                                                        TValue="Guid?"
+                                                        DataSource="@_users"
+                                                        @bind-Value="_mission.CreatorId"
+                                                        AllowFiltering="true"
+                                                        CssClass="form-control">
+                                            <DropDownListFieldSettings Value="@nameof(UserModel.Id)" Text="@nameof(UserModel.Nickname)"></DropDownListFieldSettings>
+                                        </SfDropDownList>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                         <div class="row">
                             <div class="col-12 col-sm-6">
                                 <div class="mb-3">
@@ -128,6 +147,7 @@
     private bool _missionConflict;
     
     private UserModel? _currentUser;
+    private List<UserModel>? _users;
 
     private List<MissionTypeModel> _missionTypes = new();
     private List<ModpackTypeModel> _modpackTypes = new();
@@ -153,6 +173,18 @@
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
 
+        if (_currentUser?.Roles.Any(x => x.ManageMissions) ?? false)
+        {
+            try
+            {
+                _users = await UserFacade.GetAsync();
+            }
+            catch (Exception e)
+            {
+                ToastService.ShowError(e.Message);
+            }
+        }
+
         if (_mission.CreatorId != _currentUser?.Id && (!_currentUser?.Roles.Any(x => x.ManageMissions) ?? false))
         {
             NavigationManager.NavigateTo("/Mission");
@@ -162,8 +194,6 @@
         
         _editContext = new EditContext(_mission);
         _editContext.OnFieldChanged += async (_, args) => await CheckForMissionConflicts(args);
-        
-        
     }
     private async Task CheckForMissionConflicts(FieldChangedEventArgs? args = null)
     {

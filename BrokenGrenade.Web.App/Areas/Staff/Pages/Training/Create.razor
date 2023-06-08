@@ -59,6 +59,25 @@
                     </div>
                 </div>
             </div>
+            @if (_currentUser?.Roles.Any(x => x.ManageMissions) ?? false)
+            {
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="form-label" for="creator">Autor</label>
+                            <SfDropDownList id="creator"
+                                            TItem="UserModel"
+                                            TValue="Guid?"
+                                            DataSource="@_users"
+                                            @bind-Value="_training.CreatorId"
+                                            AllowFiltering="true"
+                                            CssClass="form-control">
+                                <DropDownListFieldSettings Value="@nameof(UserModel.Id)" Text="@nameof(UserModel.Nickname)"></DropDownListFieldSettings>
+                            </SfDropDownList>
+                        </div>
+                    </div>
+                </div>
+            }
             <div class="row">
                 <div class="col">
                     <div class="mb-3">
@@ -73,11 +92,25 @@
 @code {
     private TrainingModel _training = new();
     private UserModel? _currentUser;
+    private List<UserModel>? _users;
+    
     private TrainingMentionType _mentionType = TrainingMentionType.None;
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
+
+        if (_currentUser?.Roles.Any(x => x.ManageTrainings) ?? false)
+        {
+            try
+            {
+                _users = await UserFacade.GetAsync();
+            }
+            catch (Exception e)
+            {
+                ToastService.ShowError(e.Message);
+            }
+        }
     }
 
     private async Task CreateTrainingAsync()

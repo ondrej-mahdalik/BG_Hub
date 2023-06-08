@@ -82,6 +82,25 @@
                             </div>
                         </div>
                     </div>
+                    @if (_currentUser?.Roles.Any(x => x.ManageMissions) ?? false)
+                    {
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="creator">Autor</label>
+                                    <SfDropDownList id="creator"
+                                                    TItem="UserModel"
+                                                    TValue="Guid?"
+                                                    DataSource="@_users"
+                                                    @bind-Value="_mission.CreatorId"
+                                                    AllowFiltering="true"
+                                                    CssClass="form-control">
+                                        <DropDownListFieldSettings Value="@nameof(UserModel.Id)" Text="@nameof(UserModel.Nickname)"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                </div>
+                            </div>
+                        </div>
+                    }
                     <div class="row">
                         <div class="col">
                             <button type="submit" class="btn btn-primary">Vytvořit misi</button>
@@ -99,6 +118,7 @@
     private EditContext? _editContext;
     private bool _missionConflict;
     
+    private List<UserModel>? _users;
     private UserModel? _currentUser;
 
     private List<MissionTypeModel> _missionTypes = new();
@@ -126,6 +146,20 @@
 
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
+        _mission.CreatorId = _currentUser?.Id;
+        
+        if (_currentUser?.Roles.Any(x => x.ManageMissions) ?? false)
+        {
+            try
+            {
+                _users = await UserFacade.GetAsync();
+            }
+            catch (Exception e)
+            {
+                ToastService.ShowError(e.Message);
+            }
+        }
+        
     }
     private async Task CheckForMissionConflicts(FieldChangedEventArgs? e = null)
     {
@@ -144,13 +178,6 @@
 
     private async Task CreateMissionAsync()
     {
-        if (_currentUser is null)
-        {
-            ToastService.ShowError("Při vytváření mise došlo k chybě. Zkus to prosím znovu.");
-            return;
-        }
-
-        _mission.CreatorId = _currentUser.Id;
         try
         {
             await MissionFacade.SaveAsync(_mission);
