@@ -223,6 +223,9 @@
         catch (Exception e)
         {
             ToastService.ShowError(e.Message);
+            return;
         }
+        
+        ToastService.ShowSuccess("Uživateli byl odeslán email s instrukcemi pro obnovneí hesla.");
     }
 }

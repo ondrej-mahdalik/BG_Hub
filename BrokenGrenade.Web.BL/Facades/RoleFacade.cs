@@ -25,7 +25,7 @@ public class RoleFacade : IAppFacade
 
     public async Task<List<RoleModel>> GetAsync(RoleFilterModel filter)
     {
-        var query = _roleManager.Roles;
+        var query = _roleManager.Roles.OrderByDescending(x => x.Order).AsQueryable();
         if (filter.RoleName is not null)
             query = query.Where(x => x.Name != null && x.Name.ToLower().Contains(filter.RoleName.ToLower()));
 

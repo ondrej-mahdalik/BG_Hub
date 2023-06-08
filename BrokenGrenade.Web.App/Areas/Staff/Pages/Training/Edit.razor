@@ -55,10 +55,29 @@
                             <div class="col">
                                 <div class="mb-3">
                                     <label>Poznámka</label>
-                                    <InputTextArea class="form-control" @bind-Value="_training.Note"/>
+                                    <SfRichTextEditor @bind-Value="_training.Note" Placeholder="Bez poznámky"></SfRichTextEditor>
                                 </div>
                             </div>
                         </div>
+                        @if (_currentUser?.Roles.Any(x => x.ManageTrainings) ?? false)
+                        {
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="creator">Autor</label>
+                                        <SfDropDownList id="creator"
+                                                        TItem="UserModel"
+                                                        TValue="Guid?"
+                                                        DataSource="_users"
+                                                        @bind-Value="_training.CreatorId"
+                                                        AllowFiltering="true"
+                                                        CssClass="form-control">
+                                            <DropDownListFieldSettings Value="@nameof(UserModel.Id)" Text="@nameof(UserModel.Nickname)"></DropDownListFieldSettings>
+                                        </SfDropDownList>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                         <div class="row">
                             <div class="col">
                                 <button type="submit" class="btn btn-primary">Upravit výcvik</button>
@@ -116,6 +135,7 @@
 
     private TrainingModel? _training;
     private UserModel? _currentUser;
+    private List<UserModel>? _users;
 
     protected override async Task OnInitializedAsync()
     {
@@ -134,6 +154,18 @@
 
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
+
+        if (_currentUser?.Roles.Any(x => x.ManageTrainings) ?? false)
+        {
+            try
+            {
+                _users = await UserFacade.GetAsync();
+            }
+            catch (Exception e)
+            {
+                ToastService.ShowError(e.Message);
+            }
+        }
 
         if (_training.CreatorId != _currentUser?.Id && (!_currentUser?.Roles.Any(x => x.ManageTrainings) ?? false))
         {

@@ -64,7 +64,23 @@
             </TableHeader>
             <RowTemplate Context="role">
                 <td>@role.Order</td>
-                <td>@role.Name</td>
+                <td>
+                    <div class="d-flex flex-row align-items-center gap-1">
+                        @if (role.ColorHex is null)
+                        {
+                            <span class="badge p-2 rounded-5 border bg-secondary">
+                                <span class="visually-hidden">New alerts</span>
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge p-2 rounded-5 border" style="background-color: @role.ColorHex">
+                                <span class="visually-hidden">New alerts</span>
+                            </span>
+                        }
+                        @role.Name
+                    </div>
+                </td>
                 <td>@role.UserCount</td>
                 <td>
                     <div class="d-flex justify-content-end">

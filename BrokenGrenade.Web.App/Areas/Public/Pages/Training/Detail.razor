@@ -100,8 +100,8 @@
                     {
                         <div class="row">
                             <div class="col">
-                                <h6h class="card-subtitle text-primary">@SharedLocalizer[nameof(SharedResources.TrainingNote)]</h6h>
-                                <p>@_training.Note</p>
+                                <h6 class="card-subtitle text-primary">@SharedLocalizer[nameof(SharedResources.TrainingNote)]</h6>
+                                @((MarkupString)_training.Note)
                             </div>
                         </div>
                     }

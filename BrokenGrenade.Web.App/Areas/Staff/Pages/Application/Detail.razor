@@ -134,9 +134,9 @@
                     <input type="text" class="form-control disabled" value="@_application.CreatedAt.ToDateTimeString()" disabled/>
                 </div>
                 <div class="col-12 col-sm-4 col-md-3 mb-3">
-                    
+                    <label class="form-label">Poslední úpravu provedl</label>
+                    <input type="text" class="form-control disabled" value="@_application.EditedBy?.Nickname" disabled/>
                 </div>
-                
             </div>
             <div class="row">
                 <div class="col mb-3">
