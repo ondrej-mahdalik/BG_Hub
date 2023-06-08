@@ -176,7 +176,7 @@ public class UserFacade : IAppFacade
         }
 
         entity.EmailConfirmed = true;
-        entity.UserName = user.Email;
+        // entity.UserName = user.Email;
 
         var password = "Temp_" + Guid.NewGuid().ToString("N");
 

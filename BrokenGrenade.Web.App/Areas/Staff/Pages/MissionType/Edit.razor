@@ -76,7 +76,16 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _missionType = await MissionTypeFacade.GetAsync(Id);
+        try
+        {
+            _missionType = await MissionTypeFacade.GetAsync(Id);
+            if (_missionType is null)
+                throw new Exception("Nepodařilo se načíst druh mise.");
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
     }
 
     private async Task EditMissionTypeAsync()
@@ -86,9 +95,19 @@
         
         if (_missionType.Note == string.Empty)
             _missionType.Note = null;
+
+        try
+        {
+            await MissionTypeFacade.SaveAsync(_missionType);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
         
-        await MissionTypeFacade.SaveAsync(_missionType);
         NavigationManager.NavigateTo("/Staff/MissionType");
+        ToastService.ShowSuccess("Druh mise byl úspěšně upraven.");
     }
 
     private async Task DeleteMissionTypeAsync()
@@ -104,8 +123,17 @@
         var modalResult = await Modal.Show<DeleteConfirmationModal>(string.Empty, parameters, ModalPresets.CustomLayout).Result;
         if (!modalResult.Confirmed)
             return;
+
+        try
+        {
+            await MissionTypeFacade.DeleteAsync(_missionType);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
         
-        await MissionTypeFacade.DeleteAsync(_missionType);
         NavigationManager.NavigateTo("/Staff/MissionType");
         ToastService.ShowSuccess("Druh mise byl úspěšně odstraněn.");
     }

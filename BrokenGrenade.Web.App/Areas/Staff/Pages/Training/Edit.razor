@@ -119,11 +119,16 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _training = await TrainingFacade.GetAsync(Id);
-        if (_training == null)
+        try
+        {
+            _training = await TrainingFacade.GetAsync(Id);
+            if (_training is null)
+                throw new Exception("Při načítání výcviku došlo k chybě.");
+        }
+        catch (Exception e)
         {
             NavigationManager.NavigateTo("/Training");
-            ToastService.ShowError("Při načítání výcviku došlo k chybě.");
+            ToastService.ShowError(e.Message);
             return;
         }
 
@@ -142,7 +147,16 @@
         if (_training is null)
             return;
 
-        await TrainingFacade.SaveAsync(_training);
+        try
+        {
+            await TrainingFacade.SaveAsync(_training);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
+        
         NavigationManager.NavigateTo($"/Training/{_training.Id}");
         ToastService.ShowSuccess("Výcvik byl úspěšně upraven.");
     }
@@ -160,7 +174,15 @@
         if (!modalResult.Confirmed)
             return;
 
-        await TrainingFacade.DeleteAsync(_training);
+        try
+        {
+            await TrainingFacade.DeleteAsync(_training);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
         NavigationManager.NavigateTo("/Training");
         ToastService.ShowSuccess("Výcvik byl úspěšně odstraněn.");
     }

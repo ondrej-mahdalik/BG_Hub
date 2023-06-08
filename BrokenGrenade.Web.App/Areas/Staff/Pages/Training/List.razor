@@ -6,6 +6,7 @@
 @using BrokenGrenade.Web.BL.Facades
 @using BrokenGrenade.Common.Extensions
 @inject TrainingFacade TrainingFacade
+@inject IToastService ToastService
 @attribute [Authorize(Policy = PolicyTypes.ManageTrainings)]
 
 <PageTitle>Správa výcviků - BG Hub</PageTitle>
@@ -99,7 +100,13 @@
     
     private async Task FilterAsync(int page = 0)
     {
-        _trainings = await TrainingFacade.GetPaginatedAsync(_filter, page);
+        try
+        {
+            _trainings = await TrainingFacade.GetPaginatedAsync(_filter, page);
+        } catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
     }
 
     private void ResetFilter()

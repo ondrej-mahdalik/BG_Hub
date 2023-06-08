@@ -68,15 +68,33 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _modpackType = await ModpackTypeFacade.GetAsync(Id);
+        try
+        {
+            _modpackType = await ModpackTypeFacade.GetAsync(Id);
+            if (_modpackType is null)
+                throw new Exception("Nepodařilo se načíst typ modpacku.");
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
     }
     
     private async Task EditModpackTypeAsync()
     {
         if (_modpackType is null)
             return;
+
+        try
+        {
+            await ModpackTypeFacade.SaveAsync(_modpackType);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
         
-        await ModpackTypeFacade.SaveAsync(_modpackType);
         NavigationManager.NavigateTo($"/Staff/ModpackType");
         ToastService.ShowSuccess("Typ modpacku byl úspěšně upraven.");
     }
@@ -94,8 +112,17 @@
         var modalResult = await Modal.Show<DeleteConfirmationModal>(string.Empty, parameters, ModalPresets.CustomLayout).Result;
         if (!modalResult.Confirmed)
             return;
+
+        try
+        {
+            await ModpackTypeFacade.DeleteAsync(_modpackType);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
         
-        await ModpackTypeFacade.DeleteAsync(_modpackType);
         NavigationManager.NavigateTo($"/Staff/ModpackType");
         ToastService.ShowSuccess("Typ modpacku byl úspěšně odstraněn.");
     }

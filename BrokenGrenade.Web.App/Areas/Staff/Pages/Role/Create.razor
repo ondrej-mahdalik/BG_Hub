@@ -135,7 +135,16 @@
 
     private async Task CreateRoleAsync()
     {
-        await RoleFacade.CreateAsync(_role);
+        try
+        {
+            await RoleFacade.CreateAsync(_role);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
+        
         NavigationManager.NavigateTo("/Staff/Role");
         ToastService.ShowSuccess("Role byla úspěšně vytvořena.");
     }

@@ -108,10 +108,17 @@
     {
         _editContext = new EditContext(_mission);
         _editContext.OnFieldChanged += async (_, args) => await CheckForMissionConflicts(args);
-        
-        _missionTypes = await MissionTypeFacade.GetAsync();
-        _modpackTypes = await ModpackTypeFacade.GetAsync();
-        
+
+        try
+        {
+            _missionTypes = await MissionTypeFacade.GetAsync();
+            _modpackTypes = await ModpackTypeFacade.GetAsync();
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
+
         _mission.MissionStartDate = DateTime.Today.AddHours(19);
         _mission.MissionTypeId = _missionTypes.FirstOrDefault()?.Id;
         _mission.ModpackTypeId = _modpackTypes.FirstOrDefault()?.Id;
@@ -125,7 +132,14 @@
         if (e is not null && e.FieldIdentifier.FieldName != nameof(_mission.MissionStartDate))
             return;
 
-        _missionConflict = await MissionFacade.IsMissionOn(_mission.MissionStartDate);
+        try
+        {
+            _missionConflict = await MissionFacade.IsMissionOn(_mission.MissionStartDate);
+        }
+        catch (Exception exception)
+        {
+            ToastService.ShowError(exception.Message);
+        }
     }
 
     private async Task CreateMissionAsync()
@@ -137,7 +151,14 @@
         }
 
         _mission.CreatorId = _currentUser.Id;
-        await MissionFacade.SaveAsync(_mission);
+        try
+        {
+            await MissionFacade.SaveAsync(_mission);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
 
         NavigationManager.NavigateTo($"/Mission/{_mission.Id}");
         ToastService.ShowSuccess("Mise byla úspěšně vytvořena.");

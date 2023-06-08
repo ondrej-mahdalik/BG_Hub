@@ -195,8 +195,18 @@
     
     protected override async Task OnInitializedAsync()
     {
-        _application = await ApplicationFacade.GetAsync(Id);
-        
+        try
+        {
+            _application = await ApplicationFacade.GetAsync(Id);
+            if (_application is null)
+                throw new Exception("Nepodařilo se načíst přihlášku.");
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
+
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
     }
@@ -208,7 +218,16 @@
         
         _application.Status = ApplicationStatus.Rejected;
         _application.EditedById = _currentUser.Id;
-        await ApplicationFacade.SaveAsync(_application);
+        try
+        {
+            await ApplicationFacade.SaveAsync(_application);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
+        
         ToastService.ShowSuccess("Přihláška byla úspěšně zamítnuta.");
     }
 
@@ -230,15 +249,33 @@
             ToastService.ShowError("Nepodařilo se vytvořit uživatele.");
             return;
         }
+
+        try
+        {
+            await UserFacade.CreateAsync(user);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
         
-        await UserFacade.CreateAsync(user);
         ToastService.ShowSuccess("Uživatel byl úspěšně vytvořen.");
         
         _application.Status = ApplicationStatus.Accepted;
         _application.UserId = user.Id;
         _application.EditedById = _currentUser.Id;
+
+        try
+        {
+            await ApplicationFacade.SaveAsync(_application);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
         
-        await ApplicationFacade.SaveAsync(_application);
         ToastService.ShowSuccess("Přihláška byla úspěšně přijata.");
     }
 
@@ -255,8 +292,17 @@
         var modalResult = await Modal.Show<DeleteConfirmationModal>(string.Empty, parameters, ModalPresets.CustomLayout).Result;
         if (!modalResult.Confirmed)
             return;
+
+        try
+        {
+            await ApplicationFacade.DeleteAsync(_application);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
         
-        await ApplicationFacade.DeleteAsync(_application);
         NavigationManager.NavigateTo("/applications");
         ToastService.ShowSuccess("Přihláška byla úspěšně odstraněna.");
     }

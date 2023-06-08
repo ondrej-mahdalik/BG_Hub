@@ -141,11 +141,16 @@
     
     protected override async Task OnInitializedAsync()
     {
-        _user = await UserFacade.GetAsync(Id);
-        if (_user is null)
+        try
+        {
+            _user = await UserFacade.GetAsync(Id);
+            if (_user is null)
+                throw new Exception("Nepodařilo se načíst uživatele.");
+        }
+        catch (Exception e)
         {
             NavigationManager.NavigateTo("/Staff/User");
-            ToastService.ShowError("Nepodařilo se načíst uživatele.");
+            ToastService.ShowError(e.Message);
             return;
         }
 
@@ -160,8 +165,16 @@
         
         if (_roles is not null)
             _user.Roles = _roles.IntersectBy(_selectedRoles, x => x.Id).ToList();
-        
-        await UserFacade.UpdateAsync(_user);
+
+        try
+        {
+            await UserFacade.UpdateAsync(_user);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
         NavigationManager.NavigateTo("/Staff/User");
         ToastService.ShowSuccess("Uživatel byl úspěšně upraven.");
     }
@@ -180,7 +193,16 @@
         if (!modalResult.Confirmed)
             return;
 
-        await UserFacade.DeleteAsync(_user);
+        try
+        {
+            await UserFacade.DeleteAsync(_user);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
+
         NavigationManager.NavigateTo("/Staff/User");
         ToastService.ShowSuccess("Uživatel byl úspěšně odstraněn.");
     }
@@ -189,11 +211,18 @@
     {
         if (_user is null)
             return;
-        
+
         var modalResult = await Modal.Show<ConfirmPasswordResetModal>(string.Empty, ModalPresets.CustomLayout).Result;
         if (!modalResult.Confirmed)
             return;
 
-        await UserFacade.ResetPasswordAsync(_user.Email);
+        try
+        {
+            await UserFacade.ResetPasswordAsync(_user.Email);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
     }
 }
