@@ -8,7 +8,7 @@ public class TrainingModel : ModelBase
     public DateTime Date { get; set; }
     
     public UserModel? Creator { get; set; }
-    public Guid CreatorId { get; set; }
+    public Guid? CreatorId { get; set; }
 
     public ulong? DiscordMessageId { get; set; }
 

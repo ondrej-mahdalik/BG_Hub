@@ -55,11 +55,11 @@
                             <div class="col">
                                 <div class="mb-3">
                                     <label>Poznámka</label>
-                                    <InputTextArea class="form-control" @bind-Value="_training.Note"/>
+                                    <SfRichTextEditor @bind-Value="_training.Note" Placeholder="Bez poznámky"></SfRichTextEditor>
                                 </div>
                             </div>
                         </div>
-                        @if (_currentUser?.Roles.Any(x => x.ManageMissions) ?? false)
+                        @if (_currentUser?.Roles.Any(x => x.ManageTrainings) ?? false)
                         {
                             <div class="row">
                                 <div class="col">
@@ -68,7 +68,7 @@
                                         <SfDropDownList id="creator"
                                                         TItem="UserModel"
                                                         TValue="Guid?"
-                                                        DataSource="@_users"
+                                                        DataSource="_users"
                                                         @bind-Value="_training.CreatorId"
                                                         AllowFiltering="true"
                                                         CssClass="form-control">
