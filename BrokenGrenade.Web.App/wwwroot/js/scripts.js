@@ -5,7 +5,8 @@
 
 function EmulateClick(elementId) {
     const element = document.getElementById(elementId);
-    element.click();
+    // if (element != null)
+        element.click();
 }
 
 function CollapseSidebar(sidebarId, buttonId) {
@@ -19,4 +20,8 @@ function CollapseSidebar(sidebarId, buttonId) {
 function HideLoadingIndicator() {
     const element = document.getElementById("loadingIndicator");
     element.remove();
+}
+
+function CloseWindow() {
+    window.close();
 }

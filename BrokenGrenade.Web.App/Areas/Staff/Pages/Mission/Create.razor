@@ -86,9 +86,10 @@
                         <div class="col">
                             <div class="mb-3">
                                 <label class="form-label">Vlastní modpack</label>
-                                <SfUploader AutoUpload="false" AllowedExtensions=".html">
-                                    <UploaderEvents ValueChange="OnFileChanged" OnRemove="OnFileRemoved"></UploaderEvents>
-                                </SfUploader>
+                                <FileUploadComponent MaxFileSize="@(3 * 1024 * 1024)"
+                                                     Id="modpackFile"
+                                                     AllowedExtensions=".html"
+                                                     @bind-Value="_mission.ModpackUrl"/>
                             </div>
                         </div>
                     </div>
@@ -133,6 +134,8 @@
 
     private List<MissionTypeModel> _missionTypes = new();
     private List<ModpackTypeModel> _modpackTypes = new();
+
+    
 
     protected override async Task OnInitializedAsync()
     {
@@ -200,28 +203,6 @@
         NavigationManager.NavigateTo($"/Mission/{_mission.Id}");
         ToastService.ShowSuccess("Mise byla úspěšně vytvořena.");
     }
-    private void OnFileChanged(UploadChangeEventArgs args)
-    {
-        var file = args.Files.FirstOrDefault();
-        if (file is null)
-            return;
-            
-        var path = Path.Combine("wwwroot/files/", file.FileInfo.Name);
-        FileStream filestream = new FileStream(path, FileMode.Create, FileAccess.Write);
-        file.Stream.WriteTo(filestream);
-        filestream.Close();
-        file.Stream.Close();
-        
-        _mission.ModpackUrl = "/files/" + file.FileInfo.Name;
-    }
-    private void OnFileRemoved(RemovingEventArgs args)
-    {
-        var removeFile = args.FilesData.FirstOrDefault();
-        if (removeFile?.Name != null && File.Exists(Path.Combine(@"wwwroot/files/", removeFile.Name)))
-        {
-            File.Delete(Path.Combine(@"wwwroot/files/", removeFile.Name));
-        }
 
-        _mission.ModpackUrl = null;
-    }
+    
 }

@@ -60,7 +60,7 @@ public class TrainingFacade : CRUDFacade<TrainingEntity, TrainingModel>
             .Get()
             .Include(x => x.Creator)
             .Include(x => x.Participants)
-            .Where(x => true);
+            .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(filter.Name))
             query = query.Where(x => x.Name.ToLower().Contains(filter.Name.ToLower()));

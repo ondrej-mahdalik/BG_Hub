@@ -1,0 +1,34 @@
+@page "/Download"
+@inject NavigationManager NavigationManager
+@inject IConfiguration Configuration
+@inject IJSRuntime JSRuntime
+
+<a id="downloadButton" href="@_fileUrl" target="_blank" download>
+    <span class="visually-hidden">Download</span>
+</a>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "file")]
+    public string? FileName { get; set; }
+    
+    private string _fileUrl = string.Empty;
+    protected override void OnInitialized()
+    {
+        if (FileName is null)
+        {
+            NavigationManager.NavigateTo("/");
+            return;
+        }
+
+        _fileUrl = $"{Configuration.GetValue<string>("BaseUrl")}/{Configuration.GetValue<string>("FileStoragePath")}/{FileName}";
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await Task.Delay(500);
+        await JSRuntime.InvokeVoidAsync("EmulateClick", "downloadButton");
+        await Task.Delay(500);
+        await JSRuntime.InvokeVoidAsync("CloseWindow");
+    }
+}

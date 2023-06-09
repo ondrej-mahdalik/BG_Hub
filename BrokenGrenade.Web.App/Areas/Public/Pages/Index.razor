@@ -66,16 +66,20 @@
                     @if (_todaysMission.ModpackUrl is not null)
                     {
                         <div class="col-auto">
-
-                            <a class="btn btn-primary" href="@_todaysMission.ModpackUrl">@Localizer[nameof(IndexResources.DownloadModpack)]</a>
-
+                            <a class="btn btn-primary" href="@_todaysMission.ModpackUrl" target="_blank">
+                                @Localizer[nameof(IndexResources.DownloadModpack)]
+                                <i class="fa-solid fa-external-link"></i>
+                            </a>
                         </div>
                     }
                     <div class="col-auto">
                         @if (_todaysMission.SlottingSheetUrl is null)
                         {
                             <span class="fc-not-allowed" tabindex="0" data-bs-toggle="tooltip" data-bs-title="@Localizer[nameof(IndexResources.SlottingNotProvided)]">
-                                <a class="btn btn-primary disabled" disabled>@SharedLocalizer[nameof(SharedResources.Slotting)] <i class="fa-solid fa-external-link"></i></a>
+                                <a class="btn btn-primary disabled" disabled>
+                                    @SharedLocalizer[nameof(SharedResources.Slotting)]
+                                    <i class="fa-solid fa-external-link"></i>
+                                </a>
                             </span>
                         }
                         else
