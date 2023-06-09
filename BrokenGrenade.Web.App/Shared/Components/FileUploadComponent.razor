@@ -1,0 +1,104 @@
+@inject IConfiguration Configuration
+
+@if (_value is null)
+{
+    <InputFile id="@Id" class="form-control" accept="@AllowedExtensions" OnChange="LoadFileAsync"/>
+    @foreach (var error in _errors)
+    {
+        <div class="alert alert-danger" role="alert">
+            @error
+        </div>
+    }
+}
+else
+{
+    <div id="@Id" class="alert alert-secondary" role="alert">
+        <p>Nahraný soubor: <a href="@_value" target="_blank">
+            @Filename
+            <i class="fa-solid fa-external-link"></i>
+        </a></p>
+        <a role="button" class="btn btn-outline-primary btn-sm" @onclick="() => Value = null">Odstranit soubor</a>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public long MaxFileSize { get; set; } = 1 * 1024 * 1024; // 1 MB
+
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    [Parameter]
+    public string AllowedExtensions { get; set; } = "";
+
+    [Parameter]
+    public string? Value
+    {
+        get => _value;
+        set
+        {
+            if (value == _value)
+                return;
+            
+            _value = value;
+            ValueChanged.InvokeAsync(_value);
+        }
+    }
+    
+    [Parameter]
+    public string? Id { get; set; }
+
+    public string? Filename;
+
+    private string? _value;
+    private List<string> _errors = new();
+
+    private async Task LoadFileAsync(InputFileChangeEventArgs args)
+    {
+        _errors.Clear();
+
+        if (args.FileCount > 1)
+        {
+            _errors.Add($"Lze nahrát maximálně jeden soubor.");
+            return;
+        }
+
+        var file = args.GetMultipleFiles(1).FirstOrDefault();
+        if (file is null)
+        {
+            Value = null;
+            return;
+        }
+
+        if (file.Size > MaxFileSize)
+        {
+            _errors.Add($"Maximální velikost souboru je {MaxFileSize}.");
+            return;
+        }
+
+        try
+        {
+            var newFileName = Path.ChangeExtension(Path.GetRandomFileName(), Path.GetExtension(file.Name));
+
+            var path = Path.Combine(
+                "wwwroot/",
+                Configuration.GetValue<string>("FileStoragePath")
+                ?? throw new InvalidOperationException("FileStoragePath is not set."),
+                newFileName);
+
+            Directory.CreateDirectory(Path.GetDirectoryName(path) ?? throw new InvalidOperationException("Path is null."));
+
+            await using FileStream fs = new(path, FileMode.Create);
+            await file.OpenReadStream(MaxFileSize).CopyToAsync(fs);
+
+            Filename = newFileName;
+            Value = Configuration.GetValue<string>("BaseUrl")
+                    + "/Download?file=" + Uri.EscapeDataString(newFileName);
+        }
+        catch (Exception e)
+        {
+            _errors.Add(e.Message);
+        }
+    }
+}

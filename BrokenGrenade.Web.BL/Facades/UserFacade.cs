@@ -248,7 +248,7 @@ public class UserFacade : IAppFacade
     {
         var query = _userManager.Users
             .Include(x => x.UserRoles)
-            .Where(x => true);
+            .AsQueryable();
         
         if (filter is null)
             return query;

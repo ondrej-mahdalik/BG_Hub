@@ -110,7 +110,7 @@ public class DiscordWebhookSender
             );
 
         if (mission.ModpackUrl is not null)
-            builder = builder.AddField("Vlastní modpack", $"[Odkaz]({mission.ModpackUrl}", true);
+            builder = builder.AddField("Vlastní modpack", $"[Odkaz]({mission.ModpackUrl})", true);
         
         return await _missionWebhook.SendMessageAsync(text: _missionMention,
             embeds: new []{builder.Build()},

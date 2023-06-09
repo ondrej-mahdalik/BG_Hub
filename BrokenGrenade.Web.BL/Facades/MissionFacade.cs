@@ -114,7 +114,7 @@ public class MissionFacade : CRUDFacade<MissionEntity, MissionModel>
             .Include(x => x.ModpackType)
             .Include(x => x.MissionType)
             .Include(x => x.Creator)
-            .Where(x => true);
+            .AsQueryable();
 
         if (filter is null)
             return query;
