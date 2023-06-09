@@ -101,6 +101,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label">Vlastní modpack</label>
+                                    <FileUploadComponent MaxFileSize="@(3 * 1024 * 1024)"
+                                                         Id="modpackFile"
+                                                         AllowedExtensions=".html"
+                                                         @bind-Value="_mission.ModpackUrl"/>
+                                </div>
+                            </div>
+                        </div>
                         @if (_currentUser?.Roles.Any(x => x.ManageMissions) ?? false)
                         {
                             <div class="row">
