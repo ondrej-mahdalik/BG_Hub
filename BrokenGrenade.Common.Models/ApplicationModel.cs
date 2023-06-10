@@ -19,7 +19,7 @@ public class ApplicationModel : ModelBase
     public string Email { get; set; }
     
     [Required(ErrorMessage = "Pole {0} je povinné.")]
-    [RegularExpression("^.{3,32}#[0-9]{4}$", ErrorMessage = "Discord tag musí být ve formátu 'Přezdívka#1234'")]
+    // [RegularExpression("^.{3,32}#[0-9]{4}$", ErrorMessage = "Discord tag musí být ve formátu 'Přezdívka#1234'")]
     [JsonProperty]
     public string Discord { get; set; }
     
