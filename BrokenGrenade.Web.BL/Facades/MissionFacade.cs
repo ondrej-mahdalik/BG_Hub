@@ -51,9 +51,7 @@ public class MissionFacade : CRUDFacade<MissionEntity, MissionModel>
 
     public async Task<int> GetCountAsync(MissionFilterModel filterModel)
     {
-        await using var uow = UnitOfWorkFactory.Create();
-        var query = GetFiltered(filterModel);
-        return await query.CountAsync().ConfigureAwait(false);
+        return await GetFiltered(filterModel).CountAsync().ConfigureAwait(false);
     }
 
     public async Task<List<MissionModel>> GetPaginatedAsync(MissionFilterModel filter, int page)

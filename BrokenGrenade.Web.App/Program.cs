@@ -244,6 +244,7 @@ async Task SetupDatabaseAsync(WebApplication application)
         await MissionSeeds.SeedAsync(dbx);
         await PunishmentSeeds.SeedAsync(dbx);
         await TrainingSeeds.SeedAsync(dbx);
+        await ArticleSeeds.SeedAsync(dbx);
         
         await dbx.SaveChangesAsync();
     }

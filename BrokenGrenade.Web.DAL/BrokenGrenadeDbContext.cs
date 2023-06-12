@@ -14,7 +14,6 @@ public class BrokenGrenadeDbContext : CustomApiAuthorizationDbContext<UserEntity
     public DbSet<MissionTypeEntity> MissionTypeEntities => Set<MissionTypeEntity>();
     public DbSet<ModpackTypeEntity> ModpackTypeEntities => Set<ModpackTypeEntity>();
     public DbSet<ApplicationEntity> ApplicationEntities => Set<ApplicationEntity>();
-    public DbSet<ArticleCategoryEntity> ArticleCategoryEntities => Set<ArticleCategoryEntity>();
     public DbSet<ArticleEntity> ArticleEntities => Set<ArticleEntity>();
     public DbSet<PunishmentEntity> PunishmentEntities => Set<PunishmentEntity>();
     public DbSet<TrainingEntity> TrainingEntities => Set<TrainingEntity>();
@@ -58,6 +57,10 @@ public class BrokenGrenadeDbContext : CustomApiAuthorizationDbContext<UserEntity
             entity.HasMany(i => i.PunishmentsIssued)
                 .WithOne(i => i.IssuedBy)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasMany(i => i.ArticlesCreated)
+                .WithOne(i => i.Creator)
+                .OnDelete(DeleteBehavior.SetNull);
             
             entity.HasMany(e => e.UserRoles)
                 .WithOne()
@@ -70,17 +73,6 @@ public class BrokenGrenadeDbContext : CustomApiAuthorizationDbContext<UserEntity
             .WithOne(i => i.Application)
             .OnDelete(DeleteBehavior.ClientSetNull);
         
-        builder.Entity<ArticleCategoryEntity>(entity =>
-        {
-            entity.HasMany(i => i.Children)
-                .WithOne(i => i.Parent)
-                .OnDelete(DeleteBehavior.ClientCascade);
-            
-            entity.HasMany(i => i.Articles)
-                .WithOne(i => i.Category)
-                .OnDelete(DeleteBehavior.SetNull);
-        });
-
         builder.Entity<TrainingEntity>()
             .HasMany(i => i.Participants)
             .WithOne(i => i.Training)

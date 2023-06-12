@@ -1,0 +1,95 @@
+@inject IConfiguration Configuration
+
+<SfRichTextEditor @bind-Value="Value"
+                  ID="@Id"
+                  Placeholder="@Placeholder"
+                  FloatingToolbarOffset="50">
+    <RichTextEditorToolbarSettings Items="@Tools"></RichTextEditorToolbarSettings>
+    <RichTextEditorImageSettings SaveUrl="api/Upload" Path="@Path"></RichTextEditorImageSettings>
+    <RichTextEditorVideoSettings SaveUrl="api/Upload" Path="@Path"></RichTextEditorVideoSettings>
+    <RichTextEditorEvents FileUploadSuccess="OnFileUploadSuccess" OnImageUploadSuccess="OnImageUploadSuccess"></RichTextEditorEvents>
+</SfRichTextEditor>
+
+@code {
+    
+    [Parameter]
+    public string? Id { get; set; }
+
+    [Parameter]
+    public string? Value
+    {
+        get => _value;
+
+        set
+        {
+            if (value == _value)
+                return;
+
+            _value = value;
+            ValueChanged.InvokeAsync(_value);
+        }
+    }
+    
+    [Parameter]
+    public EventCallback<string?> ValueChanged { get; set; }
+    
+    [Parameter]
+    public string? Placeholder { get; set; }
+
+    private string? _value;
+
+    private string? Path => Configuration.GetValue<string>("FileStoragePath") + "/";
+
+    private List<ToolbarItemModel> Tools = new()
+    {
+        new() {Command = ToolbarCommand.Bold},
+        new() {Command = ToolbarCommand.Italic},
+        new() {Command = ToolbarCommand.Underline},
+        
+        new() {Command = ToolbarCommand.Separator},
+        
+        new() {Command = ToolbarCommand.Formats},
+        new() {Command = ToolbarCommand.Alignments},
+        new() {Command = ToolbarCommand.BulletFormatList},
+        new() {Command = ToolbarCommand.NumberFormatList},
+        new() {Command = ToolbarCommand.Outdent},
+        new() {Command = ToolbarCommand.Indent},
+        
+        new() {Command = ToolbarCommand.Separator},
+        
+        new() {Command = ToolbarCommand.FontColor},
+        new() {Command = ToolbarCommand.BackgroundColor},
+
+        new() {Command = ToolbarCommand.Separator},
+        
+        new() {Command = ToolbarCommand.CreateLink},
+        new() {Command = ToolbarCommand.Image},
+        new() {Command = ToolbarCommand.Video},
+        new() {Command = ToolbarCommand.CreateTable},
+    
+        new() {Command = ToolbarCommand.Separator},
+        
+        new() {Command = ToolbarCommand.Undo},
+        new() {Command = ToolbarCommand.Redo}
+    };
+
+    private void OnImageUploadSuccess(ImageSuccessEventArgs args)
+    {
+        var headers = args.Response.Headers;
+        var header = headers.Split("name: ");
+        header = header[1].Split("\r");
+
+        // Update the modified image name to display a image in the editor.
+        args.File.Name = header[0];
+    }
+
+    private void OnFileUploadSuccess(FileUploadSuccessEventArgs args)
+    {
+        var headers = args.Response.Headers;
+        var header = headers.Split("name: ");
+        header = header[1].Split("\r");
+
+        // Update the modified file name to display a image in the editor.
+        args.File.Name = header[0];
+    }
+}

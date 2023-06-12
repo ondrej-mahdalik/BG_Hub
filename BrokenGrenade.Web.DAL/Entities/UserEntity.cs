@@ -32,6 +32,7 @@ public sealed class UserEntity : IdentityUser<Guid>, ICloneable
     public ICollection<TrainingEntity> TrainingsCreated { get; init; } = new List<TrainingEntity>();
     public ICollection<PunishmentEntity> PunishmentsReceived { get; init; } = new List<PunishmentEntity>();
     public ICollection<PunishmentEntity> PunishmentsIssued { get; init; } = new List<PunishmentEntity>();
+    public ICollection<ArticleEntity> ArticlesCreated { get; init; } = new List<ArticleEntity>();
     public ICollection<IdentityUserRole<Guid>> UserRoles { get; init; } = new List<IdentityUserRole<Guid>>();
 
     public object Clone()

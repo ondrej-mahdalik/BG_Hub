@@ -1,14 +1,25 @@
-﻿namespace BrokenGrenade.Common.Models;
+﻿using System.ComponentModel.DataAnnotations;
+namespace BrokenGrenade.Common.Models;
 
 public class ArticleModel : ModelBase
 {
+    [Required]
     public string Name { get; set; }
-    public string? Content { get; set; }
     
-    public Guid? CategoryId { get; set; }
-    public ArticleCategoryModel? Category { get; set; }
+    [Required]
+    public string Content { get; set; }
     
-    public ArticleModel(string name, string? content = null)
+    [Required]
+    [StringLength(200, MinimumLength = 10)]
+    public string Excerpt { get; set; }
+    
+    [Url]
+    public string? ImageUrl { get; set; }
+    
+    public UserModel? Creator { get; init; }
+    public Guid? CreatorId { get; set; }
+    
+    public ArticleModel(string name, string content = "")
     {
         Name = name;
         Content = content;
@@ -17,5 +28,6 @@ public class ArticleModel : ModelBase
     public ArticleModel()
     {
         Name = string.Empty;
+        Content = string.Empty;
     }
 }

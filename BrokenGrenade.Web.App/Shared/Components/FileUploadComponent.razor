@@ -31,6 +31,9 @@ else
 
     [Parameter]
     public string AllowedExtensions { get; set; } = "";
+    
+    [Parameter]
+    public bool ReturnRawUrl { get; set; } = false;
 
     [Parameter]
     public string? Value
@@ -93,8 +96,13 @@ else
             await file.OpenReadStream(MaxFileSize).CopyToAsync(fs);
 
             Filename = newFileName;
-            Value = Configuration.GetValue<string>("BaseUrl")
-                    + "/Download?file=" + Uri.EscapeDataString(newFileName);
+            if (ReturnRawUrl)
+                Value = Configuration.GetValue<string>("BaseUrl")
+                        + "/" + Configuration.GetValue<string>("FileStoragePath")
+                        + "/" + newFileName;
+            else
+                Value = Configuration.GetValue<string>("BaseUrl")
+                        + "/Download?file=" + Uri.EscapeDataString(newFileName);
         }
         catch (Exception e)
         {

@@ -1,0 +1,106 @@
+@page "/Article"
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.BL.Facades
+@inject ArticleFacade ArticleFacade
+@inject UserFacade UserFacade
+@inject IToastService ToastService
+@attribute [Authorize]
+
+<PageTitle>Návody — BG Hub</PageTitle>
+
+<div class="pt-3 pb-2 mb-3">
+    @if (_creatorName is not null)
+    {
+        <h1 class="h2">Návody od autora @_creatorName</h1>
+    }
+    else
+    {
+        <h1 class="h2">Návody</h1>
+    }
+</div>
+
+<div class="row row-cols-1 row-cols-md-3">
+    @if (_articles is null)
+    {
+        @for (var i = 0; i < 6; i++)
+        {
+            <div class="col mb-4">
+                <div class="card h-100 bg-dark-subtle">
+                    <div class="card-body">
+                        <h6 class="card-title placeholder-glow">
+                            <span class="placeholder col-8"></span>
+                        </h6>
+                        <p class="placeholder-glow">
+                            <span class="placeholder col-12"></span>
+                            <span class="placeholder col-10"></span>
+                            <span class="placeholder col-8"></span>
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-body-secondary placeholder-glow">
+                            <span class="placeholder col-6"></span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        @if (_articles.Count == 0)
+        {
+            <div class="col">
+                <p class="h4 text-center">Nebyly nalezeny žádné návody</p>
+            </div>
+        }
+        @foreach (var article in _articles)
+        {
+            <div class="col mb-4">
+                <div class="card h-100 bg-dark-subtle">
+                    @if (article.ImageUrl is not null)
+                    {
+                        <img class="card-img-top object-fit-cover" style="max-height: 200px" src="@(article.ImageUrl)" alt="Náhled"/>
+                    }
+                    <div class="card-body">
+                        <a href="/Article/@article.Id" class="text-decoration-none stretched-link">
+                            <h6 class="card-title">@article.Name</h6>
+                        </a>
+                        <p>@article.Excerpt</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-body-secondary">Vytvořil <b>@(article.Creator?.Nickname ?? "odstraněný uživatel")</b></small>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "creator_id")]
+    public Guid? CreatorId { get; set; }
+    private string? _creatorName;
+    
+    private List<ArticleModel>? _articles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _articles = await ArticleFacade.GetAsync();
+            if (_articles is null)
+                throw new Exception("Nepodařilo se načíst návody.");
+
+            if (CreatorId.HasValue)
+            {
+                _articles = _articles.Where(x => x.CreatorId == CreatorId).ToList();
+                _creatorName = await UserFacade.GetNicknameAsync(CreatorId.Value);
+            }
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
+    }
+}
