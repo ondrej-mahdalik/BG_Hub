@@ -1,8 +1,128 @@
 ﻿@page "/Staff/Article"
 @using BrokenGrenade.Common.Permissions
+@using BrokenGrenade.Common.Models.Filters
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.BL.Facades
+@inject ArticleFacade ArticleFacade
+@inject UserFacade UserFacade
+@inject IToastService ToastService
 @attribute [Authorize(Policy = PolicyTypes.ManageArticles)]
-<h3>List</h3>
+
+<PageTitle>Správa návodů - BG Hub</PageTitle>
+
+<div class="pt-3 pb-2 mb-3">
+    <h1 class="h2">Správa návodů</h1>
+</div>
+
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-header">
+        <h6 class="card-title mb-0">Filtrování</h6>
+    </div>
+    <div class="card-body">
+        <EditForm Model="_filter">
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="filterName">Podle názvu</label>
+                        <InputText class="form-control" id="filterName" @bind-Value="_filter.Name"/>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="">Podle autora</label>
+                        <SfDropDownList id="filterCreator"
+                                        TItem="UserModel"
+                                        TValue="Guid?"
+                                        DataSource="_users"
+                                        @bind-Value="_filter.CreatorId"
+                                        AllowFiltering="true"
+                                        CssClass="form-control">
+                            <DropDownListFieldSettings Value="@nameof(UserModel.Id)" Text="@nameof(UserModel.Nickname)"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex flex-row gap-2">
+                        <button type="submit" class="btn btn-primary">Filtrovat</button>
+                        <button type="reset" class="btn btn-outline-secondary" @onclick="ResetFilter">Vymazat filtry</button>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-body">
+        <PaginatedListComponent TItem="ArticleModel"
+                                @ref="_listComponent"
+                                Items="_articles"
+                                TotalCount="ArticleFacade.GetCountAsync(_filter).Result"
+                                DetailPageUrl="/Article/"
+                                EmptyMessage="Nebyly nalezeny žádné návody"
+                                PageNumberChanged="OnPageNumberChangedAsync"
+                                Class="table-striped table-hover">
+            <TableHeader>
+                <th>Název</th>
+                <th>Autor</th>
+                <th></th>
+            </TableHeader>
+            <RowTemplate Context="article">
+                <td>@article.Name</td>
+                <td>@(article.Creator?.Nickname ?? "Odstraněný uživatel")</td>
+                <td>
+                    <div class="d-flex justify-content-end" @onclick:stopPropagation="true">
+                        <a class="btn btn-sm btn-primary" href="/Staff/Article/Edit/@article.Id">Upravit</a>
+                    </div>
+                </td>
+            </RowTemplate>
+        </PaginatedListComponent>
+    </div>
+</div>
 
 @code {
-    
+    private List<ArticleModel>? _articles;
+
+    private ArticleFilterModel _filter = new();
+    private List<UserModel>? _users;
+    private PaginatedListComponent<ArticleModel> _listComponent = null!;
+    protected override async Task OnInitializedAsync()
+    {
+        await FilterAsync();
+        try
+        {
+            _users = await UserFacade.GetAsync();
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
+    }
+
+    private async Task FilterAsync(int page = 0)
+    {
+        try
+        {
+            _articles = await ArticleFacade.GetPaginatedAsync(_filter, page);
+            if (_articles is null)
+                throw new Exception("Nepodařilo se načíst návody.");
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
+    }
+
+    private void ResetFilter()
+    {
+        _filter = new();
+        _listComponent.CurrentPage = 0;
+    }
+
+    private async Task OnPageNumberChangedAsync(int page)
+    {
+        await FilterAsync(page);
+    }
 }

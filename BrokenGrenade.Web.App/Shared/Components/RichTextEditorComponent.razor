@@ -7,6 +7,7 @@
     <RichTextEditorToolbarSettings Items="@Tools"></RichTextEditorToolbarSettings>
     <RichTextEditorImageSettings SaveUrl="api/Upload" Path="@Path"></RichTextEditorImageSettings>
     <RichTextEditorVideoSettings SaveUrl="api/Upload" Path="@Path"></RichTextEditorVideoSettings>
+    <RichTextEditorEvents FileUploadSuccess="OnFileUploadSuccess" OnImageUploadSuccess="OnImageUploadSuccess"></RichTextEditorEvents>
 </SfRichTextEditor>
 
 @code {
@@ -72,13 +73,23 @@
         new() {Command = ToolbarCommand.Redo}
     };
 
-    private void OnUploadSuccess(ImageSuccessEventArgs args)
+    private void OnImageUploadSuccess(ImageSuccessEventArgs args)
     {
         var headers = args.Response.Headers;
         var header = headers.Split("name: ");
         header = header[1].Split("\r");
 
         // Update the modified image name to display a image in the editor.
+        args.File.Name = header[0];
+    }
+
+    private void OnFileUploadSuccess(FileUploadSuccessEventArgs args)
+    {
+        var headers = args.Response.Headers;
+        var header = headers.Split("name: ");
+        header = header[1].Split("\r");
+
+        // Update the modified file name to display a image in the editor.
         args.File.Name = header[0];
     }
 }

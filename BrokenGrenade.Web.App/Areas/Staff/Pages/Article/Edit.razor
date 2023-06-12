@@ -1,9 +1,206 @@
-﻿@page "/Staff/Article/Edit/{Id}"
-@using BrokenGrenade.Common.Permissions
-@attribute [Authorize(Policy = PolicyTypes.ManageRoles)]
-<h3>Edit</h3>
+﻿@page "/Staff/Article/Edit/{Id:guid}"
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Extensions
+@using BrokenGrenade.Web.App.Shared.Modals
+@using BrokenGrenade.Web.BL.Facades
+@inject ArticleFacade ArticleFacade
+@inject UserFacade UserFacade
+@inject IToastService ToastService
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<PageTitle>Upravit návod — BG Hub</PageTitle>
+
+<div class="pt-3 pb-2 mb-3">
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a class="btn btn-sm btn-link text-decoration-none" href="/Article">
+                <i class="fa-solid fa-angles-left"></i> Zpět na všechny návody
+            </a>
+            <button class="btn btn-sm btn-link text-danger text-decoration-none" @onclick="DeleteArticleAsync">
+                <i class="fa-solid fa-trash-can"></i> Odstranit
+            </button>
+        </div>
+    </div>
+    <h1 class="h2">Upravit návod</h1>
+</div>
+
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-body">
+        @if (_article is null)
+        {
+            <p class="text-center fw-bold">Načítání...</p>
+        }
+        else
+        {
+            <EditForm Model="_article" OnValidSubmit="EditArticleAsync">
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="name">Název</label>
+                            <InputText class="form-control" id="name" @bind-Value="_article.Name"/>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="previewImage">Náhledový obrázek</label>
+                            <FileUploadComponent AllowedExtensions=".png,.jpg,.jpeg,.webp"
+                                                 Id="previewImage"
+                                                 MaxFileSize="@(2 * 1024 * 1024)"
+                                                 @bind-Value="_article.ImageUrl"
+                                                 ReturnRawUrl="true"/>
+                            <p>
+                                <small>Zobrazí se na seznamu návodů. Doporučené rozměry jsou 900x400px.</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="form-label" for="excerpt">Shrnutí</label>
+                            <InputTextArea class="form-control" @bind-Value="_article.Excerpt" id="excerpt"/>
+                            <p>
+                                <small>Krátké shrnutí, o čem návod je. Zobrazí se na seznamu návodů.</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label class="form-label" for="content">Obsah</label>
+                            <RichTextEditorComponent Id="content"
+                                                     @bind-Value="_article.Content"/>
+                        </div>
+                    </div>
+                </div>
+                @if (_users is not null)
+                {
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label" for="creator">Autor</label>
+                                <SfDropDownList id="creator"
+                                                TItem="UserModel"
+                                                TValue="Guid?"
+                                                DataSource="_users"
+                                                @bind-Value="_article.CreatorId"
+                                                AllowFiltering="true"
+                                                CssClass="form-control">
+                                    <DropDownListFieldSettings Value="@nameof(UserModel.Id)" Text="@nameof(UserModel.Nickname)"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Uložit změny</button>
+                    </div>
+                </div>
+                <div class="row text-danger">
+                    <div class="col">
+                        <DataAnnotationsValidator/>
+                        <ValidationSummary/>
+                    </div>
+                </div>
+            </EditForm>
+        }
+    </div>
+</div>
 
 @code {
     [Parameter]
     public Guid Id { get; set; }
+    
+    [CascadingParameter]
+    public IModalService Modal { get; set; } = default!;
+
+    private ArticleModel? _article;
+    private UserModel? _currentUser;
+    private List<UserModel>? _users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _article = await ArticleFacade.GetAsync(Id);
+            if (_article is null)
+                throw new Exception("Při načítání návodu došlo k chybě.");
+        }
+        catch (Exception e)
+        {
+            NavigationManager.NavigateTo("/Article");
+            ToastService.ShowError(e.Message);
+            return;
+        }
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
+
+        if (_currentUser?.Roles.Any(x => x.ManageArticles) ?? false)
+        {
+            try
+            {
+                _users = await UserFacade.GetAsync();
+            }
+            catch (Exception e)
+            {
+                ToastService.ShowError(e.Message);
+            }
+        }
+
+        if (_article.CreatorId != _currentUser?.Id && (!_currentUser?.Roles.Any(x => x.ManageArticles) ?? false))
+        {
+            NavigationManager.NavigateTo("/");
+            ToastService.ShowError("Nemáte oprávnění upravovat tento návod.");
+        }
+    }
+
+    private async Task EditArticleAsync()
+    {
+        if (_article is null)
+            return;
+
+        try
+        {
+            await ArticleFacade.SaveAsync(_article);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
+        
+        NavigationManager.NavigateTo($"/Article/{_article.Id}");
+        ToastService.ShowSuccess("Návod byl úspěšně upraven.");
+    }
+
+    private async Task DeleteArticleAsync()
+    {
+        if (_article is null)
+            return;
+
+        var parameters = new ModalParameters()
+            .Add(nameof(DeleteConfirmationModal.Title), "Opravdu chcete odstranit tento návod?")
+            .Add(nameof(DeleteConfirmationModal.DangerText), "Tato operace je nevratná.");
+
+        var modalResult = await Modal.Show<DeleteConfirmationModal>(string.Empty, parameters, ModalPresets.CustomLayout).Result;
+        if (!modalResult.Confirmed)
+            return;
+
+        try
+        {
+            await ArticleFacade.DeleteAsync(_article);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
+
+        NavigationManager.NavigateTo("/Article");
+        ToastService.ShowSuccess("Návod byl úspěšně odstraněn.");
+    }
 }

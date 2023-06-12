@@ -86,7 +86,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await Task.Delay(5000);
         try
         {
             _articles = await ArticleFacade.GetAsync();

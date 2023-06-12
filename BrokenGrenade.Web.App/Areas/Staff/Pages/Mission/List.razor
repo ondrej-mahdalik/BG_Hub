@@ -157,6 +157,8 @@
         try
         {
             _missions = await MissionFacade.GetPaginatedAsync(_filter, page);
+            if (_missions is null)
+                throw new Exception("Nepodařilo se načíst mise");
         }
         catch (Exception e)
         {
