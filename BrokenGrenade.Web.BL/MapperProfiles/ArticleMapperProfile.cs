@@ -10,6 +10,6 @@ public class ArticleMapperProfile : Profile
     {
         CreateMap<ArticleEntity, ArticleModel>()
             .ReverseMap()
-            .ForMember(entity => entity.Category, opt => opt.Ignore());
+            .ForMember(entity => entity.Creator, opt => opt.Ignore());
     }
 }

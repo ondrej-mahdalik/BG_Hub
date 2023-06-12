@@ -1,8 +1,118 @@
 ﻿@page "/Staff/Article/Create"
 @using BrokenGrenade.Common.Permissions
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Extensions
+@using BrokenGrenade.Web.BL.Facades
+@inject ArticleFacade ArticleFacade
+@inject UserFacade UserFacade
+@inject IToastService ToastService
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize(Policy = PolicyTypes.CreateArticles)]
-<h3>Create</h3>
+
+<PageTitle>Nový návod — BG Hub</PageTitle>
+
+<div class="pt-3 pb-2 mb-3">
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a class="btn btn-sm btn-link text-decoration-none" href="/Article">
+                <i class="fa-solid fa-angles-left"></i> Zpět na všechny návody
+            </a>
+        </div>
+    </div>
+    <h1 class="h2">Nový návod</h1>
+</div>
+
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-body">
+        <EditForm Model="_article" OnValidSubmit="CreateArticleAsync">
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="name">Název</label>
+                        <InputText class="form-control" id="name" @bind-Value="_article.Name"/>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="previewImage">Náhledový obrázek</label>
+                        <FileUploadComponent AllowedExtensions=".png,.jpg,.jpeg,.webp"
+                                             Id="previewImage"
+                                             MaxFileSize="@(2 * 1024 * 1024)"
+                                             @bind-Value="_article.ImageUrl"
+                                             ReturnRawUrl="true"/>
+                        <p>
+                            <small>Zobrazí se na seznamu návodů. Doporučené rozměry jsou 900x400px.</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label class="form-label" for="excerpt">Shrnutí</label>
+                        <InputTextArea class="form-control" @bind-Value="_article.Excerpt" id="excerpt"/>
+                        <p>
+                            <small>Krátké shrnutí, o čem návod je. Zobrazí se na seznamu návodů.</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label class="form-label" for="content">Obsah</label>
+                        <RichTextEditorComponent Id="content"
+                                                 @bind-Value="_article.Content"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Vytvořit návod</button>
+                </div>
+            </div>
+            <div class="row text-danger">
+                <div class="col">
+                    <DataAnnotationsValidator/>
+                    <ValidationSummary/>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
 
 @code {
-    
+    private ArticleModel _article = new();
+    private UserModel? _currentUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
+            _article.CreatorId = _currentUser?.Id;
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
+    }
+
+    private async Task CreateArticleAsync()
+    {
+        try
+        {
+            await ArticleFacade.SaveAsync(_article);
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+            return;
+        }
+        
+        NavigationManager.NavigateTo($"/Article/{_article.Id}");
+        ToastService.ShowSuccess("Návod byl úspěšně vytvořen.");
+    }
 }

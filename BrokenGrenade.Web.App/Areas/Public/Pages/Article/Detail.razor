@@ -1,0 +1,90 @@
+@page "/Article/{Id:guid}"
+@using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.BL.Facades
+@inject ArticleFacade ArticleFacade
+@inject IToastService ToastService
+@attribute [Authorize]
+
+<PageTitle>@(_article?.Name ?? "Návod") — BG Hub</PageTitle>
+
+<div class="pt-3 pb-2 mb-3">
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a class="btn btn-sm btn-link text-decoration-none" href="/Article">
+                <i class="fa-solid fa-angles-left"></i> Zpět na všechny návody
+            </a>
+        </div>
+    </div>
+    @if (_article is null)
+    {
+        <div class="col">
+            <h1 class="h2 placeholder-glow">
+                <span class="placeholder col-6"></span>
+            </h1>
+        </div>
+    }
+    else
+    {
+        <h1 class="h2">@_article.Name</h1>
+        @if (_article.Creator is not null)
+        {
+            <p>Vytvořil @_article.Creator.Nickname</p>
+        }
+    }
+</div>
+
+<div class="card bg-dark-subtle mb-4">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                @if (_article is null)
+                {
+                    <p class="placeholder-glow">
+                        <span class="placeholder col-12"></span>
+                    </p>
+                    <p class="placeholder-glow">
+                        <span class="placeholder col-8"></span>
+                    </p>
+                    <p class="placeholder-glow">
+                        <span class="placeholder col-8"></span>
+                    </p>
+                    <p class="placeholder-glow">
+                        <span class="placeholder col-8"></span>
+                    </p>
+                    <p class="placeholder-glow">
+                        <span class="placeholder col-8"></span>
+                    </p>
+                    <p class="placeholder-glow">
+                        <span class="placeholder col-8"></span>
+                    </p>
+                }
+                else
+                {
+                    @((MarkupString)_article.Content)
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+    
+    private ArticleModel? _article;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _article = await ArticleFacade.GetAsync(Id);
+            if (_article is null)
+                throw new Exception("Nepodařilo se načíst návod.");
+
+        }
+        catch (Exception e)
+        {
+            ToastService.ShowError(e.Message);
+        }
+    }
+}
