@@ -1,8 +1,11 @@
 @page "/Article/{Id:guid}"
 @using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Extensions
 @using BrokenGrenade.Web.BL.Facades
 @inject ArticleFacade ArticleFacade
+@inject UserFacade UserFacade
 @inject IToastService ToastService
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize]
 
 <PageTitle>@(_article?.Name ?? "Návod") — BG Hub</PageTitle>
@@ -13,6 +16,12 @@
             <a class="btn btn-sm btn-link text-decoration-none" href="/Article">
                 <i class="fa-solid fa-angles-left"></i> Zpět na všechny návody
             </a>
+            @if (_article is not null && _article.CreatorId == _currentUser?.Id)
+            {
+                <a class="btn btn-sm btn-link text-decoration-none" href="/Staff/Article/Edit/@_article.Id">
+                    <i class="fa-solid fa-edit"></i> Upravit návod
+                </a>
+            }
         </div>
     </div>
     @if (_article is null)
@@ -72,6 +81,7 @@
     public Guid Id { get; set; }
     
     private ArticleModel? _article;
+    private UserModel? _currentUser;
 
     protected override async Task OnInitializedAsync()
     {
@@ -81,6 +91,8 @@
             if (_article is null)
                 throw new Exception("Nepodařilo se načíst návod.");
 
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
         }
         catch (Exception e)
         {
