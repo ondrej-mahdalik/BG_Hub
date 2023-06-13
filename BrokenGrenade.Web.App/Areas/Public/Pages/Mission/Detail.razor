@@ -151,6 +151,8 @@
         try
         {
             _mission = await MissionFacade.GetAsync(Id);
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
         }
         catch (Exception e)
         {
@@ -158,8 +160,5 @@
             ToastService.ShowError(e.Message);
             return;
         }
-
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        _currentUser = await UserFacade.GetAsync(authState.GetUserId().GetValueOrDefault());
     }
 }
