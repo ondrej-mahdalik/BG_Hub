@@ -3,80 +3,84 @@
 
 @if (Items is null)
 {
-    <table class="table table-responsive @Class">
-        <thead>
-        <tr>
-            @TableHeader
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>
-                <p class="placeholder-glow">
-                    <span class="placeholder col-auto"></span>
-                </p>
-            </td>
-            <td>
-                <p class="placeholder-glow">
-                    <span class="placeholder col-auto"></span>
-                </p>
-            </td>
-            <td>
-                <p class="placeholder-glow">
-                    <span class="placeholder col-auto"></span>
-                </p>
-            </td>
-            <td>
-                <p class="placeholder-glow">
-                    <span class="placeholder col-auto"></span>
-                </p>
-            </td>
-            <td>
-                <p class="placeholder-glow">
-                    <span class="placeholder col-auto"></span>
-                </p>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-responsive @Class">
+            <thead>
+            <tr>
+                @TableHeader
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <p class="placeholder-glow">
+                        <span class="placeholder col-auto"></span>
+                    </p>
+                </td>
+                <td>
+                    <p class="placeholder-glow">
+                        <span class="placeholder col-auto"></span>
+                    </p>
+                </td>
+                <td>
+                    <p class="placeholder-glow">
+                        <span class="placeholder col-auto"></span>
+                    </p>
+                </td>
+                <td>
+                    <p class="placeholder-glow">
+                        <span class="placeholder col-auto"></span>
+                    </p>
+                </td>
+                <td>
+                    <p class="placeholder-glow">
+                        <span class="placeholder col-auto"></span>
+                    </p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 }
 else
 {
-    <table class="table @Class">
-        <thead>
-        <tr>
-            @TableHeader
-        </tr>
-        </thead>
-        <tbody>
-        @if (Items.Count == 0)
-        {
+    <div class="table-responsive">
+        <table class="table @Class">
+            <thead>
             <tr>
-                <td colspan="100">
-                    <p class="text-center fw-bold p-2">@EmptyMessage</p>
-                </td>
+                @TableHeader
             </tr>
-        }
-        else
-        {
-            @foreach (var item in Items)
+            </thead>
+            <tbody>
+            @if (Items.Count == 0)
             {
-                @if (DetailPageUrl is not null)
+                <tr>
+                    <td colspan="100">
+                        <p class="text-center fw-bold p-2">@EmptyMessage</p>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var item in Items)
                 {
-                    <tr class="cursor-pointer" @onclick="() => NavigationManager.NavigateTo(DetailPageUrl + item.Id)">
-                        @RowTemplate?.Invoke(item)
-                    </tr>
-                }
-                else
-                {
-                    <tr>
-                        @RowTemplate?.Invoke(item)
-                    </tr>
+                    @if (DetailPageUrl is not null)
+                    {
+                        <tr class="cursor-pointer" @onclick="() => NavigationManager.NavigateTo(DetailPageUrl + item.Id)">
+                            @RowTemplate?.Invoke(item)
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            @RowTemplate?.Invoke(item)
+                        </tr>
+                    }
                 }
             }
-        }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 }
 
 @code {

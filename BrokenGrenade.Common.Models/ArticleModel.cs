@@ -10,7 +10,7 @@ public class ArticleModel : ModelBase
     public string Content { get; set; }
     
     [Required]
-    [StringLength(200, MinimumLength = 10)]
+    [StringLength(100, MinimumLength = 10)]
     public string Excerpt { get; set; }
     
     [Url]
