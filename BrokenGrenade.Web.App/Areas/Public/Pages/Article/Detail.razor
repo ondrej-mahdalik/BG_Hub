@@ -35,14 +35,10 @@
     else
     {
         <h1 class="h2">@_article.Name</h1>
-        @if (_article.Creator is not null)
-        {
-            <p>Vytvořil @_article.Creator.Nickname</p>
-        }
+        
     }
 </div>
-
-<div class="card bg-dark-subtle mb-4">
+<div class="card bg-dark-subtle container-xxl m-0 mb-4 p-0">
     <div class="card-body">
         <div class="row">
             <div class="col">
@@ -74,8 +70,13 @@
             </div>
         </div>
     </div>
+    <div class="card-footer">
+        @if (_article?.Creator is not null)
+        {
+            <small class="text-body-secondary">Vytvořil <b>@_article.Creator.Nickname</b></small>
+        }
+    </div>
 </div>
-
 @code {
     [Parameter]
     public Guid Id { get; set; }
