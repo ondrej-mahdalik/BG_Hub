@@ -123,4 +123,7 @@
     <data name="TrainingName" xml:space="preserve">
         <value>Název</value>
     </data>
+    <data name="AppShortName" xml:space="preserve">
+        <value>BG Hub</value>
+    </data>
 </root>

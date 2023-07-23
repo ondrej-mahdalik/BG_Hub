@@ -1,21 +1,26 @@
 @page "/Article"
 @using BrokenGrenade.Common.Models
+@using BrokenGrenade.Web.App.Resources
+@using BrokenGrenade.Web.App.Resources.Areas.Public.Pages.Article
 @using BrokenGrenade.Web.BL.Facades
+@using Microsoft.Extensions.Localization
 @inject ArticleFacade ArticleFacade
 @inject UserFacade UserFacade
 @inject IToastService ToastService
+@inject IStringLocalizer<ArticleListResources> Localizer
+@inject IStringLocalizer<SharedResources> SharedLocalizer
 @attribute [Authorize]
 
-<PageTitle>Návody — BG Hub</PageTitle>
+<PageTitle>@Localizer[nameof(ArticleListResources.Articles)] — @SharedLocalizer[nameof(SharedResources.AppShortName)]</PageTitle>
 
 <div class="pt-3 pb-2 mb-3">
     @if (_creatorName is not null)
     {
-        <h1 class="h2">Návody od autora @_creatorName</h1>
+        <h1 class="h2">@Localizer[nameof(ArticleListResources.ArticlesFrom)] @_creatorName</h1>
     }
     else
     {
-        <h1 class="h2">Návody</h1>
+        <h1 class="h2">@Localizer[nameof(ArticleListResources.Articles)]</h1>
     }
 </div>
 
@@ -50,7 +55,7 @@
         @if (_articles.Count == 0)
         {
             <div class="col">
-                <p class="h4 text-center">Nebyly nalezeny žádné návody</p>
+                <p class="h4 text-center">@Localizer[nameof(ArticleListResources.NoArticlesFound)]</p>
             </div>
         }
         @foreach (var article in _articles)
@@ -59,7 +64,7 @@
                 <div class="card h-100 bg-dark-subtle">
                     @if (article.ImageUrl is not null)
                     {
-                        <img class="card-img-top object-fit-cover" style="max-height: 200px" src="@(article.ImageUrl)" alt="Náhled"/>
+                        <img class="card-img-top object-fit-cover" style="max-height: 200px" src="@(article.ImageUrl)" alt="@Localizer[nameof(ArticleListResources.Preview)]"/>
                     }
                     <div class="card-body">
                         <a href="/Article/@article.Id" class="text-decoration-none stretched-link">
@@ -68,7 +73,7 @@
                         <p>@article.Excerpt</p>
                     </div>
                     <div class="card-footer">
-                        <small class="text-body-secondary">Vytvořil <b>@(article.Creator?.Nickname ?? "odstraněný uživatel")</b></small>
+                        <small class="text-body-secondary">@Localizer[nameof(ArticleListResources.CreatedBy)] <b>@(article.Creator?.Nickname ?? SharedLocalizer[nameof(SharedResources.DeletedUser)])</b></small>
                     </div>
                 </div>
             </div>
@@ -90,7 +95,7 @@
         {
             _articles = await ArticleFacade.GetAsync();
             if (_articles is null)
-                throw new Exception("Nepodařilo se načíst návody.");
+                throw new Exception(Localizer[nameof(ArticleListResources.FailedToLoadArticles)]);
 
             if (CreatorId.HasValue)
             {
