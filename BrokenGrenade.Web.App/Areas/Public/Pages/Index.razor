@@ -63,15 +63,6 @@
                         </div>
                     </div>
                     <div class="row">
-                        @if (_todaysMission.ModpackUrl is not null)
-                        {
-                            <div class="col-auto">
-                                <a class="btn btn-primary" href="@_todaysMission.ModpackUrl" target="_blank">
-                                    @Localizer[nameof(IndexResources.DownloadModpack)]
-                                    <i class="fa-solid fa-external-link"></i>
-                                </a>
-                            </div>
-                        }
                         <div class="col-auto">
                             @if (_todaysMission.SlottingSheetUrl is null)
                             {
@@ -84,9 +75,18 @@
                             }
                             else
                             {
-                                <a class="btn btn-primary" href="@_todaysMission.SlottingSheetUrl">@SharedLocalizer[nameof(SharedResources.Slotting)] <i class="fa-solid fa-external-link"></i></a>
+                                <a class="btn btn-primary" href="@_todaysMission.SlottingSheetUrl" target="_blank">@SharedLocalizer[nameof(SharedResources.Slotting)] <i class="fa-solid fa-external-link"></i></a>
                             }
                         </div>
+                        @if (_todaysMission.ModpackUrl is not null)
+                        {
+                            <div class="col-auto">
+                                <a class="btn btn-primary" href="@_todaysMission.ModpackUrl" target="_blank">
+                                    @Localizer[nameof(IndexResources.DownloadModpack)]
+                                    <i class="fa-solid fa-external-link"></i>
+                                </a>
+                            </div>
+                        }
                     </div>
                 }
             </div>

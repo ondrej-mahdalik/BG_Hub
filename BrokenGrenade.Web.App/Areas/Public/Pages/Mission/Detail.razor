@@ -115,19 +115,19 @@
                     <div class="row">
                         <div class="col-auto">
                             <div class="d-flex flex-row gap-2">
-                                @if (_mission.ModpackUrl is not null)
-                                {
-                                    <a class="btn btn-primary" href="@_mission.ModpackUrl">@Localizer[nameof(MissionDetailResources.DownloadModpackButton)]</a>
-                                }
                                 @if (_mission.SlottingSheetUrl is null)
                                 {
                                     <span class="fc-not-allowed" tabindex="0" data-bs-toggle="tooltip" data-bs-title="@Localizer[nameof(MissionDetailResources.SlottingButtonTooltip)]">
-                                        <a class="btn btn-primary disabled" disabled>@Localizer[nameof(MissionDetailResources.SlottingButton)]</a>
+                                        <a class="btn btn-primary disabled" disabled>@Localizer[nameof(MissionDetailResources.SlottingButton)] <i class="fa-solid fa-external-link"></i></a>
                                     </span>
                                 }
                                 else
                                 {
-                                    <a class="btn btn-primary" href="@_mission.SlottingSheetUrl">@Localizer[nameof(MissionDetailResources.SlottingButton)] <i class="fa-solid fa-external-link"></i></a>
+                                    <a class="btn btn-primary" href="@_mission.SlottingSheetUrl" target="_blank">@Localizer[nameof(MissionDetailResources.SlottingButton)] <i class="fa-solid fa-external-link"></i></a>
+                                }
+                                @if (_mission.ModpackUrl is not null)
+                                {
+                                    <a class="btn btn-primary" href="@_mission.ModpackUrl" target="_blank">@Localizer[nameof(MissionDetailResources.DownloadModpackButton)]</a>
                                 }
                             </div>
                         </div>
